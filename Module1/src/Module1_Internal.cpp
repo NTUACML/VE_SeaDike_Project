@@ -1,6 +1,6 @@
 #include "../include/Module1_Internal.h"
 
-Module1_Internal::Module1_Internal():Gv(NULL)
+Module1_Internal::Module1_Internal():Var(NULL)
 {
 }
 

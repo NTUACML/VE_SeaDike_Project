@@ -24,7 +24,11 @@ namespace VE_SD {
 		//- Block Set
 		int NewBlock(double _Density, double _FrictionC); 
 		bool DeleteBlock(int NumOfBlock);
-		bool SetBlockCoord(int NumofBlock, double x, double y);
+		bool SetBlockCoord(int NumOfBlock, double x, double y);
+		int GetNumOfBlock();
+
+		//- Test
+		void Test();
 
 	private:
 		Module1_Internal *Internal;

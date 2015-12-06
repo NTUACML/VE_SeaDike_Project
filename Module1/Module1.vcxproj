@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Block.h" />
     <ClInclude Include="include\Module1_Internal.h" />
     <ClInclude Include="include\Module1_Var.h" />
     <ClInclude Include="Module1.h" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Module1.cpp" />
+    <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\Module1_Internal.cpp" />
     <ClCompile Include="src\Module1_Var.cpp" />
     <ClCompile Include="Stdafx.cpp">
