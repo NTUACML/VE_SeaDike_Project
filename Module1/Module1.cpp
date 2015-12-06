@@ -54,6 +54,18 @@ int VE_SD::Module1::GetNumOfBlock()
 	return int(Var->BlockData.size());
 }
 
+bool VE_SD::Module1::DeleteAllBlockData()
+{
+	Var->BlockData.clear();
+	if (GetNumOfBlock() == 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+	
+}
+
 void VE_SD::Module1::Test()
 {
 	Internal->TestFileOut("Density.txt", Var->BlockData[0].Density);

@@ -26,6 +26,7 @@ namespace VE_SD {
 		bool DeleteBlock(int NumOfBlock);
 		bool SetBlockCoord(int NumOfBlock, double x, double y);
 		int GetNumOfBlock();
+		bool DeleteAllBlockData();
 
 		//- Test
 		void Test();
