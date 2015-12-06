@@ -15,6 +15,8 @@ namespace VE_SD
         public Form_ForKavyTest()
         {
             InitializeComponent();
+            Module1 Mod = new Module1();
+            
         }
     }
 }

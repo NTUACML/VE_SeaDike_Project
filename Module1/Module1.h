@@ -1,7 +1,8 @@
 // Module1.h
 
 #pragma once
-
+#include "include\Module1_Internal.h"
+#include "include\Module1_Var.h"
 using namespace System;
 
 namespace VE_SD {
@@ -12,8 +13,13 @@ namespace VE_SD {
 		//Constructor
 		Module1();
 
+		//Distructor
+		~Module1();
+
 		//Public variable
-		int IniVar;
+		String^ ErrMsg;
 	private:
+		Module1_Internal *Internal;
+		Module1_Var *Var;
 	};
 }
