@@ -10,6 +10,10 @@ public:
 	~Module1_Var();
 
 	//Public Var
-	std::vector<Block> BlockData;
+	std::vector<Block> BlockData; //Block Data
+
+	//Public Func
+	
+
 };
 

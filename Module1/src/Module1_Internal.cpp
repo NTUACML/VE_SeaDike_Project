@@ -8,11 +8,7 @@ Module1_Internal::~Module1_Internal()
 {
 }
 
-void Module1_Internal::SetVar(Module1_Var * Var)
+void Module1_Internal::SetVar(Module1_Var * _Var)
 {
-	Gv = Var;
-	std::ofstream FILE;
-	FILE.open("Haha.txt");
-	FILE << "HAHAHA" << std::endl;
-	FILE.close();
+	Var = _Var;
 }
