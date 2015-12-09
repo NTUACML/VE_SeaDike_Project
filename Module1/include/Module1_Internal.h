@@ -3,6 +3,8 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <cmath>
+#include <algorithm>
 
 class Module1_Internal
 {
@@ -15,6 +17,10 @@ public:
 
 	//Public Func
 	void SetVar(Module1_Var *_Var);
+
+	//Cal Function
+	bool GeoPreCal();
+	bool WaterLevelCal();
 
 	//- Test Out
 	template<typename T>

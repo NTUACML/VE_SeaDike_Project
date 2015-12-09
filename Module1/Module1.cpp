@@ -66,6 +66,48 @@ bool VE_SD::Module1::DeleteAllBlockData()
 	
 }
 
+bool VE_SD::Module1::WaterDesignInput(double _H0, double _HWL)
+{
+	Var->H0 = _H0;
+	Var->HWL = _HWL;
+	return true;
+}
+
+bool VE_SD::Module1::WaveDesignInput(int _Direction, double _T0, double _Kr, 
+									double _Ks, double _Kd, double _lamda,
+									double _beta)
+{
+	Var->Direction = _Direction;
+	Var->T0 = _T0;
+	Var->Kr = _Kr;
+	Var->Ks = _Ks;
+	Var->Kd = _Kd;
+	Var->lamda = _lamda;
+	Var->beta = _beta;
+	return true;
+}
+
+bool VE_SD::Module1::BaseDesignInput(double _S)
+{
+	Var->S = _S;
+	return true;
+}
+
+bool VE_SD::Module1::Run()
+{
+	// Geo Pre-Calculate
+	Internal->GeoPreCal();
+	// Water Level
+	Internal->WaterLevelCal();
+
+	// Mesg Print
+	MsgAdd();
+
+	//Test---
+	Var->beta = 101.0;
+	return true;
+}
+
 void VE_SD::Module1::Test()
 {
 	Internal->TestFileOut("Density.txt", Var->BlockData[0].Density);
@@ -81,4 +123,15 @@ void VE_SD::Module1::Test()
 	}
 
 	FILE.close();
+}
+
+void VE_SD::Module1::VarOut(double % out)
+{
+	out = Var->beta;
+}
+
+void VE_SD::Module1::MsgAdd()
+{
+	ErrMsg += gcnew String(Var->Err_Msg.c_str());
+	Var->Err_Msg.clear();
 }
