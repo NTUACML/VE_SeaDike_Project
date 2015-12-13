@@ -1,10 +1,12 @@
 #pragma once
 #include "Module1_Var.h"
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <string>
 #include <cmath>
 #include <algorithm>
+# define M_PI 3.14159265358979323846  /* pi */
 
 class Module1_Internal
 {
@@ -21,6 +23,7 @@ public:
 	//Cal Function
 	bool GeoPreCal();
 	bool WaterLevelCal();
+	bool WavePressureCal();
 
 	//- Test Out
 	template<typename T>

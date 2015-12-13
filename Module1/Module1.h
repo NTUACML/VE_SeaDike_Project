@@ -16,6 +16,8 @@ namespace VE_SD {
 
 		//Distructor
 		~Module1();
+		!Module1();
+
 
 		//Public Variable
 		String^ ErrMsg;

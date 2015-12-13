@@ -15,14 +15,18 @@ public:
 	//Public Var
 	std::vector<Block> BlockData; //Block Data
 	//- Water Var
-	double h, h_plun, hc, d, H0, HWL, L0, H0_plun, h_D_L0, Hs;
+	double h, h_plun, hc, d, H0, HWL, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L;
 	//- Wave Var
 	int Direction;
-	double T0, Kr, Ks, Kd, lamda, beta;
+	double T0, Kr, Ks, Kd, lamda, beta, eta_Star, hc_Star;
 	//- Base Var 
 	double S;
 	//- Cal Coef
-	double beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star;
+	double beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
+		alpha1, alpha2, alpha3, alpha4;
+	//- Pressure Var
+	double P1, P2, P3, P4, Pu, Fu, Wu;
+
 	//- Mesg
 	std::string Err_Msg;
 };

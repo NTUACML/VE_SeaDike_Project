@@ -11,12 +11,22 @@ VE_SD::Module1::Module1():Var(NULL),Internal(NULL)
 	Internal = new Module1_Internal();
 	//Get Variable
 	Internal->SetVar(Var);
+	//Mesg
+	ErrMsg += "*** Module - 1 計算開始 *** \r\n";
 }
 
 VE_SD::Module1::~Module1()
 {
+	//Mesg
+	ErrMsg += "*** Module - 1 計算結束 *** ";
 	if (Internal != NULL) delete Internal;
 	if (Var != NULL) delete Var;
+
+}
+
+VE_SD::Module1::!Module1()
+{
+	this->~Module1();
 }
 
 int VE_SD::Module1::NewBlock(double _Density, double _FrictionC){
@@ -97,14 +107,16 @@ bool VE_SD::Module1::Run()
 {
 	// Geo Pre-Calculate
 	Internal->GeoPreCal();
-	// Water Level
+	// Water Level Cal
 	Internal->WaterLevelCal();
+	// Wave Pressure Moment Cal
+	Internal->WavePressureCal();
 
 	// Mesg Print
 	MsgAdd();
 
 	//Test---
-	Var->beta = 101.0;
+
 	return true;
 }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace VE_SD
 {
@@ -15,7 +16,9 @@ namespace VE_SD
         public Form_ForKavyTest()
         {
             InitializeComponent();
+            // Class New
             Module1 Mod = new Module1();
+
             ////Block API
             ////- New Block
             //int BlockId = Mod.NewBlock(3.0, 2.0);
@@ -40,13 +43,23 @@ namespace VE_SD
             //{
             //    MessageBox.Show("已刪除All Block!");
             //}
-            Mod.Run();
-            textBox1.Text = Mod.ErrMsg;
 
+            // Class Main Run
+            Mod.Run();
+
+            // Class output test
             double org = 0.0;
             Mod.VarOut(ref org);
             MessageBox.Show(org.ToString());
 
+            // Class Memory Clear
+            Mod.Dispose();
+
+            // Class Mesg output
+            textBox1.Text = Mod.ErrMsg;
+
+
         }
     }
 }
+
