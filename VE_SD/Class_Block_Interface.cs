@@ -21,8 +21,41 @@ namespace VE_SD
         private double _砂土水中單位體積重量 = 1.0;
         private double _海水單位體積重量 = 1.03;
 
-        private double _滑倒安全係數 = 1.2;
-        private double _傾倒安全係數 = 1.2;
+        //private double _滑倒安全係數 = 1.2;
+        //private double _傾倒安全係數 = 1.2;
+        public Class_Block_Interface()
+        {
+            //無,使用預設值.
+        }
+        public Class_Block_Interface(double 混凝土方塊與方塊摩擦係數值, double 混凝土方塊與拋石摩擦係數值, double 場注土方塊與拋石摩擦係數值, double 拋石與拋石摩擦係數值, double 混凝土陸上單位體積重量值, double 混凝土水中單位體積重量值, double 拋石陸上單位體積重量值, double 拋石水中單位體積重量值, double 砂土水中單位體積重量值, double 海水單位體積重量值)
+        {
+            _混凝土方塊與方塊摩擦係數 = 混凝土方塊與方塊摩擦係數值;
+            _混凝土方塊與拋石摩擦係數 = 混凝土方塊與拋石摩擦係數值;
+            _場注土方塊與拋石摩擦係數 = 場注土方塊與拋石摩擦係數值;
+            _拋石與拋石摩擦係數 = 拋石與拋石摩擦係數值;
+
+            _混凝土陸上單位體積重量 = 混凝土陸上單位體積重量值;
+            _混凝土水中單位體積重量 = 混凝土水中單位體積重量值;
+            _拋石陸上單位體積重量 = 拋石陸上單位體積重量值;
+            _拋石水中單位體積重量 = 拋石水中單位體積重量值;
+            _砂土水中單位體積重量 = 砂土水中單位體積重量值;
+            _海水單位體積重量 = 海水單位體積重量值;
+
+        }
+        public Class_Block_Interface(Class_BlockSect M)
+        {
+            _混凝土方塊與方塊摩擦係數 = M.混凝土方塊與方塊摩擦係數;
+            _混凝土方塊與拋石摩擦係數 = M.混凝土方塊與拋石摩擦係數;
+            _場注土方塊與拋石摩擦係數 = M.場注土方塊與拋石摩擦係數;
+            _拋石與拋石摩擦係數 = M.拋石與拋石摩擦係數;
+
+            _混凝土陸上單位體積重量 = M.混凝土陸上單位體積重量;
+            _混凝土水中單位體積重量 = M.混凝土水中單位體積重量;
+            _拋石陸上單位體積重量 = M.拋石陸上單位體積重量;
+            _拋石水中單位體積重量 = M.拋石水中單位體積重量;
+            _砂土水中單位體積重量 = M.砂土水中單位體積重量;
+            _海水單位體積重量 = M.海水單位體積重量;
+        }
 
         [CategoryAttribute("摩擦係數設定")] //,DefaultValueAttribute(true)]
         public double 混凝土方塊與方塊
@@ -86,18 +119,18 @@ namespace VE_SD
             set { _海水單位體積重量 = value; }
         }
 
-        [CategoryAttribute("安全係數")] //, DefaultValueAttribute(true)]
-        public double 滑倒
-        {
-            get { return _滑倒安全係數; }
-            set { _滑倒安全係數 = value; }
-        }
-        [CategoryAttribute("安全係數")]
-        public double 傾倒
-        {
-            get { return _傾倒安全係數; }
-            set { _傾倒安全係數 = value; }
-        }
+        //[CategoryAttribute("安全係數")] //, DefaultValueAttribute(true)]
+        //public double 滑倒
+       // {
+        //    get { return _滑倒安全係數; }
+        //    set { _滑倒安全係數 = value; }
+       // }
+       // [CategoryAttribute("安全係數")]
+       // public double 傾倒
+       // {
+       //     get { return _傾倒安全係數; }
+       //     set { _傾倒安全係數 = value; }
+       // }
 
     }
 }
