@@ -50,5 +50,6 @@ namespace VE_SD
             this.mainForm.LoginTextSetting = "OK"; //*************************
             this.Close();
         }
+
     }
 }

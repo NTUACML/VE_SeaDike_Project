@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -39,6 +39,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟舊的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.儲存此專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.步驟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.參數設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +48,14 @@
             this.chart_Plot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_BasicParameter = new System.Windows.Forms.TabPage();
+            this.cmb_seawaveDir = new System.Windows.Forms.ComboBox();
+            this.textBox_SFOver = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBox_SFSlide = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.textBox_Beta = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox_Lenda = new System.Windows.Forms.TextBox();
@@ -66,6 +76,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage_AddBlock = new System.Windows.Forms.TabPage();
+            this.btn_ModifiedBlock = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.textBox_YO = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -75,9 +86,13 @@
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.propertyGrid_Block = new System.Windows.Forms.PropertyGrid();
             this.tabPage_RunCheck = new System.Windows.Forms.TabPage();
+            this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
             this.btn_Test = new System.Windows.Forms.Button();
             this.label_Show = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
+            this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
+            this.開一個新的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -95,6 +110,7 @@
             this.listBox_SectSetting.Name = "listBox_SectSetting";
             this.listBox_SectSetting.Size = new System.Drawing.Size(163, 484);
             this.listBox_SectSetting.TabIndex = 0;
+            this.listBox_SectSetting.SelectedIndexChanged += new System.EventHandler(this.listBox_SectSetting_SelectedIndexChanged);
             // 
             // statusStrip1
             // 
@@ -132,7 +148,10 @@
             // 檔案ToolStripMenuItem
             // 
             this.檔案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.開一個新的專案檔ToolStripMenuItem,
             this.開啟舊的專案檔ToolStripMenuItem,
+            this.儲存此專案檔ToolStripMenuItem,
+            this.另存專案檔ToolStripMenuItem,
             this.退出此檢核ToolStripMenuItem});
             this.檔案ToolStripMenuItem.Name = "檔案ToolStripMenuItem";
             this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
@@ -141,14 +160,30 @@
             // 開啟舊的專案檔ToolStripMenuItem
             // 
             this.開啟舊的專案檔ToolStripMenuItem.Name = "開啟舊的專案檔ToolStripMenuItem";
-            this.開啟舊的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.開啟舊的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.開啟舊的專案檔ToolStripMenuItem.Text = "開啟舊的專案檔";
+            this.開啟舊的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟舊的專案檔ToolStripMenuItem_Click);
+            // 
+            // 儲存此專案檔ToolStripMenuItem
+            // 
+            this.儲存此專案檔ToolStripMenuItem.Name = "儲存此專案檔ToolStripMenuItem";
+            this.儲存此專案檔ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.儲存此專案檔ToolStripMenuItem.Text = "儲存此專案檔";
+            this.儲存此專案檔ToolStripMenuItem.Click += new System.EventHandler(this.儲存此專案檔ToolStripMenuItem_Click);
+            // 
+            // 另存專案檔ToolStripMenuItem
+            // 
+            this.另存專案檔ToolStripMenuItem.Name = "另存專案檔ToolStripMenuItem";
+            this.另存專案檔ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.另存專案檔ToolStripMenuItem.Text = "另存專案檔";
+            this.另存專案檔ToolStripMenuItem.Click += new System.EventHandler(this.另存專案檔ToolStripMenuItem_Click);
             // 
             // 退出此檢核ToolStripMenuItem
             // 
             this.退出此檢核ToolStripMenuItem.Name = "退出此檢核ToolStripMenuItem";
-            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.退出此檢核ToolStripMenuItem.Text = "退出此檢核";
+            this.退出此檢核ToolStripMenuItem.Click += new System.EventHandler(this.退出此檢核ToolStripMenuItem_Click);
             // 
             // 步驟ToolStripMenuItem
             // 
@@ -161,8 +196,9 @@
             // 
             // 參數設定ToolStripMenuItem
             // 
+            this.參數設定ToolStripMenuItem.Enabled = false;
             this.參數設定ToolStripMenuItem.Name = "參數設定ToolStripMenuItem";
-            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.參數設定ToolStripMenuItem.Text = "參數設定";
             // 
             // 開始檢核ToolStripMenuItem
@@ -173,16 +209,18 @@
             // 
             // chart_Plot
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend1);
+            this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
+            this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea6.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend6);
             this.chart_Plot.Location = new System.Drawing.Point(185, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart_Plot.Series.Add(series1);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.chart_Plot.Series.Add(series6);
             this.chart_Plot.Size = new System.Drawing.Size(850, 320);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -202,6 +240,14 @@
             // 
             // tabPage_BasicParameter
             // 
+            this.tabPage_BasicParameter.Controls.Add(this.cmb_seawaveDir);
+            this.tabPage_BasicParameter.Controls.Add(this.textBox_SFOver);
+            this.tabPage_BasicParameter.Controls.Add(this.label17);
+            this.tabPage_BasicParameter.Controls.Add(this.textBox_SFSlide);
+            this.tabPage_BasicParameter.Controls.Add(this.label16);
+            this.tabPage_BasicParameter.Controls.Add(this.label15);
+            this.tabPage_BasicParameter.Controls.Add(this.label14);
+            this.tabPage_BasicParameter.Controls.Add(this.label13);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_Beta);
             this.tabPage_BasicParameter.Controls.Add(this.label10);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_Lenda);
@@ -228,6 +274,92 @@
             this.tabPage_BasicParameter.Text = "設計條件參數";
             this.tabPage_BasicParameter.UseVisualStyleBackColor = true;
             // 
+            // cmb_seawaveDir
+            // 
+            this.cmb_seawaveDir.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_seawaveDir.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_seawaveDir.FormattingEnabled = true;
+            this.cmb_seawaveDir.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.cmb_seawaveDir.Items.AddRange(new object[] {
+            "E",
+            "W",
+            "S",
+            "T"});
+            this.cmb_seawaveDir.Location = new System.Drawing.Point(401, 20);
+            this.cmb_seawaveDir.Name = "cmb_seawaveDir";
+            this.cmb_seawaveDir.Size = new System.Drawing.Size(101, 27);
+            this.cmb_seawaveDir.TabIndex = 26;
+            // 
+            // textBox_SFOver
+            // 
+            this.textBox_SFOver.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_SFOver.Location = new System.Drawing.Point(402, 409);
+            this.textBox_SFOver.Name = "textBox_SFOver";
+            this.textBox_SFOver.Size = new System.Drawing.Size(100, 27);
+            this.textBox_SFOver.TabIndex = 25;
+            this.toolTip1.SetToolTip(this.textBox_SFOver, "傾倒安全係數值");
+            this.textBox_SFOver.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SFOver_KeyPress);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label17.Location = new System.Drawing.Point(37, 412);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(359, 19);
+            this.label17.TabIndex = 24;
+            this.label17.Text = "傾倒安全係數 .............. SF    =";
+            // 
+            // textBox_SFSlide
+            // 
+            this.textBox_SFSlide.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_SFSlide.Location = new System.Drawing.Point(402, 368);
+            this.textBox_SFSlide.Name = "textBox_SFSlide";
+            this.textBox_SFSlide.Size = new System.Drawing.Size(100, 27);
+            this.textBox_SFSlide.TabIndex = 23;
+            this.toolTip1.SetToolTip(this.textBox_SFSlide, "滑動安全係數值");
+            this.textBox_SFSlide.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SFSlide_KeyPress);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label16.Location = new System.Drawing.Point(37, 371);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(359, 19);
+            this.label16.TabIndex = 22;
+            this.label16.Text = "滑動安全係數 .............. SF    =";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("微軟正黑體", 14F);
+            this.label15.Location = new System.Drawing.Point(508, 112);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(28, 24);
+            this.label15.TabIndex = 21;
+            this.label15.Text = "m";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("微軟正黑體", 14F);
+            this.label14.Location = new System.Drawing.Point(508, 81);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(39, 24);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "sec";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("微軟正黑體", 14F);
+            this.label13.Location = new System.Drawing.Point(507, 48);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(28, 24);
+            this.label13.TabIndex = 19;
+            this.label13.Text = "m";
+            // 
             // textBox_Beta
             // 
             this.textBox_Beta.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -235,6 +367,7 @@
             this.textBox_Beta.Name = "textBox_Beta";
             this.textBox_Beta.Size = new System.Drawing.Size(100, 27);
             this.textBox_Beta.TabIndex = 18;
+            this.textBox_Beta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Beta_KeyPress);
             // 
             // label10
             // 
@@ -244,7 +377,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(359, 38);
             this.label10.TabIndex = 17;
-            this.label10.Text = "入射波與堤體法線之垂線夾角\r\n(正負15度修正後) ..........β     =";
+            this.label10.Text = "入射波與堤體法線之垂線夾角\r\n(正負15度修正後) .......... β    =";
             // 
             // textBox_Lenda
             // 
@@ -253,6 +386,7 @@
             this.textBox_Lenda.Name = "textBox_Lenda";
             this.textBox_Lenda.Size = new System.Drawing.Size(100, 27);
             this.textBox_Lenda.TabIndex = 16;
+            this.textBox_Lenda.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Lenda_KeyPress);
             // 
             // label9
             // 
@@ -262,7 +396,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(359, 19);
             this.label9.TabIndex = 15;
-            this.label9.Text = "波力折減係數...............λ     =";
+            this.label9.Text = "波力折減係數............... λ    =";
             // 
             // textBox_Kd
             // 
@@ -271,6 +405,7 @@
             this.textBox_Kd.Name = "textBox_Kd";
             this.textBox_Kd.Size = new System.Drawing.Size(100, 27);
             this.textBox_Kd.TabIndex = 14;
+            this.textBox_Kd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Kd_KeyPress);
             // 
             // label8
             // 
@@ -289,6 +424,7 @@
             this.textBox_Ks.Name = "textBox_Ks";
             this.textBox_Ks.Size = new System.Drawing.Size(100, 27);
             this.textBox_Ks.TabIndex = 12;
+            this.textBox_Ks.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Ks_KeyPress);
             // 
             // label7
             // 
@@ -307,6 +443,7 @@
             this.textBox_T0.Name = "textBox_T0";
             this.textBox_T0.Size = new System.Drawing.Size(100, 27);
             this.textBox_T0.TabIndex = 10;
+            this.textBox_T0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_T0_KeyPress);
             // 
             // label6
             // 
@@ -325,6 +462,7 @@
             this.textBox_Kr.Name = "textBox_Kr";
             this.textBox_Kr.Size = new System.Drawing.Size(100, 27);
             this.textBox_Kr.TabIndex = 8;
+            this.textBox_Kr.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Kr_KeyPress);
             // 
             // label5
             // 
@@ -343,6 +481,7 @@
             this.textBox_Slope.Name = "textBox_Slope";
             this.textBox_Slope.Size = new System.Drawing.Size(100, 27);
             this.textBox_Slope.TabIndex = 6;
+            this.textBox_Slope.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Slope_KeyPress);
             // 
             // label4
             // 
@@ -361,6 +500,7 @@
             this.textBox_HWL.Name = "textBox_HWL";
             this.textBox_HWL.Size = new System.Drawing.Size(100, 27);
             this.textBox_HWL.TabIndex = 4;
+            this.textBox_HWL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HWL_KeyPress);
             // 
             // label3
             // 
@@ -379,6 +519,7 @@
             this.textBox_H0.Name = "textBox_H0";
             this.textBox_H0.Size = new System.Drawing.Size(100, 27);
             this.textBox_H0.TabIndex = 2;
+            this.textBox_H0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_H0_KeyPress);
             // 
             // label2
             // 
@@ -396,12 +537,13 @@
             this.label1.Font = new System.Drawing.Font("標楷體", 14F);
             this.label1.Location = new System.Drawing.Point(37, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(379, 19);
+            this.label1.Size = new System.Drawing.Size(369, 19);
             this.label1.TabIndex = 0;
-            this.label1.Text = "深海波波向.................. 波向 = E";
+            this.label1.Text = "深海波波向.................. 波向 = ";
             // 
             // tabPage_AddBlock
             // 
+            this.tabPage_AddBlock.Controls.Add(this.btn_ModifiedBlock);
             this.tabPage_AddBlock.Controls.Add(this.label12);
             this.tabPage_AddBlock.Controls.Add(this.textBox_YO);
             this.tabPage_AddBlock.Controls.Add(this.label11);
@@ -419,6 +561,18 @@
             this.tabPage_AddBlock.TabIndex = 0;
             this.tabPage_AddBlock.Text = "形塊設定";
             this.tabPage_AddBlock.UseVisualStyleBackColor = true;
+            // 
+            // btn_ModifiedBlock
+            // 
+            this.btn_ModifiedBlock.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ModifiedBlock.Location = new System.Drawing.Point(121, 7);
+            this.btn_ModifiedBlock.Name = "btn_ModifiedBlock";
+            this.btn_ModifiedBlock.Size = new System.Drawing.Size(58, 24);
+            this.btn_ModifiedBlock.TabIndex = 12;
+            this.btn_ModifiedBlock.Text = "Edit";
+            this.toolTip1.SetToolTip(this.btn_ModifiedBlock, "修改Block");
+            this.btn_ModifiedBlock.UseVisualStyleBackColor = true;
+            this.btn_ModifiedBlock.Click += new System.EventHandler(this.btn_ModifiedBlock_Click);
             // 
             // label12
             // 
@@ -475,23 +629,25 @@
             // 
             // btnRemoveSects
             // 
-            this.btnRemoveSects.Location = new System.Drawing.Point(158, 7);
+            this.btnRemoveSects.Location = new System.Drawing.Point(39, 8);
             this.btnRemoveSects.Name = "btnRemoveSects";
             this.btnRemoveSects.Size = new System.Drawing.Size(21, 19);
             this.btnRemoveSects.TabIndex = 6;
             this.btnRemoveSects.Text = "-";
             this.toolTip1.SetToolTip(this.btnRemoveSects, "刪除Block");
             this.btnRemoveSects.UseVisualStyleBackColor = true;
+            this.btnRemoveSects.Click += new System.EventHandler(this.btnRemoveSects_Click);
             // 
             // btn_AddASect
             // 
-            this.btn_AddASect.Location = new System.Drawing.Point(132, 5);
+            this.btn_AddASect.Location = new System.Drawing.Point(16, 7);
             this.btn_AddASect.Name = "btn_AddASect";
             this.btn_AddASect.Size = new System.Drawing.Size(21, 20);
             this.btn_AddASect.TabIndex = 5;
             this.btn_AddASect.Text = "+";
             this.toolTip1.SetToolTip(this.btn_AddASect, "新增一個新的Block");
             this.btn_AddASect.UseVisualStyleBackColor = true;
+            this.btn_AddASect.Click += new System.EventHandler(this.btn_AddASect_Click);
             // 
             // propertyGrid_Block
             // 
@@ -501,9 +657,11 @@
             this.propertyGrid_Block.Name = "propertyGrid_Block";
             this.propertyGrid_Block.Size = new System.Drawing.Size(662, 172);
             this.propertyGrid_Block.TabIndex = 4;
+            this.propertyGrid_Block.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_Block_PropertyValueChanged);
             // 
             // tabPage_RunCheck
             // 
+            this.tabPage_RunCheck.Controls.Add(this.textBox_CheckMessageShow);
             this.tabPage_RunCheck.Controls.Add(this.btn_Test);
             this.tabPage_RunCheck.Controls.Add(this.label_Show);
             this.tabPage_RunCheck.Location = new System.Drawing.Point(4, 25);
@@ -514,9 +672,18 @@
             this.tabPage_RunCheck.Text = "檢核";
             this.tabPage_RunCheck.UseVisualStyleBackColor = true;
             // 
+            // textBox_CheckMessageShow
+            // 
+            this.textBox_CheckMessageShow.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_CheckMessageShow.Location = new System.Drawing.Point(18, 43);
+            this.textBox_CheckMessageShow.Multiline = true;
+            this.textBox_CheckMessageShow.Name = "textBox_CheckMessageShow";
+            this.textBox_CheckMessageShow.Size = new System.Drawing.Size(485, 462);
+            this.textBox_CheckMessageShow.TabIndex = 2;
+            // 
             // btn_Test
             // 
-            this.btn_Test.Location = new System.Drawing.Point(28, 53);
+            this.btn_Test.Location = new System.Drawing.Point(86, 14);
             this.btn_Test.Name = "btn_Test";
             this.btn_Test.Size = new System.Drawing.Size(75, 23);
             this.btn_Test.TabIndex = 1;
@@ -532,6 +699,25 @@
             this.label_Show.Size = new System.Drawing.Size(55, 15);
             this.label_Show.TabIndex = 0;
             this.label_Show.Text = "label1";
+            // 
+            // OFD_專案
+            // 
+            this.OFD_專案.Filter = "檢核檔案|*.vesdp";
+            this.OFD_專案.FilterIndex = 0;
+            // 
+            // SFD_專案
+            // 
+            this.SFD_專案.AddExtension = false;
+            this.SFD_專案.CheckFileExists = true;
+            this.SFD_專案.Filter = "檢核檔案|*.vesdp";
+            this.SFD_專案.FilterIndex = 0;
+            // 
+            // 開一個新的專案檔ToolStripMenuItem
+            // 
+            this.開一個新的專案檔ToolStripMenuItem.Name = "開一個新的專案檔ToolStripMenuItem";
+            this.開一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.開一個新的專案檔ToolStripMenuItem.Text = "開一個新的專案檔";
+            this.開一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開一個新的專案檔ToolStripMenuItem_Click);
             // 
             // Form_RDExamProgress
             // 
@@ -612,5 +798,20 @@
         private System.Windows.Forms.TextBox textBox_XO;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem 開啟舊的專案檔ToolStripMenuItem;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox_SFOver;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox textBox_SFSlide;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btn_ModifiedBlock;
+        private System.Windows.Forms.TextBox textBox_CheckMessageShow;
+        private System.Windows.Forms.ToolStripMenuItem 儲存此專案檔ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 另存專案檔ToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cmb_seawaveDir;
+        private System.Windows.Forms.OpenFileDialog OFD_專案;
+        private System.Windows.Forms.SaveFileDialog SFD_專案;
+        private System.Windows.Forms.ToolStripMenuItem 開一個新的專案檔ToolStripMenuItem;
     }
 }

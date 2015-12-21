@@ -16,8 +16,7 @@ namespace VE_SD
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            Application.Run(new Form_ForKavyTest());
+            Application.Run(new Form_RDExamProgress ());
         }
     }
 }
