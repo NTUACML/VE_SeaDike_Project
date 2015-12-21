@@ -1054,7 +1054,7 @@ namespace VE_SD
             //修改Listbox.
             listBox_SectSetting.Items[oldpos] = InterfaceBlock.名稱;
         }
-
+         
         #endregion
 
 
@@ -1066,6 +1066,8 @@ namespace VE_SD
             //String workfoldernow = Directory.GetCurrentDirectory();
             //SaveFileDialog開啟.
             //若為開一個新的,則彈出對話框.
+            if (BlockMainArray.GetLength(0) == 0)
+            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             string xmlpath;// = workfoldernow + "\\Test.xml";
             if (object.Equals(打開專案檔的名稱, null))
             {
@@ -1778,7 +1780,7 @@ namespace VE_SD
             if(開啟檔案之訊息=="")
             {
                 打開專案檔的名稱 = openpath;
-                MessageBox.Show("開啟專案檔成功!");//開啟成功並不會更動目前檢視的Tab.
+                MessageBox.Show("開啟專案檔成功!","專案檔載入",MessageBoxButtons.OK,MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
             }
             else
             {
@@ -1815,6 +1817,8 @@ namespace VE_SD
 
         private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(BlockMainArray.GetLength(0)==0)
+            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             string xmlpath;// = workfoldernow + "\\Test.xml";
            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName!="")
            {

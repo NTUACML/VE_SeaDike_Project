@@ -29,15 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsp_progressbar = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.開一個新的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟舊的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.儲存此專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.另存專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,7 +93,22 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
-            this.開一個新的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textBox_KDL = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox_Sr = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.textBox_ConcreteAllowStress = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox_BK = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
+            this.btn_OutputExcel = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -100,6 +116,8 @@
             this.tabPage_BasicParameter.SuspendLayout();
             this.tabPage_AddBlock.SuspendLayout();
             this.tabPage_RunCheck.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox_SectSetting
@@ -157,6 +175,13 @@
             this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.檔案ToolStripMenuItem.Text = "檔案";
             // 
+            // 開一個新的專案檔ToolStripMenuItem
+            // 
+            this.開一個新的專案檔ToolStripMenuItem.Name = "開一個新的專案檔ToolStripMenuItem";
+            this.開一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.開一個新的專案檔ToolStripMenuItem.Text = "開一個新的專案檔";
+            this.開一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開一個新的專案檔ToolStripMenuItem_Click);
+            // 
             // 開啟舊的專案檔ToolStripMenuItem
             // 
             this.開啟舊的專案檔ToolStripMenuItem.Name = "開啟舊的專案檔ToolStripMenuItem";
@@ -198,7 +223,7 @@
             // 
             this.參數設定ToolStripMenuItem.Enabled = false;
             this.參數設定ToolStripMenuItem.Name = "參數設定ToolStripMenuItem";
-            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.參數設定ToolStripMenuItem.Text = "參數設定";
             // 
             // 開始檢核ToolStripMenuItem
@@ -211,16 +236,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea6.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend6);
+            chartArea2.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend2);
             this.chart_Plot.Location = new System.Drawing.Point(185, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.chart_Plot.Series.Add(series6);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart_Plot.Series.Add(series2);
             this.chart_Plot.Size = new System.Drawing.Size(850, 320);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -240,6 +265,8 @@
             // 
             // tabPage_BasicParameter
             // 
+            this.tabPage_BasicParameter.Controls.Add(this.groupBox2);
+            this.tabPage_BasicParameter.Controls.Add(this.groupBox1);
             this.tabPage_BasicParameter.Controls.Add(this.cmb_seawaveDir);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_SFOver);
             this.tabPage_BasicParameter.Controls.Add(this.label17);
@@ -587,6 +614,7 @@
             // textBox_YO
             // 
             this.textBox_YO.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_YO.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.textBox_YO.Location = new System.Drawing.Point(267, 421);
             this.textBox_YO.Name = "textBox_YO";
             this.textBox_YO.ReadOnly = true;
@@ -608,6 +636,7 @@
             // textBox_XO
             // 
             this.textBox_XO.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_XO.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.textBox_XO.Location = new System.Drawing.Point(267, 381);
             this.textBox_XO.Name = "textBox_XO";
             this.textBox_XO.ReadOnly = true;
@@ -661,6 +690,7 @@
             // 
             // tabPage_RunCheck
             // 
+            this.tabPage_RunCheck.Controls.Add(this.btn_OutputExcel);
             this.tabPage_RunCheck.Controls.Add(this.textBox_CheckMessageShow);
             this.tabPage_RunCheck.Controls.Add(this.btn_Test);
             this.tabPage_RunCheck.Controls.Add(this.label_Show);
@@ -675,7 +705,7 @@
             // textBox_CheckMessageShow
             // 
             this.textBox_CheckMessageShow.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_CheckMessageShow.Location = new System.Drawing.Point(18, 43);
+            this.textBox_CheckMessageShow.Location = new System.Drawing.Point(11, 32);
             this.textBox_CheckMessageShow.Multiline = true;
             this.textBox_CheckMessageShow.Name = "textBox_CheckMessageShow";
             this.textBox_CheckMessageShow.Size = new System.Drawing.Size(485, 462);
@@ -683,7 +713,7 @@
             // 
             // btn_Test
             // 
-            this.btn_Test.Location = new System.Drawing.Point(86, 14);
+            this.btn_Test.Location = new System.Drawing.Point(506, 14);
             this.btn_Test.Name = "btn_Test";
             this.btn_Test.Size = new System.Drawing.Size(75, 23);
             this.btn_Test.TabIndex = 1;
@@ -694,11 +724,12 @@
             // label_Show
             // 
             this.label_Show.AutoSize = true;
-            this.label_Show.Location = new System.Drawing.Point(25, 18);
+            this.label_Show.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_Show.Location = new System.Drawing.Point(8, 14);
             this.label_Show.Name = "label_Show";
-            this.label_Show.Size = new System.Drawing.Size(55, 15);
+            this.label_Show.Size = new System.Drawing.Size(129, 19);
             this.label_Show.TabIndex = 0;
-            this.label_Show.Text = "label1";
+            this.label_Show.Text = "檢核計算訊息";
             // 
             // OFD_專案
             // 
@@ -712,12 +743,165 @@
             this.SFD_專案.Filter = "檢核檔案|*.vesdp";
             this.SFD_專案.FilterIndex = 0;
             // 
-            // 開一個新的專案檔ToolStripMenuItem
+            // groupBox1
             // 
-            this.開一個新的專案檔ToolStripMenuItem.Name = "開一個新的專案檔ToolStripMenuItem";
-            this.開一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.開一個新的專案檔ToolStripMenuItem.Text = "開一個新的專案檔";
-            this.開一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開一個新的專案檔ToolStripMenuItem_Click);
+            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.label20);
+            this.groupBox1.Controls.Add(this.textBox_Sr);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Controls.Add(this.textBox_KDL);
+            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Font = new System.Drawing.Font("標楷體", 14F);
+            this.groupBox1.Location = new System.Drawing.Point(584, 20);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(439, 217);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "消波工檢核計算";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(17, 30);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(208, 23);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "啟用消波工重量計算";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // textBox_KDL
+            // 
+            this.textBox_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_KDL.Location = new System.Drawing.Point(301, 54);
+            this.textBox_KDL.Name = "textBox_KDL";
+            this.textBox_KDL.Size = new System.Drawing.Size(100, 27);
+            this.textBox_KDL.TabIndex = 29;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label18.Location = new System.Drawing.Point(6, 62);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(229, 19);
+            this.label18.TabIndex = 28;
+            this.label18.Text = "消波形塊安定係數KD   =";
+            // 
+            // textBox_Sr
+            // 
+            this.textBox_Sr.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Sr.Location = new System.Drawing.Point(301, 87);
+            this.textBox_Sr.Name = "textBox_Sr";
+            this.textBox_Sr.Size = new System.Drawing.Size(100, 27);
+            this.textBox_Sr.TabIndex = 31;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label19.Location = new System.Drawing.Point(6, 92);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(229, 19);
+            this.label19.TabIndex = 30;
+            this.label19.Text = "混凝土與海水之比重Sr =";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(301, 120);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 27);
+            this.textBox1.TabIndex = 33;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label20.Location = new System.Drawing.Point(6, 125);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(289, 19);
+            this.label20.TabIndex = 32;
+            this.label20.Text = "消波塊斜坡面與水平面之夾角 =";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBox_BK);
+            this.groupBox2.Controls.Add(this.label22);
+            this.groupBox2.Controls.Add(this.textBox_ConcreteAllowStress);
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.label21);
+            this.groupBox2.Font = new System.Drawing.Font("標楷體", 14F);
+            this.groupBox2.Location = new System.Drawing.Point(584, 252);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(439, 221);
+            this.groupBox2.TabIndex = 28;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "胸牆部安定檢核計算";
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(17, 30);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(248, 23);
+            this.checkBox2.TabIndex = 0;
+            this.checkBox2.Text = "啟用胸牆部安定檢核計算";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // textBox_ConcreteAllowStress
+            // 
+            this.textBox_ConcreteAllowStress.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_ConcreteAllowStress.Location = new System.Drawing.Point(308, 54);
+            this.textBox_ConcreteAllowStress.Name = "textBox_ConcreteAllowStress";
+            this.textBox_ConcreteAllowStress.Size = new System.Drawing.Size(100, 27);
+            this.textBox_ConcreteAllowStress.TabIndex = 35;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label21.Location = new System.Drawing.Point(13, 62);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(259, 19);
+            this.label21.TabIndex = 34;
+            this.label21.Text = "混凝土容許應力(kg/cm2) = ";
+            // 
+            // textBox_BK
+            // 
+            this.textBox_BK.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BK.Location = new System.Drawing.Point(308, 85);
+            this.textBox_BK.Name = "textBox_BK";
+            this.textBox_BK.Size = new System.Drawing.Size(100, 27);
+            this.textBox_BK.TabIndex = 37;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label22.Location = new System.Drawing.Point(13, 93);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(119, 19);
+            this.label22.TabIndex = 36;
+            this.label22.Text = "Bk\' (cm) = ";
+            // 
+            // SFD_EXCELReport
+            // 
+            this.SFD_EXCELReport.AddExtension = false;
+            this.SFD_EXCELReport.CheckFileExists = true;
+            this.SFD_EXCELReport.Filter = "EXCEL 2013(.xlsx)|*.xlsx|EXCEL 2010(.xls)|*.xls|所有檔案|*";
+            this.SFD_EXCELReport.FilterIndex = 0;
+            // 
+            // btn_OutputExcel
+            // 
+            this.btn_OutputExcel.Font = new System.Drawing.Font("標楷體", 14F);
+            this.btn_OutputExcel.Location = new System.Drawing.Point(502, 458);
+            this.btn_OutputExcel.Name = "btn_OutputExcel";
+            this.btn_OutputExcel.Size = new System.Drawing.Size(245, 36);
+            this.btn_OutputExcel.TabIndex = 3;
+            this.btn_OutputExcel.Text = "輸出檢核EXCEL檔案";
+            this.toolTip1.SetToolTip(this.btn_OutputExcel, "輸出檢核結果之EXCEL檔案");
+            this.btn_OutputExcel.UseVisualStyleBackColor = true;
             // 
             // Form_RDExamProgress
             // 
@@ -745,6 +929,10 @@
             this.tabPage_AddBlock.PerformLayout();
             this.tabPage_RunCheck.ResumeLayout(false);
             this.tabPage_RunCheck.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -813,5 +1001,21 @@
         private System.Windows.Forms.OpenFileDialog OFD_專案;
         private System.Windows.Forms.SaveFileDialog SFD_專案;
         private System.Windows.Forms.ToolStripMenuItem 開一個新的專案檔ToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBox_KDL;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox_Sr;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBox_BK;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox textBox_ConcreteAllowStress;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.SaveFileDialog SFD_EXCELReport;
+        private System.Windows.Forms.Button btn_OutputExcel;
     }
 }
