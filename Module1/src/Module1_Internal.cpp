@@ -15,7 +15,82 @@ void Module1_Internal::SetVar(Module1_Var * _Var)
 
 bool Module1_Internal::GeoPreCal()
 {
-	Var->Err_Msg += "- 未完成 GeoPreCal() \r\n";
+	Var->Ref_x = 0.0;
+	Var->Ref_y = 0.0;
+	//Block Preprocess
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		Var->BlockData[i].Cal_Area();
+		Var->BlockData[i].Cal_WeightC();
+		Var->BlockData[i].Cal_MinMax();
+		Var->Ref_x += Var->BlockData[i].WeightC.x;
+		Var->Ref_y += Var->BlockData[i].WeightC.y;
+	}
+	Var->Ref_x /= double(Var->BlockData.size());
+	Var->Ref_y /= double(Var->BlockData.size());
+
+	//Get Shift Ref point to Min (Max) Coord. and Get Sea Side
+	double SeaSide_Cut_X;
+	SeaSide_Cut_X = Var->Ref_x;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->Direction == 1) { //Wave from RHS
+			if (Var->BlockData[i].MinX <= Var->Ref_x) Var->Ref_x = Var->BlockData[i].MinX;
+			if (Var->BlockData[i].MinLevel <= Var->Ref_y) Var->Ref_y = Var->BlockData[i].MinLevel;
+
+			if (Var->BlockData[i].WeightC.x >= SeaSide_Cut_X) SeaSide_Cut_X = Var->BlockData[i].WeightC.x;
+		}
+		else if (Var->Direction == 0) { //Wave from LHS
+			if (Var->BlockData[i].MaxX >= Var->Ref_x) Var->Ref_x = Var->BlockData[i].MaxX;
+			if (Var->BlockData[i].MinLevel <= Var->Ref_y) Var->Ref_y = Var->BlockData[i].MinLevel;
+
+			if (Var->BlockData[i].WeightC.x <= SeaSide_Cut_X) SeaSide_Cut_X = Var->BlockData[i].WeightC.x;
+		}
+	}
+
+	//Select sea side Block
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->Direction == 1) { //Wave from RHS
+			if (Var->BlockData[i].MaxX >= SeaSide_Cut_X) Var->BlockData[i].OnSeaSide = true;
+			else Var->BlockData[i].OnSeaSide = false;
+		}
+		else if (Var->Direction == 0) { //Wave from LHS
+			if (Var->BlockData[i].MinX <= SeaSide_Cut_X) Var->BlockData[i].OnSeaSide = true;
+			else Var->BlockData[i].OnSeaSide = false;
+		}
+	}
+
+	double Max_SeaSide_coord_MaxY;
+	Max_SeaSide_coord_MaxY = Var->Ref_y;
+	//Get EL Level
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].OnSeaSide) {
+			Var->LevelSection.emplace_back(Var->BlockData[i].MinLevel);
+			if (Var->BlockData[i].MaxLevel >= Max_SeaSide_coord_MaxY) Max_SeaSide_coord_MaxY = Var->BlockData[i].MaxLevel;
+		}
+	}
+	Var->LevelSection.emplace_back(Max_SeaSide_coord_MaxY);
+
+	//Sort EL
+	std::sort(Var->LevelSection.begin(), Var->LevelSection.end(), [](const EL & a, const EL & b) {
+		return a.Level < b.Level;
+	});
+
+	//Get EL Level Up block ID and Arm Y
+	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
+	{
+		for (size_t j = 0; j < Var->BlockData.size(); j++)
+		{
+			if (Var->BlockData[j].WeightC.y >= Var->LevelSection[i].Level &&
+				Var->BlockData[j].WeightC.y < Var->LevelSection[i + 1].Level)
+			{
+				Var->LevelSection[i].BlockId.push_back(j);
+			}
+		}
+		Var->LevelSection[i].L_Y = ((Var->LevelSection[i + 1].Level + Var->LevelSection[i].Level) / 2.0) - Var->Ref_y;
+	}
 
 	Var->Err_Msg += "計算幾何前處理完畢! \r\n";
 	return true;

@@ -2,6 +2,19 @@
 #include <vector>
 #include <string>
 #include "Block.h"
+class EL
+{
+public:
+	//Constructor
+	EL(double _EL) :Level(_EL){};
+	~EL() {};
+	double Level; //Devide Level
+	double P; //density of presure
+	double FP; //Force of pressure
+	double L_Y; //Arm of Y
+	double Mp; //Moment of Pressure
+	std::vector<size_t> BlockId; //In level ID
+};
 class Module1_Var
 {
 public:
@@ -14,6 +27,7 @@ public:
 	
 	//Public Var
 	std::vector<Block> BlockData; //Block Data
+	std::vector<EL> LevelSection; //Level
 	//- Water Var
 	double h, h_plun, hc, d, H0, HWL, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L;
 	//- Wave Var
@@ -26,6 +40,8 @@ public:
 		alpha1, alpha2, alpha3, alpha4;
 	//- Pressure Var
 	double P1, P2, P3, P4, Pu, Fu, Wu;
+	//- Ref Coord
+	double Ref_x, Ref_y;
 
 	//- Mesg
 	std::string Err_Msg;

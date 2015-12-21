@@ -16,6 +16,14 @@ public:
 	~Block(){};
 	//Public data
 	std::vector<Point> Node; // Data coorodinate
+	Point WeightC;
 	double Density; //Block density
-	double FrictionC;
+	double FrictionC; //Friction Coefficient
+	double Area; //Block Area
+	bool OnSeaSide; //On Sea Side?
+	double MinLevel, MaxLevel, MaxX, MinX; //Min Y, Max X, Min X
+	//Public Function
+	void Cal_Area(); //Calculate Area
+	void Cal_WeightC();
+	void Cal_MinMax();
 };
