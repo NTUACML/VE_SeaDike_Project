@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultsBank.cs" />
     <EmbeddedResource Include="Form_BlockNameAndCorrdinate.resx">
       <DependentUpon>Form_BlockNameAndCorrdinate.cs</DependentUpon>
     </EmbeddedResource>
