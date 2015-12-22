@@ -84,6 +84,22 @@ namespace VE_SD
             textBox_SFSlide.Text = "1.2";
             textBox_SFOver.Text = "1.2";
 
+            chk_BlockWeightCalc.Checked = false;
+            chk_HeadBreastCalc.Checked = false;
+
+            label18.Enabled = false;
+            label19.Enabled = false;
+            label20.Enabled = false;
+            label21.Enabled = false;
+            label22.Enabled = false;
+            textBox_KDL.ReadOnly = true;
+            textBox_Sr.ReadOnly = true;
+            textBox_slopeangle.ReadOnly = true;
+            textBox_ConcreteAllowStress.ReadOnly = true;
+            textBox_BK.ReadOnly = true;
+
+
+
 
             chart_Plot.Series.Clear();
             //Tab 2.[Block新增刪減區塊]初始化.
@@ -135,6 +151,8 @@ namespace VE_SD
             tsp_cond.Text = "請設定或編輯您的專案檔";
             tsp_progressbar.Visible = false;
 
+
+            this.Text = "專案檔:未命名";
 
             //PropertyGrid測試.[2015/12/14].
             //propertyGrid_Block.SelectedObject = new Class_Block_Interface();
@@ -1780,6 +1798,7 @@ namespace VE_SD
             if(開啟檔案之訊息=="")
             {
                 打開專案檔的名稱 = openpath;
+                this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                 MessageBox.Show("開啟專案檔成功!","專案檔載入",MessageBoxButtons.OK,MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
             }
             else
@@ -1828,9 +1847,215 @@ namespace VE_SD
             { return; }
             
             儲存XML專案檔(xmlpath);
+            this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(xmlpath);
+        }
+
+        #endregion
+
+        #region 消波工重量檢核計算打開
+        private void chk_BlockWeightCalc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_BlockWeightCalc.Checked)
+            {
+                label18.Enabled = true;
+                label19.Enabled = true;
+                label20.Enabled = true;
+                textBox_KDL.ReadOnly = false;
+                textBox_Sr.ReadOnly = false;
+                textBox_slopeangle.ReadOnly = false;
+            }
+            else
+            {
+              label18.Enabled = false;
+              label19.Enabled = false;
+              label20.Enabled = false;
+              textBox_KDL.ReadOnly = true;
+              textBox_Sr.ReadOnly = true;
+              textBox_slopeangle.ReadOnly = true;
+            }
+        }
+        private void textBox_KDL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_Sr_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_slopeangle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         #endregion
 
+        #region 胸牆部安定檢核計算開啟
 
+        private void chk_HeadBreastCalc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_HeadBreastCalc.Checked)
+            {
+                label21.Enabled = true;
+                label22.Enabled = true;
+                textBox_ConcreteAllowStress.ReadOnly = false;
+                textBox_BK.ReadOnly = false;
+            }
+            else
+            {
+                label21.Enabled = false;
+                label22.Enabled = false;
+                textBox_ConcreteAllowStress.ReadOnly = true;
+                textBox_BK.ReadOnly = true;
+            }
+        }
+        private void textBox_ConcreteAllowStress_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_BK_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        #endregion
+
+        private void textBox_Slope_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        #region 檢核主區塊
+
+        private void 開始檢核ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //檢核前預檢查.
+
+            if(cmb_seawaveDir.SelectedItem.ToString()=="")
+            {
+                MessageBox.Show("您深海波波向沒有選擇!!!","檢核檢查",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_H0.Text .ToString() == "")
+            {
+                MessageBox.Show("您深海波波高沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_T0.Text.ToString() == "")
+            {
+                MessageBox.Show("您深海波週期沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_HWL.Text.ToString() == "")
+            {
+                MessageBox.Show("您設計潮位沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_Slope.Text.ToString() == "")
+            {
+                MessageBox.Show("您海床坡度沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_Kr.Text.ToString() == "")
+            {
+                MessageBox.Show("您折射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_Ks.Text.ToString() == "")
+            {
+                MessageBox.Show("您淺化係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_Kd.Text.ToString() == "")
+            {
+                MessageBox.Show("您繞射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_Lenda.Text.ToString() == "")
+            {
+                MessageBox.Show("您波力折減係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_Beta.Text.ToString() == "")
+            {
+                MessageBox.Show("您入射波與堤體法線垂直交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_SFSlide.Text.ToString() == "")
+            {
+                MessageBox.Show("您滑動安全係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (textBox_SFOver.Text.ToString() == "")
+            {
+                MessageBox.Show("您傾倒安全係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if(chk_BlockWeightCalc.Checked)
+            {
+                if (textBox_KDL.Text.ToString() == "")
+                {
+                    MessageBox.Show("您消波形塊安定係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+                if (textBox_Sr.Text.ToString() == "")
+                {
+                    MessageBox.Show("您混凝土與海水之比重沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+                if (textBox_slopeangle.Text.ToString() == "")
+                {
+                    MessageBox.Show("您消波塊斜坡面與水平面之交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+            }
+            if(chk_HeadBreastCalc.Checked)
+            {
+                if (textBox_ConcreteAllowStress.Text.ToString() == "")
+                {
+                    MessageBox.Show("您混凝土容許應力沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+                if (textBox_BK.Text.ToString() == "")
+                {
+                    MessageBox.Show("您BK'沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+            }
+            //Block檢查.
+            //
+            //
+            //
+            //
+
+
+            //***********************************************************************************************************************//
+            //帶入計算
+
+
+            //**********************************************************************************************************************//
+
+
+            
+
+            //計算.
+
+
+
+            //結果呈現.
+
+
+
+
+        }
+        #endregion
+
+        #region 輸出檢核結果EXCEL表單
+        private void btn_OutputExcel_Click(object sender, EventArgs e)
+        {
+            if(SFD_EXCELReport.ShowDialog()==DialogResult.OK)
+            {
+                //輸出.
+
+            }
+        }
+        #endregion
     }
 }
