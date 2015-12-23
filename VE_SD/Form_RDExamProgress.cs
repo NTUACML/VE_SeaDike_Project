@@ -2444,16 +2444,18 @@ namespace VE_SD
                 return;
             }
 
-            String Pos = "C:\\Users\\kavy\\Desktop\\test.log";
+            //String Pos = "C:\\Users\\kavy\\Desktop\\test.log";
             
-            Mod.OutPutLogFile(Pos);
-            MessageBox.Show("輸出完成!");
-            //if (SFD_LogFile.ShowDialog() == DialogResult.OK && SFD_LogFile.FileName != "")
-            //{
-            //    string getpath = SFD_LogFile.FileName;
-            //    呼叫.
+            //Mod.OutPutLogFile(Pos);
+            //MessageBox.Show("輸出完成!");
+            if (SFD_LogFile.ShowDialog() == DialogResult.OK && SFD_LogFile.FileName != "")
+            {
+                string getpath = SFD_LogFile.FileName;
+                //呼叫.
+                Mod.OutPutLogFile(getpath);
+                MessageBox.Show("輸出完成!");
 
-            //}
+            }
         }
 
         #region 關閉表單
