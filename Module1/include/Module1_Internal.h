@@ -24,6 +24,7 @@ public:
 	bool GeoPreCal();
 	bool WaterLevelCal();
 	bool WavePressureCal();
+	bool WeightCal();
 
 	//- Test Out
 	template<typename T>

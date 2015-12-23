@@ -22,6 +22,8 @@ public:
 	double Area; //Block Area
 	bool OnSeaSide; //On Sea Side?
 	double MinLevel, MaxLevel, MaxX, MinX; //Min Y, Max X, Min X
+	double SelfWeight; //Weight for each block
+	double Mw; //Block self Moment
 	//Public Function
 	void Cal_Area(); //Calculate Area
 	void Cal_WeightC();

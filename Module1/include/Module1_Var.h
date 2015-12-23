@@ -39,9 +39,11 @@ public:
 	double beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
 		alpha1, alpha2, alpha3, alpha4;
 	//- Pressure Var
-	double P1, P2, P3, P4, Pu, Fu, Mu;
+	double P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp;
 	//- Ref Coord
 	double Ref_x, Ref_y;
+	//- Total Block
+	double W, Mw;
 
 	//- Mesg
 	std::string Err_Msg;

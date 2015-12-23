@@ -16,7 +16,7 @@ namespace VE_SD
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_RDExamProgress ());
+            Application.Run(new Form1 ());
         }
     }
 }

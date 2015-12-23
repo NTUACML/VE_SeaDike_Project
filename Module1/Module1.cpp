@@ -113,6 +113,8 @@ bool VE_SD::Module1::Run()
 	Internal->WaterLevelCal();
 	// Wave Pressure Moment Cal
 	Internal->WavePressureCal();
+	// Self Weight Moment Cal
+	Internal->WeightCal();
 
 	// Mesg Print
 	MsgAdd();

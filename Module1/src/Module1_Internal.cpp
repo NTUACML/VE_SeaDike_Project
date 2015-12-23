@@ -202,6 +202,17 @@ bool Module1_Internal::WavePressureCal()
 		Var->LevelSection[i].FP = Var->LevelSection[i].P * Dis_Face;
 		Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
 	}
+	Var->LevelSection.end()->FP = 0.0;
+	Var->LevelSection.end()->Mp = 0.0;
+
+	//- Sum Total Wave Force
+	Var->Fp = 0.0;
+	Var->Mp = 0.0;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		Var->Fp += Var->LevelSection[i].FP;
+		Var->Mp += Var->LevelSection[i].Mp;
+	}
 	Var->Err_Msg += "波壓計算處理完畢! \r\n";
 
 	// Left Force
@@ -212,5 +223,26 @@ bool Module1_Internal::WavePressureCal()
 	Var->Mu = (2.0 / 3.0) * Var->Fu * Var->B;
 
 	Var->Err_Msg += "上揚力計算處理完畢! \r\n";
+
 	return true;
+}
+
+bool Module1_Internal::WeightCal()
+{
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
+		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].WeightC.x;
+	}
+	//- Sum Total Weight and Moment
+	Var->W = 0.0;
+	Var->Mw = 0.0;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		Var->W += Var->BlockData[i].SelfWeight;
+		Var->Mw += Var->BlockData[i].Mw;
+	}
+
+	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
+	return false;
 }
