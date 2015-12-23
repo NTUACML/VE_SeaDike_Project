@@ -99,22 +99,31 @@ bool Module1_Internal::GeoPreCal()
 bool Module1_Internal::WaterLevelCal()
 {
 	Var->L0 = 1.56 * Var->T0 * Var->T0;
+
 	Var->H0_plun = Var->H0 * Var->Kr * Var->Kd;
+
 	Var->h_D_L0 = Var->h / Var->L0;
 	//L???
 	Var->Err_Msg += "- 延散關係式未完成! \r\n";
 	
 	Var->beta0 = 0.028 *std::pow(Var->H0_plun / Var->L0, -0.38) * std::exp(20.0 * std::pow(Var->S, 1.5));
+
 	Var->beta1 = 0.52 * std::exp(4.2 * Var->S);
+
 	Var->betaMax = std::max(0.92,
 					0.32 *std::pow(Var->H0_plun / Var->L0, -0.29) * std::exp(2.4 * Var->S));
+
 	Var->beta0_Star = 0.052 *std::pow(Var->H0_plun / Var->L0, -0.38) * std::exp(20.0 * std::pow(Var->S, 1.5));
+
 	Var->beta1_Star = 0.63 * std::exp(4.2 * Var->S);
+
 	Var->betaMax_Star = std::max(1.65,
 		0.53 *std::pow(Var->H0_plun / Var->L0, -0.29) * std::exp(2.4 * Var->S));
 
 	double KsHo_p;
+
 	KsHo_p = Var->Ks * Var->H0_plun;
+
 	if (Var->h_D_L0 >= 0.2) {
 		Var->Hs = KsHo_p;
 		Var->Hmax = 1.8 * KsHo_p;
@@ -157,8 +166,43 @@ bool Module1_Internal::WavePressureCal()
 
 	Var->P4 = Var->P1 * Var->alpha4;
 	// Pressure Moment.
-	Var->Err_Msg += "- 傾倒力矩未完成! \r\n";
-
+	//- Find HWL 
+	size_t HWL_ID = 0;
+	double eps = 1e-3, Dis_Face, M;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	{
+		if ((Var->LevelSection[i - 1].Level - eps) < Var->HWL
+			&&
+			Var->HWL <= (Var->LevelSection[i].Level + eps)) {
+			HWL_ID = i;
+		}
+	}
+	//- Put Wave P magnitude
+	//-- Put P3
+	Var->LevelSection.begin()->P = Var->P3;
+	//-- Put P4
+	Var->LevelSection.end()->P = Var->P4;
+	//-- Put HWL
+	Var->LevelSection[HWL_ID].P = Var->P1;
+	//-- Interpolation
+	M = (Var->LevelSection[HWL_ID].P - Var->LevelSection.begin()->P) / (Var->LevelSection[HWL_ID].Level - Var->LevelSection.begin()->Level);
+	for (size_t i = 1; i < HWL_ID; i++)
+	{
+		Var->LevelSection[i].P = Var->LevelSection.begin()->P + M * (Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level);
+	}
+	M = (Var->LevelSection.end()->P - Var->LevelSection[HWL_ID].P) / (Var->LevelSection.end()->Level - Var->LevelSection[HWL_ID].Level);
+	for (size_t i = HWL_ID + 1; i < Var->LevelSection.size() - 1; i++)
+	{
+		Var->LevelSection[i].P = Var->LevelSection[HWL_ID].P + M * (Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level);
+	}
+	//- Wave Pressure & Moment
+	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
+	{
+		Dis_Face = Var->LevelSection[i + 1].Level - Var->LevelSection[i].Level;
+		Var->LevelSection[i].FP = Var->LevelSection[i].P * Dis_Face;
+		Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
+	}
+	Var->Err_Msg += "波壓計算處理完畢! \r\n";
 
 	// Left Force
 	Var->Pu = 0.5 * (1.0 + std::cos(Var->beta)) * Var->alpha1 * Var->alpha3 * Var->DensitySea * Var->Hmax * Var->lamda;
@@ -167,6 +211,6 @@ bool Module1_Internal::WavePressureCal()
 
 	Var->Mu = (2.0 / 3.0) * Var->Fu * Var->B;
 
-	Var->Err_Msg += "波壓及上揚力計算處理完畢! \r\n";
+	Var->Err_Msg += "上揚力計算處理完畢! \r\n";
 	return true;
 }
