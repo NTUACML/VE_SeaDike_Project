@@ -29,17 +29,17 @@ public:
 	std::vector<Block> BlockData; //Block Data
 	std::vector<EL> LevelSection; //Level
 	//- Water Var
-	double h, h_plun, hc, d, H0, HWL, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L;
+	double h, h_plun, hc, d, H0, HWL, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L, DensitySea;
 	//- Wave Var
 	int Direction;
 	double T0, Kr, Ks, Kd, lamda, beta, eta_Star, hc_Star;
 	//- Base Var 
-	double S;
+	double S, B;
 	//- Cal Coef
 	double beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
 		alpha1, alpha2, alpha3, alpha4;
 	//- Pressure Var
-	double P1, P2, P3, P4, Pu, Fu, Wu;
+	double P1, P2, P3, P4, Pu, Fu, Mu;
 	//- Ref Coord
 	double Ref_x, Ref_y;
 

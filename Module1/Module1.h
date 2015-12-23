@@ -31,11 +31,11 @@ namespace VE_SD {
 		bool DeleteAllBlockData();
 
 		//- Compute Var Input API
-		bool WaterDesignInput(double _H0, double _HWL);
+		bool WaterDesignInput(double _H0, double _HWL, double _DensitySea);
 		bool WaveDesignInput(int _Direction, double _T0, double _Kr,
 							double _Ks, double _Kd, double _lamda, 
 							double _beta);
-		bool BaseDesignInput(double _S);
+		bool BaseDesignInput(double _S, double _B);
 
 		//- Run API
 		bool Run();

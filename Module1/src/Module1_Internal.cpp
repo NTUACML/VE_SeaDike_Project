@@ -149,10 +149,24 @@ bool Module1_Internal::WavePressureCal()
 
 	Var->alpha4 = 1.0 - (Var->hc_Star / Var->eta_Star);
 
+	Var->P1 = 0.5 * (1.0 + std::cos(Var->beta)) * (Var->alpha1 + Var->alpha2 * std::pow(std::cos(Var->beta), 2.0)) * Var->DensitySea * Var->Hmax * Var->lamda;
+
+	Var->P2 = Var->P1 / (std::cosh(2.0 * M_PI * Var->h) / Var->L);
+
+	Var->P3 = Var->alpha3 * Var->P1;
+
+	Var->P4 = Var->P1 * Var->alpha4;
 	// Pressure Moment.
 	Var->Err_Msg += "- 傾倒力矩未完成! \r\n";
 
 
-	Var->Err_Msg += "波壓計算處理完畢! \r\n";
+	// Left Force
+	Var->Pu = 0.5 * (1.0 + std::cos(Var->beta)) * Var->alpha1 * Var->alpha3 * Var->DensitySea * Var->Hmax * Var->lamda;
+
+	Var->Fu = 0.5 * Var->Pu * Var->B;
+
+	Var->Mu = (2.0 / 3.0) * Var->Fu * Var->B;
+
+	Var->Err_Msg += "波壓及上揚力計算處理完畢! \r\n";
 	return true;
 }

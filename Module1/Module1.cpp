@@ -76,10 +76,11 @@ bool VE_SD::Module1::DeleteAllBlockData()
 	
 }
 
-bool VE_SD::Module1::WaterDesignInput(double _H0, double _HWL)
+bool VE_SD::Module1::WaterDesignInput(double _H0, double _HWL, double _DensitySea)
 {
 	Var->H0 = _H0;
 	Var->HWL = _HWL;
+	Var->DensitySea = _DensitySea;
 	return true;
 }
 
@@ -97,9 +98,10 @@ bool VE_SD::Module1::WaveDesignInput(int _Direction, double _T0, double _Kr,
 	return true;
 }
 
-bool VE_SD::Module1::BaseDesignInput(double _S)
+bool VE_SD::Module1::BaseDesignInput(double _S, double _B)
 {
 	Var->S = _S;
+	Var->B = _B;
 	return true;
 }
 
