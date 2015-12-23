@@ -11,14 +11,13 @@ VE_SD::Module1::Module1():Var(NULL),Internal(NULL)
 	Internal = new Module1_Internal();
 	//Get Variable
 	Internal->SetVar(Var);
+
 	//Mesg
 	ErrMsg += "*** Module - 1 計算開始 *** \r\n";
 }
 
 VE_SD::Module1::~Module1()
 {
-	//Mesg
-	ErrMsg += "*** Module - 1 計算結束 *** ";
 	if (Internal != NULL) delete Internal;
 	if (Var != NULL) delete Var;
 
@@ -110,14 +109,18 @@ bool VE_SD::Module1::Run()
 	Internal->GeoPreCal();
 	// Water Level Cal
 	Internal->WaterLevelCal();
-	// Wave Pressure Moment Cal
-	Internal->WavePressureCal();
-	// Self Weight Moment Cal
-	Internal->WeightCal();
+	//// Wave Pressure Moment Cal
+	//Internal->WavePressureCal();
+	//// Self Weight Moment Cal
+	//Internal->WeightCal();
 
-	// Mesg Print
-	MsgAdd();
+	//// Mesg Print
+	//MsgAdd();
 
+	//Mesg
+	ErrMsg += "*** Module - 1 計算結束 *** \r\n";
+
+	
 	//Test---
 
 	return true;
@@ -130,7 +133,32 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	std::string C_str = msclr::interop::marshal_as<std::string>(Pois);
 	FILE.open(C_str);
 	//- Out Contents
-
+	FILE << "******背景參數******"<< std::endl;
+	FILE << "坡向: " << Var->Direction << std::endl;
+	FILE << "波高: " << Var->H0 << std::endl;
+	FILE << "週期: " << Var->T0 << std::endl;
+	FILE << "潮位: " << Var->HWL << std::endl;
+	FILE << "坡度: " << Var->S << std::endl;
+	FILE << "折射係數: " << Var->Kr << std::endl;
+	FILE << "淺化係數: " << Var->Ks << std::endl;
+	FILE << "繞射係數: " << Var->Kd << std::endl;
+	FILE << "折減係數: " << Var->lamda << std::endl;
+	FILE << "垂線夾角: " << Var->beta << std::endl;
+	FILE << "海水密度: " << Var->DensitySea << std::endl;
+	FILE << "******幾何區塊******" << std::endl;
+	FILE << "總區塊數: " << Var->BlockData.size() << std::endl;
+	FILE <<  std::endl;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		FILE << "區塊單元 " << i+1 <<" :"<< std::endl;
+		FILE << "區塊密度: " << Var->BlockData[i].Density << std::endl;
+		FILE << "區塊摩擦: " << Var->BlockData[i].FrictionC << std::endl;
+		FILE << "----節點座標----" << std::endl;
+		for (auto & NodeElement : Var->BlockData[i].Node) {
+			FILE << "X: " << NodeElement.x << "\t" << "Y: " << NodeElement.y << std::endl;
+		}
+		FILE << std::endl;
+	}
 	FILE.close();
 	return true;
 }

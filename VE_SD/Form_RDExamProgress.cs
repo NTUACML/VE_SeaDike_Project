@@ -45,6 +45,7 @@ namespace VE_SD
 
         #endregion
         string selectname = null;  //目前點選到的Block.
+        Module1 Mod = null;
 
         public Form_RDExamProgress()
         {
@@ -2359,7 +2360,7 @@ namespace VE_SD
             {
                 return;
             }
- 
+
             //Block檢查.
             //
             //
@@ -2369,19 +2370,43 @@ namespace VE_SD
 
             //***********************************************************************************************************************//
             //帶入計算
+            // Class New
+            Mod = new Module1();
+            Mod.DeleteAllBlockData();
 
+            //1. H0, HWL, 海水r.
+            Mod.WaterDesignInput(double.Parse(textBox_H0.Text), double.Parse(textBox_HWL.Text), double.Parse(textBox_SeaGamma.Text));
+            //2. 波向, T0, Kr, Ks , Kd, lambda, beta.
+            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "e" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
+            //3. S(海床坡度)
+            Mod.BaseDesignInput(double.Parse(textBox_Slope.Text));
+            //4. Block給定.
+            for(int i=0;i<BlockMainArray.GetLength(0);i++)
+            {
+                //迴圈塞入Block.
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                double[] getx = BlockMainArray[i].X;
+                double[] gety = BlockMainArray[i].Y;
+                int 座標點數 = BlockMainArray[i].座標點數;
+                for(int i2=0;i2<座標點數;i2++)
+                {
+                    Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
 
+                }
+            }
             //**********************************************************************************************************************//
 
 
-            
+
 
             //計算.
-
+            Mod.Run();
 
 
             //結果呈現.
-
+            textBox_CheckMessageShow.Text=Mod.ErrMsg;
+            MessageBox.Show("檢核計算完成", "海堤檢核計算", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            tabControl1.SelectedIndex = 2; //更換頁面.
 
 
 
@@ -2413,11 +2438,33 @@ namespace VE_SD
 
         private void btn_LogOutput_Click(object sender, EventArgs e)
         {
-            if(SFD_LogFile.ShowDialog()==DialogResult.OK && SFD_LogFile.FileName!="")
+            if(object.Equals(Mod,null))
             {
-                string getpath = SFD_LogFile.FileName;
-                //呼叫.
+                MessageBox.Show("你的計算主體'MOD'為Null!!!!!");
+                return;
             }
+
+            String Pos = "C:\\Users\\kavy\\Desktop\\test.log";
+            
+            Mod.OutPutLogFile(Pos);
+            MessageBox.Show("輸出完成!");
+            //if (SFD_LogFile.ShowDialog() == DialogResult.OK && SFD_LogFile.FileName != "")
+            //{
+            //    string getpath = SFD_LogFile.FileName;
+            //    呼叫.
+
+            //}
         }
+
+        #region 關閉表單
+
+        private void Form_RDExamProgress_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+
+            if (object.Equals(Mod, null)) { }
+            else { Mod.Dispose();  }
+        }
+        #endregion
     }
 }

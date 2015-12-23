@@ -49,6 +49,8 @@
             this.chart_Plot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_BasicParameter = new System.Windows.Forms.TabPage();
+            this.textBox_SeaGamma = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBox_BK = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -56,6 +58,8 @@
             this.chk_HeadBreastCalc = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox_Kt = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.textBox_slopeangle = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox_Sr = new System.Windows.Forms.TextBox();
@@ -101,6 +105,7 @@
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.propertyGrid_Block = new System.Windows.Forms.PropertyGrid();
             this.tabPage_RunCheck = new System.Windows.Forms.TabPage();
+            this.btn_LogOutput = new System.Windows.Forms.Button();
             this.btn_OutputExcel = new System.Windows.Forms.Button();
             this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
             this.btn_Test = new System.Windows.Forms.Button();
@@ -109,12 +114,7 @@
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
-            this.textBox_SeaGamma = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.textBox_Kt = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
-            this.btn_LogOutput = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -229,13 +229,13 @@
             // 
             this.參數設定ToolStripMenuItem.Enabled = false;
             this.參數設定ToolStripMenuItem.Name = "參數設定ToolStripMenuItem";
-            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.參數設定ToolStripMenuItem.Text = "參數設定";
             // 
             // 開始檢核ToolStripMenuItem
             // 
             this.開始檢核ToolStripMenuItem.Name = "開始檢核ToolStripMenuItem";
-            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
             // 
@@ -309,6 +309,27 @@
             this.tabPage_BasicParameter.TabIndex = 2;
             this.tabPage_BasicParameter.Text = "設計條件參數";
             this.tabPage_BasicParameter.UseVisualStyleBackColor = true;
+            // 
+            // textBox_SeaGamma
+            // 
+            this.textBox_SeaGamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_SeaGamma.Location = new System.Drawing.Point(402, 451);
+            this.textBox_SeaGamma.Name = "textBox_SeaGamma";
+            this.textBox_SeaGamma.Size = new System.Drawing.Size(100, 27);
+            this.textBox_SeaGamma.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.textBox_SeaGamma, "傾倒安全係數值");
+            this.textBox_SeaGamma.TextChanged += new System.EventHandler(this.textBox_SeaGamma_TextChanged);
+            this.textBox_SeaGamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SeaGamma_KeyPress);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label23.Location = new System.Drawing.Point(37, 454);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(359, 19);
+            this.label23.TabIndex = 29;
+            this.label23.Text = "海水單位體積重量 ..........       =";
             // 
             // groupBox2
             // 
@@ -392,6 +413,24 @@
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "消波工檢核計算";
+            // 
+            // textBox_Kt
+            // 
+            this.textBox_Kt.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Kt.Location = new System.Drawing.Point(301, 156);
+            this.textBox_Kt.Name = "textBox_Kt";
+            this.textBox_Kt.Size = new System.Drawing.Size(100, 27);
+            this.textBox_Kt.TabIndex = 35;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label24.Location = new System.Drawing.Point(6, 161);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(289, 19);
+            this.label24.TabIndex = 34;
+            this.label24.Text = "波高傳遞率Kt               =";
             // 
             // textBox_slopeangle
             // 
@@ -862,6 +901,18 @@
             this.tabPage_RunCheck.Text = "檢核";
             this.tabPage_RunCheck.UseVisualStyleBackColor = true;
             // 
+            // btn_LogOutput
+            // 
+            this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
+            this.btn_LogOutput.Location = new System.Drawing.Point(506, 414);
+            this.btn_LogOutput.Name = "btn_LogOutput";
+            this.btn_LogOutput.Size = new System.Drawing.Size(241, 38);
+            this.btn_LogOutput.TabIndex = 4;
+            this.btn_LogOutput.Text = "輸出LOG檔案";
+            this.toolTip1.SetToolTip(this.btn_LogOutput, "輸出LOG檔案");
+            this.btn_LogOutput.UseVisualStyleBackColor = true;
+            this.btn_LogOutput.Click += new System.EventHandler(this.btn_LogOutput_Click);
+            // 
             // btn_OutputExcel
             // 
             this.btn_OutputExcel.Font = new System.Drawing.Font("標楷體", 14F);
@@ -918,61 +969,10 @@
             this.SFD_EXCELReport.Filter = "EXCEL 2013(.xlsx)|*.xlsx|EXCEL 2010(.xls)|*.xls|所有檔案|*";
             this.SFD_EXCELReport.FilterIndex = 0;
             // 
-            // textBox_SeaGamma
-            // 
-            this.textBox_SeaGamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SeaGamma.Location = new System.Drawing.Point(402, 451);
-            this.textBox_SeaGamma.Name = "textBox_SeaGamma";
-            this.textBox_SeaGamma.Size = new System.Drawing.Size(100, 27);
-            this.textBox_SeaGamma.TabIndex = 30;
-            this.toolTip1.SetToolTip(this.textBox_SeaGamma, "傾倒安全係數值");
-            this.textBox_SeaGamma.TextChanged += new System.EventHandler(this.textBox_SeaGamma_TextChanged);
-            this.textBox_SeaGamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SeaGamma_KeyPress);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label23.Location = new System.Drawing.Point(37, 454);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(359, 19);
-            this.label23.TabIndex = 29;
-            this.label23.Text = "海水單位體積重量 ..........       =";
-            // 
-            // textBox_Kt
-            // 
-            this.textBox_Kt.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Kt.Location = new System.Drawing.Point(301, 156);
-            this.textBox_Kt.Name = "textBox_Kt";
-            this.textBox_Kt.Size = new System.Drawing.Size(100, 27);
-            this.textBox_Kt.TabIndex = 35;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label24.Location = new System.Drawing.Point(6, 161);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(289, 19);
-            this.label24.TabIndex = 34;
-            this.label24.Text = "波高傳遞率Kt               =";
-            // 
             // SFD_LogFile
             // 
             this.SFD_LogFile.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_LogFile.FilterIndex = 0;
-            // 
-            // btn_LogOutput
-            // 
-            this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_LogOutput.Location = new System.Drawing.Point(506, 414);
-            this.btn_LogOutput.Name = "btn_LogOutput";
-            this.btn_LogOutput.Size = new System.Drawing.Size(241, 38);
-            this.btn_LogOutput.TabIndex = 4;
-            this.btn_LogOutput.Text = "輸出LOG檔案";
-            this.toolTip1.SetToolTip(this.btn_LogOutput, "輸出LOG檔案");
-            this.btn_LogOutput.UseVisualStyleBackColor = true;
-            this.btn_LogOutput.Click += new System.EventHandler(this.btn_LogOutput_Click);
             // 
             // Form_RDExamProgress
             // 
@@ -987,6 +987,7 @@
             this.Name = "Form_RDExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form_RDExamProgress";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_RDExamProgress_FormClosed);
             this.Load += new System.EventHandler(this.Form_RDExamProgress_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

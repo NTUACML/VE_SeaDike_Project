@@ -31,7 +31,7 @@ public:
 	//- Water Var
 	double h, h_plun, hc, d, H0, HWL, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L, DensitySea;
 	//- Wave Var
-	int Direction;
+	int Direction; //Wave from E=1, W=0
 	double T0, Kr, Ks, Kd, lamda, beta, eta_Star, hc_Star;
 	//- Base Var 
 	double S, B;
