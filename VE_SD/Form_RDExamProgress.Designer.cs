@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -109,6 +109,12 @@
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
+            this.textBox_SeaGamma = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBox_Kt = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
+            this.btn_LogOutput = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -223,7 +229,7 @@
             // 
             this.參數設定ToolStripMenuItem.Enabled = false;
             this.參數設定ToolStripMenuItem.Name = "參數設定ToolStripMenuItem";
-            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.參數設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.參數設定ToolStripMenuItem.Text = "參數設定";
             // 
             // 開始檢核ToolStripMenuItem
@@ -237,16 +243,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea6.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend6);
+            chartArea1.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend1);
             this.chart_Plot.Location = new System.Drawing.Point(185, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.chart_Plot.Series.Add(series6);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart_Plot.Series.Add(series1);
             this.chart_Plot.Size = new System.Drawing.Size(850, 320);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -266,6 +272,8 @@
             // 
             // tabPage_BasicParameter
             // 
+            this.tabPage_BasicParameter.Controls.Add(this.textBox_SeaGamma);
+            this.tabPage_BasicParameter.Controls.Add(this.label23);
             this.tabPage_BasicParameter.Controls.Add(this.groupBox2);
             this.tabPage_BasicParameter.Controls.Add(this.groupBox1);
             this.tabPage_BasicParameter.Controls.Add(this.cmb_seawaveDir);
@@ -368,6 +376,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox_Kt);
+            this.groupBox1.Controls.Add(this.label24);
             this.groupBox1.Controls.Add(this.textBox_slopeangle);
             this.groupBox1.Controls.Add(this.label20);
             this.groupBox1.Controls.Add(this.textBox_Sr);
@@ -839,6 +849,7 @@
             // 
             // tabPage_RunCheck
             // 
+            this.tabPage_RunCheck.Controls.Add(this.btn_LogOutput);
             this.tabPage_RunCheck.Controls.Add(this.btn_OutputExcel);
             this.tabPage_RunCheck.Controls.Add(this.textBox_CheckMessageShow);
             this.tabPage_RunCheck.Controls.Add(this.btn_Test);
@@ -906,6 +917,62 @@
             // 
             this.SFD_EXCELReport.Filter = "EXCEL 2013(.xlsx)|*.xlsx|EXCEL 2010(.xls)|*.xls|所有檔案|*";
             this.SFD_EXCELReport.FilterIndex = 0;
+            // 
+            // textBox_SeaGamma
+            // 
+            this.textBox_SeaGamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_SeaGamma.Location = new System.Drawing.Point(402, 451);
+            this.textBox_SeaGamma.Name = "textBox_SeaGamma";
+            this.textBox_SeaGamma.Size = new System.Drawing.Size(100, 27);
+            this.textBox_SeaGamma.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.textBox_SeaGamma, "傾倒安全係數值");
+            this.textBox_SeaGamma.TextChanged += new System.EventHandler(this.textBox_SeaGamma_TextChanged);
+            this.textBox_SeaGamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SeaGamma_KeyPress);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label23.Location = new System.Drawing.Point(37, 454);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(359, 19);
+            this.label23.TabIndex = 29;
+            this.label23.Text = "海水單位體積重量 ..........       =";
+            // 
+            // textBox_Kt
+            // 
+            this.textBox_Kt.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Kt.Location = new System.Drawing.Point(301, 156);
+            this.textBox_Kt.Name = "textBox_Kt";
+            this.textBox_Kt.Size = new System.Drawing.Size(100, 27);
+            this.textBox_Kt.TabIndex = 35;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label24.Location = new System.Drawing.Point(6, 161);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(289, 19);
+            this.label24.TabIndex = 34;
+            this.label24.Text = "波高傳遞率Kt               =";
+            // 
+            // SFD_LogFile
+            // 
+            this.SFD_LogFile.Filter = "LOG檔案(*.log)|*.log";
+            this.SFD_LogFile.FilterIndex = 0;
+            // 
+            // btn_LogOutput
+            // 
+            this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
+            this.btn_LogOutput.Location = new System.Drawing.Point(506, 414);
+            this.btn_LogOutput.Name = "btn_LogOutput";
+            this.btn_LogOutput.Size = new System.Drawing.Size(241, 38);
+            this.btn_LogOutput.TabIndex = 4;
+            this.btn_LogOutput.Text = "輸出LOG檔案";
+            this.toolTip1.SetToolTip(this.btn_LogOutput, "輸出LOG檔案");
+            this.btn_LogOutput.UseVisualStyleBackColor = true;
+            this.btn_LogOutput.Click += new System.EventHandler(this.btn_LogOutput_Click);
             // 
             // Form_RDExamProgress
             // 
@@ -1021,5 +1088,11 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.SaveFileDialog SFD_EXCELReport;
         private System.Windows.Forms.Button btn_OutputExcel;
+        private System.Windows.Forms.TextBox textBox_SeaGamma;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox textBox_Kt;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button btn_LogOutput;
+        private System.Windows.Forms.SaveFileDialog SFD_LogFile;
     }
 }

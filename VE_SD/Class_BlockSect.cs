@@ -26,6 +26,7 @@ namespace VE_SD
         private double _拋石水中單位體積重量 = 1.0;
         private double _砂土水中單位體積重量 = 1.0;
         private double _海水單位體積重量 = 1.03;
+        private double _單位體積重量 = 1.8;
 
        // private double _滑倒安全係數 = 1.2;
        // private double _傾倒安全係數 = 1.2;
@@ -123,6 +124,12 @@ namespace VE_SD
             get { return _海水單位體積重量; }
             set { _海水單位體積重量 = value; }
         }
+        public double 單位體積重量
+        {
+            get { return _單位體積重量; }
+            set { _單位體積重量 = value; }
+        }
+
 
         //public double 滑倒安全係數
         //{
