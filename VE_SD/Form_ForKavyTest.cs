@@ -52,11 +52,16 @@ namespace VE_SD
             Mod.VarOut(ref org);
             MessageBox.Show(org.ToString());
 
+            //Out Log File
+            String Pos = "C:\\Users\\kavy\\Desktop\\test.log";
+            Mod.OutPutLogFile(Pos);
+
             // Class Memory Clear
             Mod.Dispose();
 
             // Class Mesg output
             textBox1.Text = Mod.ErrMsg;
+
 
 
         }

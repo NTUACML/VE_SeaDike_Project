@@ -98,10 +98,9 @@ bool VE_SD::Module1::WaveDesignInput(int _Direction, double _T0, double _Kr,
 	return true;
 }
 
-bool VE_SD::Module1::BaseDesignInput(double _S, double _B)
+bool VE_SD::Module1::BaseDesignInput(double _S)
 {
 	Var->S = _S;
-	Var->B = _B;
 	return true;
 }
 
@@ -121,6 +120,18 @@ bool VE_SD::Module1::Run()
 
 	//Test---
 
+	return true;
+}
+
+bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
+{
+	//- File Open
+	std::ofstream FILE;
+	std::string C_str = msclr::interop::marshal_as<std::string>(Pois);
+	FILE.open(C_str);
+	//- Out Contents
+
+	FILE.close();
 	return true;
 }
 

@@ -92,6 +92,21 @@ bool Module1_Internal::GeoPreCal()
 		Var->LevelSection[i].L_Y = ((Var->LevelSection[i + 1].Level + Var->LevelSection[i].Level) / 2.0) - Var->Ref_y;
 	}
 
+	//Base Block Length
+	double BaseMin_x, BaseMax_x;
+	BaseMin_x = Var->Ref_x;
+	BaseMax_x = Var->Ref_x;
+
+	for (auto & Id : Var->LevelSection.begin()->BlockId) {
+		if (Var->BlockData[Id].MinX <= BaseMin_x) {
+			BaseMin_x = Var->BlockData[Id].MinX;
+		}
+		if (Var->BlockData[Id].MaxX >= BaseMax_x) {
+			BaseMax_x = Var->BlockData[Id].MaxX;
+		}
+	}
+	Var->B = std::abs(BaseMax_x - BaseMin_x);
+
 	Var->Err_Msg += "計算幾何前處理完畢! \r\n";
 	return true;
 }

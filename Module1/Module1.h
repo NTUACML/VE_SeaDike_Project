@@ -3,7 +3,8 @@
 #pragma once
 #include "include\Module1_Internal.h"
 #include "include\Module1_Var.h"
-
+#include <msclr/marshal_cppstd.h> 
+#include <string>
 using namespace System;
 
 namespace VE_SD {
@@ -35,10 +36,11 @@ namespace VE_SD {
 		bool WaveDesignInput(int _Direction, double _T0, double _Kr,
 							double _Ks, double _Kd, double _lamda, 
 							double _beta);
-		bool BaseDesignInput(double _S, double _B);
+		bool BaseDesignInput(double _S);
 
 		//- Run API
-		bool Run();
+		bool Run(); //Run Main Check Processor
+		bool OutPutLogFile(String ^ Pois);
 
 		//- Test
 		void Test();
