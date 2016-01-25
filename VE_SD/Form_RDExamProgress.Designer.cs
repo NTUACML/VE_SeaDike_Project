@@ -32,6 +32,8 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -49,6 +51,11 @@
             this.chart_Plot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_BasicParameter = new System.Windows.Forms.TabPage();
+            this.btn_MaterialsAndFriction = new System.Windows.Forms.Button();
+            this.textBox_ArmorBlockEle = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox_GroundELE = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.textBox_SeaGamma = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -95,6 +102,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage_AddBlock = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ELDGV1 = new System.Windows.Forms.DataGridView();
+            this.EL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_ModifiedBlock = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.textBox_YO = new System.Windows.Forms.TextBox();
@@ -123,6 +133,8 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage_AddBlock.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).BeginInit();
             this.tabPage_RunCheck.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -132,7 +144,7 @@
             this.listBox_SectSetting.ItemHeight = 15;
             this.listBox_SectSetting.Location = new System.Drawing.Point(16, 32);
             this.listBox_SectSetting.Name = "listBox_SectSetting";
-            this.listBox_SectSetting.Size = new System.Drawing.Size(163, 484);
+            this.listBox_SectSetting.Size = new System.Drawing.Size(163, 334);
             this.listBox_SectSetting.TabIndex = 0;
             this.listBox_SectSetting.SelectedIndexChanged += new System.EventHandler(this.listBox_SectSetting_SelectedIndexChanged);
             // 
@@ -141,22 +153,22 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsp_cond,
             this.tsp_progressbar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 596);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 595);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1051, 31);
+            this.statusStrip1.Size = new System.Drawing.Size(1085, 26);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tsp_cond
             // 
             this.tsp_cond.Name = "tsp_cond";
-            this.tsp_cond.Size = new System.Drawing.Size(128, 26);
+            this.tsp_cond.Size = new System.Drawing.Size(128, 21);
             this.tsp_cond.Text = "toolStripStatusLabel1";
             // 
             // tsp_progressbar
             // 
             this.tsp_progressbar.Name = "tsp_progressbar";
-            this.tsp_progressbar.Size = new System.Drawing.Size(350, 25);
+            this.tsp_progressbar.Size = new System.Drawing.Size(350, 20);
             // 
             // menuStrip1
             // 
@@ -165,7 +177,7 @@
             this.步驟ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1051, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -247,13 +259,13 @@
             this.chart_Plot.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart_Plot.Legends.Add(legend1);
-            this.chart_Plot.Location = new System.Drawing.Point(185, 7);
+            this.chart_Plot.Location = new System.Drawing.Point(185, 32);
             this.chart_Plot.Name = "chart_Plot";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart_Plot.Series.Add(series1);
-            this.chart_Plot.Size = new System.Drawing.Size(850, 320);
+            this.chart_Plot.Size = new System.Drawing.Size(871, 331);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
             this.chart_Plot.Click += new System.EventHandler(this.chart_Plot_Click);
@@ -267,11 +279,16 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1051, 566);
+            this.tabControl1.Size = new System.Drawing.Size(1083, 550);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage_BasicParameter
             // 
+            this.tabPage_BasicParameter.Controls.Add(this.btn_MaterialsAndFriction);
+            this.tabPage_BasicParameter.Controls.Add(this.textBox_ArmorBlockEle);
+            this.tabPage_BasicParameter.Controls.Add(this.label26);
+            this.tabPage_BasicParameter.Controls.Add(this.textBox_GroundELE);
+            this.tabPage_BasicParameter.Controls.Add(this.label25);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_SeaGamma);
             this.tabPage_BasicParameter.Controls.Add(this.label23);
             this.tabPage_BasicParameter.Controls.Add(this.groupBox2);
@@ -305,15 +322,62 @@
             this.tabPage_BasicParameter.Controls.Add(this.label1);
             this.tabPage_BasicParameter.Location = new System.Drawing.Point(4, 25);
             this.tabPage_BasicParameter.Name = "tabPage_BasicParameter";
-            this.tabPage_BasicParameter.Size = new System.Drawing.Size(1043, 537);
+            this.tabPage_BasicParameter.Size = new System.Drawing.Size(1075, 521);
             this.tabPage_BasicParameter.TabIndex = 2;
             this.tabPage_BasicParameter.Text = "設計條件參數";
             this.tabPage_BasicParameter.UseVisualStyleBackColor = true;
             // 
+            // btn_MaterialsAndFriction
+            // 
+            this.btn_MaterialsAndFriction.Font = new System.Drawing.Font("標楷體", 14F);
+            this.btn_MaterialsAndFriction.Location = new System.Drawing.Point(584, 393);
+            this.btn_MaterialsAndFriction.Name = "btn_MaterialsAndFriction";
+            this.btn_MaterialsAndFriction.Size = new System.Drawing.Size(225, 47);
+            this.btn_MaterialsAndFriction.TabIndex = 35;
+            this.btn_MaterialsAndFriction.Text = "定義材質間摩擦係數";
+            this.toolTip1.SetToolTip(this.btn_MaterialsAndFriction, "修改或新增不同材質與材質間之摩擦係數");
+            this.btn_MaterialsAndFriction.UseVisualStyleBackColor = true;
+            // 
+            // textBox_ArmorBlockEle
+            // 
+            this.textBox_ArmorBlockEle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_ArmorBlockEle.Location = new System.Drawing.Point(401, 145);
+            this.textBox_ArmorBlockEle.Name = "textBox_ArmorBlockEle";
+            this.textBox_ArmorBlockEle.Size = new System.Drawing.Size(100, 27);
+            this.textBox_ArmorBlockEle.TabIndex = 34;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label26.Location = new System.Drawing.Point(37, 148);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(359, 19);
+            this.label26.TabIndex = 33;
+            this.label26.Text = "消波塊高程(m)  .................  =";
+            // 
+            // textBox_GroundELE
+            // 
+            this.textBox_GroundELE.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_GroundELE.Location = new System.Drawing.Point(401, 112);
+            this.textBox_GroundELE.Name = "textBox_GroundELE";
+            this.textBox_GroundELE.Size = new System.Drawing.Size(100, 27);
+            this.textBox_GroundELE.TabIndex = 32;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label25.Location = new System.Drawing.Point(37, 115);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(359, 19);
+            this.label25.TabIndex = 31;
+            this.label25.Text = "地面線(m)  .....................  =";
+            // 
             // textBox_SeaGamma
             // 
             this.textBox_SeaGamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SeaGamma.Location = new System.Drawing.Point(402, 451);
+            this.textBox_SeaGamma.Location = new System.Drawing.Point(401, 460);
             this.textBox_SeaGamma.Name = "textBox_SeaGamma";
             this.textBox_SeaGamma.Size = new System.Drawing.Size(100, 27);
             this.textBox_SeaGamma.TabIndex = 30;
@@ -325,7 +389,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label23.Location = new System.Drawing.Point(37, 454);
+            this.label23.Location = new System.Drawing.Point(36, 463);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(359, 19);
             this.label23.TabIndex = 29;
@@ -341,7 +405,7 @@
             this.groupBox2.Font = new System.Drawing.Font("標楷體", 14F);
             this.groupBox2.Location = new System.Drawing.Point(584, 252);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(439, 221);
+            this.groupBox2.Size = new System.Drawing.Size(439, 131);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "胸牆部安定檢核計算";
@@ -517,7 +581,7 @@
             // textBox_SFOver
             // 
             this.textBox_SFOver.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SFOver.Location = new System.Drawing.Point(402, 409);
+            this.textBox_SFOver.Location = new System.Drawing.Point(401, 423);
             this.textBox_SFOver.Name = "textBox_SFOver";
             this.textBox_SFOver.Size = new System.Drawing.Size(100, 27);
             this.textBox_SFOver.TabIndex = 25;
@@ -528,7 +592,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label17.Location = new System.Drawing.Point(37, 412);
+            this.label17.Location = new System.Drawing.Point(36, 426);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(359, 19);
             this.label17.TabIndex = 24;
@@ -537,7 +601,7 @@
             // textBox_SFSlide
             // 
             this.textBox_SFSlide.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SFSlide.Location = new System.Drawing.Point(402, 368);
+            this.textBox_SFSlide.Location = new System.Drawing.Point(402, 390);
             this.textBox_SFSlide.Name = "textBox_SFSlide";
             this.textBox_SFSlide.Size = new System.Drawing.Size(100, 27);
             this.textBox_SFSlide.TabIndex = 23;
@@ -548,7 +612,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label16.Location = new System.Drawing.Point(37, 371);
+            this.label16.Location = new System.Drawing.Point(37, 393);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(359, 19);
             this.label16.TabIndex = 22;
@@ -558,7 +622,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微軟正黑體", 14F);
-            this.label15.Location = new System.Drawing.Point(508, 112);
+            this.label15.Location = new System.Drawing.Point(507, 175);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(28, 24);
             this.label15.TabIndex = 21;
@@ -587,7 +651,7 @@
             // textBox_Beta
             // 
             this.textBox_Beta.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Beta.Location = new System.Drawing.Point(402, 325);
+            this.textBox_Beta.Location = new System.Drawing.Point(401, 356);
             this.textBox_Beta.Name = "textBox_Beta";
             this.textBox_Beta.Size = new System.Drawing.Size(100, 27);
             this.textBox_Beta.TabIndex = 18;
@@ -597,7 +661,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label10.Location = new System.Drawing.Point(37, 314);
+            this.label10.Location = new System.Drawing.Point(36, 345);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(359, 38);
             this.label10.TabIndex = 17;
@@ -606,7 +670,7 @@
             // textBox_Lenda
             // 
             this.textBox_Lenda.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Lenda.Location = new System.Drawing.Point(402, 278);
+            this.textBox_Lenda.Location = new System.Drawing.Point(402, 321);
             this.textBox_Lenda.Name = "textBox_Lenda";
             this.textBox_Lenda.Size = new System.Drawing.Size(100, 27);
             this.textBox_Lenda.TabIndex = 16;
@@ -616,7 +680,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label9.Location = new System.Drawing.Point(37, 281);
+            this.label9.Location = new System.Drawing.Point(37, 324);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(359, 19);
             this.label9.TabIndex = 15;
@@ -625,7 +689,7 @@
             // textBox_Kd
             // 
             this.textBox_Kd.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Kd.Location = new System.Drawing.Point(402, 241);
+            this.textBox_Kd.Location = new System.Drawing.Point(402, 292);
             this.textBox_Kd.Name = "textBox_Kd";
             this.textBox_Kd.Size = new System.Drawing.Size(100, 27);
             this.textBox_Kd.TabIndex = 14;
@@ -635,7 +699,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label8.Location = new System.Drawing.Point(37, 244);
+            this.label8.Location = new System.Drawing.Point(37, 295);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(359, 19);
             this.label8.TabIndex = 13;
@@ -644,7 +708,7 @@
             // textBox_Ks
             // 
             this.textBox_Ks.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Ks.Location = new System.Drawing.Point(402, 210);
+            this.textBox_Ks.Location = new System.Drawing.Point(401, 261);
             this.textBox_Ks.Name = "textBox_Ks";
             this.textBox_Ks.Size = new System.Drawing.Size(100, 27);
             this.textBox_Ks.TabIndex = 12;
@@ -654,7 +718,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label7.Location = new System.Drawing.Point(37, 213);
+            this.label7.Location = new System.Drawing.Point(36, 264);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(359, 19);
             this.label7.TabIndex = 11;
@@ -682,7 +746,7 @@
             // textBox_Kr
             // 
             this.textBox_Kr.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Kr.Location = new System.Drawing.Point(402, 178);
+            this.textBox_Kr.Location = new System.Drawing.Point(401, 233);
             this.textBox_Kr.Name = "textBox_Kr";
             this.textBox_Kr.Size = new System.Drawing.Size(100, 27);
             this.textBox_Kr.TabIndex = 8;
@@ -692,7 +756,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label5.Location = new System.Drawing.Point(37, 181);
+            this.label5.Location = new System.Drawing.Point(36, 236);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(359, 19);
             this.label5.TabIndex = 7;
@@ -701,7 +765,7 @@
             // textBox_Slope
             // 
             this.textBox_Slope.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Slope.Location = new System.Drawing.Point(401, 145);
+            this.textBox_Slope.Location = new System.Drawing.Point(401, 204);
             this.textBox_Slope.Name = "textBox_Slope";
             this.textBox_Slope.Size = new System.Drawing.Size(100, 27);
             this.textBox_Slope.TabIndex = 6;
@@ -712,7 +776,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label4.Location = new System.Drawing.Point(37, 148);
+            this.label4.Location = new System.Drawing.Point(37, 207);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(359, 19);
             this.label4.TabIndex = 5;
@@ -721,7 +785,7 @@
             // textBox_HWL
             // 
             this.textBox_HWL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HWL.Location = new System.Drawing.Point(401, 113);
+            this.textBox_HWL.Location = new System.Drawing.Point(400, 176);
             this.textBox_HWL.Name = "textBox_HWL";
             this.textBox_HWL.Size = new System.Drawing.Size(100, 27);
             this.textBox_HWL.TabIndex = 4;
@@ -731,7 +795,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label3.Location = new System.Drawing.Point(37, 116);
+            this.label3.Location = new System.Drawing.Point(36, 179);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(359, 19);
             this.label3.TabIndex = 3;
@@ -768,6 +832,7 @@
             // 
             // tabPage_AddBlock
             // 
+            this.tabPage_AddBlock.Controls.Add(this.groupBox3);
             this.tabPage_AddBlock.Controls.Add(this.btn_ModifiedBlock);
             this.tabPage_AddBlock.Controls.Add(this.label12);
             this.tabPage_AddBlock.Controls.Add(this.textBox_YO);
@@ -782,10 +847,49 @@
             this.tabPage_AddBlock.Location = new System.Drawing.Point(4, 25);
             this.tabPage_AddBlock.Name = "tabPage_AddBlock";
             this.tabPage_AddBlock.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_AddBlock.Size = new System.Drawing.Size(1043, 537);
+            this.tabPage_AddBlock.Size = new System.Drawing.Size(1075, 521);
             this.tabPage_AddBlock.TabIndex = 0;
             this.tabPage_AddBlock.Text = "形塊設定";
             this.tabPage_AddBlock.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.ELDGV1);
+            this.groupBox3.Location = new System.Drawing.Point(771, 369);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(285, 146);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "EL分區";
+            // 
+            // ELDGV1
+            // 
+            this.ELDGV1.AllowUserToResizeColumns = false;
+            this.ELDGV1.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EL});
+            this.ELDGV1.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.ELDGV1.Location = new System.Drawing.Point(6, 16);
+            this.ELDGV1.MultiSelect = false;
+            this.ELDGV1.Name = "ELDGV1";
+            this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.ELDGV1.RowTemplate.Height = 24;
+            this.ELDGV1.Size = new System.Drawing.Size(130, 124);
+            this.ELDGV1.TabIndex = 0;
+            this.ELDGV1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ELDGV1_CellValueChanged);
+            this.ELDGV1.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.ELDGV1_UserDeletedRow);
+            // 
+            // EL
+            // 
+            this.EL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.EL.HeaderText = "EL";
+            this.EL.Name = "EL";
+            this.EL.Width = 48;
             // 
             // btn_ModifiedBlock
             // 
@@ -803,7 +907,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("標楷體", 13F);
-            this.label12.Location = new System.Drawing.Point(190, 425);
+            this.label12.Location = new System.Drawing.Point(12, 471);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(71, 18);
             this.label12.TabIndex = 11;
@@ -813,7 +917,7 @@
             // 
             this.textBox_YO.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_YO.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.textBox_YO.Location = new System.Drawing.Point(267, 421);
+            this.textBox_YO.Location = new System.Drawing.Point(89, 467);
             this.textBox_YO.Name = "textBox_YO";
             this.textBox_YO.ReadOnly = true;
             this.textBox_YO.Size = new System.Drawing.Size(100, 27);
@@ -825,7 +929,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("標楷體", 13F);
-            this.label11.Location = new System.Drawing.Point(190, 385);
+            this.label11.Location = new System.Drawing.Point(12, 431);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(71, 18);
             this.label11.TabIndex = 9;
@@ -835,7 +939,7 @@
             // 
             this.textBox_XO.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_XO.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.textBox_XO.Location = new System.Drawing.Point(267, 381);
+            this.textBox_XO.Location = new System.Drawing.Point(89, 427);
             this.textBox_XO.Name = "textBox_XO";
             this.textBox_XO.ReadOnly = true;
             this.textBox_XO.Size = new System.Drawing.Size(100, 27);
@@ -845,7 +949,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(186, 344);
+            this.button1.Location = new System.Drawing.Point(8, 390);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(181, 31);
             this.button1.TabIndex = 7;
@@ -880,9 +984,9 @@
             // 
             this.propertyGrid_Block.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.propertyGrid_Block.HelpVisible = false;
-            this.propertyGrid_Block.Location = new System.Drawing.Point(373, 344);
+            this.propertyGrid_Block.Location = new System.Drawing.Point(195, 384);
             this.propertyGrid_Block.Name = "propertyGrid_Block";
-            this.propertyGrid_Block.Size = new System.Drawing.Size(662, 172);
+            this.propertyGrid_Block.Size = new System.Drawing.Size(570, 131);
             this.propertyGrid_Block.TabIndex = 4;
             this.propertyGrid_Block.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_Block_PropertyValueChanged);
             // 
@@ -896,7 +1000,7 @@
             this.tabPage_RunCheck.Location = new System.Drawing.Point(4, 25);
             this.tabPage_RunCheck.Name = "tabPage_RunCheck";
             this.tabPage_RunCheck.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_RunCheck.Size = new System.Drawing.Size(1043, 537);
+            this.tabPage_RunCheck.Size = new System.Drawing.Size(1075, 521);
             this.tabPage_RunCheck.TabIndex = 1;
             this.tabPage_RunCheck.Text = "檢核";
             this.tabPage_RunCheck.UseVisualStyleBackColor = true;
@@ -978,7 +1082,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1051, 627);
+            this.ClientSize = new System.Drawing.Size(1085, 621);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -1003,6 +1107,8 @@
             this.groupBox1.PerformLayout();
             this.tabPage_AddBlock.ResumeLayout(false);
             this.tabPage_AddBlock.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).EndInit();
             this.tabPage_RunCheck.ResumeLayout(false);
             this.tabPage_RunCheck.PerformLayout();
             this.ResumeLayout(false);
@@ -1095,5 +1201,13 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Button btn_LogOutput;
         private System.Windows.Forms.SaveFileDialog SFD_LogFile;
+        private System.Windows.Forms.TextBox textBox_GroundELE;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox textBox_ArmorBlockEle;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button btn_MaterialsAndFriction;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.DataGridView ELDGV1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EL;
     }
 }
