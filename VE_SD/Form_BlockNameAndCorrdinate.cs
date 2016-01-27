@@ -187,7 +187,22 @@ namespace VE_SD
             }
             else
             {
-                return DI.ContainsKey(inS);
+                if(DI.ContainsKey(inS))
+                {
+                    return true;
+                }
+                else
+                {
+                    if(inS=="HWL" || inS.Substring(0,1)=="E")
+                    {
+                        return true;//Forbidden to use HWL or E start block name.
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                //return DI.ContainsKey(inS);
             }
         }
 

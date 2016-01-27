@@ -43,6 +43,10 @@ namespace VE_SD
         private Dictionary<int, String> BlockListSubScriptToName = new Dictionary<int, string>();//Block List Subscript to Name
         private Dictionary<int, String> BlockArraySubscriptToName = new Dictionary<int, string>();//Block Array Subscript to Name.
 
+        public double[] ELArray = new double[] { };
+        int ELSize = 0;
+
+
         #endregion
         string selectname = null;  //目前點選到的Block.
         Module1 Mod = null;
@@ -75,6 +79,8 @@ namespace VE_SD
             cmb_seawaveDir.SelectedItem = "E";
             textBox_H0.Text = "13.22";
             textBox_T0.Text = "14.30";
+            textBox_GroundELE.Text = "-7.5";
+            textBox_ArmorBlockEle.Text = "5.66";
             textBox_HWL.Text = "+2.44";
             textBox_Slope.Text = "0.025";
             textBox_Kr.Text = "0.810";
@@ -141,11 +147,17 @@ namespace VE_SD
             //chart_Plot.Series[1].Points.Add(new DataPoint(30, new double[] { 10, 0 }));
             //chart_Plot.Series[1].BorderColor = Color.Black;
             //chart_Plot.Series[1].Color = Color.LightGray;//= Color.Transparent;
+            
+            //設定EL
+            ELDGV1.Rows.Clear(); 
 
             chart_Plot.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
             chart_Plot.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
             listBox_SectSetting.Items.Clear();
             Array.Resize(ref BlockMainArray, 0);
+            BlockCount = 0;
+            Array.Resize(ref ELArray, 0);
+            ELSize = 0;
             InterfaceBlock = null;
             打開專案檔的名稱 = null;
             selectname = null;
@@ -186,6 +198,7 @@ namespace VE_SD
 
             if (result.ChartElementType == ChartElementType.DataPoint)
             {
+                string hitname = result.Series.Name;
                 //MessageBox.Show(result.Series .Name );
 
                 //Clear previous select
@@ -199,8 +212,15 @@ namespace VE_SD
                     //chart_Plot.Series[result.Series.Name].BorderColor = Color.Red;
                     //chart_Plot.Series[result.Series.Name].BorderWidth = 2;
                     //Listbox顯示變更.
-                    listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[result.Series.Name];
-
+                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E")
+                    {
+                        //Do nothing.
+                        return;
+                    }
+                    else
+                    {
+                        listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[result.Series.Name];
+                    }
                 }
                 else if (selectname == result.Series.Name)
                 {
@@ -221,7 +241,15 @@ namespace VE_SD
                     //selectname = result.Series.Name;
 
                     //Listbox顯示變更.
-                    listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[result.Series.Name];
+                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E")
+                    {
+                        //Do nothing.
+                        return;
+                    }
+                    else
+                    {
+                        listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[result.Series.Name];
+                    }
                 }
             }
             else
@@ -367,7 +395,16 @@ namespace VE_SD
         }
         private void textBox_HWL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+            bool h = JudgeTheTextBoxHandle((TextBox)sender, e);
+            if(!h)
+            {
+                繪上EL();//呼叫.
+            }
+            else
+            {
+                e.Handled = h;
+            }
+
         }
         private void textBox_Slope_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -423,21 +460,23 @@ namespace VE_SD
 
             
             //設定成功.
-            //1. 加上新的Block到繪圖視窗內.
-            AddNewChart(InterfaceBlock);
-            //MessageBox.Show("Here");
 
-            //2. 將新的Block名稱新增到Dictionary上.
+            //MessageBox.Show("Here");
+            //1. 將新的Block名稱新增到Dictionary上.
             BlockNameToListSubScript.Add(InterfaceBlock.名稱, listBox_SectSetting.Items.Count);
             BlockListSubScriptToName.Add(listBox_SectSetting.Items.Count, InterfaceBlock.名稱);
 
-            //3. 新增到Listbox與Array上.
+            //2. 新增到Listbox與Array上.
             BlockCount = listBox_SectSetting.Items.Count;
             listBox_SectSetting.Items.Add(InterfaceBlock.名稱);
             Array.Resize(ref BlockMainArray, BlockCount + 1);
             BlockMainArray[BlockCount] = InterfaceBlock;
             //此時參數都是預設值.
             BlockCount += 1;
+
+            //3. 加上新的Block到繪圖視窗內.
+            AddNewChart(InterfaceBlock);
+            //MessageBox.Show("HHH");
 
             //selectname = InterfaceBlock.名稱;
             //MessageBox.Show("H4");
@@ -548,266 +587,6 @@ namespace VE_SD
             double[] getx = NewI.X;
             double[] gety = NewI.Y;
             int PointCount = NewI.座標點數;
-
-            //Linkage[] Links = CreateLinks(getx, gety);
-            //if(object.Equals(Links,null))
-            //{
-            //    MessageBox.Show("Add Chart失敗!無法成功製作Links");
-            //    return;
-            //}
-            
-
-            //double[] newx = getx;// new double[] { };
-            //Dictionary<int, int> PointNextID = new Dictionary<int, int>();
-            //Dictionary<int, int> PointPreID = new Dictionary<int, int>();
-            //for (int i = 0; i < Links.GetUpperBound(0) + 1;i++)
-            //{
-            //    PointNextID.Add(Links[i].Preid, Links[i].Nextid);
-            //    PointPreID.Add(Links[i].Nextid, Links[i].Nextid);
-            //}
-            ////Array.Resize(ref newx, PointCount);
-            ////for (int i = 0; i,< PointCount;i++)
-            ////{
-
-            ////}
-            //Array.Sort(newx);
-            //double[] dpx = new double[] { };
-            //int dpxsize = 0;
-
-            //int uppperlink;
-            //int downlink;
-
-            //double[] newyb = new double[] { };
-            //double[] newyu = new double[] { };
-            //int newybsize = 0;
-            //int newyusize = 0;
-            
-            //double nowxi;
-            ////MessageBox.Show("H2");
-            //for(int i=0;i<PointCount;i++)
-            //{
-            //    nowxi = newx[i];
-            //    //搜尋Links.
-            //    double[] findycol = new double[] { };
-            //    int findycount = 0;
-            //    bool findsuccess = false;
-            //    Dictionary<int, int> ycolToLinkID = new Dictionary<int, int>();
-            //    double findy ;
-            //    for(int j=0;j<=Links.GetUpperBound(0);j++)
-            //    {
-            //        if(Links[j].xb1==nowxi)
-            //        {
-            //            //findy = Links[j].yb1;
-            //            Array.Resize(ref findycol, findycount + 1);
-            //            findycol[findycount] = Links[j].yb1;
-            //            ycolToLinkID.Add(findycount, j);
-            //            findycount += 1;
-                        
-            //            findsuccess = true;
-            //            //break;
-            //        }
-            //        else if(Links[j].xb2==nowxi)
-            //        {
-            //            Array.Resize(ref findycol, findycount + 1);
-            //            findycol[findycount] = Links[j].yb2;
-            //            ycolToLinkID.Add(findycount, j);
-            //            findycount += 1;
-            //            //findy = Links[j].yb2;
-            //            findsuccess = true;
-            //            //break;
-            //        }
-            //        else if(Links[j].xb1<nowxi && Links[j].xb2>nowxi)
-            //        {
-            //            //內插.
-            //            //findy = Links[j].yb1 + (Links[j].yb2 - Links[j].yb1) / (Links[j].xb2 - Links[j].xb1) * (nowxi - Links[j].xb1);
-            //            Array.Resize(ref findycol, findycount + 1);
-            //            findycol[findycount] = Links[j].yb1 + (Links[j].yb2 - Links[j].yb1) / (Links[j].xb2 - Links[j].xb1) * (nowxi - Links[j].xb1);
-            //            ycolToLinkID.Add(findycount, j);
-            //            findycount += 1;
-            //            findsuccess = true;
-            //            //break;
-            //        }
-            //    }
-            //    if(findycount==0)
-            //    {
-            //        continue;
-            //    }
-
-            //    //分類.
-            //    if (newybsize == 0)
-            //    {
-            //        //Finding minimum and maximum;
-
-            //        double ymax = findycol.Max();
-            //        double ymin = findycol.Min();
-
-            //        if(ymax!=ymin)
-            //        {
-            //            Array.Resize(ref newyb, newybsize + 1);
-            //            newyb[newybsize] = ymax;
-            //            newybsize += 1;
-
-            //            Array.Resize(ref newyu, newyusize + 1);
-            //            newyu[newyusize] = ymin;
-            //            newyusize += 1;
-            //            Array.Resize(ref dpx, dpxsize + 1);
-            //            dpx[dpxsize] = nowxi;
-            //            dpxsize += 1;
-            //            //continue;
-            //        }
-
-            //        if(ymax==ymin)
-            //        {
-                        
-            //        }
-
-            //        Array.Resize(ref newyb, newybsize + 1);
-            //        newyb[newybsize] = ymin;
-            //        newybsize += 1;
-
-            //        Array.Resize(ref newyu, newyusize + 1);
-            //        newyu[newyusize] = ymax;
-            //        newyusize += 1;
-            //        Array.Resize(ref dpx, dpxsize + 1);
-            //        dpx[dpxsize] = nowxi;
-            //        dpxsize += 1;
-            //        continue;
-            //    }
-
-            //    double[] ylarge = new double[] { };
-            //    double[] yless = new double[] { };
-            //    int ylargerc = 0;
-            //    int ylessc = 0;
-            //    for(int j=0;j<findycount;j++)
-            //    {
-            //        if (findycol[j] >= newyu[newyusize - 1])
-            //        {
-            //            Array.Resize(ref ylarge, ylargerc + 1);
-            //            ylarge[ylargerc] = findycol[j];
-            //            ylargerc += 1;
-            //        }
-            //        if (findycol[j] <= newyb[newybsize - 1])
-            //        {
-            //            Array.Resize(ref yless, ylessc + 1);
-            //            yless[ylessc] = findycol[j];
-            //            ylessc += 1;
-            //        }
-
-            //    }
-            //    Array.Sort(ylarge);
-            //    Array.Sort(yless);
-
-
-            //    //Array.Resize(ref newyu, newyusize + 1);
-            //    //newyu[newyusize] = ylarge[0];
-            //    //newyusize += 1;
-
-
-            //    //if(ylarge.GetUpperBound(0)>1)
-            //    //{
-            //    //    Array.Resize(ref newyu, newyusize + 1);
-            //    //    newyu[newyusize] = ylarge[ylarge.GetUpperBound(0)];
-            //    //    newyusize += 1;
-            //    //}
-
-            //    //Array.Resize(ref newyb, newybsize + 1);
-            //    //newyb[newybsize] = yless[yless.GetUpperBound(0)];
-            //    //newybsize += 1;
-
-            //    //if (yless.GetUpperBound(0) > 1)
-            //    //{
-            //    //    Array.Resize(ref newyb, newybsize + 1);
-            //    //    newyb[newybsize] = yless[0];
-            //    //    newybsize += 1;
-            //    //}
-            //    //決定點位.
-            //    //MessageBox.Show("H3");
-            //    if(yless.GetUpperBound(0)>1 && ylarge.GetUpperBound(0)>1)
-            //    {
-            //        //Maximum size is 2.
-            //        Array.Resize(ref newyb, newybsize + 2);
-            //        newyb[newybsize] = yless[yless.GetUpperBound(0)];
-            //        newyb[newybsize + 1] = yless[0];
-            //        newybsize += 2;
-
-            //        Array.Resize(ref newyu, newyusize + 2);
-            //        newyu[newyusize] = ylarge[0];
-            //        newyu[newyusize + 1] = ylarge[ylarge.GetUpperBound(0)];
-            //        newyusize += 2;
-
-            //        Array.Resize(ref dpx, dpxsize + 2);
-            //        dpx[dpxsize] = nowxi;
-            //        dpx[dpxsize + 1] = nowxi;
-            //        dpxsize += 2;
-            //    }
-            //    else if(yless.GetUpperBound(0)==0 && ylarge.GetUpperBound(0)>1)
-            //    {
-            //        //Maximum size is 2.
-            //        Array.Resize(ref newyb, newybsize + 2);
-            //        newyb[newybsize] = yless[0];
-            //        newyb[newybsize + 1] = yless[0];
-            //        newybsize += 2;
-
-            //        Array.Resize(ref newyu, newyusize + 2);
-            //        newyu[newyusize] = ylarge[0];
-            //        newyu[newyusize + 1] = ylarge[ylarge.GetUpperBound(0)];
-            //        newyusize += 2;
-
-            //        Array.Resize(ref dpx, dpxsize + 2);
-            //        dpx[dpxsize] = nowxi;
-            //        dpx[dpxsize + 1] = nowxi;
-            //        dpxsize += 2;
-            //    }
-            //    else if(ylarge.GetUpperBound(0)==0 && yless.GetUpperBound(0)>1)
-            //    {
-            //        //Maximum size is 2.
-            //        Array.Resize(ref newyb, newybsize + 2);
-            //        newyb[newybsize] = yless[yless.GetUpperBound(0)];
-            //        newyb[newybsize + 1] = yless[0];
-            //        newybsize += 2;
-
-            //        Array.Resize(ref newyu, newyusize + 2);
-            //        newyu[newyusize] = ylarge[0];
-            //        newyu[newyusize + 1] = ylarge[0];
-            //        newyusize += 2;
-
-            //        Array.Resize(ref dpx, dpxsize + 2);
-            //        dpx[dpxsize] = nowxi;
-            //        dpx[dpxsize + 1] = nowxi;
-            //        dpxsize += 2;
-            //    }
-            //    else if(ylarge.GetUpperBound(0)==0 && yless.GetUpperBound(0)==0)
-            //    {
-            //        //Maximum size is 2.
-            //        Array.Resize(ref newyb, newybsize + 1);
-            //        newyb[newybsize] = yless[0];
-            //        newybsize += 1;
-
-            //        Array.Resize(ref newyu, newyusize + 1);
-            //        newyu[newyusize] = ylarge[0];
-            //        newyusize += 1;
-
-            //        Array.Resize(ref dpx, dpxsize + 1);
-            //        dpx[dpxsize] = nowxi;
-            //        dpxsize += 1;
-            //    }
-            //}
-
-
-            //if(newyb[newyb.GetUpperBound(0)]!=newyu[newyu.GetUpperBound(0)])
-            //{
-            //    Array.Resize(ref newyb, newybsize + 1);
-            //    newyb[newybsize] = newyu[newyu.GetUpperBound(0)];
-            //    newybsize += 1;
-
-            //    Array.Resize(ref newyu, newyusize + 1);
-            //    newyu[newyusize] = newyb[newyb.GetUpperBound(0)-1];
-            //    newyusize += 1;
-
-            //    Array.Resize(ref dpx, dpxsize + 1);
-            //    dpx[dpxsize] = dpx[dpxsize-1];
-            //    dpxsize += 1;
-            //}
             ////準備加入新的Chart.
             ////MessageBox.Show("H4");
             chart_Plot.Series.Add(NewI.名稱);
@@ -838,7 +617,8 @@ namespace VE_SD
             chart_Plot.Series[NewI.名稱].MarkerBorderWidth = 1;
 
             調整Chart(chart_Plot);
-
+            
+            繪上EL();
         }
         #endregion
 
@@ -858,18 +638,19 @@ namespace VE_SD
             Class_Block_Interface D = (Class_Block_Interface)propertyGrid_Block.SelectedObject;
 
             int id = BlockNameToListSubScript[selectname];
-            BlockMainArray[id].場注土方塊與拋石摩擦係數 = D.場注土方塊與拋石;
-            BlockMainArray[id].拋石水中單位體積重量 = D.拋石水中;
-            BlockMainArray[id].拋石與拋石摩擦係數 = D.拋石與拋石;
-            BlockMainArray[id].拋石陸上單位體積重量 = D.拋石陸上;
-            BlockMainArray[id].海水單位體積重量 = D.海水;
-            BlockMainArray[id].混凝土方塊與拋石摩擦係數 = D.混凝土方塊與拋石;
-            BlockMainArray[id].混凝土方塊與方塊摩擦係數 = D.混凝土方塊與方塊;
-            BlockMainArray[id].混凝土水中單位體積重量 = D.混凝土水中;
-            BlockMainArray[id].混凝土陸上單位體積重量 = D.混凝土陸上;
-            BlockMainArray[id].砂土水中單位體積重量 = D.砂土水中;
+            //BlockMainArray[id].場注土方塊與拋石摩擦係數 = D.場注土方塊與拋石;
+            //BlockMainArray[id].拋石水中單位體積重量 = D.拋石水中;
+            //BlockMainArray[id].拋石與拋石摩擦係數 = D.拋石與拋石;
+            //BlockMainArray[id].拋石陸上單位體積重量 = D.拋石陸上;
+            //BlockMainArray[id].海水單位體積重量 = D.海水;
+            //BlockMainArray[id].混凝土方塊與拋石摩擦係數 = D.混凝土方塊與拋石;
+            //BlockMainArray[id].混凝土方塊與方塊摩擦係數 = D.混凝土方塊與方塊;
+            //BlockMainArray[id].混凝土水中單位體積重量 = D.混凝土水中;
+            //BlockMainArray[id].混凝土陸上單位體積重量 = D.混凝土陸上;
+            //BlockMainArray[id].砂土水中單位體積重量 = D.砂土水中;
 
             BlockMainArray[id].單位體積重量 = D.單位體積重量;
+            BlockMainArray[id].使用材質 = D.使用材質;
         }
         //刪除Block
         private void btnRemoveSects_Click(object sender, EventArgs e)
@@ -879,19 +660,21 @@ namespace VE_SD
                 return;
             }
 
-            //刪除Listbox的Item.
-            string oldname = selectname;
-            listBox_SectSetting.Items.RemoveAt(BlockNameToListSubScript[selectname]);
-            listBox_SectSetting.SelectedIndex = -1;
-            //MessageBox.Show("H1");
 
 
             //變更相關的Dict.
+            string oldname = selectname;
             int position = BlockNameToListSubScript[oldname];
             BlockNameToArraySubscript.Clear();
             BlockNameToListSubScript.Clear();
             BlockListSubScriptToName.Clear();
             BlockArraySubscriptToName.Clear();
+            //從Array中刪除Block.
+            RemoveAt(ref BlockMainArray, position);
+
+
+            //從Chart中移除.
+            chart_Plot.Series.Remove(chart_Plot.Series[oldname]);
             //try
             //{
             //    BlockNameToListSubScript.Remove(selectname);
@@ -913,8 +696,12 @@ namespace VE_SD
             //}
             //catch { }
 
+            //刪除Listbox的Item.
+            selectname = null;
+            listBox_SectSetting.Items.RemoveAt(position);//觸動.
+            listBox_SectSetting.SelectedIndex = -1;
             //更新Position開始之後的Index.
-            for(int i=0;i<listBox_SectSetting.Items.Count;i++)
+            for (int i=0;i<listBox_SectSetting.Items.Count;i++)
             {
                 BlockArraySubscriptToName[i] = listBox_SectSetting.Items[i].ToString();
                 BlockListSubScriptToName[i] = listBox_SectSetting.Items[i].ToString();
@@ -922,15 +709,6 @@ namespace VE_SD
                 BlockNameToListSubScript[listBox_SectSetting.Items[i].ToString()] = i;
             }
             //
-
-            //從Array中刪除Block.
-            RemoveAt(ref BlockMainArray, position);
-
-
-            //從Chart中移除.
-            chart_Plot.Series.Remove(chart_Plot.Series[oldname]);
-
-
             
             //selectname = null; -->這個已經被包含到觸動函數去了.
             if(listBox_SectSetting.Items.Count==0)
@@ -1021,6 +799,219 @@ namespace VE_SD
             INS.ChartAreas[0].AxisY.Maximum = NewYmax;
             INS.ChartAreas[0].AxisY.Interval = yspace;
             INS.ChartAreas[0].RecalculateAxesScale();
+
+
+            //繪上EL();
+
+        }
+        void 繪上EL()
+        {
+            //若有EL,則調整之.
+            if (BlockCount == 0)
+            {
+                //MessageBox.Show("Block Count =0");
+                //清除.
+                try
+                {
+                    chart_Plot.Series.Remove(chart_Plot.Series["HWL"]);
+                }
+                catch
+                {
+                    //Do nothing.
+                }
+                for(int i=0;i<ELSize;i++)
+                {
+                   try
+                    {
+                        chart_Plot.Series.Remove(chart_Plot.Series["E" + (i + 1).ToString()]);
+                    }
+                    catch
+                    {
+                        //nothing.
+                    }
+                }
+            }
+            else
+            {
+                //MessageBox.Show("有Block喔");
+                //MessageBox.Show("OO");
+                //有Data.
+                double xmin = chart_Plot.ChartAreas[0].AxisX.Minimum;
+                double xmax = chart_Plot.ChartAreas[0].AxisX.Maximum;
+                double HWLValue;
+                bool hasHWLValue;
+                if(double.TryParse(textBox_HWL.Text,out HWLValue)) //可以順利轉換HWL.
+                {
+                    //刪除舊的HWL,直接新增新的HWL.
+                    hasHWLValue = true;
+                    try
+                    {
+                        chart_Plot.Series.Remove(chart_Plot.Series["HWL"]);
+                    }
+                    catch
+                    { }
+                    //加入
+                    chart_Plot.Series.Add("HWL");
+                    chart_Plot.Series["HWL"].ChartType = SeriesChartType.Line;
+
+                    //加入點資料.
+                    chart_Plot.Series["HWL"].Points.AddXY(xmin,HWLValue);
+                    chart_Plot.Series["HWL"].Points.AddXY(xmax, HWLValue);
+
+                    //設定線段.
+                     chart_Plot.Series["HWL"].BorderDashStyle=ChartDashStyle.Dash;
+                     chart_Plot.Series["HWL"].BorderColor = Color.DarkGray;
+                     chart_Plot.Series["HWL"].Color = Color.DarkGray;
+                     chart_Plot.Series["HWL"].BorderWidth = 2;
+                     chart_Plot.Series["HWL"].IsVisibleInLegend = true; // false;
+                     //完成.
+                }
+                else
+                {
+                    hasHWLValue = false;
+                    //刪除.
+                    try
+                    {
+                        chart_Plot.Series.Remove(chart_Plot.Series["HWL"]);
+                    }
+                    catch
+                    {
+                        //Nothing.
+                    }
+                }
+                //2. 繪上其餘EL線(與HWL線相同值者跳過).
+                //先刪除舊的,在全部更新為新的.
+                for(int i=0;i<ELSize;i++)
+                {
+                    try
+                    {
+                        chart_Plot.Series.Remove(chart_Plot.Series["E" + (i + 1).ToString()]);
+                    }
+                    catch
+                    {
+                        //nothing.
+                    }
+                }
+                //從Datagrid蒐集可成功轉換的資料.
+                Array.Resize(ref ELArray, 0);
+                ELSize = 0;
+                //MessageBox.Show("OO2-1: " + ELDGV1.Rows.Count.ToString());
+                //由於EL的DG可以被編輯,因此若只有1個時,要再多加一個.
+                for(int i=0;i<ELDGV1.Rows.Count-1;i++)
+                {
+                    double itest;
+                    if(double.TryParse(ELDGV1.Rows[i].Cells[0].Value.ToString(),out itest))
+                    {
+                        if(hasHWLValue)
+                        {
+                            if(itest!=HWLValue)
+                            {
+                                bool repeated = false;
+                                for(int i2=0;i2<ELSize;i2++)
+                                {
+                                    if(itest==ELArray[i2])
+                                    { repeated = true; break; }
+                                }
+                                if (!repeated)
+                                {
+                                    Array.Resize(ref ELArray, ELSize + 1);
+                                    ELArray[ELSize] = itest;
+                                    ELSize += 1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            bool repeated = false;
+                            for (int i2 = 0; i2 < ELSize; i2++)
+                            {
+                                if (itest == ELArray[i2])
+                                { repeated = true; break; }
+                            }
+                            if (!repeated)
+                            {
+                                Array.Resize(ref ELArray, ELSize + 1);
+                                ELArray[ELSize] = itest;
+                                ELSize += 1;
+                            }
+                        }
+                    }
+                }//完成Datagrid的蒐集.
+
+                //製作對應的EL線段.
+                if(ELSize>0)
+                {
+                    //MessageBox.Show("HH");
+                    for(int i=0;i<ELSize;i++)
+                    {
+                        string tpname = "E" + (i + 1).ToString();
+                        chart_Plot.Series.Add(tpname);
+                        chart_Plot.Series[tpname].ChartType = SeriesChartType.Line;
+
+                        //加入點資料.
+                        chart_Plot.Series[tpname].Points.AddXY(xmin, ELArray[i]);
+                        chart_Plot.Series[tpname].Points.AddXY(xmax, ELArray[i]);
+
+                        //設定線段.
+                        chart_Plot.Series[tpname].BorderDashStyle = ChartDashStyle.DashDot ;
+                        chart_Plot.Series[tpname].BorderColor = Color.LightSteelBlue ;
+                        chart_Plot.Series[tpname].Color = Color.LightGray;
+                        chart_Plot.Series[tpname].BorderWidth = 2;
+                        chart_Plot.Series[tpname].IsVisibleInLegend = false;
+                    }
+                }//若有可用之EL時.
+                //MessageBox.Show("OO3");
+                double Ymin = 1000000;
+                double Ymax =-Ymin;
+                foreach (Series ss in chart_Plot.Series)
+                {
+                    foreach (DataPoint dp in ss.Points)
+                    {
+                        //label_Show.Text += (dp.XValue.ToString());
+                        //if (dp.XValue > Xmax) { Xmax = dp.XValue; }
+                        //if (dp.XValue < Xmin) { Xmin = dp.XValue; }
+                        if (dp.YValues[0] > Ymax) { Ymax = dp.YValues[0]; }
+                        if (dp.YValues[0] < Ymin) { Ymin = dp.YValues[0]; }
+                    }
+                }
+
+                //label_Show.Text = Xmin.ToString() + ":" + Xmax.ToString();
+                //double xdiff = (Xmax - Xmin);
+                double ydiff = (Ymax - Ymin);
+                double  yspace;
+                if (ydiff <= 1)
+                {
+                    yspace = 0.2;
+                }
+                else if (ydiff <= 5)
+                {
+                    yspace = 1;
+                }
+                else if (ydiff <= 10)
+                {
+                    yspace = 2;
+                }
+                else if (ydiff <= 20)
+                {
+                    yspace = 5;
+                }
+                else if (ydiff <= 50)
+                {
+                    yspace = 10;
+                }
+                else
+                {
+                    yspace = 100;
+                }
+                //double NewXmax = Xmin + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
+                ///MessageBox.Show(Ymax.ToString());
+                double NewYmax = Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
+                chart_Plot.ChartAreas[0].AxisY.Minimum = Ymin - yspace;
+                chart_Plot.ChartAreas[0].AxisY.Maximum = NewYmax;
+                chart_Plot.ChartAreas[0].AxisY.Interval = yspace;
+                chart_Plot.ChartAreas[0].RecalculateAxesScale();
+            }
+
         }
         public static void RemoveAt<T>(ref T[] arr, int index)
         {
@@ -1091,7 +1082,7 @@ namespace VE_SD
             chart_Plot.Series[NewName].Color = Color.Red;//= Color.Transparent;
             chart_Plot.Series[NewName].MarkerBorderWidth = 2;
             調整Chart(chart_Plot);
-
+            繪上EL();
  
 
             //修改Listbox.
@@ -1170,6 +1161,12 @@ namespace VE_SD
             XmlElement 深海波週期info = doc.CreateElement("深海波週期");
             深海波週期info.SetAttribute("Value", textBox_T0.Text);
 
+            XmlElement 地面線info = doc.CreateElement("地面線");
+            地面線info.SetAttribute("Value", textBox_GroundELE.Text);
+
+            XmlElement 消波塊高程 = doc.CreateElement("消波塊高程");
+            消波塊高程.SetAttribute("Value", textBox_ArmorBlockEle.Text);
+
             XmlElement 設計潮位 = doc.CreateElement("設計潮位");
             設計潮位.SetAttribute("Value", textBox_HWL.Text );
 
@@ -1216,6 +1213,8 @@ namespace VE_SD
             全域參數XML點.AppendChild(深海波波向info);
             全域參數XML點.AppendChild(深海波波高info);
             全域參數XML點.AppendChild(深海波週期info);
+            全域參數XML點.AppendChild(地面線info);
+            全域參數XML點.AppendChild(消波塊高程);
             全域參數XML點.AppendChild(設計潮位);
             全域參數XML點.AppendChild(海床坡度);
             全域參數XML點.AppendChild(折射係數);
@@ -1258,6 +1257,18 @@ namespace VE_SD
                 全域參數XML點.AppendChild(BK);
             }
             全域參數XML點.AppendChild(力矩計算參考點);
+            //EL[2016/01/24新增].
+            XmlElement EL點數 = doc.CreateElement("EL點數");
+            //EL點數.SetAttribute("Value", ELSize.ToString());
+            全域參數XML點.AppendChild(EL點數);
+            for (int i=0;i<ELSize;i++)
+            {
+                XmlElement ELI = doc.CreateElement("EL");// + (i + 1).ToString());
+                ELI.SetAttribute("Value", ELArray[i].ToString());
+                EL點數.AppendChild(ELI);
+            }
+            
+
             //MessageBox.Show("H2");
 
             //*************************************************************************************
@@ -1283,53 +1294,56 @@ namespace VE_SD
                 //MessageBox.Show("H4-1");
 
                 //依序設定參數
-                XmlElement Block混凝土方塊與方塊摩擦係數 = doc.CreateElement("混凝土方塊與方塊摩擦係數");
-                Block混凝土方塊與方塊摩擦係數.SetAttribute("Value", BlockMainArray[i].混凝土方塊與方塊摩擦係數.ToString());
+                //XmlElement Block混凝土方塊與方塊摩擦係數 = doc.CreateElement("混凝土方塊與方塊摩擦係數");
+                //Block混凝土方塊與方塊摩擦係數.SetAttribute("Value", BlockMainArray[i].混凝土方塊與方塊摩擦係數.ToString());
 
-                XmlElement Block混凝土方塊與拋石摩擦係數 = doc.CreateElement("混凝土方塊與拋石摩擦係數");
-                Block混凝土方塊與拋石摩擦係數.SetAttribute("Value", BlockMainArray[i].混凝土方塊與拋石摩擦係數.ToString());
+                //XmlElement Block混凝土方塊與拋石摩擦係數 = doc.CreateElement("混凝土方塊與拋石摩擦係數");
+                //Block混凝土方塊與拋石摩擦係數.SetAttribute("Value", BlockMainArray[i].混凝土方塊與拋石摩擦係數.ToString());
 
-                XmlElement Block場注土方塊與拋石摩擦係數 = doc.CreateElement("場注土方塊與拋石摩擦係數");
-                Block場注土方塊與拋石摩擦係數.SetAttribute("Value", BlockMainArray[i].場注土方塊與拋石摩擦係數.ToString());
+                //XmlElement Block場注土方塊與拋石摩擦係數 = doc.CreateElement("場注土方塊與拋石摩擦係數");
+                //Block場注土方塊與拋石摩擦係數.SetAttribute("Value", BlockMainArray[i].場注土方塊與拋石摩擦係數.ToString());
 
-                XmlElement Block拋石與拋石摩擦係數 = doc.CreateElement("拋石與拋石摩擦係數");
-                Block拋石與拋石摩擦係數.SetAttribute("Value", BlockMainArray[i].拋石與拋石摩擦係數.ToString());
+                //XmlElement Block拋石與拋石摩擦係數 = doc.CreateElement("拋石與拋石摩擦係數");
+                //Block拋石與拋石摩擦係數.SetAttribute("Value", BlockMainArray[i].拋石與拋石摩擦係數.ToString());
 
-                XmlElement Block混凝土陸上單位體積重量 = doc.CreateElement("混凝土陸上單位體積重量");
-                Block混凝土陸上單位體積重量.SetAttribute("Value", BlockMainArray[i].混凝土陸上單位體積重量.ToString());
+                //XmlElement Block混凝土陸上單位體積重量 = doc.CreateElement("混凝土陸上單位體積重量");
+                //Block混凝土陸上單位體積重量.SetAttribute("Value", BlockMainArray[i].混凝土陸上單位體積重量.ToString());
 
-                XmlElement Block混凝土水中單位體積重量 = doc.CreateElement("混凝土水中單位體積重量");
-                Block混凝土水中單位體積重量.SetAttribute("Value", BlockMainArray[i].混凝土水中單位體積重量.ToString());
+                //XmlElement Block混凝土水中單位體積重量 = doc.CreateElement("混凝土水中單位體積重量");
+                //Block混凝土水中單位體積重量.SetAttribute("Value", BlockMainArray[i].混凝土水中單位體積重量.ToString());
 
-                XmlElement Block拋石陸上單位體積重量 = doc.CreateElement("拋石陸上單位體積重量");
-                Block拋石陸上單位體積重量.SetAttribute("Value", BlockMainArray[i].拋石陸上單位體積重量.ToString());
+                //XmlElement Block拋石陸上單位體積重量 = doc.CreateElement("拋石陸上單位體積重量");
+                //Block拋石陸上單位體積重量.SetAttribute("Value", BlockMainArray[i].拋石陸上單位體積重量.ToString());
 
-                XmlElement Block拋石水中單位體積重量 = doc.CreateElement("拋石水中單位體積重量");
-                Block拋石水中單位體積重量.SetAttribute("Value", BlockMainArray[i].拋石水中單位體積重量.ToString());
+                //XmlElement Block拋石水中單位體積重量 = doc.CreateElement("拋石水中單位體積重量");
+                //Block拋石水中單位體積重量.SetAttribute("Value", BlockMainArray[i].拋石水中單位體積重量.ToString());
 
-                XmlElement Block砂土水中單位體積重量= doc.CreateElement("砂土水中單位體積重量");
-                Block砂土水中單位體積重量.SetAttribute("Value", BlockMainArray[i].砂土水中單位體積重量.ToString());
+                //XmlElement Block砂土水中單位體積重量= doc.CreateElement("砂土水中單位體積重量");
+                //Block砂土水中單位體積重量.SetAttribute("Value", BlockMainArray[i].砂土水中單位體積重量.ToString());
 
-                XmlElement Block海水單位體積重量 = doc.CreateElement("海水單位體積重量");
-                Block海水單位體積重量.SetAttribute("Value", BlockMainArray[i].海水單位體積重量.ToString());
+                //XmlElement Block海水單位體積重量 = doc.CreateElement("海水單位體積重量");
+                //Block海水單位體積重量.SetAttribute("Value", BlockMainArray[i].海水單位體積重量.ToString());
 
                 XmlElement Block單位體積重量 = doc.CreateElement("單位體積重量");
                 Block單位體積重量.SetAttribute("Value", BlockMainArray[i].單位體積重量.ToString());
+                XmlElement Block使用材質 = doc.CreateElement("使用材質");
+                Block使用材質.SetAttribute("Value", BlockMainArray[i].使用材質.ToString());
 
 
-                //MessageBox.Show("H4-2");
+                MessageBox.Show("H4-2");
 
-                BlockNode.AppendChild(Block混凝土方塊與方塊摩擦係數);
-                BlockNode.AppendChild(Block混凝土方塊與拋石摩擦係數);
-                BlockNode.AppendChild(Block場注土方塊與拋石摩擦係數);
-                BlockNode.AppendChild(Block拋石與拋石摩擦係數);
-                BlockNode.AppendChild(Block混凝土陸上單位體積重量);
-                BlockNode.AppendChild(Block混凝土水中單位體積重量);
-                BlockNode.AppendChild(Block拋石陸上單位體積重量);
-                BlockNode.AppendChild(Block拋石水中單位體積重量);
-                BlockNode.AppendChild(Block砂土水中單位體積重量);
-                BlockNode.AppendChild(Block海水單位體積重量);
+                //BlockNode.AppendChild(Block混凝土方塊與方塊摩擦係數);
+                //BlockNode.AppendChild(Block混凝土方塊與拋石摩擦係數);
+                //BlockNode.AppendChild(Block場注土方塊與拋石摩擦係數);
+                //BlockNode.AppendChild(Block拋石與拋石摩擦係數);
+                //BlockNode.AppendChild(Block混凝土陸上單位體積重量);
+                //BlockNode.AppendChild(Block混凝土水中單位體積重量);
+                //BlockNode.AppendChild(Block拋石陸上單位體積重量);
+                //BlockNode.AppendChild(Block拋石水中單位體積重量);
+                //BlockNode.AppendChild(Block砂土水中單位體積重量);
+                //BlockNode.AppendChild(Block海水單位體積重量);
                 BlockNode.AppendChild(Block單位體積重量);
+                BlockNode.AppendChild(Block使用材質);
 
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
@@ -1393,6 +1407,8 @@ namespace VE_SD
             double SFSlider;// = 1.2;
             double SFOverr;// = 1.2;
             double SeaGammar;
+            double GroundEler;
+            double ArmorGroundEler;
             bool 啟用消波工重量計算r;
             bool 啟用胸牆部安定檢核r;
             double 消波形塊安定係數r;
@@ -1407,6 +1423,8 @@ namespace VE_SD
             Class_BlockSect[] BlockMainArrayR = new Class_BlockSect[] { };
             int blockSizer = 0;
             int selectedBlockIndex=-1;
+            double[] ELArrayR = new double[] { };
+            int ELSizer = 0;
 
             //開始來開啟.
             XmlDocument doc = new XmlDocument();
@@ -1448,6 +1466,30 @@ namespace VE_SD
                 if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out T0r))
                 {
                     return "深海波週期讀取失敗";
+                }
+
+                //地面線.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地面線");
+                if(object.Equals(RNode,null))
+                {
+                    return "地面線讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if(!double.TryParse(Relement.GetAttribute("Value").ToString(),out GroundEler))
+                {
+                    return "地面線讀取失敗";
+                }
+
+                //消波塊高程.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/消波塊高程");
+                if(object.Equals(RNode,null))
+                {
+                    return "消波塊高程讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if(!double.TryParse(Relement.GetAttribute("Value").ToString(),out ArmorGroundEler))
+                {
+                    return "消波塊高程讀取失敗";
                 }
 
                 //設計潮位.
@@ -1701,6 +1743,32 @@ namespace VE_SD
                     return "力矩計算參考點讀取失敗,y值轉換失敗";
                 }
 
+                //EL設定.
+                //RNode = doc.SelectSingleNode("Root/GlobalParameters/EL點數");
+                //if (object.Equals(RNode, null))
+                //{
+                //    return "EL點數讀取失敗!";
+                //}
+                //Relement = (XmlElement)RNode;
+                //if (!int.TryParse(Relement.GetAttribute("Value").ToString(), out ELSizer))
+                //{
+                //    return "EL點數讀取失敗!!轉換失敗";
+                //}
+                XmlNodeList ELCollection = doc.SelectNodes("Root/GlobalParameters/EL點數/EL");
+                foreach (XmlNode ELNode in ELCollection)
+                {
+                    double fi;
+                    Relement = (XmlElement)ELNode;
+                    if(!double.TryParse(Relement.GetAttribute("Value").ToString(),out fi))
+                    {
+                        return "EL讀取失敗!!!";
+                    }
+                    Array.Resize(ref ELArrayR, ELSizer + 1);
+                    ELArrayR[ELSizer] = fi;
+                    ELSizer += 1;
+                }
+                //完成.
+
                 //Block參數.
                 XmlNodeList blockNodeCollection = doc.SelectNodes("Root/Blocks/形塊");
                 foreach (XmlNode BlockNode in blockNodeCollection)
@@ -1725,134 +1793,134 @@ namespace VE_SD
                         return "Block讀取失敗!點數欄位無法讀取";
                     }
                     BlockMainArrayR[blockSizer].座標點數 = PointCount;
-
-                    RNode = BlockNode.SelectSingleNode("混凝土方塊與方塊摩擦係數");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取混凝土方塊與方塊摩擦係數失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
                     double ftest;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取混凝土方塊與方塊摩擦係數失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].混凝土方塊與方塊摩擦係數 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("混凝土方塊與方塊摩擦係數");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取混凝土方塊與方塊摩擦係數失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //double ftest;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取混凝土方塊與方塊摩擦係數失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].混凝土方塊與方塊摩擦係數 = ftest;
 
 
-                    RNode = BlockNode.SelectSingleNode("混凝土方塊與拋石摩擦係數");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取混凝土方塊與拋石摩擦係數失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取混凝土方塊與拋石摩擦係數失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].混凝土方塊與拋石摩擦係數 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("混凝土方塊與拋石摩擦係數");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取混凝土方塊與拋石摩擦係數失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取混凝土方塊與拋石摩擦係數失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].混凝土方塊與拋石摩擦係數 = ftest;
 
 
-                    RNode = BlockNode.SelectSingleNode("場注土方塊與拋石摩擦係數");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取場注土方塊與拋石摩擦係數失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取場注土方塊與拋石摩擦係數失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].場注土方塊與拋石摩擦係數 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("場注土方塊與拋石摩擦係數");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取場注土方塊與拋石摩擦係數失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取場注土方塊與拋石摩擦係數失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].場注土方塊與拋石摩擦係數 = ftest;
 
 
-                    RNode = BlockNode.SelectSingleNode("拋石與拋石摩擦係數");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取拋石與拋石摩擦係數失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取拋石與拋石摩擦係數失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].拋石與拋石摩擦係數 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("拋石與拋石摩擦係數");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取拋石與拋石摩擦係數失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取拋石與拋石摩擦係數失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].拋石與拋石摩擦係數 = ftest;
 
-                    RNode = BlockNode.SelectSingleNode("混凝土陸上單位體積重量");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取混凝土陸上單位體積重量失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取混凝土陸上單位體積重量失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].混凝土陸上單位體積重量 = ftest;
-
-
-                    RNode = BlockNode.SelectSingleNode("混凝土水中單位體積重量");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取混凝土水中單位體積重量失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取混凝土水中單位體積重量失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].混凝土水中單位體積重量 = ftest;
-
-                    RNode = BlockNode.SelectSingleNode("拋石陸上單位體積重量");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取拋石陸上單位體積重量失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取拋石陸上單位體積重量失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].拋石陸上單位體積重量 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("混凝土陸上單位體積重量");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取混凝土陸上單位體積重量失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取混凝土陸上單位體積重量失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].混凝土陸上單位體積重量 = ftest;
 
 
-                    RNode = BlockNode.SelectSingleNode("拋石水中單位體積重量");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取拋石水中單位體積重量失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取拋石水中單位體積重量失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].拋石水中單位體積重量 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("混凝土水中單位體積重量");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取混凝土水中單位體積重量失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取混凝土水中單位體積重量失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].混凝土水中單位體積重量 = ftest;
+
+                    //RNode = BlockNode.SelectSingleNode("拋石陸上單位體積重量");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取拋石陸上單位體積重量失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取拋石陸上單位體積重量失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].拋石陸上單位體積重量 = ftest;
 
 
-                    RNode = BlockNode.SelectSingleNode("砂土水中單位體積重量");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取砂土水中單位體積重量失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取砂土水中單位體積重量失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].砂土水中單位體積重量 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("拋石水中單位體積重量");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取拋石水中單位體積重量失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取拋石水中單位體積重量失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].拋石水中單位體積重量 = ftest;
 
 
-                    RNode = BlockNode.SelectSingleNode("海水單位體積重量");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "Block讀取海水單位體積重量失敗!";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
-                    {
-                        return "Block讀取海水單位體積重量失敗!";
-                    }
-                    BlockMainArrayR[blockSizer].海水單位體積重量 = ftest;
+                    //RNode = BlockNode.SelectSingleNode("砂土水中單位體積重量");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取砂土水中單位體積重量失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取砂土水中單位體積重量失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].砂土水中單位體積重量 = ftest;
+
+
+                    //RNode = BlockNode.SelectSingleNode("海水單位體積重量");
+                    //if (object.Equals(RNode, null))
+                    //{
+                    //    return "Block讀取海水單位體積重量失敗!";
+                    //}
+                    //Relement = (XmlElement)RNode;
+                    //if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    //{
+                    //    return "Block讀取海水單位體積重量失敗!";
+                    //}
+                    //BlockMainArrayR[blockSizer].海水單位體積重量 = ftest;
 
                     //Block單位體積重量
                     RNode = BlockNode.SelectSingleNode("單位體積重量");
@@ -1866,6 +1934,15 @@ namespace VE_SD
                         return "Block讀取單位體積重量失敗!";
                     }
                     BlockMainArrayR[blockSizer].單位體積重量 = ftest;
+
+                    //Block使用材質
+                    RNode = BlockNode.SelectSingleNode("使用材質");
+                    if(object.Equals(RNode,null))
+                    {
+                        return "Block讀取Block使用材質失敗!!";
+                    }
+                    Relement = (XmlElement)RNode;
+                    BlockMainArrayR[blockSizer].使用材質 = Relement.GetAttribute("Value");
 
                     XmlNodeList CoordinateCollection = BlockNode.SelectNodes("BlockCoordinate");
                     if (object.Equals(CoordinateCollection, null))
@@ -1932,6 +2009,8 @@ namespace VE_SD
             //全域參數.
             cmb_seawaveDir.SelectedItem = dirr;
             textBox_H0.Text = H0r.ToString();
+            textBox_ArmorBlockEle.Text = ArmorGroundEler.ToString();
+            textBox_GroundELE.Text = GroundEler.ToString();
             textBox_HWL.Text = HWLr.ToString();
             textBox_T0.Text = T0r.ToString();
             textBox_Slope.Text = Sloper.ToString();
@@ -2019,6 +2098,21 @@ namespace VE_SD
             listBox_SectSetting.Items.Clear();
             Array.Resize(ref BlockMainArray, 0);
             Array.Resize(ref BlockMainArray, BlockMainArrayR.GetLength(0));
+            BlockCount = BlockMainArrayR.GetLength(0);
+            Array.Resize(ref ELArray, 0);
+            Array.Resize(ref ELArray, ELSizer);
+            //直接填入EL.
+            ELArray = ELArrayR;
+            ELSize = ELSizer;
+            //填入EL的DG內,如果有資料的話.
+            ELDGV1.Rows.Clear();
+            DataGridViewRowCollection rows =ELDGV1.Rows;
+            for (int i=0;i<ELSize;i++)
+            {
+                rows.Add(new object[] { ELArray[i] });
+            }
+            ELDGV1.CurrentCell = ELDGV1.Rows[0].Cells[0];
+
             //重設Block類的Dictionary.
             BlockArraySubscriptToName.Clear();
             BlockListSubScriptToName.Clear();
@@ -2053,7 +2147,7 @@ namespace VE_SD
                 listBox_SectSetting.Items.Add(BlockMainArray[i].名稱);
             }
             if (BlockMainArray.GetLength(0) > 0)
-            {  調整Chart(chart_Plot); }
+            {  調整Chart(chart_Plot);繪上EL(); }
 
             //檢核區塊.
 
@@ -2384,7 +2478,7 @@ namespace VE_SD
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {
                 //迴圈塞入Block.
-                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, -9999); //, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
                 int 座標點數 = BlockMainArray[i].座標點數;
@@ -2466,6 +2560,19 @@ namespace VE_SD
 
             if (object.Equals(Mod, null)) { }
             else { Mod.Dispose();  }
+        }
+        #endregion
+
+        #region EL變更區塊
+        private void ELDGV1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //MessageBox.Show("H!");
+            繪上EL();
+        }
+
+        private void ELDGV1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            繪上EL();
         }
         #endregion
     }
