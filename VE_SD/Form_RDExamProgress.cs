@@ -2472,8 +2472,8 @@ namespace VE_SD
             Mod.WaterDesignInput(double.Parse(textBox_H0.Text), double.Parse(textBox_HWL.Text), double.Parse(textBox_SeaGamma.Text));
             //2. 波向, T0, Kr, Ks , Kd, lambda, beta.
             Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "e" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
-            //3. S(海床坡度)
-            Mod.BaseDesignInput(double.Parse(textBox_Slope.Text));
+            //3. S(海床坡度), 底面線, 消波塊高層
+            Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
             //4. Block給定.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {

@@ -34,7 +34,7 @@ public:
 	int Direction; //Wave from E=1, W=0
 	double T0, Kr, Ks, Kd, lamda, beta, eta_Star, hc_Star;
 	//- Base Var 
-	double S, B;
+	double S, B, Base_Level, Breaker_Level;
 	//- Cal Coef
 	double beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
 		alpha1, alpha2, alpha3, alpha4;
@@ -43,7 +43,7 @@ public:
 	//- Ref Coord
 	double Ref_x, Ref_y;
 	//- Total Block
-	double W, Mw;
+	double W, Mw, Max_level, Min_level;
 
 	//- Mesg
 	std::string Err_Msg;

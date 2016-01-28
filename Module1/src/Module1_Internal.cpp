@@ -61,6 +61,16 @@ bool Module1_Internal::GeoPreCal()
 		}
 	}
 
+	//Get Max and Min level of block
+	Var->Max_level = Var->Ref_y;
+	Var->Min_level = Var->Ref_y;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].MinLevel <= Var->Min_level) Var->Min_level = Var->BlockData[i].MinLevel;
+		if (Var->BlockData[i].MaxLevel >= Var->Max_level) Var->Max_level = Var->BlockData[i].MaxLevel;
+	}
+
+	//------- Need to Revise ------------
 	double Max_SeaSide_coord_MaxY;
 	Max_SeaSide_coord_MaxY = Var->Ref_y;
 	//Get EL Level
@@ -107,12 +117,29 @@ bool Module1_Internal::GeoPreCal()
 	}
 	Var->B = std::abs(BaseMax_x - BaseMin_x);
 
+	//------- Need to Revise ------------
+
+
+
 	Var->Err_Msg += "計算幾何前處理完畢! \r\n";
 	return true;
 }
 
 bool Module1_Internal::WaterLevelCal()
 {
+	// Background water level conditions
+	Var->h = Var->HWL - Var->Base_Level;
+
+	Var->h_plun = Var->HWL - Var->Min_level;
+
+	Var->hc = Var->Max_level - Var->HWL;
+
+	Var->d = Var->HWL - Var->Breaker_Level;
+
+	if (Var->d <= 0.0) Var->d = 0.0;
+
+	// Cal definetion of water level
+
 	Var->L0 = 1.56 * Var->T0 * Var->T0;
 
 	Var->H0_plun = Var->H0 * Var->Kr * Var->Kd;

@@ -36,7 +36,7 @@ namespace VE_SD {
 		bool WaveDesignInput(int _Direction, double _T0, double _Kr,
 							double _Ks, double _Kd, double _lamda, 
 							double _beta);
-		bool BaseDesignInput(double _S);
+		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
 
 		//- Run API
 		bool Run(); //Run Main Check Processor
