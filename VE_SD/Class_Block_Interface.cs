@@ -7,6 +7,7 @@ using System.ComponentModel;
 
 namespace VE_SD
 {
+    
     public class Class_Block_Interface
     {
         //private double _混凝土方塊與方塊摩擦係數 = 0.5;
@@ -22,6 +23,7 @@ namespace VE_SD
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 1.8;
         private string _使用材質;
+        private string[] _可用材質;
 
         //private double _滑倒安全係數 = 1.2;
         //private double _傾倒安全係數 = 1.2;
@@ -62,6 +64,10 @@ namespace VE_SD
 
             _單位體積重量 = M.單位體積重量;
             _使用材質 = M.使用材質;
+        }
+        public string[] 可用材質
+        {
+            set { _可用材質 = value; }
         }
 
         //[CategoryAttribute("摩擦係數設定")] //,DefaultValueAttribute(true)]
@@ -125,19 +131,37 @@ namespace VE_SD
         //    get { return _海水單位體積重量; }
         //    set { _海水單位體積重量 = value; }
         //}
-        [CategoryAttribute("單位體積重量")]
+       // [CategoryAttribute("單位體積重量")]
         public double 單位體積重量
         {
             get { return _單位體積重量;}
             set { _單位體積重量 = value; }
         }
-        [CategoryAttribute("材質")]
+        //[CategoryAttribute("材質")]
+        [TypeConverter(typeof(List2PropertyConverter))]
         public string 使用材質
         {
             get { return _使用材質; }
             set { _使用材質=value ; }
         }
 
+        List<string> List;
+        [Browsable(false)]
+        public List<string> MyList
+        {
+            get
+            {
+                if (List == null)
+                {
+                    List = new List<string>();
+                    for (int i = 0; i < _可用材質.GetLength(0); i++)
+                    {
+                        List.Add(_可用材質[i]);
+                    }
+                }
+                return List;
+            }
+        }
 
         //[CategoryAttribute("安全係數")] //, DefaultValueAttribute(true)]
         //public double 滑倒
@@ -152,5 +176,31 @@ namespace VE_SD
         //     set { _傾倒安全係數 = value; }
         // }
 
+    }
+    internal class List2PropertyConverter:StringConverter
+    {
+         //https://bytes.com/topic/c-sharp/answers/596701-propertygrid-dynamic-dropdown-list
+        public List2PropertyConverter()
+        {
+
+        }
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            //True - means show a Combobox
+            //and False for show a Modal 
+            return true;// base.GetStandardValuesSupported(context);
+        }
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            //False - a option to edit values 
+            //and True - set values to state readonly
+            return true;// base.GetStandardValuesExclusive(context);
+        }
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            List<string> List=(context.Instance as Class_Block_Interface).MyList;
+                StandardValuesCollection cols = new StandardValuesCollection(List);
+                return cols;// new StandardValuesCollection();
+        }
     }
 }
