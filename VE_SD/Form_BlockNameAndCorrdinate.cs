@@ -240,7 +240,7 @@ namespace VE_SD
                     rows.Add(new object[] {"","" });
                     
                 }
-                dataGridView1.CurrentCell = dataGridView1.Rows[CAdd-1].Cells[0];
+                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
                 btn_Insert.Enabled = true;
                 btn_RemovePoints.Enabled = true;
             }
@@ -438,62 +438,64 @@ namespace VE_SD
             double xdiff = (Xmax - Xmin);
             double ydiff = (Ymax - Ymin);
             double xspace, yspace;
-            if(xdiff<=1)
-            {
-                xspace = 0.2;
-            }
-            else if(xdiff<=5)
-            {
-                xspace = 1;
-            }
-            else if(xdiff<=10)
-            {
-                xspace = 2;
-            }
-            else if(xdiff<=20)
-            {
-                xspace = 5;
-            }
-            else if(xdiff<=50)
-            {
-                xspace = 10;
-            }
-            else
-            {
-                xspace = 100;
-            }
-            if (ydiff <= 1)
-            {
-                yspace = 0.2;
-            }
-            else if (ydiff <= 5)
-            {
-                yspace = 1;
-            }
-            else if (ydiff <= 10)
-            {
-                yspace = 2;
-            }
-            else if (ydiff <= 20)
-            {
-                yspace = 5;
-            }
-            else if (ydiff <= 50)
-            {
-                yspace = 10;
-            }
-            else
-            {
-                yspace = 100;
-            }
-            double NewXmax = Xmin + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
-            double NewYmax = Ymin + Math.Floor((Ymax - Ymin) / yspace + 0.5) * yspace;
+            xspace = xdiff / 4.0;
+            yspace = ydiff / 4.0;
+            //if(xdiff<=1)
+            //{
+            //    xspace = 0.2;
+            //}
+            //else if(xdiff<=5)
+            //{
+            //    xspace = 1;
+            //}
+            //else if(xdiff<=10)
+            //{
+            //    xspace = 2;
+            //}
+            //else if(xdiff<=20)
+            //{
+            //    xspace = 5;
+            //}
+            //else if(xdiff<=50)
+            //{
+            //    xspace = 10;
+            //}
+            //else
+            //{
+            //    xspace = 100;
+            //}
+            //if (ydiff <= 1)
+            //{
+            //    yspace = 0.2;
+            //}
+            //else if (ydiff <= 5)
+            //{
+            //    yspace = 1;
+            //}
+            //else if (ydiff <= 10)
+            //{
+            //    yspace = 2;
+            //}
+            //else if (ydiff <= 20)
+            //{
+            //    yspace = 5;
+            //}
+            //else if (ydiff <= 50)
+            //{
+            //    yspace = 10;
+            //}
+            //else
+            //{
+            //    yspace = 100;
+            //}
+            double NewXmax = Xmax;// Xmin + Math.Ceiling((Xmax - Xmin) / xspace ) * xspace;
+            double NewYmax = Ymax;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace ) * yspace;
             label_Show.Text = Xmin.ToString() + "," + NewXmax.ToString(); // + ":" + NewYmax.ToString();
 
-            chart1.ChartAreas[0].AxisX.Minimum = Xmin-xspace;
+            chart1.ChartAreas[0].AxisX.Minimum = Xmin;// Xmin-xspace;
             chart1.ChartAreas[0].AxisX.Maximum = NewXmax;
             chart1.ChartAreas[0].AxisX.Interval = xspace;
-            chart1.ChartAreas[0].AxisY.Minimum = Ymin-yspace;
+            chart1.ChartAreas[0].AxisY.Minimum = Ymin;// Ymin-yspace;
             chart1.ChartAreas[0].AxisY.Maximum = NewYmax;
             chart1.ChartAreas[0].AxisY.Interval = yspace;
             chart1.ChartAreas[0].RecalculateAxesScale();
@@ -561,7 +563,7 @@ namespace VE_SD
             RDExamMainForm.BlockObj = II;
             this.Close();
         }
-        bool CheckIsConvexPolygonAndCounterClockWise(double[] XI, double[] YI)
+        public bool CheckIsConvexPolygonAndCounterClockWise(double[] XI, double[] YI)
         {
             //檢查是否是凸邊形.
             bool result = true;

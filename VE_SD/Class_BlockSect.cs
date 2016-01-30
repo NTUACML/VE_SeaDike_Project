@@ -27,7 +27,7 @@ namespace VE_SD
         //private double _砂土水中單位體積重量 = 1.0;
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 1.8;
-        private string _使用材質="EMPTY";
+        private string _使用材質="";
        // private double _滑倒安全係數 = 1.2;
        // private double _傾倒安全係數 = 1.2;
 
