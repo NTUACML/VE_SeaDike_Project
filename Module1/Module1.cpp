@@ -108,16 +108,23 @@ bool VE_SD::Module1::BaseDesignInput(double _S, double _Base_Level, double _Brea
 bool VE_SD::Module1::Run()
 {
 	// Geo Pre-Calculate
-	Internal->GeoPreCal();
+	if (!Internal->GeoPreCal()) {
+		MsgAdd();
+		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
+	}
+	
 	// Water Level Cal
-	Internal->WaterLevelCal();
+	if (!Internal->WaterLevelCal()) {
+		MsgAdd();
+		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
+	}
 	//// Wave Pressure Moment Cal
 	//Internal->WavePressureCal();
 	//// Self Weight Moment Cal
 	//Internal->WeightCal();
 
-	//// Mesg Print
-	//MsgAdd();
+	// Mesg Print
+	MsgAdd();
 
 	//Mesg
 	ErrMsg += "*** Module - 1 計算結束 *** \r\n";
@@ -170,6 +177,21 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "h\': " << Var->h_plun << std::endl;
 	FILE << "hc: " << Var->hc << std::endl;
 	FILE << "d: " << Var->d << std::endl;
+	FILE << "L0: " << Var->L0 << std::endl;
+	FILE << "H0\': " << Var->H0_plun << std::endl;
+	FILE << "L: " << Var->L << std::endl;
+	FILE << "h/L0: " << Var->h_D_L0 << std::endl;
+	FILE << "hb: " << Var->hb << std::endl;
+	FILE << "******波高計算******" << std::endl;
+	FILE << "Beta 0: " << Var->beta0 << std::endl;
+	FILE << "Beta 1: " << Var->beta1 << std::endl;
+	FILE << "Beta Max: " << Var->betaMax << std::endl;
+	FILE << "Beta 0*: " << Var->beta0_Star << std::endl;
+	FILE << "Beta 1*: " << Var->beta1_Star << std::endl;
+	FILE << "Beta Max*: " << Var->betaMax_Star << std::endl;
+	FILE << "Hs: " << Var->Hs << std::endl;
+	FILE << "Hmax: " << Var->Hmax << std::endl;
+
 	FILE.close();
 	return true;
 }

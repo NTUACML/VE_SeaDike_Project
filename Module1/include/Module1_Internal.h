@@ -7,6 +7,7 @@
 #include <cmath>
 #include <algorithm>
 # define M_PI 3.14159265358979323846  /* pi */
+# define M_G 9.81  /* g */
 
 class Module1_Internal
 {

@@ -138,6 +138,8 @@ bool Module1_Internal::WaterLevelCal()
 
 	if (Var->d <= 0.0) Var->d = 0.0;
 
+	Var->Err_Msg += "- 水深條件計算成功! \r\n";
+
 	// Cal definetion of water level
 
 	Var->L0 = 1.56 * Var->T0 * Var->T0;
@@ -145,8 +147,39 @@ bool Module1_Internal::WaterLevelCal()
 	Var->H0_plun = Var->H0 * Var->Kr * Var->Kd;
 
 	Var->h_D_L0 = Var->h / Var->L0;
-	//L???
-	Var->Err_Msg += "- 延散關係式未完成! \r\n";
+
+	// Dispersion Relation Start
+	Var->Err_Msg += "- 延散關係式計算開始! \r\n";
+
+	double w2 = std::pow(2.0 * M_PI / Var->T0, 2.0), 
+		   kh, kh_1 = (2.0 * M_PI / Var->L0) * Var->h,
+		   eps = 1e-6, err, F, F_plun;
+	int count = 0, Max_Itr = 10000;
+
+	while (count <= Max_Itr)
+	{
+		F = (w2 * Var->h) / (M_G * kh_1) - std::tanh(kh_1);
+		F_plun = -(w2 * Var->h) / (M_G * std::pow(kh_1, 2.0)) - std::pow(1.0 / std::cosh(kh_1), 2.0);
+		kh = kh_1 - (F / F_plun);
+
+		err = std::abs(kh - kh_1);
+		if(err <= eps){ 
+			Var->Err_Msg += "- 延散關係式計算成功! \r\n";
+			Var->L = 2.0 * M_PI * Var->h / kh;
+			break;
+		}
+		
+		kh_1 = kh;	
+		++count;	
+	}
+
+	if (count >= Max_Itr) {
+		Var->L = 2.0 * M_PI * Var->h / kh;
+		Var->Err_Msg += "- 延散關係式計算失敗! \r\n";
+		Var->Err_Msg += "- 確保數值精確!程式停止計算! \r\n";
+		return false;
+	}
+	
 	
 	Var->beta0 = 0.028 *std::pow(Var->H0_plun / Var->L0, -0.38) * std::exp(20.0 * std::pow(Var->S, 1.5));
 
