@@ -2848,7 +2848,7 @@ namespace VE_SD
             //4. Block給定.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {
-                //迴圈塞入Block.
+                //- 迴圈塞入Block.
                 int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, -9999); //, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
@@ -2859,6 +2859,22 @@ namespace VE_SD
 
                 }
             }
+            //5. Level給定.
+            //- 創建排序 ELA (包含HWL)
+            double[] ELA = new double[] {};
+            ELA = ELArray;
+            Array.Resize(ref ELA, ELA.GetLength(0) + 1);
+            ELA[ELA.GetUpperBound(0)] = double.Parse(textBox_HWL.Text);
+            Array.Sort(ELA);
+            //- Push Level
+            Mod.DeleteAllLevel();
+            for(int i = 0; i<ELA.GetLength(0); ++i)
+            {
+                Mod.NewLevel(ELA[i]);
+            }
+
+            //int a= Mod.AA.x;
+            //ELArray[0]
             //**********************************************************************************************************************//
 
 

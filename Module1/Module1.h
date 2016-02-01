@@ -8,6 +8,17 @@
 using namespace System;
 
 namespace VE_SD {
+	public value struct MyPoint
+	{
+		int x, y, z, time;
+		MyPoint(int x, int y, int z, int t)
+		{
+			this->x = x;
+			this->y = y;
+			this->z = z;
+			this->time = t;
+		}
+	};
 
 	public ref class Module1
 	{
@@ -31,6 +42,10 @@ namespace VE_SD {
 		int GetNumOfBlock();
 		bool DeleteAllBlockData();
 
+		//- Level Set
+		int NewLevel(double _EL);
+		bool DeleteAllLevel();
+
 		//- Compute Var Input API
 		bool WaterDesignInput(double _H0, double _HWL, double _DensitySea);
 		bool WaveDesignInput(int _Direction, double _T0, double _Kr,
@@ -45,6 +60,8 @@ namespace VE_SD {
 		//- Test
 		void Test();
 		void VarOut(double % out);
+
+		MyPoint AA; //Test
 
 	private:
 		//Data
