@@ -146,7 +146,7 @@ bool Module1_Internal::WaterLevelCal()
 
 	Var->beta0_Star = 0.052 *std::pow(Var->H0_plun / Var->L0, -0.38) * std::exp(20.0 * std::pow(Var->S, 1.5));
 
-	Var->beta1_Star = 0.63 * std::exp(4.2 * Var->S);
+	Var->beta1_Star = 0.63 * std::exp(3.8 * Var->S);
 
 	Var->betaMax_Star = std::max(1.65,
 		0.53 *std::pow(Var->H0_plun / Var->L0, -0.29) * std::exp(2.4 * Var->S));
