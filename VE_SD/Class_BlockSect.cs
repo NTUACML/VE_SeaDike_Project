@@ -27,7 +27,9 @@ namespace VE_SD
         //private double _砂土水中單位體積重量 = 1.0;
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 1.8;
-        private string _使用材質="";
+        private string _使用材質="";//這個Block的使用材質.
+        private string[] _參考材質 = new string[] { };//這個Block使用的周圍參考材質.
+        private double _平均摩擦係數;
        // private double _滑倒安全係數 = 1.2;
        // private double _傾倒安全係數 = 1.2;
 
@@ -134,6 +136,11 @@ namespace VE_SD
             get { return _使用材質; }
             set { _使用材質=value  ; }
         }
+        public double 平均摩擦係數
+        {
+            get { return _平均摩擦係數; }
+            set { _平均摩擦係數 = value; }
+        }
 
 
         //public double 滑倒安全係數
@@ -156,6 +163,11 @@ namespace VE_SD
         {
             get { return _y; }
             set { _y = value; }
+        }
+        public string[] 周圍參考材質 //這個屬性不會在Property Grid內編輯.
+        {
+            get { return _參考材質; }
+            set { _參考材質 = value; }
         }
 
     }

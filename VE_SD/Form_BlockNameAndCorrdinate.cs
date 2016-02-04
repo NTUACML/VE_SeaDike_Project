@@ -193,7 +193,7 @@ namespace VE_SD
                 }
                 else
                 {
-                    if(inS=="HWL" || inS.Substring(0,1)=="E")
+                    if(inS=="HWL" || inS.Substring(0,1)=="E" || inS=="ARROW")
                     {
                         return true;//Forbidden to use HWL or E start block name.
                     }
