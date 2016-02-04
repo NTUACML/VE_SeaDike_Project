@@ -3976,7 +3976,7 @@ namespace VE_SD
                 btn_OutputExcel.Enabled = false;
             }
             //結果呈現.
-            tabControl1.SelectedIndex = 3; //更換頁面.
+            tabControl1.SelectedIndex = 4; //更換頁面.
         }
         #endregion
 
