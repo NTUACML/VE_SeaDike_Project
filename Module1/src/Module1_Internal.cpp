@@ -29,39 +29,7 @@ bool Module1_Internal::GeoPreCal()
 	Var->Ref_x /= double(Var->BlockData.size());
 	Var->Ref_y /= double(Var->BlockData.size());
 
-	//Get Shift Ref point to Min (Max) Coord. and Get Sea Side
-	double SeaSide_Cut_X;
-	SeaSide_Cut_X = Var->Ref_x;
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		if (Var->Direction == 1) { //Wave from RHS
-			if (Var->BlockData[i].MinX <= Var->Ref_x) Var->Ref_x = Var->BlockData[i].MinX;
-			if (Var->BlockData[i].MinLevel <= Var->Ref_y) Var->Ref_y = Var->BlockData[i].MinLevel;
-
-			if (Var->BlockData[i].WeightC.x >= SeaSide_Cut_X) SeaSide_Cut_X = Var->BlockData[i].WeightC.x;
-		}
-		else if (Var->Direction == 0) { //Wave from LHS
-			if (Var->BlockData[i].MaxX >= Var->Ref_x) Var->Ref_x = Var->BlockData[i].MaxX;
-			if (Var->BlockData[i].MinLevel <= Var->Ref_y) Var->Ref_y = Var->BlockData[i].MinLevel;
-
-			if (Var->BlockData[i].WeightC.x <= SeaSide_Cut_X) SeaSide_Cut_X = Var->BlockData[i].WeightC.x;
-		}
-	}
-
-	//Select sea side Block
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		if (Var->Direction == 1) { //Wave from RHS
-			if (Var->BlockData[i].MaxX >= SeaSide_Cut_X) Var->BlockData[i].OnSeaSide = true;
-			else Var->BlockData[i].OnSeaSide = false;
-		}
-		else if (Var->Direction == 0) { //Wave from LHS
-			if (Var->BlockData[i].MinX <= SeaSide_Cut_X) Var->BlockData[i].OnSeaSide = true;
-			else Var->BlockData[i].OnSeaSide = false;
-		}
-	}
-
-	//Get Max and Min level of block
+	//Get Max and Min level of All Block
 	Var->Max_level = Var->Ref_y;
 	Var->Min_level = Var->Ref_y;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
@@ -69,24 +37,6 @@ bool Module1_Internal::GeoPreCal()
 		if (Var->BlockData[i].MinLevel <= Var->Min_level) Var->Min_level = Var->BlockData[i].MinLevel;
 		if (Var->BlockData[i].MaxLevel >= Var->Max_level) Var->Max_level = Var->BlockData[i].MaxLevel;
 	}
-
-	//------- Need to Revise ------------
-	double Max_SeaSide_coord_MaxY;
-	Max_SeaSide_coord_MaxY = Var->Ref_y;
-	//Get EL Level
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		if (Var->BlockData[i].OnSeaSide) {
-			Var->LevelSection.emplace_back(Var->BlockData[i].MinLevel);
-			if (Var->BlockData[i].MaxLevel >= Max_SeaSide_coord_MaxY) Max_SeaSide_coord_MaxY = Var->BlockData[i].MaxLevel;
-		}
-	}
-	Var->LevelSection.emplace_back(Max_SeaSide_coord_MaxY);
-
-	//Sort EL
-	std::sort(Var->LevelSection.begin(), Var->LevelSection.end(), [](const EL & a, const EL & b) {
-		return a.Level < b.Level;
-	});
 
 	//Get EL Level Up block ID and Arm Y
 	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
@@ -103,23 +53,29 @@ bool Module1_Internal::GeoPreCal()
 	}
 
 	//Base Block Length
-	double BaseMin_x, BaseMax_x;
+	double BaseMin_x, BaseMax_x, Min_weight_y;
 	BaseMin_x = Var->Ref_x;
 	BaseMax_x = Var->Ref_x;
+	Min_weight_y = Var->Ref_y;
 
-	for (auto & Id : Var->LevelSection.begin()->BlockId) {
-		if (Var->BlockData[Id].MinX <= BaseMin_x) {
-			BaseMin_x = Var->BlockData[Id].MinX;
-		}
-		if (Var->BlockData[Id].MaxX >= BaseMax_x) {
-			BaseMax_x = Var->BlockData[Id].MaxX;
+	//- Find Min Weight Y
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].WeightC.y <= Min_weight_y) Min_weight_y = Var->BlockData[i].WeightC.y;
+	}
+
+	//- Find Node max_x and min_x lower than Weight Y
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].MinLevel <= Min_weight_y) {
+			for (size_t j = 0; j < Var->BlockData[i].Node.size(); j++) {
+				if (Var->BlockData[i].Node[j].x <= BaseMin_x) BaseMin_x = Var->BlockData[i].Node[j].x;
+				if (Var->BlockData[i].Node[j].x >= BaseMax_x) BaseMax_x = Var->BlockData[i].Node[j].x;
+			}
 		}
 	}
+
 	Var->B = std::abs(BaseMax_x - BaseMin_x);
-
-	//------- Need to Revise ------------
-
-
 
 	Var->Err_Msg += "計算幾何前處理完畢! \r\n";
 	return true;
@@ -190,7 +146,7 @@ bool Module1_Internal::WaterLevelCal()
 
 	Var->beta0_Star = 0.052 *std::pow(Var->H0_plun / Var->L0, -0.38) * std::exp(20.0 * std::pow(Var->S, 1.5));
 
-	Var->beta1_Star = 0.63 * std::exp(4.2 * Var->S);
+	Var->beta1_Star = 0.63 * std::exp(3.8 * Var->S);
 
 	Var->betaMax_Star = std::max(1.65,
 		0.53 *std::pow(Var->H0_plun / Var->L0, -0.29) * std::exp(2.4 * Var->S));
@@ -201,14 +157,28 @@ bool Module1_Internal::WaterLevelCal()
 
 	if (Var->h_D_L0 >= 0.2) {
 		Var->Hs = KsHo_p;
-		Var->Hmax = 1.8 * KsHo_p;
 	}
 	else {
 		Var->Hs = std::min(std::min(Var->beta0 * Var->H0_plun + Var->beta1 * Var->h, Var->betaMax * Var->H0_plun), KsHo_p);
-		Var->Hmax = std::min(std::min(Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->h, Var->betaMax_Star * Var->H0_plun), 1.8*KsHo_p);
 	}
 
 	Var->hb = Var->h + 5.0 * Var->Hs * Var->S;
+
+	if (Var->h_D_L0 >= 0.2) {
+		Var->Hmax = 1.8 * KsHo_p;
+	}
+	else {
+		Var->Hmax = std::min(std::min(Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->hb, Var->betaMax_Star * Var->H0_plun), 1.8*KsHo_p);
+	}
+
+	//--------Test-----------
+	std::ofstream File;
+	File.open("Test.txt");
+	File << Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->h << std::endl;
+	File << Var->betaMax_Star * Var->H0_plun << std::endl;
+	File << 1.8*KsHo_p << std::endl;
+	File.close();
+	//--------Test-----------
 
 	Var->Err_Msg += "背景水理資料處理完畢! \r\n";
 	return true;
@@ -319,5 +289,42 @@ bool Module1_Internal::WeightCal()
 	}
 
 	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
+	return false;
+}
+
+bool Module1_Internal::BodySafeCheck()
+{
+	//Find Min Weight_Y
+	double MinWeight_Y = Var->Ref_y;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].WeightC.y <= MinWeight_Y) MinWeight_Y = Var->BlockData[i].WeightC.y;
+	}
+	//Get Down Block average Mu coef
+	int Count = 0;
+	double AveMu = 0.0;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].MinLevel <= MinWeight_Y) {
+			AveMu += Var->BlockData[i].FrictionC;
+			++Count;
+		}
+	}
+	AveMu /= double(Count);
+
+	Var->CalBody_SlideSF = AveMu * (Var->W - Var->Fu) / Var->Fp;
+
+	Var->CalBody_RotateSF = (Var->Mw - Var->Mu) / Var->Mp;
+
+	return true;
+}
+
+bool Module1_Internal::BreakerSafeCheck()
+{
+	return false;
+}
+
+bool Module1_Internal::UpperSafeCheck()
+{
 	return false;
 }

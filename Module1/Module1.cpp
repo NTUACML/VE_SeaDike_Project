@@ -75,6 +75,18 @@ bool VE_SD::Module1::DeleteAllBlockData()
 	
 }
 
+int VE_SD::Module1::NewLevel(double _EL)
+{
+	Var->LevelSection.emplace_back(_EL);
+	return int(Var->LevelSection.size());
+}
+
+bool VE_SD::Module1::DeleteAllLevel()
+{
+	Var->LevelSection.clear();
+	return true;
+}
+
 bool VE_SD::Module1::WaterDesignInput(double _H0, double _HWL, double _DensitySea)
 {
 	Var->H0 = _H0;
@@ -102,6 +114,13 @@ bool VE_SD::Module1::BaseDesignInput(double _S, double _Base_Level, double _Brea
 	Var->S = _S;
 	Var->Base_Level = _Base_Level;
 	Var->Breaker_Level = _Breaker_Level;
+	return true;
+}
+
+bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
+{
+	Var->SlideSF = _SlideSF;
+	Var->RotateSF = _RotateSF;
 	return true;
 }
 
@@ -156,10 +175,14 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "折減係數: " << Var->lamda << std::endl;
 	FILE << "垂線夾角: " << Var->beta << std::endl;
 	FILE << "海水密度: " << Var->DensitySea << std::endl;
+	FILE << "******安全係數******" << std::endl;
+	FILE << "滑動SF: " << Var->SlideSF << std::endl;
+	FILE << "傾倒SF: " << Var->RotateSF << std::endl;
 	FILE << "******幾何區塊******" << std::endl;
 	FILE << "總區塊數: " << Var->BlockData.size() << std::endl;
-	FILE << "最大高層: " << Var->Max_level << std::endl;
-	FILE << "最小高層: " << Var->Min_level << std::endl;
+	FILE << "最大Level: " << Var->Max_level << std::endl;
+	FILE << "最小Level: " << Var->Min_level << std::endl;
+	FILE << "實際底床寬: " << Var->B << std::endl;
 	FILE <<  std::endl;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
@@ -172,6 +195,18 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 		}
 		FILE << std::endl;
 	}
+	FILE << "******EL分區******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL " << i + 1 << " : " << Var->LevelSection[i].Level<< std::endl;
+		FILE << "-> 包含區塊單元編號: ";
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			FILE << Var->LevelSection[i].BlockId[j] + 1<< " ";
+		}
+		FILE << std::endl;
+	}
+
 	FILE << "******水深條件******" << std::endl;
 	FILE << "h: " << Var->h << std::endl;
 	FILE << "h\': " << Var->h_plun << std::endl;

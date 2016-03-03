@@ -3943,12 +3943,20 @@ namespace VE_SD
             Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "e" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
-                       
-            //4. Block給定.
+            //4.   其他檢核:
+            //4-1. 消波工檢核計算.
+            if(chk_BlockWeightCalc_HO.Checked )
+            {
+                //
+
+            }
+                     
+            //5. Block給定.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {
-                //迴圈塞入Block.
-                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, -9999); //, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //- 迴圈塞入Block.
+                //  [Kavy, 2016/03/03, wait to do: 下方NewBlock第三個參數更改為平均摩擦係數.
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].平均摩擦係數); //, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
                 int 座標點數 = BlockMainArray[i].座標點數;
@@ -3957,10 +3965,30 @@ namespace VE_SD
                     Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
                 }
             }
+
+
+            //6. Level給定.
+            //- 創建排序 ELA (包含HWL)
+            double[] ELA = new double[] {};
+            ELA = ELArray;
+            Array.Resize(ref ELA, ELA.GetLength(0) + 1);
+            ELA[ELA.GetUpperBound(0)] = double.Parse(textBox_HWL.Text);
+            Array.Sort(ELA);
+            //- Push Level
+            Mod.DeleteAllLevel();
+            for(int i = 0; i<ELA.GetLength(0); ++i)
+            {
+                Mod.NewLevel(ELA[i]);
+            }
+            //6. SF Input
+            Mod.SF_CoefInput(double.Parse(textBox_SFSlide.Text), double.Parse(textBox_SFOver.Text));
+
+            //int a= Mod.AA.x;
+            //ELArray[0]
             //**********************************************************************************************************************//
 
-
-
+            //Mod.VarBank.GetData(); //Get all Var
+            //Mod.VarBank.
 
             //計算.
             bool SuccessOrNot = Mod.Run();
@@ -4760,10 +4788,25 @@ namespace VE_SD
                     break;
                 case 3:
 
-                    if (!double.TryParse(DGMaterialRough.Rows[e.RowIndex].Cells[3].Value.ToString(), out MaterialsCoefArray[e.RowIndex].coef))
+                    //MessageBox.Show("H");
+                    string Temp;
+                    try
                     {
-                        MaterialsCoefArray[e.RowIndex].coef = -9999;
+                        Temp = DGMaterialRough.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        if (!double.TryParse(Temp, out MaterialsCoefArray[e.RowIndex].coef))
+                        {
+                            MaterialsCoefArray[e.RowIndex].coef = -9999;
+                        }
+                        else
+                        {
+                           // MessageBox.Show("OK:" + DGMaterialRough.Rows[e.RowIndex].Cells[3].Value.ToString());
+                        }
                     }
+                    catch
+                    {
+                        //出現錯誤.
+                    }
+
 
                     break;
                 default:
@@ -4939,5 +4982,39 @@ namespace VE_SD
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         #endregion
+
+        private void textBox_SFOver_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DGMaterialRough_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(DGMaterialRough.CurrentCell.RowIndex!=-1)
+            {
+                if(DGMaterialRough.CurrentCell.ColumnIndex==3)
+                {
+                    //更新.
+                    string Temp;
+                    int rowindex = DGMaterialRough.CurrentCell.RowIndex;
+                    try
+                    {
+                        Temp = DGMaterialRough.Rows[rowindex].Cells[3].Value.ToString();
+                        if (!double.TryParse(Temp, out MaterialsCoefArray[rowindex].coef))
+                        {
+                            MaterialsCoefArray[rowindex].coef = -9999;
+                        }
+                        else
+                        {
+                            //MessageBox.Show("OK:" + DGMaterialRough.Rows[rowindex].Cells[3].Value.ToString());
+                        }
+                    }
+                    catch
+                    {
+                        //出現錯誤.
+                    }
+                }
+            }
+        }
     }
 }

@@ -8,6 +8,15 @@
 using namespace System;
 
 namespace VE_SD {
+	public value struct DataBank
+	{
+		// Output Var
+		int x, y, z, time;
+		
+		// Function
+		void GetData() {};
+
+	};
 
 	public ref class Module1
 	{
@@ -31,12 +40,17 @@ namespace VE_SD {
 		int GetNumOfBlock();
 		bool DeleteAllBlockData();
 
+		//- Level Set
+		int NewLevel(double _EL);
+		bool DeleteAllLevel();
+
 		//- Compute Var Input API
 		bool WaterDesignInput(double _H0, double _HWL, double _DensitySea);
 		bool WaveDesignInput(int _Direction, double _T0, double _Kr,
 							double _Ks, double _Kd, double _lamda, 
 							double _beta);
 		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
+		bool SF_CoefInput(double _SlideSF, double _RotateSF);
 
 		//- Run API
 		bool Run(); //Run Main Check Processor
@@ -46,6 +60,8 @@ namespace VE_SD {
 		void Test();
 		void VarOut(double % out);
 
+		DataBank VarBank; //Test
+
 	private:
 		//Data
 		Module1_Internal *Internal;
@@ -54,4 +70,6 @@ namespace VE_SD {
 		//Func
 		void MsgAdd();
 	};
+
+	
 }

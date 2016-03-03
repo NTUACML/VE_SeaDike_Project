@@ -17,10 +17,11 @@ namespace VE_SD
             InitializeComponent();
         }
         string ShowMsg = "";
+        string titleMsg = "";
         public FrmShowMsg(string InputMsg,string InputTitle)
         {
-            textBox1.Text = InputMsg;
-            this.Text = InputTitle;
+            ShowMsg = InputMsg;
+            titleMsg= InputTitle;
             InitializeComponent();
         }
 
@@ -31,7 +32,8 @@ namespace VE_SD
 
         private void FrmShowMsg_Load(object sender, EventArgs e)
         {
-
+            this.Text = titleMsg;// = ShowMsg;
+            this.textBox1.Text  = ShowMsg;
         }
     }
 }

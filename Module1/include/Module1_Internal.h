@@ -26,6 +26,10 @@ public:
 	bool WaterLevelCal();
 	bool WavePressureCal();
 	bool WeightCal();
+	bool BodySafeCheck();
+	bool BreakerSafeCheck();
+	bool UpperSafeCheck();
+
 
 	//- Test Out
 	template<typename T>
