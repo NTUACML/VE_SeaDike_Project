@@ -2872,6 +2872,8 @@ namespace VE_SD
             {
                 Mod.NewLevel(ELA[i]);
             }
+            //6. SF Input
+            Mod.SF_CoefInput(double.Parse(textBox_SFSlide.Text), double.Parse(textBox_SFOver.Text));
 
             //int a= Mod.AA.x;
             //ELArray[0]
@@ -3468,5 +3470,10 @@ namespace VE_SD
             }
         }
         #endregion
+
+        private void textBox_SFOver_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

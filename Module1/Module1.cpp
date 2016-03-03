@@ -117,6 +117,13 @@ bool VE_SD::Module1::BaseDesignInput(double _S, double _Base_Level, double _Brea
 	return true;
 }
 
+bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
+{
+	Var->SlideSF = _SlideSF;
+	Var->RotateSF = _RotateSF;
+	return true;
+}
+
 bool VE_SD::Module1::Run()
 {
 	// Geo Pre-Calculate
@@ -168,6 +175,9 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "折減係數: " << Var->lamda << std::endl;
 	FILE << "垂線夾角: " << Var->beta << std::endl;
 	FILE << "海水密度: " << Var->DensitySea << std::endl;
+	FILE << "******安全係數******" << std::endl;
+	FILE << "滑動SF: " << Var->SlideSF << std::endl;
+	FILE << "傾倒SF: " << Var->RotateSF << std::endl;
 	FILE << "******幾何區塊******" << std::endl;
 	FILE << "總區塊數: " << Var->BlockData.size() << std::endl;
 	FILE << "最大Level: " << Var->Max_level << std::endl;

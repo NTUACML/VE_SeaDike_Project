@@ -157,14 +157,28 @@ bool Module1_Internal::WaterLevelCal()
 
 	if (Var->h_D_L0 >= 0.2) {
 		Var->Hs = KsHo_p;
-		Var->Hmax = 1.8 * KsHo_p;
 	}
 	else {
 		Var->Hs = std::min(std::min(Var->beta0 * Var->H0_plun + Var->beta1 * Var->h, Var->betaMax * Var->H0_plun), KsHo_p);
-		Var->Hmax = std::min(std::min(Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->h, Var->betaMax_Star * Var->H0_plun), 1.8*KsHo_p);
 	}
 
 	Var->hb = Var->h + 5.0 * Var->Hs * Var->S;
+
+	if (Var->h_D_L0 >= 0.2) {
+		Var->Hmax = 1.8 * KsHo_p;
+	}
+	else {
+		Var->Hmax = std::min(std::min(Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->hb, Var->betaMax_Star * Var->H0_plun), 1.8*KsHo_p);
+	}
+
+	//--------Test-----------
+	std::ofstream File;
+	File.open("Test.txt");
+	File << Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->h << std::endl;
+	File << Var->betaMax_Star * Var->H0_plun << std::endl;
+	File << 1.8*KsHo_p << std::endl;
+	File.close();
+	//--------Test-----------
 
 	Var->Err_Msg += "背景水理資料處理完畢! \r\n";
 	return true;
@@ -275,5 +289,42 @@ bool Module1_Internal::WeightCal()
 	}
 
 	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
+	return false;
+}
+
+bool Module1_Internal::BodySafeCheck()
+{
+	//Find Min Weight_Y
+	double MinWeight_Y = Var->Ref_y;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].WeightC.y <= MinWeight_Y) MinWeight_Y = Var->BlockData[i].WeightC.y;
+	}
+	//Get Down Block average Mu coef
+	int Count = 0;
+	double AveMu = 0.0;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].MinLevel <= MinWeight_Y) {
+			AveMu += Var->BlockData[i].FrictionC;
+			++Count;
+		}
+	}
+	AveMu /= double(Count);
+
+	Var->CalBody_SlideSF = AveMu * (Var->W - Var->Fu) / Var->Fp;
+
+	Var->CalBody_RotateSF = (Var->Mw - Var->Mu) / Var->Mp;
+
+	return true;
+}
+
+bool Module1_Internal::BreakerSafeCheck()
+{
+	return false;
+}
+
+bool Module1_Internal::UpperSafeCheck()
+{
 	return false;
 }

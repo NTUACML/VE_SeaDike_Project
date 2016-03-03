@@ -52,6 +52,7 @@ namespace VE_SD {
 							double _Ks, double _Kd, double _lamda, 
 							double _beta);
 		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
+		bool SF_CoefInput(double _SlideSF, double _RotateSF);
 
 		//- Run API
 		bool Run(); //Run Main Check Processor

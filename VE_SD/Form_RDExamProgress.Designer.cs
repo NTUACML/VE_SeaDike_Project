@@ -592,6 +592,7 @@
             this.textBox_SFOver.Size = new System.Drawing.Size(100, 27);
             this.textBox_SFOver.TabIndex = 25;
             this.toolTip1.SetToolTip(this.textBox_SFOver, "傾倒安全係數值");
+            this.textBox_SFOver.TextChanged += new System.EventHandler(this.textBox_SFOver_TextChanged);
             this.textBox_SFOver.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SFOver_KeyPress);
             // 
             // label17

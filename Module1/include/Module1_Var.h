@@ -44,6 +44,8 @@ public:
 	double Ref_x, Ref_y;
 	//- Total Block
 	double W, Mw, Max_level, Min_level;
+	//- SF Coef
+	double SlideSF, CalBody_SlideSF, RotateSF, CalBody_RotateSF;
 
 	//- Mesg
 	std::string Err_Msg;
