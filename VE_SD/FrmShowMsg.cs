@@ -28,5 +28,10 @@ namespace VE_SD
         {
             this.Close();
         }
+
+        private void FrmShowMsg_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
