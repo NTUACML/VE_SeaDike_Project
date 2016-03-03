@@ -64,6 +64,7 @@
             this.Name = "FrmShowMsg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmShowMsg";
+            this.Load += new System.EventHandler(this.FrmShowMsg_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

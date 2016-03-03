@@ -51,6 +51,9 @@
             this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.步驟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開始檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出Log檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出Excel檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chart_Plot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_BasicParameter = new System.Windows.Forms.TabPage();
@@ -159,9 +162,6 @@
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
-            this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.輸出Log檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.輸出Excel檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -296,6 +296,28 @@
             this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
+            // 
+            // 輸出ToolStripMenuItem
+            // 
+            this.輸出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.輸出Log檔案ToolStripMenuItem,
+            this.輸出Excel檔案ToolStripMenuItem});
+            this.輸出ToolStripMenuItem.Name = "輸出ToolStripMenuItem";
+            this.輸出ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.輸出ToolStripMenuItem.Text = "輸出";
+            // 
+            // 輸出Log檔案ToolStripMenuItem
+            // 
+            this.輸出Log檔案ToolStripMenuItem.Name = "輸出Log檔案ToolStripMenuItem";
+            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.輸出Log檔案ToolStripMenuItem.Text = "輸出Log檔案";
+            // 
+            // 輸出Excel檔案ToolStripMenuItem
+            // 
+            this.輸出Excel檔案ToolStripMenuItem.Name = "輸出Excel檔案ToolStripMenuItem";
+            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.輸出Excel檔案ToolStripMenuItem.Text = "輸出Excel檔案";
+            this.輸出Excel檔案ToolStripMenuItem.Click += new System.EventHandler(this.btn_OutputExcel_Click);
             // 
             // chart_Plot
             // 
@@ -1121,6 +1143,7 @@
             this.DGMaterialRough.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterialRough_CellValueChanged);
             this.DGMaterialRough.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterialRough_UserDeletedRow);
             this.DGMaterialRough.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterialRough_UserDeletingRow);
+            this.DGMaterialRough.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DGMaterialRough_KeyUp);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -1480,28 +1503,6 @@
             // 
             this.SFD_LogFile.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_LogFile.FilterIndex = 0;
-            // 
-            // 輸出ToolStripMenuItem
-            // 
-            this.輸出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.輸出Log檔案ToolStripMenuItem,
-            this.輸出Excel檔案ToolStripMenuItem});
-            this.輸出ToolStripMenuItem.Name = "輸出ToolStripMenuItem";
-            this.輸出ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.輸出ToolStripMenuItem.Text = "輸出";
-            // 
-            // 輸出Log檔案ToolStripMenuItem
-            // 
-            this.輸出Log檔案ToolStripMenuItem.Name = "輸出Log檔案ToolStripMenuItem";
-            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.輸出Log檔案ToolStripMenuItem.Text = "輸出Log檔案";
-            // 
-            // 輸出Excel檔案ToolStripMenuItem
-            // 
-            this.輸出Excel檔案ToolStripMenuItem.Name = "輸出Excel檔案ToolStripMenuItem";
-            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.輸出Excel檔案ToolStripMenuItem.Text = "輸出Excel檔案";
-            this.輸出Excel檔案ToolStripMenuItem.Click += new System.EventHandler(this.btn_OutputExcel_Click);
             // 
             // Form_RDExamProgress
             // 

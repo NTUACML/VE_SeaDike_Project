@@ -10,14 +10,12 @@ using namespace System;
 namespace VE_SD {
 	public value struct DataBank
 	{
+		// Output Var
 		int x, y, z, time;
-		DataBank(int x, int y, int z, int t)
-		{
-			this->x = x;
-			this->y = y;
-			this->z = z;
-			this->time = t;
-		}
+		
+		// Function
+		void GetData() {};
+
 	};
 
 	public ref class Module1
