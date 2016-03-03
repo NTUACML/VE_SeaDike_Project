@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Xml;
+using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.VisualBasic.MyServices;
 
 
 namespace VE_SD
@@ -44,6 +46,9 @@ namespace VE_SD
         private Dictionary<int, String> BlockArraySubscriptToName = new Dictionary<int, string>();//Block Array Subscript to Name.
 
         //EL矩陣.
+        //Minimum EL.
+        double MinEL; //根據波向來判斷.
+        double MaxEL; //根據波向來判斷.
         public double[] ELArray = new double[] { };
         int ELSize = 0;
 
@@ -108,33 +113,61 @@ namespace VE_SD
             textBox_SFOver.Text = "1.2";
             textBox_SeaGamma.Text = "1.03";
 
-            chk_BlockWeightCalc.Checked = false;
+            chk_BlockWeightCalc_HO.Checked = false;
+            chk_BlockWeightCalc_HE.Checked = false;
+            chk_BlockWeightCalc_BD.Checked = false;
             chk_HeadBreastCalc.Checked = false;
 
-            label18.Enabled = false;
-            label19.Enabled = false;
-            label20.Enabled = false;
-            label21.Enabled = false;
-            label22.Enabled = false;
-            label24.Enabled = false;
+            label_HO_1.Enabled = false;
+            label_HO_2.Enabled = false;
+            label_HO_3.Enabled = false;
+            label_HE_1.Enabled = false;
+            label_HE_2.Enabled = false;
+            label_HE_3.Enabled = false;
+            label_BreastCheck_1.Enabled = false;
+            label_BrestCheck_2.Enabled = false;
+            label_BD_1.Enabled = false;
+            label_BD_2.Enabled = false;
+            label_BD_3.Enabled = false;
+            label_BD_4.Enabled = false;
 
-            textBox_KDL.ReadOnly = true;
-            textBox_Sr.ReadOnly = true;
-            textBox_Kt.ReadOnly = true;
-            textBox_slopeangle.ReadOnly = true;
-            textBox_KDL.Text = "";
-            textBox_Sr.Text = "";
-            textBox_Kt.Text = "";
-            textBox_slopeangle.Text = "";
+            textBox_HO_KDL.ReadOnly = true;
+            textBox_HO_Gamma.ReadOnly = true;
+            textBox_HO_slopeangle.ReadOnly = true;
+            textBox_HE_KDL.ReadOnly = true;
+            textBox_HE_Gamma.ReadOnly = true;
+            textBox_HE_slopeangle.ReadOnly = true;
+            textBox_BD_KDL.ReadOnly = true;
+            textBox_BD_Gamma.ReadOnly = true;
+            textBox_BD_slopeangle.ReadOnly = true;
+            textBox_BD_Kt.ReadOnly = true;
+            textBox_HO_KDL.Enabled = false;
+            textBox_HO_Gamma.Enabled = false;
+            textBox_HO_slopeangle.Enabled = false;
+            textBox_HE_KDL.Enabled = false;
+            textBox_HE_Gamma.Enabled = false;
+            textBox_HE_slopeangle.Enabled = false;
+            textBox_BD_KDL.Enabled = false;
+            textBox_BD_Gamma.Enabled = false;
+            textBox_BD_slopeangle.Enabled = false;
+            textBox_BD_Kt.Enabled = false;
+           
+            textBox_HO_KDL.Text = "";
+            textBox_HO_Gamma.Text = "";
+            textBox_HO_slopeangle.Text = "";
+            textBox_HE_KDL.Text = "";
+            textBox_HE_Gamma.Text = "";
+            textBox_HE_slopeangle.Text = "";
+            textBox_BD_KDL.Text = "";
+            textBox_BD_Gamma.Text = "";
+            textBox_BD_slopeangle.Text = "";
+            textBox_BD_Kt.Text = "";
+            
             textBox_ConcreteAllowStress.Text = "";
-            textBox_BK.Text = "";
-            textBox_KDL.Enabled = false;
-            textBox_Sr.Enabled = false;
-            textBox_Kt.Enabled = false;
-            textBox_slopeangle.Enabled = false;
-            textBox_ConcreteAllowStress.ReadOnly = true;
-            textBox_BK.ReadOnly = true;
             textBox_ConcreteAllowStress.Enabled = false;
+            textBox_ConcreteAllowStress.ReadOnly = true;
+            textBox_BK.Text = "";  
+            textBox_BK.ReadOnly = true;
             textBox_BK.Enabled = false;
 
 
@@ -174,8 +207,8 @@ namespace VE_SD
             //chart_Plot.Series[1].Color = Color.LightGray;//= Color.Transparent;
             
             //設定EL
-            ELDGV1.Rows.Clear(); 
-
+            ELDGV1.Rows.Clear();
+            ELDGV1.Enabled = false; //初始設定變更為不可操控,要等到有Block時才開始能填入.
             chart_Plot.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
             chart_Plot.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
             listBox_SectSetting.Items.Clear();
@@ -187,6 +220,7 @@ namespace VE_SD
             打開專案檔的名稱 = null;
             selectname = null;
             propertyGrid_Block.SelectedObject = null;
+            ReferencedMaterialCHKL.Items.Clear();
             btn_ModifiedBlock.Enabled = false;
             BlockArraySubscriptToName.Clear();
             BlockListSubScriptToName.Clear();
@@ -194,6 +228,10 @@ namespace VE_SD
             BlockNameToListSubScript.Clear();
 
             開始檢核ToolStripMenuItem.Enabled = false;
+            btn_LogOutput.Enabled = false;
+            btn_OutputExcel.Enabled = false;
+            btn_Test.Enabled = false;
+
             textBox_XO.Text = "0";
             textBox_YO.Text = "0";
             xo = 0;
@@ -237,7 +275,7 @@ namespace VE_SD
                     //chart_Plot.Series[result.Series.Name].BorderColor = Color.Red;
                     //chart_Plot.Series[result.Series.Name].BorderWidth = 2;
                     //Listbox顯示變更.
-                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E")
+                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E" || hitname=="ARROW")
                     {
                         //Do nothing.
                         return;
@@ -266,7 +304,7 @@ namespace VE_SD
                     //selectname = result.Series.Name;
 
                     //Listbox顯示變更.
-                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E")
+                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E" || hitname=="ARROW")
                     {
                         //Do nothing.
                         return;
@@ -277,20 +315,188 @@ namespace VE_SD
                     }
                 }
             }
+            else if(result.ChartElementType==ChartElementType.LegendItem)
+            {
+                LegendItem r = (LegendItem)result.Object;
+                //Series s=(Series)r.Name;
+                string hitname = r.Name;
+                //MessageBox.Show(hitname);
+                if (selectname == null)
+                {
+                    //Do nothing.
+                    //chart_Plot.Series[result.Series.Name].BorderColor = Color.Red;
+                    //chart_Plot.Series[result.Series.Name].BorderWidth = 2;
+                    //selectname = result.Series.Name;
+
+                    //chart_Plot.Series[result.Series.Name].BorderColor = Color.Red;
+                    //chart_Plot.Series[result.Series.Name].BorderWidth = 2;
+                    //Listbox顯示變更.
+                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E" || hitname == "ARROW")
+                    {
+                        //Do nothing.
+                        return;
+                    }
+                    else
+                    {
+                        listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[hitname];
+                    }
+                }
+                else if (selectname == hitname)
+                {
+                    //Do nothing.
+                }
+                else if (selectname != hitname)
+                {
+                    //Clear previous select.
+                    //Listbox顯示變更.
+                    if (hitname == "HWL" || hitname.Substring(0, 1) == "E" || hitname == "ARROW")
+                    {
+                        //Do nothing.
+                        return;
+                    }
+                    else
+                    {
+                        listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[hitname];
+                    }
+                }
+
+            }
             else
             {
-                if (selectname != null)
+                //新增檢查此點位是否在任一Polygon內部.
+                double getPolygonArea = -10000000;
+                string getPolygonName = null;
+                //建立Polygon矩陣
+                PP[] PolygonCol = new PP[] { };
+                
+                double hitX= chart_Plot.ChartAreas[0].AxisX.PixelPositionToValue(ex.X); ;
+                double hitY = chart_Plot.ChartAreas[0].AxisY.PixelPositionToValue(ex.Y); ;
+                PP PHit;
+                PHit.h = hitX;
+                PHit.v = hitY;
+                //MessageBox.Show("X= " + (hitX).ToString() + ", Y= " + (hitY).ToString() + ".");
+
+                for(int i=0;i<BlockMainArray.GetLength(0);i++)
                 {
-                    //Clear previous selected.
-                    chart_Plot.Series[selectname].Color = Color.Black;
-                    chart_Plot.Series[selectname].MarkerBorderWidth = 1;
-                    selectname = null;
-                    listBox_SectSetting.SelectedIndex = -1;
-                    propertyGrid_Block.SelectedObject = null;
-                    //不動.
+                    Array.Resize(ref PolygonCol, 0);
+                    double[] XI = BlockMainArray[i].X;
+                    double[] YI = BlockMainArray[i].Y;
+                    for(int j=0;j<XI.GetLength(0);j++)
+                    {
+                        Array.Resize(ref PolygonCol, j + 1);
+                        PolygonCol[j].h = XI[j];
+                        PolygonCol[j].v = YI[j];
+                    }
+                    double PArea = PolygonArea(PolygonCol);
+                    bool 是否在此Polygon內 = InsidePolygon(PolygonCol,PHit);
+                    if(是否在此Polygon內)
+                    {
+                        if(PArea>getPolygonArea)
+                        {
+                            //MessageBox.Show(BlockMainArray[i].名稱 + ":" + PArea.ToString());
+                            getPolygonName = BlockMainArray[i].名稱;
+                            getPolygonArea = PArea;
+                        }
+                    }
                 }
+                if(object.Equals(getPolygonName,null))
+                {
+                    //找不到此點落於的Polygon.
+                    if (selectname != null)
+                    {
+                        //Clear previous selected.
+                        chart_Plot.Series[selectname].Color = Color.Black;
+                        chart_Plot.Series[selectname].BorderWidth = 1;
+                        selectname = null;
+                        listBox_SectSetting.SelectedIndex = -1;
+                        propertyGrid_Block.SelectedObject = null;
+                        ReferencedMaterialCHKL.Items.Clear();
+                        //不動.
+                    }
+                }
+                else
+                {
+                    //有找到位於的Polygon名稱.
+                    if(selectname==getPolygonName)
+                    {
+                        //Do nothing.
+                    }
+                    else
+                    {
+                        if (getPolygonName == "HWL" || getPolygonName.Substring(0, 1) == "E" || getPolygonName == "ARROW")
+                        {
+                            //Do nothing.
+                            return;
+                        }
+                        else
+                        {
+                            listBox_SectSetting.SelectedIndex = BlockNameToListSubScript[getPolygonName];//會自動觸發其他程序.
+                        }
+                    }
+                }
+
+ 
             }
         }
+        public struct PP
+        {
+            public double h, v;
+        }
+        public double CrossVector(PP P1,PP P2)
+        {
+            return P1.h * P2.v - P2.h * P1.v;
+        }
+        public double PolygonArea(PP[] Polygon)
+        {
+            //採用行列式計算方法.
+            double  area = 0;
+            for(int i=0;i<Polygon.GetUpperBound(0);i++)
+            {
+                area += (CrossVector(Polygon[i], Polygon[i + 1]));
+            }
+            return Math.Abs(area);
+        }
+        public bool InsidePolygon(PP[] Polygon,PP P )
+        {
+            double angle = 0;
+            int n = Polygon.GetLength(0);
+            PP p1;
+            PP p2;
+            for(int i=0;i<Polygon.GetLength(0);i++)
+            {
+                p1.h = Polygon[i].h - P.h;
+                p1.v = Polygon[i].v - P.v;
+                p2.h = Polygon[(i + 1) % n].h - P.h;
+                p2.v = Polygon[(i + 1) % n].v - P.v;
+                angle += Angle2D(p1.h, p1.v, p2.h, p2.v);
+
+            }
+            if(Math.Abs(angle)<Math.PI)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private double Angle2D(double x1,double y1,double x2,double y2)
+        {
+            double dtheata, theat1, theat2;
+            theat1 = Math.Atan2(y1, x1);
+            theat2 = Math.Atan2(y2, x2);
+            dtheata = theat2 - theat1;
+            while (dtheata>Math.PI)
+            {
+                dtheata -= (Math.PI * 2);
+            }
+            while(dtheata<-Math.PI)
+            {
+                dtheata += (Math.PI * 2);
+            }
+            return dtheata;
+        }
+
         #endregion 
 
         private void btn_Test_Click(object sender, EventArgs e)
@@ -299,6 +505,7 @@ namespace VE_SD
 
 
             //***********************************************************
+           
         }
 
         private bool JudgeTheTextBoxHandle(TextBox tt, KeyPressEventArgs ei)
@@ -386,6 +593,13 @@ namespace VE_SD
         }
         #endregion
         #region 設計條件Textbox輸入區域
+        private void cmb_seawaveDir_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmb_seawaveDir.SelectedIndex!=-1)
+            {
+                繪上EL();
+            }
+        }
         private void textBox_H0_KeyPress(object sender, KeyPressEventArgs e)
         {
             //限制只能輸入數字與小數點.
@@ -508,6 +722,8 @@ namespace VE_SD
             listBox_SectSetting.SetSelected(BlockCount-1,true); //設定Listbox點選項目.
 
             開始檢核ToolStripMenuItem.Enabled = true;
+            btn_Test.Enabled = true;
+
             //btnRemoveSects.Enabled = true;
             //btn_ModifiedBlock.Enabled = true;
             InterfaceBlock = null;
@@ -533,6 +749,7 @@ namespace VE_SD
                 }
                 //listBox_SectSetting.SelectedIndex = -1;
                 propertyGrid_Block.SelectedObject = null;
+                ReferencedMaterialCHKL.Items.Clear();
                 btn_ModifiedBlock.Enabled = false;
                 btnRemoveSects.Enabled = false;
             }
@@ -562,6 +779,28 @@ namespace VE_SD
             if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
             { D.使用材質 = ""; }
             propertyGrid_Block.SelectedObject = D;
+            //將參考材質填入資訊:前提都是必須要有可用材質.
+            ReferencedMaterialCHKL.Items.Clear();
+            for(int i=0;i<MaterialArray.GetLength(0);i++)
+            {
+                ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
+            }
+            //根據此Block是否有選取設定資訊.
+            string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+            string[] AvailableMaterials = new string[] { };
+            for(int i=0;i<BlockSelectedReferncedMaterialNames.GetLength(0);i++)
+            {
+                if(MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                {
+                    Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                    AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                }
+            }
+            BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+            for(int i=0;i<AvailableMaterials.GetLength(0);i++)
+            {
+                ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+            }
         }
         private struct Linkage
         {
@@ -643,21 +882,44 @@ namespace VE_SD
             chart_Plot.Series[NewI.名稱].BorderColor = Color.Black ;
             chart_Plot.Series[NewI.名稱].Color = Color.Black;//= Color.Transparent;
             chart_Plot.Series[NewI.名稱].MarkerBorderWidth = 1;
-
+            ELDGV1.Enabled = true;
             調整Chart(chart_Plot);
             
             繪上EL();
         }
         #endregion
-
         #region Property參數值變更
 
         private void propertyGrid_Block_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            updateCurrentBlock();
+            updateCurrentBlockPropertyGrid();
             //MessageBox.Show(e.ChangedItem.ToString());
         }
-        private void updateCurrentBlock()
+        private void ReferencedMaterialCHKL_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //更新目前選定Block的周圍參考材質之設定.
+            if(object.Equals(selectname,null))
+            {
+                return;
+            }
+            if(ReferencedMaterialCHKL.Items.Count==0)
+            {
+                return;
+            }
+
+            int id = BlockNameToListSubScript[selectname];
+            string[] UseReferencedBlock = new string[] { };
+            for(int i=0;i<ReferencedMaterialCHKL.Items.Count;i++)
+            {
+                if(ReferencedMaterialCHKL.GetItemChecked(i))
+                {
+                    Array.Resize(ref UseReferencedBlock, UseReferencedBlock.GetLength(0) + 1);
+                    UseReferencedBlock[UseReferencedBlock.GetUpperBound(0)] = ReferencedMaterialCHKL.Items[i].ToString();
+                }
+            }
+            BlockMainArray[id].周圍參考材質 = UseReferencedBlock;//更新.
+        }
+        private void updateCurrentBlockPropertyGrid()
         {
             if(object.Equals(selectname,null))
             {
@@ -683,7 +945,7 @@ namespace VE_SD
         private void propertyGrid_Block_Click(object sender, EventArgs e)
         {
             //Nothing.
-            MessageBox.Show("C1");
+            //MessageBox.Show("C1");
             if (listBox_SectSetting.SelectedIndex != -1)
             {
                 //重新載入一次
@@ -696,7 +958,7 @@ namespace VE_SD
         }
         private void propertyGrid_Block_MouseClick(object sender, MouseEventArgs e)
         {
-            MessageBox.Show("C2");
+            //MessageBox.Show("C2");
             if (listBox_SectSetting.SelectedIndex != -1)
             {
                 //重新載入一次
@@ -755,6 +1017,10 @@ namespace VE_SD
             selectname = null;
             listBox_SectSetting.Items.RemoveAt(position);//觸動.
             listBox_SectSetting.SelectedIndex = -1;
+            if(BlockMainArray.GetLength(0)==0)
+            {
+                ELDGV1.Enabled = false;
+            }
             //更新Position開始之後的Index.
             for (int i=0;i<listBox_SectSetting.Items.Count;i++)
             {
@@ -770,6 +1036,8 @@ namespace VE_SD
             {
                 //btnRemoveSects.Enabled = false;
                 開始檢核ToolStripMenuItem.Enabled = false;
+                btn_Test.Enabled = false;
+
             }
             BlockCount = listBox_SectSetting.Items.Count;
         }
@@ -858,11 +1126,11 @@ namespace VE_SD
             //    yspace = 100;
             //}
             double NewXmax = Xmax;// Xmin - xspace / 2.0 + 6.5 * xspace;// + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
-            double NewYmax = Ymax;// Ymin - yspace / 2.0 + 6.5 * yspace;
+            double NewYmax = Ymax+yspace/2.0;// Ymin - yspace / 2.0 + 6.5 * yspace;
             //double NewYmax = Ymin + Math.Floor((Ymax - Ymin) / yspace + 0.5) * yspace;
             //label_Show.Text = Xmin.ToString() + "," + NewXmax.ToString(); // + ":" + NewYmax.ToString();
 
-            INS.ChartAreas[0].AxisX.Minimum = Xmin;// -xspace/2.0;// - xspace;
+            INS.ChartAreas[0].AxisX.Minimum = Xmin-xspace/2.0;// -xspace/2.0;// - xspace;
             INS.ChartAreas[0].AxisX.Maximum = NewXmax;// NewXmax;
             INS.ChartAreas[0].AxisX.Interval = xspace;
             INS.ChartAreas[0].AxisY.Minimum = Ymin;// - yspace;
@@ -874,13 +1142,82 @@ namespace VE_SD
             //繪上EL();
 
         }
+        void 取得目前ELMIN與ELMAX(ref double[] ELMIN,ref double[] ELMAX,ref double AllCenterX)
+        {
+            //double xcenterright = -10000000;
+            double xcenterright = 0;
+            int allcount = 0;
+            for (int i = 0; i < BlockMainArray.GetLength(0); i++)
+            {
+                double sumx = 0;
+                Double[] XI = BlockMainArray[i].X;
+                if (XI.GetLength(0) == 0)
+                { continue; }
+                
+                for (int j = 0; j < XI.GetLength(0); j++)
+                {
+                    sumx = sumx + XI[j];
+                }
+                xcenterright += (sumx / (float)XI.GetLength(0));
+                allcount += 1;
+                //sumx = sumx / (float)XI.GetLength(0);
+                //if (sumx > xcenterright) { xcenterright = sumx; }
+            }
+            AllCenterX = xcenterright / (float)allcount;//全部重心的x平均.
+            Array.Resize(ref ELMIN, 2);
+            Array.Resize(ref ELMAX, 2);
+            ELMIN[0]= 1000000;
+            ELMIN[1]= 1000000;
+            ELMAX[0]= -100000;
+            ELMAX[1]= -100000;
+            //判斷.
+            for (int i = 0; i < BlockMainArray.GetLength(0);i++)
+            {
+                Double[] XI = BlockMainArray[i].X;
+                double[] YI = BlockMainArray[i].Y;
+                if (XI.GetLength(0) == 0)
+                { continue; }
+                for(int j=0;j<XI.GetLength(0);j++)
+                {
+                    if(XI[j]<AllCenterX)
+                    {
+                        //Left Part.
+                        if(YI[j]<ELMIN[0])
+                        {
+                            //左邊的最低點.
+                            ELMIN[0] = YI[j];
+                        }
+                        if(YI[j]>ELMAX[0])
+                        {
+                            ELMAX[0] = YI[j];
+                        }
+                    }
+                    if(XI[j]>AllCenterX)
+                    {
+                        //右邊的部分.
+                        if(YI[j]<ELMIN[1])
+                        {
+                            //右邊的最低點.
+                            ELMIN[1] = YI[j];
+                        }
+                        if(YI[j]>ELMAX[1])
+                        {
+                            ELMAX[1] = YI[j];
+                        }
+                    }
+                }//Loop through each node of Blocks.
+            }
+        }
         void 繪上EL()
         {
             //若有EL,則調整之.
+            //將ELDG的顏色全部變更為正常顏色.
+
             if (BlockCount == 0)
             {
                 //MessageBox.Show("Block Count =0");
-                //清除.
+                //清除圖示
+                //1. 清除HWL.
                 try
                 {
                     chart_Plot.Series.Remove(chart_Plot.Series["HWL"]);
@@ -889,7 +1226,17 @@ namespace VE_SD
                 {
                     //Do nothing.
                 }
-                for(int i=0;i<ELSize;i++)
+                //2. 清除箭頭.
+                try
+                {
+                    chart_Plot.Series.Remove(chart_Plot.Series["ARROW"]);
+                }
+                catch
+                {
+                    //Do nothing.
+                }
+                //3. 清除EL.
+                for (int i=0;i<ELSize;i++)
                 {
                    try
                     {
@@ -900,11 +1247,27 @@ namespace VE_SD
                         //nothing.
                     }
                 }
+                //4.清除最大EL與最小EL[根據波向判斷].
+                try
+                {
+                    chart_Plot.Series.Remove(chart_Plot.Series["EL_TOP"]);
+                }
+                catch
+                {
+                    //Do nothing.
+                }
+                try
+                {
+                    chart_Plot.Series.Remove(chart_Plot.Series["EL_BUTTOM"]);
+                }
+                catch
+                {
+                    //Do nothing.
+                }
             }
             else
             {
                 //MessageBox.Show("有Block喔");
-                //MessageBox.Show("OO");
                 //有Data.
                 double xmin = chart_Plot.ChartAreas[0].AxisX.Minimum;
                 double xmax = chart_Plot.ChartAreas[0].AxisX.Maximum;
@@ -930,8 +1293,8 @@ namespace VE_SD
 
                     //設定線段.
                      chart_Plot.Series["HWL"].BorderDashStyle=ChartDashStyle.Dash;
-                     chart_Plot.Series["HWL"].BorderColor = Color.DarkGray;
-                     chart_Plot.Series["HWL"].Color = Color.DarkGray;
+                     chart_Plot.Series["HWL"].BorderColor = Color.Purple;
+                     chart_Plot.Series["HWL"].Color = Color.Purple;
                      chart_Plot.Series["HWL"].BorderWidth = 2;
                      chart_Plot.Series["HWL"].IsVisibleInLegend = true; // false;
                      //完成.
@@ -949,9 +1312,76 @@ namespace VE_SD
                         //Nothing.
                     }
                 }
-                //2. 繪上其餘EL線(與HWL線相同值者跳過).
+
+                //***********************************************************************************
+                //2. 判斷目前最大EL與最小EL.
+                // 首先判斷目前最右邊的Block是誰.
+                double[] ELMINInner = new double[] { };
+                double[] ELMAXInner = new double[] { };
+                double XCenterX = -100000;
+                取得目前ELMIN與ELMAX(ref ELMINInner, ref ELMAXInner,ref XCenterX);
+                //根據目前選取的海向,決定ARROW圖與EL最大值與最小值.
+                if(cmb_seawaveDir.SelectedItem.ToString()=="E")
+                {
+                    //[東].海側在右邊,箭頭往左邊畫.
+                    MinEL = ELMINInner[1];
+                    MaxEL = ELMAXInner[1];
+                }
+                else if(cmb_seawaveDir.SelectedItem.ToString()=="W")
+                {
+                    //[西].海側在左邊,箭頭往右邊.
+                    MinEL = ELMINInner[0];
+                    MaxEL = ELMAXInner[0];
+                }
+                //繪上ELMAX與ELMIN線段.
+                try
+                {
+                    chart_Plot.Series.Remove(chart_Plot.Series["EL_TOP"]);
+                }
+                catch
+                {
+                    //Do nothing.
+                }
+                chart_Plot.Series.Add("EL_TOP");
+                chart_Plot.Series["EL_TOP"].ChartType = SeriesChartType.Line;
+
+                //加入點資料.
+                chart_Plot.Series["EL_TOP"].Points.AddXY(xmin, MaxEL);
+                chart_Plot.Series["EL_TOP"].Points.AddXY(xmax, MaxEL);
+
+                //設定線段.
+                chart_Plot.Series["EL_TOP"].BorderDashStyle = ChartDashStyle.Dash;
+                chart_Plot.Series["EL_TOP"].BorderColor = Color.Brown;
+                chart_Plot.Series["EL_TOP"].Color = Color.Brown;
+                chart_Plot.Series["EL_TOP"].BorderWidth = 2;
+                chart_Plot.Series["EL_TOP"].IsVisibleInLegend = false;// true;
+
+                try
+                {
+                    chart_Plot.Series.Remove(chart_Plot.Series["EL_BUTTOM"]);
+                }
+                catch
+                {
+                    //Do nothing.
+                }
+                chart_Plot.Series.Add("EL_BUTTOM");
+                chart_Plot.Series["EL_BUTTOM"].ChartType = SeriesChartType.Line;
+
+                //加入點資料.
+                chart_Plot.Series["EL_BUTTOM"].Points.AddXY(xmin, MinEL);
+                chart_Plot.Series["EL_BUTTOM"].Points.AddXY(xmax, MinEL);
+
+                //設定線段.
+                chart_Plot.Series["EL_BUTTOM"].BorderDashStyle = ChartDashStyle.Dash;
+                chart_Plot.Series["EL_BUTTOM"].BorderColor = Color.Brown;
+                chart_Plot.Series["EL_BUTTOM"].Color = Color.Brown;
+                chart_Plot.Series["EL_BUTTOM"].BorderWidth = 2;
+                chart_Plot.Series["EL_BUTTOM"].IsVisibleInLegend = false;// true;
+                //***********************************************************************************
+
+                //3. 繪上其餘EL線(與HWL線相同值者跳過).
                 //先刪除舊的,在全部更新為新的.
-                for(int i=0;i<ELSize;i++)
+                for (int i=0;i<ELSize;i++)
                 {
                     try
                     {
@@ -974,7 +1404,7 @@ namespace VE_SD
                     {
                         if(hasHWLValue)
                         {
-                            if(itest!=HWLValue)
+                            if(itest!=HWLValue && itest<MaxEL && itest>MinEL)
                             {
                                 bool repeated = false;
                                 for(int i2=0;i2<ELSize;i2++)
@@ -998,7 +1428,7 @@ namespace VE_SD
                                 if (itest == ELArray[i2])
                                 { repeated = true; break; }
                             }
-                            if (!repeated)
+                            if (!repeated && itest<MaxEL && itest>MinEL)
                             {
                                 Array.Resize(ref ELArray, ELSize + 1);
                                 ELArray[ELSize] = itest;
@@ -1008,8 +1438,52 @@ namespace VE_SD
                     }
                 }//完成Datagrid的蒐集.
 
+                ////製作警示內容
+                //string ELErrorMessage = "目前海側方向之EL最大值為" + MaxEL.ToString() + "(m),最小值為" + MinEL.ToString() + "(m)" + Environment.NewLine;
+                //bool hasELError = false;
+                //if( hasHWLValue && ( HWLValue>MaxEL || HWLValue<MinEL))
+                //{
+                //    //HWL超出目前Block海側方向之EL限度.
+                //    ELErrorMessage+=( "您的HWL(m) = " + HWLValue.ToString() +"超過目前海側方向的EL範圍"+ Environment.NewLine );
+                //    hasELError = true;
+                //}
+                //Dictionary<double, int> ErrorEL = new Dictionary<double, int>();
+                //for (int i = 0; i < ELDGV1.Rows.Count - 1; i++)
+                //{
+                //    double itest;
+                //    if (double.TryParse(ELDGV1.Rows[i].Cells[0].Value.ToString(), out itest))
+                //    {
+                //        if (hasHWLValue)
+                //        {
+                //            if (itest != HWLValue && (itest< MinEL || itest>MaxEL))
+                //            {
+                //                if(!ErrorEL.ContainsKey(itest))
+                //                {
+                //                    ELErrorMessage += ("您的EL值" + itest.ToString() + "超過目前海側方向的EL範圍" + Environment.NewLine);
+                //                    ErrorEL.Add(itest, 1);
+                //                    hasELError = true;
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if(itest<MinEL || itest>MaxEL)
+                //            {
+                //                if (!ErrorEL.ContainsKey(itest))
+                //                {
+                //                    ELErrorMessage += ("您的EL值" + itest.ToString() + "超過目前海側方向的EL範圍" + Environment.NewLine);
+                //                    ErrorEL.Add(itest, 1);
+                //                    hasELError = true;
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+
+
+
                 //製作對應的EL線段.
-                if(ELSize>0)
+                if (ELSize>0)
                 {
                     //MessageBox.Show("HH");
                     for(int i=0;i<ELSize;i++)
@@ -1024,13 +1498,12 @@ namespace VE_SD
 
                         //設定線段.
                         chart_Plot.Series[tpname].BorderDashStyle = ChartDashStyle.DashDot ;
-                        chart_Plot.Series[tpname].BorderColor = Color.LightSteelBlue ;
-                        chart_Plot.Series[tpname].Color = Color.LightGray;
+                        chart_Plot.Series[tpname].BorderColor = Color.Brown;
+                        chart_Plot.Series[tpname].Color = Color.Brown;
                         chart_Plot.Series[tpname].BorderWidth = 2;
                         chart_Plot.Series[tpname].IsVisibleInLegend = false;
                     }
                 }//若有可用之EL時.
-                //MessageBox.Show("OO3");
                 double Ymin = 1000000;
                 double Ymax =-Ymin;
                 foreach (Series ss in chart_Plot.Series)
@@ -1082,11 +1555,49 @@ namespace VE_SD
                 //}
                 //double NewXmax = Xmin + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
                 ///MessageBox.Show(Ymax.ToString());
-                double NewYmax = Ymax;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
+                double NewYmax = Ymax+yspace/2.0;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
+
+                //chart_Plot.Series.Add("ARROW");
+                //chart_Plot.Series["ARROW"].ChartType = SeriesChartType.Line;
+                //chart_Plot.Series["ARROW"].XValueType = ChartValueType.Time;
+                chart_Plot.Annotations.Clear();//清除所有的Annotations.
+                double xspace = chart_Plot.ChartAreas[0].AxisX.Interval;
+
+                //海側文字.
+                TextAnnotation SeaSidetext = new TextAnnotation();
+                SeaSidetext.AxisX = chart_Plot.ChartAreas[0].AxisX;
+                SeaSidetext.AxisY = chart_Plot.ChartAreas[0].AxisY;
+                SeaSidetext.AnchorX = cmb_seawaveDir.SelectedItem.ToString()=="W"?(chart_Plot.ChartAreas[0].AxisX.Minimum+xspace/3.0):(chart_Plot.ChartAreas[0].AxisX.Maximum-xspace/3.0);
+                SeaSidetext.AnchorY = NewYmax - yspace / 2.0;
+                SeaSidetext.Font = new Font("微軟正黑體", 14, FontStyle.Bold);
+                SeaSidetext.Text = "海側";// (cmb_seawaveDir.SelectedItem.ToString()=="E"?"<":"") + "========="+ (cmb_seawaveDir.SelectedItem.ToString()=="W"?">":"");
+                chart_Plot.Annotations.Add(SeaSidetext);
+                //chart_Plot.ChartAreas[0].AxisX.CustomLabels.Add((chart_Plot.ChartAreas[0].AxisX.Minimum + chart_Plot.ChartAreas[0].AxisX.Maximum) / 2.0, Ymax - yspace / 2.0, "====>", 1, LabelMarkStyle.LineSideMark);
+
+                //加入點資料.
+                //chart_Plot.Series["ARROW"].Points.AddXY((chart_Plot.ChartAreas[0].AxisX.Minimum+ chart_Plot.ChartAreas[0].AxisX.Maximum)/2.0, Ymax-yspace/2.0);
+                //chart_Plot.Series["ARROW"].Points.AddXY(xmax, MaxEL);
+
+                //設定線段.
+                //chart_Plot.Series["ARROW"].BorderDashStyle = ChartDashStyle.Dash;
+                //chart_Plot.Series["ARROW"].MarkerStyle = MarkerStyle.Star10;
+                //chart_Plot.Series["ARROW"].MarkerSize = 8;
+
+                //chart_Plot.Series["ARROW"].MarkerColor = Color.Black;
+                //chart_Plot.Series["ARROW"].BorderWidth = 3;
+                //chart_Plot.Series["ARROW"].IsValueShownAsLabel = true;
+                //chart_Plot.Series["ARROW"].ToolTip = "#VALY=>#AXISLABEL";
+                //chart_Plot.Series["ARROW"].IsVisibleInLegend = false;
+
+                //設定軸的範圍.
                 chart_Plot.ChartAreas[0].AxisY.Minimum = Ymin;// Ymin - yspace;
                 chart_Plot.ChartAreas[0].AxisY.Maximum = NewYmax;
                 chart_Plot.ChartAreas[0].AxisY.Interval = yspace;
                 chart_Plot.ChartAreas[0].RecalculateAxesScale();
+                //if(hasELError)
+                //{
+                //    MessageBox.Show(ELErrorMessage, "EL與HWL設定錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //}
             }
 
         }
@@ -1167,9 +1678,6 @@ namespace VE_SD
         }
          
         #endregion
-
-
-
         #region 利用XML儲存此專案,開一個新的,開啟舊的與另存新的.
         private void 儲存此專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1196,18 +1704,23 @@ namespace VE_SD
             {
                 xmlpath = 打開專案檔的名稱;
             }
-
-            if (!CheckTextBoxNoEmpty())
+            string CheckTextBoxNoEmptyString = "";
+            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
             {
+                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "資料未填完整");
+                ff.Show();
                 return;
             }
             儲存XML專案檔(xmlpath);
         }
         private void 儲存XML專案檔(string xmlfullpath)
         {
-            //        
-            if (!CheckTextBoxNoEmpty())
+            //       
+            string CheckTextBoxNoEmptyString = "";
+            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
             {
+                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "資料未填完整");
+                ff.Show();
                 return;
             }
 
@@ -1280,8 +1793,14 @@ namespace VE_SD
             XmlElement 海水單位體積重量 = doc.CreateElement("海水單位體積重量");
             海水單位體積重量.SetAttribute("Value", textBox_SeaGamma.Text);
 
-            XmlElement 消波工重量檢核啟用 = doc.CreateElement("消波工重量檢核啟用");
-            消波工重量檢核啟用.SetAttribute("Value", chk_BlockWeightCalc.Checked?"TRUE":"FALSE");
+            XmlElement 消波工堤身段港外側重量檢核啟用 = doc.CreateElement("消波工堤身段港外側重量檢核啟用");
+            消波工堤身段港外側重量檢核啟用.SetAttribute("Value", chk_BlockWeightCalc_HO.Checked?"TRUE":"FALSE");
+
+            XmlElement 消波工堤頭部加強重量檢核啟用 = doc.CreateElement("消波工堤頭部加強重量檢核啟用");
+            消波工堤頭部加強重量檢核啟用.SetAttribute("Value", chk_BlockWeightCalc_HE.Checked ? "TRUE" : "FALSE");
+
+            XmlElement 消波工堤身段航道側重量檢核啟用 = doc.CreateElement("消波工堤身段航道側重量檢核啟用");
+            消波工堤身段航道側重量檢核啟用.SetAttribute("Value", chk_BlockWeightCalc_BD.Checked ? "TRUE" : "FALSE");
 
             XmlElement 胸牆部安定檢核啟用 = doc.CreateElement("胸牆部安定檢核啟用");
             胸牆部安定檢核啟用.SetAttribute("Value", chk_HeadBreastCalc.Checked ? "TRUE" : "FALSE");
@@ -1308,25 +1827,62 @@ namespace VE_SD
             全域參數XML點.AppendChild(滑動安全係數);
             全域參數XML點.AppendChild(傾倒安全係數);
             全域參數XML點.AppendChild(海水單位體積重量);
-            全域參數XML點.AppendChild(消波工重量檢核啟用);
-            if(chk_BlockWeightCalc.Checked)
+            全域參數XML點.AppendChild(消波工堤身段港外側重量檢核啟用);
+            if(chk_BlockWeightCalc_HO.Checked)
             {
                 XmlElement 消波形塊安定係數 = doc.CreateElement("消波形塊安定係數");
-                消波形塊安定係數.SetAttribute("Value", textBox_KDL.Text);
+                消波形塊安定係數.SetAttribute("Value", textBox_HO_KDL.Text);
 
-                XmlElement 混凝土與海水之比重 = doc.CreateElement("混凝土與海水之比重");
-                混凝土與海水之比重.SetAttribute("Value", textBox_Sr.Text);
+                XmlElement 混凝土與海水之比重 = doc.CreateElement("混凝土單位體積重");
+                混凝土與海水之比重.SetAttribute("Value", textBox_HO_Gamma.Text);
 
                 XmlElement 消波塊斜坡面與水平面之夾角 = doc.CreateElement("消波塊斜坡面與水平面之夾角");
-                消波塊斜坡面與水平面之夾角.SetAttribute("Value", textBox_slopeangle.Text);
+                消波塊斜坡面與水平面之夾角.SetAttribute("Value", textBox_HO_slopeangle.Text);
+
+
+                消波工堤身段港外側重量檢核啟用.AppendChild(消波形塊安定係數);
+                消波工堤身段港外側重量檢核啟用.AppendChild(混凝土與海水之比重);
+                消波工堤身段港外側重量檢核啟用.AppendChild(消波塊斜坡面與水平面之夾角);
+                
+            }
+            全域參數XML點.AppendChild(消波工堤頭部加強重量檢核啟用);
+            if(chk_BlockWeightCalc_HE.Checked)
+            {
+                XmlElement 消波形塊安定係數 = doc.CreateElement("消波形塊安定係數");
+                消波形塊安定係數.SetAttribute("Value", textBox_HE_KDL.Text);
+
+                XmlElement 混凝土與海水之比重 = doc.CreateElement("混凝土單位體積重");
+                混凝土與海水之比重.SetAttribute("Value", textBox_HE_Gamma.Text);
+
+                XmlElement 消波塊斜坡面與水平面之夾角 = doc.CreateElement("消波塊斜坡面與水平面之夾角");
+                消波塊斜坡面與水平面之夾角.SetAttribute("Value", textBox_HE_slopeangle.Text);
+
+
+                消波工堤頭部加強重量檢核啟用.AppendChild(消波形塊安定係數);
+                消波工堤頭部加強重量檢核啟用.AppendChild(混凝土與海水之比重);
+                消波工堤頭部加強重量檢核啟用.AppendChild(消波塊斜坡面與水平面之夾角);
+            }
+            全域參數XML點.AppendChild(消波工堤身段航道側重量檢核啟用);
+            if(chk_BlockWeightCalc_BD.Checked)
+            {
+                XmlElement 消波形塊安定係數 = doc.CreateElement("消波形塊安定係數");
+                消波形塊安定係數.SetAttribute("Value", textBox_BD_KDL.Text);
+
+                XmlElement 混凝土與海水之比重 = doc.CreateElement("混凝土單位體積重");
+                混凝土與海水之比重.SetAttribute("Value", textBox_BD_Gamma.Text);
+
+                XmlElement 消波塊斜坡面與水平面之夾角 = doc.CreateElement("消波塊斜坡面與水平面之夾角");
+                消波塊斜坡面與水平面之夾角.SetAttribute("Value", textBox_BD_slopeangle.Text);
 
                 XmlElement 波高傳遞率 = doc.CreateElement("波高傳遞率");
-                波高傳遞率.SetAttribute("Value", textBox_Kt.Text);
-                全域參數XML點.AppendChild(消波形塊安定係數);
-                全域參數XML點.AppendChild(混凝土與海水之比重);
-                全域參數XML點.AppendChild(消波塊斜坡面與水平面之夾角);
-                全域參數XML點.AppendChild(波高傳遞率);
+                波高傳遞率.SetAttribute("Value", textBox_BD_Kt.Text);
+
+                消波工堤身段航道側重量檢核啟用.AppendChild(消波形塊安定係數);
+                消波工堤身段航道側重量檢核啟用.AppendChild(混凝土與海水之比重);
+                消波工堤身段航道側重量檢核啟用.AppendChild(消波塊斜坡面與水平面之夾角);
+                消波工堤身段航道側重量檢核啟用.AppendChild(波高傳遞率);
             }
+
             全域參數XML點.AppendChild(胸牆部安定檢核啟用);
             if (chk_HeadBreastCalc.Checked)
             {
@@ -1336,8 +1892,8 @@ namespace VE_SD
                 XmlElement BK = doc.CreateElement("BK");
                 BK.SetAttribute("Value", textBox_BK.Text);
 
-                全域參數XML點.AppendChild(混凝土容許應力);
-                全域參數XML點.AppendChild(BK);
+                胸牆部安定檢核啟用.AppendChild(混凝土容許應力);
+                胸牆部安定檢核啟用.AppendChild(BK);
             }
             全域參數XML點.AppendChild(力矩計算參考點);
 
@@ -1457,9 +2013,6 @@ namespace VE_SD
                 XmlElement Block使用材質 = doc.CreateElement("使用材質");
                 Block使用材質.SetAttribute("Value", BlockMainArray[i].使用材質.ToString());
 
-
-                MessageBox.Show("H4-2");
-
                 //BlockNode.AppendChild(Block混凝土方塊與方塊摩擦係數);
                 //BlockNode.AppendChild(Block混凝土方塊與拋石摩擦係數);
                 //BlockNode.AppendChild(Block場注土方塊與拋石摩擦係數);
@@ -1472,6 +2025,16 @@ namespace VE_SD
                 //BlockNode.AppendChild(Block海水單位體積重量);
                 BlockNode.AppendChild(Block單位體積重量);
                 BlockNode.AppendChild(Block使用材質);
+
+                string[] 周圍參考材質 = BlockMainArray[i].周圍參考材質;
+                for(int i2=0;i2<周圍參考材質.GetLength(0);i2++)
+                {
+                    XmlElement Block環繞參考材質 = doc.CreateElement("周圍參考材質");
+                    Block環繞參考材質.SetAttribute("Value", 周圍參考材質[i2]);
+                    BlockNode.AppendChild(Block環繞參考材質);
+                }
+
+                //MessageBox.Show("H4-2");
 
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
@@ -1537,12 +2100,21 @@ namespace VE_SD
             double SeaGammar;
             double GroundEler;
             double ArmorGroundEler;
-            bool 啟用消波工重量計算r;
+            bool 啟用消波工堤身段港外側重量計算r;
+            bool 啟用消波工堤頭部加強重量計算r;
+            bool 啟用消波工堤身段航道側重量計算r;
+            double 消波形塊堤身段港外側安定係數r;
+            double 混凝土堤身段港外側單位體積重;
+            double 消波塊堤身段港外側斜坡面與水平面夾角r;
+            double 消波形塊堤頭部加強安定係數r;
+            double 混凝土堤頭部加強單位體積重;
+            double 消波塊堤頭部加強斜坡面與水平面夾角r;
+            double 消波形塊堤身段航道側安定係數r;
+            double 混凝土堤身段航道側單位體積重;
+            double 消波塊堤身段航道側斜坡面與水平面夾角r;
+            double 堤身段航道側波高傳遞率ktr;
+
             bool 啟用胸牆部安定檢核r;
-            double 消波形塊安定係數r;
-            double 混凝土與海水之比重srr;
-            double 消波塊斜坡面與水平面夾角r;
-            double 波高傳遞率ktr;
             double 混凝土容許應力r;
             double BKr;
             Dictionary<string, int> DDR = new Dictionary<string, int>();
@@ -1760,74 +2332,193 @@ namespace VE_SD
                 }
 
                 //消波工重量檢核啟用.
-                RNode = doc.SelectSingleNode("Root/GlobalParameters/消波工重量檢核啟用");
+                //1. 堤身段港外側
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/消波工堤身段港外側重量檢核啟用");
                 if (object.Equals(RNode, null))
                 {
-                    return "消波工重量檢核啟用讀取失敗";
+                    return "消波工堤身段港外側重量檢核啟用讀取失敗";
                 }
                 Relement = (XmlElement)RNode;
-                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 啟用消波工重量計算r))
+                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 啟用消波工堤身段港外側重量計算r))
                 {
-                    return "消波工重量檢核啟用讀取失敗";
+                    return "消波工堤身段港外側重量檢核啟用讀取失敗";
                 }
-                if(啟用消波工重量計算r)
+                XmlNode 啟用消波工堤身段港外側Node = RNode;
+
+                if (啟用消波工堤身段港外側重量計算r)
                 {
                     //消波形塊安定係數.
-                    RNode = doc.SelectSingleNode("Root/GlobalParameters/消波形塊安定係數");
+                    RNode = 啟用消波工堤身段港外側Node.SelectSingleNode("消波形塊安定係數");
                     if (object.Equals(RNode, null))
                     {
-                        return "消波形塊安定係數讀取失敗";
+                        return "堤身段港外側之消波形塊安定係數讀取失敗";
                     }
                     Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波形塊安定係數r))
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波形塊堤身段港外側安定係數r))
                     {
-                        return "消波形塊安定係數讀取失敗";
+                        return "堤身段港外側之消波形塊安定係數讀取失敗";
                     }
 
-                    //混凝土與海水之比重.
-                    RNode = doc.SelectSingleNode("Root/GlobalParameters/混凝土與海水之比重");
+                    //混凝土單位體積重.
+                    RNode = 啟用消波工堤身段港外側Node.SelectSingleNode("混凝土單位體積重");
                     if (object.Equals(RNode, null))
                     {
-                        return "混凝土與海水之比重讀取失敗";
+                        return "堤身段港外側之混凝土單位體積重讀取失敗";
                     }
                     Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 混凝土與海水之比重srr))
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 混凝土堤身段港外側單位體積重))
                     {
-                        return "混凝土與海水之比重讀取失敗";
+                        return "堤身段港外側之混凝土單位體積重讀取失敗";
                     }
 
                     //消波塊斜坡面與水平面之夾角.
-                    RNode = doc.SelectSingleNode("Root/GlobalParameters/消波塊斜坡面與水平面之夾角");
+                    RNode = 啟用消波工堤身段港外側Node.SelectSingleNode("消波塊斜坡面與水平面之夾角");
                     if (object.Equals(RNode, null))
                     {
-                        return "消波塊斜坡面與水平面之夾角讀取失敗";
+                        return "堤身段港外側之消波塊斜坡面與水平面之夾角讀取失敗";
                     }
                     Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波塊斜坡面與水平面夾角r))
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波塊堤身段港外側斜坡面與水平面夾角r))
                     {
-                        return "消波塊斜坡面與水平面之夾角讀取失敗";
+                        return "堤身段港外側之消波塊斜坡面與水平面之夾角讀取失敗";
                     }
-
-                    //波高傳遞率.
-                    RNode = doc.SelectSingleNode("Root/GlobalParameters/波高傳遞率");
-                    if (object.Equals(RNode, null))
-                    {
-                        return "波高傳遞率讀取失敗";
-                    }
-                    Relement = (XmlElement)RNode;
-                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 波高傳遞率ktr))
-                    {
-                        return "波高傳遞率讀取失敗";
-                    }
-
 
                 }
                 else
                 {
-                    消波形塊安定係數r = 0;
-                    混凝土與海水之比重srr = 0;
-                    消波塊斜坡面與水平面夾角r = 0;
-                    波高傳遞率ktr = 0;
+                    消波形塊堤身段港外側安定係數r = 0;
+                    混凝土堤身段港外側單位體積重 = 0;
+                    消波塊堤身段港外側斜坡面與水平面夾角r = 0;
+                }
+                //消波工重量檢核啟用.
+                //2. 堤頭部加強
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/消波工堤頭部加強重量檢核啟用");
+                if (object.Equals(RNode, null))
+                {
+                    return "消波工堤頭部加強重量檢核啟用讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 啟用消波工堤頭部加強重量計算r))
+                {
+                    return "消波工堤頭部加強重量檢核啟用讀取失敗";
+                }
+                XmlNode 啟用消波工堤頭部加強Node = RNode;
+
+                if (啟用消波工堤頭部加強重量計算r)
+                {
+                    //消波形塊安定係數.
+                    RNode = 啟用消波工堤頭部加強Node.SelectSingleNode("消波形塊安定係數");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤頭部加強之消波形塊安定係數讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波形塊堤頭部加強安定係數r))
+                    {
+                        return "堤頭部加強之消波形塊安定係數讀取失敗";
+                    }
+
+                    //混凝土單位體積重.
+                    RNode = 啟用消波工堤頭部加強Node.SelectSingleNode("混凝土單位體積重");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤頭部加強之混凝土單位體積重讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 混凝土堤頭部加強單位體積重))
+                    {
+                        return "堤頭部加強之混凝土單位體積重讀取失敗";
+                    }
+
+                    //消波塊斜坡面與水平面之夾角.
+                    RNode = 啟用消波工堤頭部加強Node.SelectSingleNode("消波塊斜坡面與水平面之夾角");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤頭部加強之消波塊斜坡面與水平面之夾角讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波塊堤頭部加強斜坡面與水平面夾角r))
+                    {
+                        return "堤頭部加強之消波塊斜坡面與水平面之夾角讀取失敗";
+                    }
+
+                }
+                else
+                {
+                    消波形塊堤頭部加強安定係數r = 0;
+                    混凝土堤頭部加強單位體積重 = 0;
+                    消波塊堤頭部加強斜坡面與水平面夾角r = 0;
+                }
+                //消波工重量檢核啟用.
+                //3. 堤頭部加強
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/消波工堤身段航道側重量檢核啟用");
+                if (object.Equals(RNode, null))
+                {
+                    return "消波工堤身段航道側重量檢核啟用讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 啟用消波工堤身段航道側重量計算r))
+                {
+                    return "消波工堤身段航道側重量檢核啟用讀取失敗";
+                }
+                XmlNode 啟用消波工堤身段航道側Node = RNode;
+
+                if (啟用消波工堤身段航道側重量計算r)
+                {
+                    //消波形塊安定係數.
+                    RNode = 啟用消波工堤身段航道側Node.SelectSingleNode("消波形塊安定係數");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤身段航道側之消波形塊安定係數讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波形塊堤身段航道側安定係數r))
+                    {
+                        return "堤身段航道側之消波形塊安定係數讀取失敗";
+                    }
+
+                    //混凝土單位體積重.
+                    RNode = 啟用消波工堤身段航道側Node.SelectSingleNode("混凝土單位體積重");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤身段航道側之混凝土單位體積重讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 混凝土堤身段航道側單位體積重))
+                    {
+                        return "堤身段航道側之混凝土單位體積重讀取失敗";
+                    }
+
+                    //消波塊斜坡面與水平面之夾角.
+                    RNode = 啟用消波工堤身段航道側Node.SelectSingleNode("消波塊斜坡面與水平面之夾角");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤身段航道側之消波塊斜坡面與水平面之夾角讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 消波塊堤身段航道側斜坡面與水平面夾角r))
+                    {
+                        return "堤身段航道側之消波塊斜坡面與水平面之夾角讀取失敗";
+                    }
+                    //波高傳遞率.
+                    RNode = 啟用消波工堤身段航道側Node.SelectSingleNode("波高傳遞率");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "堤身段航道側之波高傳遞率讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 堤身段航道側波高傳遞率ktr))
+                    {
+                        return "堤身段航道側之波高傳遞率讀取失敗";
+                    }
+
+                }
+                else
+                {
+                    消波形塊堤身段航道側安定係數r = 0;
+                    混凝土堤身段航道側單位體積重 = 0;
+                    消波塊堤身段航道側斜坡面與水平面夾角r = 0;
+                    堤身段航道側波高傳遞率ktr = 0;
                 }
 
 
@@ -1842,30 +2533,31 @@ namespace VE_SD
                 {
                     return "胸牆部安定檢核啟用讀取失敗";
                 }
+                XmlNode 啟用胸牆部檢核 = RNode;
                 if(啟用胸牆部安定檢核r)
                 {
                     //胸牆部安定檢核啟用.
-                    RNode = doc.SelectSingleNode("Root/GlobalParameters/混凝土容許應力");
+                    RNode = 啟用胸牆部檢核.SelectSingleNode("混凝土容許應力");
                     if (object.Equals(RNode, null))
                     {
-                        return "混凝土容許應力讀取失敗";
+                        return "胸牆部安定檢核之混凝土容許應力讀取失敗";
                     }
                     Relement = (XmlElement)RNode;
                     if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 混凝土容許應力r))
                     {
-                        return "混凝土容許應力讀取失敗";
+                        return "胸牆部安定檢核之混凝土容許應力讀取失敗";
                     }
 
                     //胸牆部安定檢核啟用.
-                    RNode = doc.SelectSingleNode("Root/GlobalParameters/BK");
+                    RNode = 啟用胸牆部檢核.SelectSingleNode("BK");
                     if (object.Equals(RNode, null))
                     {
-                        return "BK讀取失敗";
+                        return "胸牆部安定檢核之BK讀取失敗";
                     }
                     Relement = (XmlElement)RNode;
                     if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out BKr))
                     {
-                        return "BK讀取失敗";
+                        return "胸牆部安定檢核之BK讀取失敗";
                     }
                 }
                 else
@@ -2166,6 +2858,24 @@ namespace VE_SD
                     }
                     BlockMainArrayR[blockSizer].使用材質 = Relement.GetAttribute("Value");
 
+                    string[] GetRE = new string[] { };
+                    XmlNodeList Block周圍參考材質 = BlockNode.SelectNodes("周圍參考材質");
+                    if(!object.Equals(Block周圍參考材質,null))
+                    {
+                        foreach (XmlNode MD in Block周圍參考材質)
+                        {
+                            Relement = (XmlElement)MD;
+                            if(!DDR.ContainsKey(Relement.GetAttribute("Value").ToString()))
+                            {
+                                return "Block讀取周圍參考材質";
+                            }
+                            Array.Resize(ref GetRE, GetRE.GetLength(0) + 1);
+                            GetRE[GetRE.GetUpperBound(0)] = Relement.GetAttribute("Value");
+                        }
+                    }
+                    BlockMainArrayR[blockSizer].周圍參考材質 = GetRE;
+
+
                     XmlNodeList CoordinateCollection = BlockNode.SelectNodes("BlockCoordinate");
                     if (object.Equals(CoordinateCollection, null))
                     {
@@ -2257,56 +2967,143 @@ namespace VE_SD
             textBox_SFSlide.Text = SFSlider.ToString();
             textBox_SeaGamma.Text = SeaGammar.ToString();
 
-            if(啟用消波工重量計算r)
+            if(啟用消波工堤身段港外側重量計算r)
             {
-                textBox_KDL.ReadOnly = false;
-                textBox_Sr.ReadOnly = false;
-                textBox_slopeangle.ReadOnly = false;
-                textBox_Kt.ReadOnly = false;
-                textBox_KDL.Enabled = true;
-                textBox_Sr.Enabled = true;
-                textBox_slopeangle.Enabled = true;
-                textBox_Kt.Enabled = true;
-                label18.Enabled = true;
-                label19.Enabled = true;
-                label20.Enabled = true;
-                label24.Enabled = true;
+                textBox_HO_KDL.ReadOnly = false;
+                textBox_HO_Gamma.ReadOnly = false;
+                textBox_HO_slopeangle.ReadOnly = false;
 
-                chk_BlockWeightCalc.Checked = true;
-                textBox_KDL.Text = 消波形塊安定係數r.ToString();
-                textBox_Sr.Text = 混凝土與海水之比重srr.ToString();
-                textBox_slopeangle.Text = 消波塊斜坡面與水平面夾角r.ToString();
-                textBox_Kt.Text = 波高傳遞率ktr.ToString();
+                textBox_HO_KDL.Enabled = true;
+                textBox_HO_Gamma.Enabled = true;
+                textBox_HO_slopeangle.Enabled = true;
+
+                label_HO_1.Enabled = true;
+                label_HO_2.Enabled = true;
+                label_HO_3.Enabled = true;
+
+
+                chk_BlockWeightCalc_HO.Checked = true;
+                textBox_HO_KDL.Text = 消波形塊堤身段港外側安定係數r.ToString();
+                textBox_HO_Gamma.Text = 混凝土堤身段港外側單位體積重.ToString();
+                textBox_HO_slopeangle.Text = 消波塊堤身段港外側斜坡面與水平面夾角r.ToString();
             }
             else
             {
-                textBox_KDL.ReadOnly = true;
-                textBox_Sr.ReadOnly = true;
-                textBox_slopeangle.ReadOnly = true;
-                textBox_Kt.ReadOnly = true;
-                label18.Enabled = false;
-                label19.Enabled = false;
-                label20.Enabled = false;
-                label24.Enabled = false;
-                textBox_KDL.Enabled = false;
-                textBox_Sr.Enabled = false;
-                textBox_slopeangle.Enabled = false;
-                textBox_Kt.Enabled = false;
+                textBox_HO_KDL.ReadOnly = true;
+                textBox_HO_Gamma.ReadOnly = true;
+                textBox_HO_slopeangle.ReadOnly = true;
 
-                chk_BlockWeightCalc.Checked = false;
-                textBox_KDL.Text = "";
-                textBox_Sr.Text = "";
-                textBox_slopeangle.Text = "";
-                textBox_Kt.Text = "";
+                label_HO_1.Enabled = false;
+                label_HO_2.Enabled = false;
+                label_HO_3.Enabled = false;
+
+                textBox_HO_KDL.Enabled = false;
+                textBox_HO_Gamma.Enabled = false;
+                textBox_HO_slopeangle.Enabled = false;
+
+
+                chk_BlockWeightCalc_HO.Checked = false;
+                textBox_HO_KDL.Text = "";
+                textBox_HO_Gamma.Text = "";
+                textBox_HO_slopeangle.Text = "";
+
             }
+            if(啟用消波工堤頭部加強重量計算r)
+            {
+                textBox_HE_KDL.ReadOnly = false;
+                textBox_HE_Gamma.ReadOnly = false;
+                textBox_HE_slopeangle.ReadOnly = false;
+
+                textBox_HE_KDL.Enabled = true;
+                textBox_HE_Gamma.Enabled = true;
+                textBox_HE_slopeangle.Enabled = true;
+
+                label_HE_1.Enabled = true;
+                label_HE_2.Enabled = true;
+                label_HE_3.Enabled = true;
+
+
+                chk_BlockWeightCalc_HE.Checked = true;
+                textBox_HE_KDL.Text = 消波形塊堤頭部加強安定係數r.ToString();
+                textBox_HE_Gamma.Text = 混凝土堤頭部加強單位體積重.ToString();
+                textBox_HE_slopeangle.Text = 消波塊堤頭部加強斜坡面與水平面夾角r.ToString();
+            }
+            else
+            {
+                textBox_HE_KDL.ReadOnly = true;
+                textBox_HE_Gamma.ReadOnly = true;
+                textBox_HE_slopeangle.ReadOnly = true;
+
+                label_HE_1.Enabled = false;
+                label_HE_2.Enabled = false;
+                label_HE_3.Enabled = false;
+
+                textBox_HE_KDL.Enabled = false;
+                textBox_HE_Gamma.Enabled = false;
+                textBox_HE_slopeangle.Enabled = false;
+
+
+                chk_BlockWeightCalc_HE.Checked = false;
+                textBox_HE_KDL.Text = "";
+                textBox_HE_Gamma.Text = "";
+                textBox_HE_slopeangle.Text = "";
+            }
+            if(啟用消波工堤身段航道側重量計算r)
+            {
+
+                textBox_BD_KDL.ReadOnly = false;
+                textBox_BD_Gamma.ReadOnly = false;
+                textBox_BD_slopeangle.ReadOnly = false;
+                textBox_BD_Kt.ReadOnly = false;
+
+                textBox_BD_KDL.Enabled = true;
+                textBox_BD_Gamma.Enabled = true;
+                textBox_BD_slopeangle.Enabled = true;
+                textBox_BD_Kt.Enabled = true;
+
+                label_BD_1.Enabled = true;
+                label_BD_2.Enabled = true;
+                label_BD_3.Enabled = true;
+                label_BD_4.Enabled = true;
+
+                chk_BlockWeightCalc_BD.Checked = true;
+                textBox_BD_KDL.Text = 消波形塊堤身段航道側安定係數r.ToString();
+                textBox_BD_Gamma.Text = 混凝土堤身段航道側單位體積重.ToString();
+                textBox_BD_slopeangle.Text = 消波塊堤身段航道側斜坡面與水平面夾角r.ToString();
+                textBox_BD_Kt.Text = 堤身段航道側波高傳遞率ktr.ToString();
+            }
+            else
+            {
+                textBox_BD_KDL.ReadOnly = true;
+                textBox_BD_Gamma.ReadOnly = true;
+                textBox_BD_slopeangle.ReadOnly = true;
+                textBox_BD_Kt.ReadOnly = true;
+
+                label_BD_1.Enabled = false;
+                label_BD_2.Enabled = false;
+                label_BD_3.Enabled = false;
+                label_BD_4.Enabled = false;
+
+                textBox_BD_KDL.Enabled = false;
+                textBox_BD_Gamma.Enabled = false;
+                textBox_BD_slopeangle.Enabled = false;
+                textBox_BD_Kt.Enabled = false;
+
+                chk_BlockWeightCalc_BD.Checked = false;
+                textBox_BD_KDL.Text = "";
+                textBox_BD_Gamma.Text = "";
+                textBox_BD_slopeangle.Text = "";
+                textBox_BD_Kt.Text = "";
+            }
+
             if (啟用胸牆部安定檢核r)
             {
                 textBox_ConcreteAllowStress.ReadOnly = false;
                 textBox_BK.ReadOnly = false;
                 textBox_ConcreteAllowStress.Enabled = true;
                 textBox_BK.Enabled = true;
-                label21.Enabled = true;
-                label22.Enabled = true;
+                label_BreastCheck_1.Enabled = true;
+                label_BrestCheck_2.Enabled = true;
 
                 chk_HeadBreastCalc.Checked = true;
                 textBox_ConcreteAllowStress.Text = 混凝土容許應力r.ToString();
@@ -2316,12 +3113,12 @@ namespace VE_SD
             {
                 textBox_ConcreteAllowStress.ReadOnly = true;
                 textBox_BK.ReadOnly = true;
-                label21.Enabled = false;
-                label22.Enabled = false;
+                label_BreastCheck_1.Enabled = false;
+                label_BrestCheck_2.Enabled = false;
                 textBox_ConcreteAllowStress.Enabled=false;
                 textBox_BK.Enabled = false;
 
-                chk_BlockWeightCalc.Checked = false;
+                chk_BlockWeightCalc_HO.Checked = false;
                 textBox_ConcreteAllowStress.Text = ""; // 混凝土容許應力r.ToString();
                 textBox_BK.Text = ""; // BKr.ToString();
             }
@@ -2358,6 +3155,7 @@ namespace VE_SD
 
             //Block區塊,填入變數.
             listBox_SectSetting.Items.Clear();
+            ReferencedMaterialCHKL.Items.Clear();
             Array.Resize(ref BlockMainArray, 0);
             Array.Resize(ref BlockMainArray, BlockMainArrayR.GetLength(0));
             BlockCount = BlockMainArrayR.GetLength(0);
@@ -2429,12 +3227,18 @@ namespace VE_SD
             textBox_YO.Text = yo.ToString();
             textBox_XO.ReadOnly = true;
             textBox_YO.ReadOnly = true;
-            if(BlockMainArray.GetLength(0)>0)
+            if (BlockMainArray.GetLength(0) > 0)
             {
                 開始檢核ToolStripMenuItem.Enabled = true;
+                btn_Test.Enabled = true;
             }
             else
-            { 開始檢核ToolStripMenuItem.Enabled = false; }
+            {
+                開始檢核ToolStripMenuItem.Enabled = false;
+                btn_Test.Enabled = false;
+            }
+            btn_LogOutput.Enabled = false;
+            btn_OutputExcel.Enabled = false;
             tsp_cond.Text = "請設定或編輯您的專案檔";
             tsp_progressbar.Visible = false;
             //==============================================================================================//
@@ -2504,8 +3308,11 @@ namespace VE_SD
            else
             { return; }
 
-            if (!CheckTextBoxNoEmpty())
+            string CheckTextBoxNoEmptyString = "";
+            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
             {
+                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
+                ff.Show();
                 return;
             }
 
@@ -2514,39 +3321,38 @@ namespace VE_SD
         }
 
         #endregion
-
         #region 消波工重量檢核計算打開
         private void chk_BlockWeightCalc_CheckedChanged(object sender, EventArgs e)
         {
-            if (chk_BlockWeightCalc.Checked)
+            if (chk_BlockWeightCalc_HO.Checked)
             {
-                label18.Enabled = true;
-                label19.Enabled = true;
-                label20.Enabled = true;
-                label24.Enabled = true;
-                textBox_KDL.ReadOnly = false;
-                textBox_Sr.ReadOnly = false;
-                textBox_slopeangle.ReadOnly = false;
-                textBox_Kt.ReadOnly = false;
-                textBox_KDL.Enabled = true;
-                textBox_Sr.Enabled = true;
-                textBox_slopeangle.Enabled = true;
-                textBox_Kt.Enabled = true;
+                label_HO_1.Enabled = true;
+                label_HO_2.Enabled = true;
+                label_HO_3.Enabled = true;
+                label_BD_4.Enabled = true;
+                textBox_HO_KDL.ReadOnly = false;
+                textBox_HO_Gamma.ReadOnly = false;
+                textBox_HO_slopeangle.ReadOnly = false;
+                textBox_BD_Kt.ReadOnly = false;
+                textBox_HO_KDL.Enabled = true;
+                textBox_HO_Gamma.Enabled = true;
+                textBox_HO_slopeangle.Enabled = true;
+                textBox_BD_Kt.Enabled = true;
             }
             else
             {
-              label18.Enabled = false;
-              label19.Enabled = false;
-              label20.Enabled = false;
-              label24.Enabled = false;
-              textBox_KDL.ReadOnly = true;
-              textBox_Sr.ReadOnly = true;
-              textBox_slopeangle.ReadOnly = true;
-              textBox_Kt.ReadOnly = true;
-                textBox_KDL.Enabled = false;
-                textBox_Sr.Enabled = false;
-                textBox_slopeangle.Enabled = false;
-                textBox_Kt.Enabled = false;
+              label_HO_1.Enabled = false;
+              label_HO_2.Enabled = false;
+              label_HO_3.Enabled = false;
+              label_BD_4.Enabled = false;
+              textBox_HO_KDL.ReadOnly = true;
+              textBox_HO_Gamma.ReadOnly = true;
+              textBox_HO_slopeangle.ReadOnly = true;
+              textBox_BD_Kt.ReadOnly = true;
+                textBox_HO_KDL.Enabled = false;
+                textBox_HO_Gamma.Enabled = false;
+                textBox_HO_slopeangle.Enabled = false;
+                textBox_BD_Kt.Enabled = false;
             }
         }
         private void textBox_KDL_KeyPress(object sender, KeyPressEventArgs e)
@@ -2562,15 +3368,14 @@ namespace VE_SD
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         #endregion
-
         #region 胸牆部安定檢核計算開啟
 
         private void chk_HeadBreastCalc_CheckedChanged(object sender, EventArgs e)
         {
             if (chk_HeadBreastCalc.Checked)
             {
-                label21.Enabled = true;
-                label22.Enabled = true;
+                label_BreastCheck_1.Enabled = true;
+                label_BrestCheck_2.Enabled = true;
                 textBox_ConcreteAllowStress.ReadOnly = false;
                 textBox_BK.ReadOnly = false;
                 textBox_ConcreteAllowStress.Enabled = true;
@@ -2578,8 +3383,8 @@ namespace VE_SD
             }
             else
             {
-                label21.Enabled = false;
-                label22.Enabled = false;
+                label_BreastCheck_1.Enabled = false;
+                label_BrestCheck_2.Enabled = false;
                 textBox_ConcreteAllowStress.ReadOnly = true;
                 textBox_BK.ReadOnly = true;
                 textBox_ConcreteAllowStress.Enabled = false;
@@ -2602,146 +3407,303 @@ namespace VE_SD
         }
 
         #region 檢核主區塊
-        Boolean CheckTextBoxNoEmpty()
+        Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
+            ErrorMsg = "";
+            bool okOrNot = true;//True is Ok[No faults].
+
             if (cmb_seawaveDir.SelectedItem.ToString() == "")
             {
-                MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您深海波波向沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_H0.Text.ToString() == "")
             {
-                MessageBox.Show("您深海波波高沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您深海波波高沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波高沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_T0.Text.ToString() == "")
             {
-                MessageBox.Show("您深海波週期沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您深海波週期沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+               // MessageBox.Show("您深海波週期沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+               //return false;
             }
             if(textBox_GroundELE.Text.ToString()=="")
             {
-                MessageBox.Show("您地面線(m)沒有設定!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您地面線(m)沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您地面線(m)沒有設定!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_ArmorBlockEle.Text.ToString() == "")
             {
-                MessageBox.Show("您消波塊高程(m)沒有設定!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您消波塊高程(m)沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您消波塊高程(m)沒有設定!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_HWL.Text.ToString() == "")
             {
-                MessageBox.Show("您設計潮位沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您設計潮位(HWL)(m)沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您設計潮位沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_Slope.Text.ToString() == "")
             {
-                MessageBox.Show("您海床坡度沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您海床坡度沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您海床坡度沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_Kr.Text.ToString() == "")
             {
-                MessageBox.Show("您折射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您折射係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您折射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_Ks.Text.ToString() == "")
             {
-                MessageBox.Show("您淺化係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您淺化係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您淺化係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_Kd.Text.ToString() == "")
             {
-                MessageBox.Show("您繞射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您繞射係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您繞射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_Lenda.Text.ToString() == "")
             {
-                MessageBox.Show("您波力折減係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您波力折減係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您波力折減係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_Beta.Text.ToString() == "")
             {
-                MessageBox.Show("您入射波與堤體法線垂直交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您入射波與堤體法線垂直交角沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您入射波與堤體法線垂直交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_SFSlide.Text.ToString() == "")
             {
-                MessageBox.Show("您滑動安全係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您滑動安全係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您滑動安全係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_SFOver.Text.ToString() == "")
             {
-                MessageBox.Show("您傾倒安全係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您傾倒安全係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您傾倒安全係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
             if (textBox_SeaGamma.Text.ToString() == "")
             {
-                MessageBox.Show("您海水單位體積重量沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                ErrorMsg += ("您海水單位體積重量沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您海水單位體積重量沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
             }
-            if (chk_BlockWeightCalc.Checked)
+            if (chk_BlockWeightCalc_HO.Checked)
             {
-                if (textBox_KDL.Text.ToString() == "")
+                if (textBox_HO_KDL.Text.ToString() == "")
                 {
-                    MessageBox.Show("您消波形塊安定係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return false;
+                    ErrorMsg += ("您「堤身段港外側」的消波形塊安定係數沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您消波形塊安定係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
                 }
-                if (textBox_Sr.Text.ToString() == "")
+                if (textBox_HO_Gamma.Text.ToString() == "")
                 {
-                    MessageBox.Show("您混凝土與海水之比重沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return false;
+                    ErrorMsg += ("您「堤身段港外側」的混凝土單位體積重沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您混凝土與海水之比重沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
                 }
-                if (textBox_slopeangle.Text.ToString() == "")
+                if (textBox_HO_slopeangle.Text.ToString() == "")
                 {
-                    MessageBox.Show("您消波塊斜坡面與水平面之交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return false;
-                }
-                if (textBox_Kt.Text.ToString() == "")
-                {
-                    MessageBox.Show("您波高傳遞率Kt沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return false;
+                    ErrorMsg += ("您「堤身段港外側」的消波塊斜坡面與水平面之交角沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您消波塊斜坡面與水平面之交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
                 }
                
+            }
+            if (chk_BlockWeightCalc_HE.Checked)
+            {
+                if (textBox_HE_KDL.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤頭部加強」的消波形塊安定係數沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您消波形塊安定係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+                if (textBox_HE_Gamma.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤頭部加強」的混凝土單位體積重沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您混凝土與海水之比重沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+                if (textBox_HE_slopeangle.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤頭部加強」的消波塊斜坡面與水平面之交角沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您消波塊斜坡面與水平面之交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+
+            }
+            if (chk_BlockWeightCalc_BD.Checked)
+            {
+                if (textBox_BD_KDL.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤身段航道側」的消波形塊安定係數沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您消波形塊安定係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+                if (textBox_BD_Gamma.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤身段航道側」的混凝土單位體積重沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您混凝土與海水之比重沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+                if (textBox_BD_slopeangle.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤身段航道側」的消波塊斜坡面與水平面之交角沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您消波塊斜坡面與水平面之交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+                if (textBox_BD_Kt.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「堤身段航道側」的波高傳遞率Kt沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您波高傳遞率Kt沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
+
             }
             if (chk_HeadBreastCalc.Checked)
             {
                 if (textBox_ConcreteAllowStress.Text.ToString() == "")
                 {
-                    MessageBox.Show("您混凝土容許應力沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return false;
+                    ErrorMsg += ("您「胸牆部安定檢核」的混凝土容許應力沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您「胸牆部安定檢核」的混凝土容許應力沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
                 }
                 if (textBox_BK.Text.ToString() == "")
                 {
-                    MessageBox.Show("您BK'沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return false;
+                    ErrorMsg += ("您「胸牆部安定檢核」的BK沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您「胸牆部安定檢核」的BK'沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
                 }
             }
-            return true;
+            return okOrNot;
         }
-        Boolean CanRunTheCalc()
+        Boolean CanRunTheCalc(ref string ErrorMsg)
         {
+            ErrorMsg = "";
+            bool okOrNot = true;
             //檢查是否每個Block都設定完成.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {
                 //使用材質不可為空白.
                 if(BlockMainArray[i].使用材質.ToString()=="")
                 {
-                    return false;
+                    ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的使用材質沒有設定!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //return false;
                 }
                 double fi;
                 if(!double.TryParse(BlockMainArray[i].單位體積重量.ToString(),out fi))
                 {
-                    return false;
+                    ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的單位體積重量設定錯誤!" + Environment.NewLine);
+                    okOrNot = false;
+                    //return false;
                 }
                 //座標不可為空白.
                 if(BlockMainArray[i].座標點數==0)
                 {
-                    return false;
+                    ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的座標點數為零!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //return false;
                 }
                 if(!MaterialNameToArraySubScript.ContainsKey(BlockMainArray[i].使用材質))
                 {
-                    return false;
+                    ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的使用材質並沒有被定義過!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //return false;
                 }
+
+                //環繞之參考材質不可為空白[至少要一個],且設定的材質不可找不到其摩擦係數設定.
+                string[] BlockReferencedMaterial = BlockMainArray[i].周圍參考材質;
+                if(BlockReferencedMaterial.GetLength(0)==0)
+                {
+                    //環繞之參考材質無設定.
+                    ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的周圍參考材質沒有設定!!!" + Environment.NewLine);
+                    okOrNot = false;
+                }
+                if(BlockMainArray[i].使用材質.ToString()!="")
+                {
+                    //在有設定使用材質的情況下檢查摩擦係數有沒有設定才有意義.
+                    //任何一個參考設定都不可以缺漏.
+                    string M1 = BlockMainArray[i].使用材質;
+                    for(int j=0;j<BlockReferencedMaterial.GetLength(0);j++)
+                    {
+                        bool fullfill = false;
+                        string M2 = BlockReferencedMaterial[j];
+                        for(int k=0;k<MaterialsCoefArray.GetLength(0);k++)
+                        {
+                            string C1 = MaterialSubscriptToName[MaterialsCoefArray[k].Id1];
+                            string C2 = MaterialSubscriptToName[MaterialsCoefArray[k].Id2];
+                            if (C1==M1 && C2==M2 && MaterialsCoefArray[k].coef!=-9999)
+                            {
+                                fullfill = true;
+                                break;
+                            }
+                            else if(C1==M2 && C2==M1 && MaterialsCoefArray[k].coef != -9999)
+                            {
+                                fullfill = true;
+                                break;
+                            }
+                        }
+                        if(!fullfill)
+                        {
+                            ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'使用材質為'" + M1 + "'，周圍參考材質'" + M2 + "'找不到設定完成的材質間摩擦係數!!!" + Environment.NewLine);
+                            okOrNot = false;
+                        }
+                    }
+                }
+
+                //Polygon需逆時針.
+                Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
+               
+                if (!p.CheckIsConvexPolygonAndCounterClockWise(BlockMainArray[i].X, BlockMainArray[i].Y))
+                {
+                    //若排列順序非逆時針.
+                    ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的座標矩陣錯誤,此Block非凸邊形且座標沒有依照逆時針方向紀錄!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //return false;
+                 }
+
             }
             //Block有用到的材質間之摩擦係數不可為無設定.
             Dictionary<string, int> BlockUseMaterialNameCount = new Dictionary<string, int>();
@@ -2765,13 +3727,14 @@ namespace VE_SD
                 }
             }
             //用簡單方法來檢查摩擦係數有沒有設定.
+            bool frictionError = false;
             for(int i=0;i<BlockUseMaterial.GetLength(0);i++)
             {
                 string M1 = BlockUseMaterial[i];
                 for(int j=0;j<BlockUseMaterial.GetLength(0);j++)
                 {
                     string M2 = BlockUseMaterial[j];
-                    bool hasThis = true;
+                    bool hasThis = false ;
                     int fullfillcount = 0; ;//Checking if has any two same materials with different roughness.
                     //Finding effective record.
                     for(int k=0;k<MaterialsCoefArray.GetLength(0);k++)
@@ -2799,39 +3762,174 @@ namespace VE_SD
                     }
                     if(fullfillcount!=1)
                     {
-                        return false;
+                        frictionError = true;
+                        //return false;
                     }
-                    if(!hasThis)
-                    { return false; }
+                    if (!hasThis)
+                    { frictionError = true; }// return false; }
                 }
             }
+            if(frictionError)
+            {
+                ErrorMsg += ("摩擦係數設定有誤!有某一列或多列之材質間摩擦係數設定衝突或是沒有設定摩擦係數值!!" + Environment.NewLine);
+                okOrNot = false;
+            }
 
-            //其他檢查可能包括Block點位是否為逆時針.
+
+            //檢查EL設定是否正確.
+            //1-1. 取得海側方向之EL Maximum與Minimum.
+            double[] ELMINInner = new double[] { };
+            double[] ELMAXInner = new double[] { };
+            double XCenterX = -100000;
+            取得目前ELMIN與ELMAX(ref ELMINInner, ref ELMAXInner, ref XCenterX);
+            //根據目前選取的海向,決定ARROW圖與EL最大值與最小值.
+            if (cmb_seawaveDir.SelectedItem.ToString() == "E")
+            {
+                //[東].海側在右邊,箭頭往左邊畫.
+                MinEL = ELMINInner[1];
+                MaxEL = ELMAXInner[1];
+            }
+            else if (cmb_seawaveDir.SelectedItem.ToString() == "W")
+            {
+                //[西].海側在左邊,箭頭往右邊.
+                MinEL = ELMINInner[0];
+                MaxEL = ELMAXInner[0];
+            }
+            double HWLValue = -9999;
+            bool hasHWLValue = false;
+            if(double.TryParse(textBox_HWL.Text.ToString(),out HWLValue))
+            {
+                hasHWLValue = true;
+            }
+            else
+            {
+                //無法轉換HWL.
+                ErrorMsg += ("無法成功轉換設計潮位HWL值(m)!!!!" + Environment.NewLine);
+                okOrNot = false;
+            }
+            string ELErrorMessage=( "目前海側方向之EL最大值為" + MaxEL.ToString() + "(m),最小值為" + MinEL.ToString() + "(m)" + Environment.NewLine);
+            bool hasELError = false;
+            if (hasHWLValue && (HWLValue > MaxEL || HWLValue < MinEL))
+            {
+                //HWL超出目前Block海側方向之EL限度.
+                ELErrorMessage += ("您的HWL(m) = " + HWLValue.ToString() + "超過目前海側方向的EL範圍" + Environment.NewLine);
+                hasELError = true;
+            }
+            Dictionary<double, int> ErrorEL = new Dictionary<double, int>();
+            for (int i = 0; i < ELDGV1.Rows.Count - 1; i++)
+            {
+                double itest;
+                if (double.TryParse(ELDGV1.Rows[i].Cells[0].Value.ToString(), out itest))
+                {
+                    if (hasHWLValue)
+                    {
+                        if (itest != HWLValue && (itest < MinEL || itest > MaxEL))
+                        {
+                            if (!ErrorEL.ContainsKey(itest))
+                            {
+                                ELErrorMessage += ("您的EL值" + itest.ToString() + "超過目前海側方向的EL範圍" + Environment.NewLine);
+                                ErrorEL.Add(itest, 1);
+                                hasELError = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (itest < MinEL || itest > MaxEL)
+                        {
+                            if (!ErrorEL.ContainsKey(itest))
+                            {
+                                ELErrorMessage += ("您的EL值" + itest.ToString() + "超過目前海側方向的EL範圍" + Environment.NewLine);
+                                ErrorEL.Add(itest, 1);
+                                hasELError = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if(hasELError)
+            {
+                ErrorMsg += (ELErrorMessage + Environment.NewLine);
+                okOrNot = false;
+            }
+
+            //Polygon之間不可相交.
+
+            //ErrorMsg += ("Block '" + BlockMainArray[i].名稱 + "'的座標矩陣錯誤,此Block非凸邊形且座標沒有依照逆時針方向紀錄!!" + Environment.NewLine);
 
 
-
-
-            return true;
+            return okOrNot;
         }
         private void 開始檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //檢核前預檢查.
-            if(!CheckTextBoxNoEmpty())
+            string CheckTextBoxString = "";
+            if(!CheckTextBoxNoEmpty(ref CheckTextBoxString))
             {
+                FrmShowMsg FF = new FrmShowMsg(CheckTextBoxString,"您有資料未填完成或填入值不正確");
+                FF.Show();
+                btn_OutputExcel.Enabled = false;
+                btn_LogOutput.Enabled = false;
                 return;
             }
 
-
-            //Block檢查.
-            //
-            //
-            //
-            //
-            if(!CanRunTheCalc())
+            string RunCalcString = "";
+            if(!CanRunTheCalc(ref RunCalcString))
             {
-                return;
+                //彈出一個視窗來顯示錯誤資訊.
+                FrmShowMsg FF = new FrmShowMsg(RunCalcString, "您有資料未填完成或填入值不正確");
+                FF.Show();
+                //失敗時,把原先的東西都關掉.
+                btn_OutputExcel.Enabled = false;
+                btn_LogOutput.Enabled = false;
+                return;//禁止往下繼續進行.
+            }
+            //******
+            //計算每個Block的摩擦係數.
+            for(int i=0;i<BlockMainArray.GetLength(0);i++)
+            {
+                string M1 = BlockMainArray[i].使用材質;
+                string[] M2C = BlockMainArray[i].周圍參考材質;
+                double sumv = 0;
+                for(int j=0;j<M2C.GetLength(0);j++)
+                {
+                    string M2 = M2C[j];
+                    double getv=-9999;
+                    for(int k=0;k<MaterialsCoefArray.GetLength(0);k++)
+                    {
+                        string C1 = MaterialSubscriptToName[MaterialsCoefArray[k].Id1];
+                        string c2 = MaterialSubscriptToName[MaterialsCoefArray[k].Id2];
+                        double v1 = MaterialsCoefArray[k].coef;
+                        if(v1==-9999)
+                        {
+                            continue;
+                        }
+                        if(C1==M1 && c2==M2)
+                        {
+                            getv = v1;
+                            break;
+                        }
+                        else if(C1==M2 && c2==M1)
+                        {
+                            getv = v1;
+                            break;
+                        }
+                    }
+                    if(getv==-9999)
+                    {
+                        MessageBox.Show("出現程式錯誤!!!!此時應該要排除找不到摩擦係數的問題!!!");
+                        btn_OutputExcel.Enabled = false;
+                        btn_LogOutput.Enabled = false;
+                        return;
+                    }
+                    sumv += getv;
+                }
+                sumv = sumv / (double)M2C.GetLength(0);
+                BlockMainArray[i].平均摩擦係數 = sumv;
             }
 
+            //***********************
+           
 
             //***********************************************************************************************************************//
             //帶入計算
@@ -2845,6 +3943,7 @@ namespace VE_SD
             Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "e" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
+                       
             //4. Block給定.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {
@@ -2856,7 +3955,6 @@ namespace VE_SD
                 for(int i2=0;i2<座標點數;i2++)
                 {
                     Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
-
                 }
             }
             //5. Level給定.
@@ -2883,16 +3981,22 @@ namespace VE_SD
 
 
             //計算.
-            Mod.Run();
-
-
+            bool SuccessOrNot = Mod.Run();
+            textBox_CheckMessageShow.Text = Mod.ErrMsg;
+            if (!SuccessOrNot)
+            {
+                MessageBox.Show("檢核計算失敗!!!!!", "海堤檢核計算:失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                btn_LogOutput.Enabled = false;
+                btn_OutputExcel.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("檢核計算完成", "海堤檢核計算", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btn_LogOutput.Enabled = true;
+                btn_OutputExcel.Enabled = false;
+            }
             //結果呈現.
-            textBox_CheckMessageShow.Text=Mod.ErrMsg;
-            MessageBox.Show("檢核計算完成", "海堤檢核計算", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            tabControl1.SelectedIndex = 2; //更換頁面.
-
-
-
+            tabControl1.SelectedIndex = 4; //更換頁面.
         }
         #endregion
 
@@ -2903,14 +4007,109 @@ namespace VE_SD
             {
                 //輸出.
                 string getpath = SFD_EXCELReport.FileName;
+                if(File.Exists(getpath))
+                {
+
+                    //規定目前此excel檔案不可被開啟中.
+                    if (IsFileLocked(new FileInfo(getpath)))
+                    {
+                        MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Excel打開中","輸出錯誤",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+                        return;
+                    }
+                }
+
+
+                Excel.Application excelApp;
+                Excel._Workbook wBook;
+                Excel._Worksheet wSheet;
+                Excel.Range range;
+
+                excelApp = new Excel.Application();
+                excelApp.Visible = true;//出現.
+                excelApp.DisplayAlerts = false;
+                excelApp.Workbooks.Add(Type.Missing);
+                wBook = excelApp.Workbooks[1];//第一個活頁簿.
+                wBook.Activate();
 
 
                 //執行EXCEL 輸出.
+                try
+                {
+                    wSheet =(Excel._Worksheet) wBook.Worksheets[1];//第一個工作表.
+                    wSheet.Name = "第一個表格";
+                    wSheet.Activate();
+
+                    range = wSheet.Cells[1, 1];
+                    range.Value = "名稱";
+                    range.Borders.Weight = Excel.XlBorderWeight.xlMedium;
+                    range.Interior.Color = ColorTranslator.ToOle(Color.Gray) ;
+                    range.Font.Color = ColorTranslator.ToOle(Color.White);
+                    range.Font.Bold = true;
+
+                    wSheet.Cells[2, 1] = "10";
+                    wSheet.Cells[3, 1] = "20";
+                    wSheet.Cells[4, 1].Formula = "=SUM(A2:A3)";//string.Format("A{0}:A{1}",2,4);
 
 
+                    range = wSheet.Cells[1, 1];
+                    range.Columns.AutoFit();
+                    range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[3, 2]];
+                    range.Borders.LineStyle = 1;
+                    range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                    range.Borders.Weight = Excel.XlBorderWeight.xlThick;
 
+                    range = wSheet.Range[wSheet.Cells[2, 3], wSheet.Cells[3, 4]];
+                    range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick,Excel.XlColorIndex.xlColorIndexAutomatic);
+                    range.AutoFormat(Excel.XlRangeAutoFormat.xlRangeAutoFormat3DEffects1,true, false, true, false, true, true);
+
+                    range = wSheet.Cells[8, 1];
+                    range.Value = "\u03B4=20.0";
+                    //excelRange.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlThick,
+                    //XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
+                    //excelRange.Merge(excelRange.MergeCells);
+                    //_workSheet.get_Range("A15", "B15").Merge(_workSheet.get_Range("A15", "B15").MergeCells);
+                    wBook.SaveAs(getpath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("輸出Excel檔案時發生意外的狀況而失敗" + Environment.NewLine + ex.Message.ToString(), "輸出失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                wBook.Close(false, Type.Missing, Type.Missing);
+                excelApp.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                wBook = null;
+                wSheet = null;
+                range = null;
+                excelApp = null;
+                GC.Collect();
+
+                MessageBox.Show("輸出完成!!");
 
             }
+        }
+        public bool IsFileLocked(FileInfo file)
+        {
+            FileStream stream = null;
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch(IOException)
+            {
+                //The file is unvaliable:
+                //1. Opened by other programs.
+                //2. still being written.
+                //3. doesn't exist.
+                return true;
+            }
+            finally
+            {
+                if(stream!=null)
+                {
+                    stream.Close();
+                }
+            }
+            return false;//File is not locked.
         }
         #endregion
 
@@ -2940,7 +4139,6 @@ namespace VE_SD
 
             }
         }
-
         #region 關閉表單
 
         private void Form_RDExamProgress_FormClosed(object sender, FormClosedEventArgs e)
@@ -2952,14 +4150,36 @@ namespace VE_SD
         }
         #endregion
         #region EL變更區塊
+        bool EscapeELDGV1CellChange = false;
         private void ELDGV1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             //MessageBox.Show("H!");
+            if(EscapeELDGV1CellChange)
+            {
+                EscapeELDGV1CellChange = false;
+                return;
+            }
             繪上EL();
+        }
+        private void ELDGV1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            //若目前沒有Block,禁止新增.
+            if(BlockMainArray.GetLength(0)==0)
+            {
+                //刪除.
+                DGMaterial.Rows.RemoveAt(e.Row.Index);// addedrow)
+                EscapeELDGV1CellChange = true;
+                return;
+            }
         }
 
         private void ELDGV1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
+            if (EscapeELDGV1CellChange)
+            {
+                EscapeELDGV1CellChange = false;
+                return;
+            }
             繪上EL();
         }
         #endregion
@@ -3089,6 +4309,28 @@ namespace VE_SD
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
                 propertyGrid_Block.SelectedObject = D;
+                //將參考材質填入資訊:前提都是必須要有可用材質.
+                ReferencedMaterialCHKL.Items.Clear();
+                for (int i = 0; i < MaterialArray.GetLength(0); i++)
+                {
+                    ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
+                }
+                //根據此Block是否有選取設定資訊.
+                string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+                string[] AvailableMaterials = new string[] { };
+                for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
+                {
+                    if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                    {
+                        Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                        AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                    }
+                }
+                BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+                for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
+                {
+                    ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                }
                 //MessageBox.Show("P1-3");
                 //完成新增.
 
@@ -3191,7 +4433,7 @@ namespace VE_SD
                 cell2.DataSource = MaterialArray;
             }
             //MessageBox.Show("H2-4");
-            //更改Block內的使用材質.
+            //更改Block內的使用材質
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
             {
                 if (BlockMainArray[i].使用材質 == oldname)
@@ -3199,15 +4441,50 @@ namespace VE_SD
                     BlockMainArray[i].使用材質 = changeName;
                 }
             }
+            //更改Block內參考材質的名稱.
+            for(int i=0;i<BlockMainArray.GetLength(0);i++)
+            {
+                string[] ReferencedMaterialsOfBlock = BlockMainArray[i].周圍參考材質;
+                for(int j=0;j<ReferencedMaterialsOfBlock.GetLength(0);j++)
+                {
+                    if(ReferencedMaterialsOfBlock[j]==oldname)
+                    {
+                        ReferencedMaterialsOfBlock[j] = changeName;
+                    }
+                }
+            }
+
             //MessageBox.Show("H2-5");
             if (listBox_SectSetting.SelectedIndex != -1 && listBox_SectSetting.Items.Count>0)
             {
-                //重新載入Property Grid.
+                //重新載入Property Grid與參考材質.
                 Class_Block_Interface D= new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if(!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
                 propertyGrid_Block.SelectedObject = D;
+                //將參考材質填入資訊:前提都是必須要有可用材質.
+                ReferencedMaterialCHKL.Items.Clear();
+                for (int i = 0; i < MaterialArray.GetLength(0); i++)
+                {
+                    ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
+                }
+                //根據此Block是否有選取設定資訊.
+                string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+                string[] AvailableMaterials = new string[] { };
+                for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
+                {
+                    if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                    {
+                        Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                        AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                    }
+                }
+                BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+                for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
+                {
+                    ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                }
             }
 
             EscapeDGMaterialCellValueChangedFunction = false;
@@ -3323,7 +4600,7 @@ namespace VE_SD
             MessageBox.Show("D1-3");
             //完成移除.
 
-            //檢視目前Block,變更使用此材質之設定為空白.
+            //檢視所有Block,變更使用此材質之設定為空白.
             for (int i=0;i<BlockMainArray.GetLength(0);i++)
             {
                 if(BlockMainArray[i].使用材質==deleteMaterialName)
@@ -3331,15 +4608,57 @@ namespace VE_SD
                     BlockMainArray[i].使用材質 = "";
                 }
             }
+            //檢視所有Block，刪除使用此材質之Block參考材質.
+            for(int i=0;i<BlockMainArray.GetLength(0);i++)
+            {
+                string[] OldName = BlockMainArray[i].周圍參考材質;
+                string[] NewName = new string[] { };
+                for(int j=0;j<OldName.GetLength(0);j++)
+                {
+                    if(OldName[j]==deleteMaterialName)
+                    {
+                        //跳過.
+                    }
+                    else
+                    {
+                        Array.Resize(ref NewName, NewName.GetLength(0) + 1);
+                        NewName[NewName.GetUpperBound(0)] = OldName[j];
+                    }
+                }
+                BlockMainArray[i].周圍參考材質 = NewName;//更新.
+            }
             if(listBox_SectSetting.SelectedIndex!=-1 && listBox_SectSetting.Items.Count>0)
             {
                 //重新載入Property Grid.
-                //MessageBox.Show("PP");
                 Class_Block_Interface D= new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
                 propertyGrid_Block.SelectedObject = D;
+
+                //將參考材質填入資訊:前提都是必須要有可用材質.
+                //這個功能只限定選取中的呈現.
+                ReferencedMaterialCHKL.Items.Clear();
+                for (int i = 0; i < MaterialArray.GetLength(0); i++)
+                {
+                    ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
+                }
+                //根據此Block是否有選取設定資訊.
+                string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+                string[] AvailableMaterials = new string[] { };
+                for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
+                {
+                    if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                    {
+                        Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                        AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                    }
+                }
+                BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+                for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
+                {
+                    ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                }
             }
             //避免又進入DGMaterial CellContentChanged Function內.
             
@@ -3468,6 +4787,174 @@ namespace VE_SD
                 default:
                     break;
             }
+        }
+
+
+
+        #endregion
+
+
+        #region 其他檢核
+        private void chk_BlockWeightCalc_HO_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chk_BlockWeightCalc_HO.Checked)
+            {
+                //勾選.
+                label_HO_1.Enabled = true;
+                label_HO_2.Enabled = true;
+                label_HO_3.Enabled = true;
+                textBox_HO_KDL.ReadOnly = false;
+                textBox_HO_Gamma.ReadOnly = false;
+                textBox_HO_slopeangle.ReadOnly = false;
+                textBox_HO_KDL.Enabled = true;
+                textBox_HO_Gamma.Enabled = true;
+                textBox_HO_slopeangle.Enabled = true;
+            }
+            else
+            {
+                label_HO_1.Enabled = false;
+                label_HO_2.Enabled = false;
+                label_HO_3.Enabled = false;
+                textBox_HO_KDL.ReadOnly = true;
+                textBox_HO_Gamma.ReadOnly = true;
+                textBox_HO_slopeangle.ReadOnly = true;
+                textBox_HO_KDL.Enabled = false;
+                textBox_HO_Gamma.Enabled = false;
+                textBox_HO_slopeangle.Enabled = false;
+            }
+        }
+
+        private void chk_BlockWeightCalc_HE_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_BlockWeightCalc_HE.Checked)
+            {
+                //勾選.
+                label_HE_1.Enabled = true;
+                label_HE_2.Enabled = true;
+                label_HE_3.Enabled = true;
+                textBox_HE_KDL.ReadOnly = false;
+                textBox_HE_Gamma.ReadOnly = false;
+                textBox_HE_slopeangle.ReadOnly = false;
+                textBox_HE_KDL.Enabled = true;
+                textBox_HE_Gamma.Enabled = true;
+                textBox_HE_slopeangle.Enabled = true;
+            }
+            else
+            {
+                label_HE_1.Enabled = false;
+                label_HE_2.Enabled = false;
+                label_HE_3.Enabled = false;
+                textBox_HE_KDL.ReadOnly = true;
+                textBox_HE_Gamma.ReadOnly = true;
+                textBox_HE_slopeangle.ReadOnly = true;
+                textBox_HE_KDL.Enabled = false;
+                textBox_HE_Gamma.Enabled = false;
+                textBox_HE_slopeangle.Enabled = false;
+            }
+        }
+
+        private void chk_BlockWeightCalc_BD_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_BlockWeightCalc_BD.Checked)
+            {
+                //勾選.
+                label_BD_1.Enabled = true;
+                label_BD_2.Enabled = true;
+                label_BD_3.Enabled = true;
+                label_BD_4.Enabled = true;
+                textBox_BD_KDL.ReadOnly = false;
+                textBox_BD_Gamma.ReadOnly = false;
+                textBox_BD_slopeangle.ReadOnly = false;
+                textBox_BD_Kt.ReadOnly = false;
+                textBox_BD_KDL.Enabled = true;
+                textBox_BD_Gamma.Enabled = true;
+                textBox_BD_slopeangle.Enabled = true;
+                textBox_BD_Kt.Enabled = true;
+            }
+            else
+            {
+                label_BD_1.Enabled = false;
+                label_BD_2.Enabled = false;
+                label_BD_3.Enabled = false;
+                label_BD_4.Enabled = false;
+                textBox_BD_KDL.ReadOnly = true;
+                textBox_BD_Gamma.ReadOnly = true;
+                textBox_BD_slopeangle.ReadOnly = true;
+                textBox_BD_Kt.ReadOnly = true;
+                textBox_BD_KDL.Enabled = false;
+                textBox_BD_Gamma.Enabled = false;
+                textBox_BD_slopeangle.Enabled = false;
+                textBox_BD_Kt.Enabled = false;
+            }
+        }
+        private void chk_HeadBreastCalc_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if(!chk_HeadBreastCalc.Checked)
+            {
+                label_BreastCheck_1.Enabled = false;
+                label_BrestCheck_2.Enabled = false;
+                textBox_ConcreteAllowStress.Enabled = false;
+                textBox_ConcreteAllowStress.ReadOnly = true;
+                textBox_BK.ReadOnly = true;
+                textBox_BK.Enabled = false;
+            }
+            else
+            {
+                label_BreastCheck_1.Enabled = true;
+                label_BrestCheck_2.Enabled = true;
+                textBox_ConcreteAllowStress.Enabled = true;
+                textBox_ConcreteAllowStress.ReadOnly = false;
+                textBox_BK.ReadOnly = false;
+                textBox_BK.Enabled = true;
+            }
+        }
+        private void textBox_HO_KDL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_HO_Gamma_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_HO_slopeangle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_HE_KDL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_HE_Gamma_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_HE_slopeangle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_BD_KDL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_BD_Gamma_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_BD_slopeangle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_BD_Kt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_ConcreteAllowStress_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_BK_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         #endregion
 
