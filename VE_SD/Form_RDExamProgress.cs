@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Xml;
+using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.VisualBasic.MyServices;
 
 
 namespace VE_SD
@@ -503,6 +505,7 @@ namespace VE_SD
 
 
             //***********************************************************
+           
         }
 
         private bool JudgeTheTextBoxHandle(TextBox tt, KeyPressEventArgs ei)
@@ -3952,7 +3955,6 @@ namespace VE_SD
                 for(int i2=0;i2<座標點數;i2++)
                 {
                     Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
-
                 }
             }
             //**********************************************************************************************************************//
@@ -3987,14 +3989,109 @@ namespace VE_SD
             {
                 //輸出.
                 string getpath = SFD_EXCELReport.FileName;
+                if(File.Exists(getpath))
+                {
+
+                    //規定目前此excel檔案不可被開啟中.
+                    if (IsFileLocked(new FileInfo(getpath)))
+                    {
+                        MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Excel打開中","輸出錯誤",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+                        return;
+                    }
+                }
+
+
+                Excel.Application excelApp;
+                Excel._Workbook wBook;
+                Excel._Worksheet wSheet;
+                Excel.Range range;
+
+                excelApp = new Excel.Application();
+                excelApp.Visible = true;//出現.
+                excelApp.DisplayAlerts = false;
+                excelApp.Workbooks.Add(Type.Missing);
+                wBook = excelApp.Workbooks[1];//第一個活頁簿.
+                wBook.Activate();
 
 
                 //執行EXCEL 輸出.
+                try
+                {
+                    wSheet =(Excel._Worksheet) wBook.Worksheets[1];//第一個工作表.
+                    wSheet.Name = "第一個表格";
+                    wSheet.Activate();
+
+                    range = wSheet.Cells[1, 1];
+                    range.Value = "名稱";
+                    range.Borders.Weight = Excel.XlBorderWeight.xlMedium;
+                    range.Interior.Color = ColorTranslator.ToOle(Color.Gray) ;
+                    range.Font.Color = ColorTranslator.ToOle(Color.White);
+                    range.Font.Bold = true;
+
+                    wSheet.Cells[2, 1] = "10";
+                    wSheet.Cells[3, 1] = "20";
+                    wSheet.Cells[4, 1].Formula = "=SUM(A2:A3)";//string.Format("A{0}:A{1}",2,4);
 
 
+                    range = wSheet.Cells[1, 1];
+                    range.Columns.AutoFit();
+                    range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[3, 2]];
+                    range.Borders.LineStyle = 1;
+                    range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                    range.Borders.Weight = Excel.XlBorderWeight.xlThick;
 
+                    range = wSheet.Range[wSheet.Cells[2, 3], wSheet.Cells[3, 4]];
+                    range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick,Excel.XlColorIndex.xlColorIndexAutomatic);
+                    range.AutoFormat(Excel.XlRangeAutoFormat.xlRangeAutoFormat3DEffects1,true, false, true, false, true, true);
+
+                    range = wSheet.Cells[8, 1];
+                    range.Value = "\u03B4=20.0";
+                    //excelRange.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlThick,
+                    //XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
+                    //excelRange.Merge(excelRange.MergeCells);
+                    //_workSheet.get_Range("A15", "B15").Merge(_workSheet.get_Range("A15", "B15").MergeCells);
+                    wBook.SaveAs(getpath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("輸出Excel檔案時發生意外的狀況而失敗" + Environment.NewLine + ex.Message.ToString(), "輸出失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                wBook.Close(false, Type.Missing, Type.Missing);
+                excelApp.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                wBook = null;
+                wSheet = null;
+                range = null;
+                excelApp = null;
+                GC.Collect();
+
+                MessageBox.Show("輸出完成!!");
 
             }
+        }
+        public bool IsFileLocked(FileInfo file)
+        {
+            FileStream stream = null;
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch(IOException)
+            {
+                //The file is unvaliable:
+                //1. Opened by other programs.
+                //2. still being written.
+                //3. doesn't exist.
+                return true;
+            }
+            finally
+            {
+                if(stream!=null)
+                {
+                    stream.Close();
+                }
+            }
+            return false;//File is not locked.
         }
         #endregion
 

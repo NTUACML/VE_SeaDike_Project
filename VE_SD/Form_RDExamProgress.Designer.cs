@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle103 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle104 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle105 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle106 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle108 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle107 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -87,6 +87,40 @@
             this.textBox_H0 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage_OtherChkSet = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_BK = new System.Windows.Forms.TextBox();
+            this.label_BrestCheck_2 = new System.Windows.Forms.Label();
+            this.textBox_ConcreteAllowStress = new System.Windows.Forms.TextBox();
+            this.chk_HeadBreastCalc = new System.Windows.Forms.CheckBox();
+            this.label_BreastCheck_1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gp_HO = new System.Windows.Forms.GroupBox();
+            this.chk_BlockWeightCalc_HO = new System.Windows.Forms.CheckBox();
+            this.label_HO_1 = new System.Windows.Forms.Label();
+            this.textBox_HO_KDL = new System.Windows.Forms.TextBox();
+            this.label_HO_2 = new System.Windows.Forms.Label();
+            this.textBox_HO_Gamma = new System.Windows.Forms.TextBox();
+            this.textBox_HO_slopeangle = new System.Windows.Forms.TextBox();
+            this.label_HO_3 = new System.Windows.Forms.Label();
+            this.gp_BD = new System.Windows.Forms.GroupBox();
+            this.label_BD_1 = new System.Windows.Forms.Label();
+            this.textBox_BD_KDL = new System.Windows.Forms.TextBox();
+            this.chk_BlockWeightCalc_BD = new System.Windows.Forms.CheckBox();
+            this.textBox_BD_Kt = new System.Windows.Forms.TextBox();
+            this.textBox_BD_slopeangle = new System.Windows.Forms.TextBox();
+            this.label_BD_4 = new System.Windows.Forms.Label();
+            this.textBox_BD_Gamma = new System.Windows.Forms.TextBox();
+            this.label_BD_2 = new System.Windows.Forms.Label();
+            this.label_BD_3 = new System.Windows.Forms.Label();
+            this.gp_HE = new System.Windows.Forms.GroupBox();
+            this.label_HE_1 = new System.Windows.Forms.Label();
+            this.chk_BlockWeightCalc_HE = new System.Windows.Forms.CheckBox();
+            this.textBox_HE_KDL = new System.Windows.Forms.TextBox();
+            this.label_HE_2 = new System.Windows.Forms.Label();
+            this.label_HE_3 = new System.Windows.Forms.Label();
+            this.textBox_HE_Gamma = new System.Windows.Forms.TextBox();
+            this.textBox_HE_slopeangle = new System.Windows.Forms.TextBox();
             this.tabPage_MaterialAndFirction = new System.Windows.Forms.TabPage();
             this.labelT = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -125,45 +159,20 @@
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
-            this.tabPage_OtherChkSet = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox_BD_Kt = new System.Windows.Forms.TextBox();
-            this.label_BD_4 = new System.Windows.Forms.Label();
-            this.textBox_HO_slopeangle = new System.Windows.Forms.TextBox();
-            this.label_HO_3 = new System.Windows.Forms.Label();
-            this.textBox_HO_Gamma = new System.Windows.Forms.TextBox();
-            this.label_HO_2 = new System.Windows.Forms.Label();
-            this.textBox_HO_KDL = new System.Windows.Forms.TextBox();
-            this.chk_BlockWeightCalc_HO = new System.Windows.Forms.CheckBox();
-            this.label_HO_1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox_BK = new System.Windows.Forms.TextBox();
-            this.label_BrestCheck_2 = new System.Windows.Forms.Label();
-            this.textBox_ConcreteAllowStress = new System.Windows.Forms.TextBox();
-            this.chk_HeadBreastCalc = new System.Windows.Forms.CheckBox();
-            this.label_BreastCheck_1 = new System.Windows.Forms.Label();
-            this.gp_HE = new System.Windows.Forms.GroupBox();
-            this.gp_BD = new System.Windows.Forms.GroupBox();
-            this.gp_HO = new System.Windows.Forms.GroupBox();
-            this.chk_BlockWeightCalc_HE = new System.Windows.Forms.CheckBox();
-            this.label_HE_1 = new System.Windows.Forms.Label();
-            this.textBox_HE_KDL = new System.Windows.Forms.TextBox();
-            this.label_HE_2 = new System.Windows.Forms.Label();
-            this.textBox_HE_Gamma = new System.Windows.Forms.TextBox();
-            this.textBox_HE_slopeangle = new System.Windows.Forms.TextBox();
-            this.label_HE_3 = new System.Windows.Forms.Label();
-            this.label_BD_1 = new System.Windows.Forms.Label();
-            this.chk_BlockWeightCalc_BD = new System.Windows.Forms.CheckBox();
-            this.textBox_BD_KDL = new System.Windows.Forms.TextBox();
-            this.label_BD_2 = new System.Windows.Forms.Label();
-            this.label_BD_3 = new System.Windows.Forms.Label();
-            this.textBox_BD_Gamma = new System.Windows.Forms.TextBox();
-            this.textBox_BD_slopeangle = new System.Windows.Forms.TextBox();
+            this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出Log檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出Excel檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage_BasicParameter.SuspendLayout();
+            this.tabPage_OtherChkSet.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.gp_HO.SuspendLayout();
+            this.gp_BD.SuspendLayout();
+            this.gp_HE.SuspendLayout();
             this.tabPage_MaterialAndFirction.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGMaterialRough)).BeginInit();
@@ -172,12 +181,6 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).BeginInit();
             this.tabPage_RunCheck.SuspendLayout();
-            this.tabPage_OtherChkSet.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.gp_HE.SuspendLayout();
-            this.gp_BD.SuspendLayout();
-            this.gp_HO.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox_SectSetting
@@ -280,7 +283,8 @@
             // 步驟ToolStripMenuItem
             // 
             this.步驟ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.開始檢核ToolStripMenuItem});
+            this.開始檢核ToolStripMenuItem,
+            this.輸出ToolStripMenuItem});
             this.步驟ToolStripMenuItem.Name = "步驟ToolStripMenuItem";
             this.步驟ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.步驟ToolStripMenuItem.Text = "步驟";
@@ -297,16 +301,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea18.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea18);
-            legend18.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend18);
+            chartArea1.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend1);
             this.chart_Plot.Location = new System.Drawing.Point(138, 9);
             this.chart_Plot.Name = "chart_Plot";
-            series18.ChartArea = "ChartArea1";
-            series18.Legend = "Legend1";
-            series18.Name = "Series1";
-            this.chart_Plot.Series.Add(series18);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart_Plot.Series.Add(series1);
             this.chart_Plot.Size = new System.Drawing.Size(821, 354);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -692,6 +696,363 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "深海波波向.................. 波向 = ";
             // 
+            // tabPage_OtherChkSet
+            // 
+            this.tabPage_OtherChkSet.Controls.Add(this.groupBox2);
+            this.tabPage_OtherChkSet.Controls.Add(this.groupBox1);
+            this.tabPage_OtherChkSet.Location = new System.Drawing.Point(4, 25);
+            this.tabPage_OtherChkSet.Name = "tabPage_OtherChkSet";
+            this.tabPage_OtherChkSet.Size = new System.Drawing.Size(1075, 521);
+            this.tabPage_OtherChkSet.TabIndex = 4;
+            this.tabPage_OtherChkSet.Text = "其他檢核";
+            this.tabPage_OtherChkSet.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBox_BK);
+            this.groupBox2.Controls.Add(this.label_BrestCheck_2);
+            this.groupBox2.Controls.Add(this.textBox_ConcreteAllowStress);
+            this.groupBox2.Controls.Add(this.chk_HeadBreastCalc);
+            this.groupBox2.Controls.Add(this.label_BreastCheck_1);
+            this.groupBox2.Font = new System.Drawing.Font("標楷體", 14F);
+            this.groupBox2.Location = new System.Drawing.Point(603, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(466, 104);
+            this.groupBox2.TabIndex = 29;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "  胸牆部安定檢核計算";
+            // 
+            // textBox_BK
+            // 
+            this.textBox_BK.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BK.Location = new System.Drawing.Point(308, 62);
+            this.textBox_BK.Name = "textBox_BK";
+            this.textBox_BK.Size = new System.Drawing.Size(100, 27);
+            this.textBox_BK.TabIndex = 37;
+            this.textBox_BK.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BK_KeyPress_1);
+            // 
+            // label_BrestCheck_2
+            // 
+            this.label_BrestCheck_2.AutoSize = true;
+            this.label_BrestCheck_2.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_BrestCheck_2.Location = new System.Drawing.Point(22, 65);
+            this.label_BrestCheck_2.Name = "label_BrestCheck_2";
+            this.label_BrestCheck_2.Size = new System.Drawing.Size(119, 19);
+            this.label_BrestCheck_2.TabIndex = 36;
+            this.label_BrestCheck_2.Text = "Bk\' (cm) = ";
+            // 
+            // textBox_ConcreteAllowStress
+            // 
+            this.textBox_ConcreteAllowStress.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_ConcreteAllowStress.Location = new System.Drawing.Point(308, 28);
+            this.textBox_ConcreteAllowStress.Name = "textBox_ConcreteAllowStress";
+            this.textBox_ConcreteAllowStress.Size = new System.Drawing.Size(100, 27);
+            this.textBox_ConcreteAllowStress.TabIndex = 35;
+            this.textBox_ConcreteAllowStress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_ConcreteAllowStress_KeyPress_1);
+            // 
+            // chk_HeadBreastCalc
+            // 
+            this.chk_HeadBreastCalc.AutoSize = true;
+            this.chk_HeadBreastCalc.Location = new System.Drawing.Point(17, 4);
+            this.chk_HeadBreastCalc.Name = "chk_HeadBreastCalc";
+            this.chk_HeadBreastCalc.Size = new System.Drawing.Size(15, 14);
+            this.chk_HeadBreastCalc.TabIndex = 0;
+            this.chk_HeadBreastCalc.UseVisualStyleBackColor = true;
+            this.chk_HeadBreastCalc.CheckedChanged += new System.EventHandler(this.chk_HeadBreastCalc_CheckedChanged_1);
+            // 
+            // label_BreastCheck_1
+            // 
+            this.label_BreastCheck_1.AutoSize = true;
+            this.label_BreastCheck_1.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_BreastCheck_1.Location = new System.Drawing.Point(13, 31);
+            this.label_BreastCheck_1.Name = "label_BreastCheck_1";
+            this.label_BreastCheck_1.Size = new System.Drawing.Size(259, 19);
+            this.label_BreastCheck_1.TabIndex = 34;
+            this.label_BreastCheck_1.Text = "混凝土容許應力(kg/cm2) = ";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.gp_HO);
+            this.groupBox1.Controls.Add(this.gp_BD);
+            this.groupBox1.Controls.Add(this.gp_HE);
+            this.groupBox1.Font = new System.Drawing.Font("標楷體", 14F);
+            this.groupBox1.Location = new System.Drawing.Point(8, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(589, 515);
+            this.groupBox1.TabIndex = 28;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "消波工檢核計算";
+            // 
+            // gp_HO
+            // 
+            this.gp_HO.Controls.Add(this.chk_BlockWeightCalc_HO);
+            this.gp_HO.Controls.Add(this.label_HO_1);
+            this.gp_HO.Controls.Add(this.textBox_HO_KDL);
+            this.gp_HO.Controls.Add(this.label_HO_2);
+            this.gp_HO.Controls.Add(this.textBox_HO_Gamma);
+            this.gp_HO.Controls.Add(this.textBox_HO_slopeangle);
+            this.gp_HO.Controls.Add(this.label_HO_3);
+            this.gp_HO.Location = new System.Drawing.Point(9, 31);
+            this.gp_HO.Name = "gp_HO";
+            this.gp_HO.Size = new System.Drawing.Size(574, 113);
+            this.gp_HO.TabIndex = 38;
+            this.gp_HO.TabStop = false;
+            this.gp_HO.Text = "  堤身段(港外側)消波工重量計算";
+            // 
+            // chk_BlockWeightCalc_HO
+            // 
+            this.chk_BlockWeightCalc_HO.AutoSize = true;
+            this.chk_BlockWeightCalc_HO.Location = new System.Drawing.Point(14, 3);
+            this.chk_BlockWeightCalc_HO.Name = "chk_BlockWeightCalc_HO";
+            this.chk_BlockWeightCalc_HO.Size = new System.Drawing.Size(15, 14);
+            this.chk_BlockWeightCalc_HO.TabIndex = 0;
+            this.chk_BlockWeightCalc_HO.UseVisualStyleBackColor = true;
+            this.chk_BlockWeightCalc_HO.CheckedChanged += new System.EventHandler(this.chk_BlockWeightCalc_HO_CheckedChanged);
+            // 
+            // label_HO_1
+            // 
+            this.label_HO_1.AutoSize = true;
+            this.label_HO_1.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_HO_1.Location = new System.Drawing.Point(6, 31);
+            this.label_HO_1.Name = "label_HO_1";
+            this.label_HO_1.Size = new System.Drawing.Size(179, 19);
+            this.label_HO_1.TabIndex = 28;
+            this.label_HO_1.Text = "消波形塊安定係數:";
+            // 
+            // textBox_HO_KDL
+            // 
+            this.textBox_HO_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_HO_KDL.Location = new System.Drawing.Point(191, 28);
+            this.textBox_HO_KDL.Name = "textBox_HO_KDL";
+            this.textBox_HO_KDL.Size = new System.Drawing.Size(89, 27);
+            this.textBox_HO_KDL.TabIndex = 29;
+            this.textBox_HO_KDL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HO_KDL_KeyPress);
+            // 
+            // label_HO_2
+            // 
+            this.label_HO_2.AutoSize = true;
+            this.label_HO_2.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_HO_2.Location = new System.Drawing.Point(304, 31);
+            this.label_HO_2.Name = "label_HO_2";
+            this.label_HO_2.Size = new System.Drawing.Size(169, 19);
+            this.label_HO_2.TabIndex = 30;
+            this.label_HO_2.Text = "消波塊單位體積重";
+            // 
+            // textBox_HO_Gamma
+            // 
+            this.textBox_HO_Gamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_HO_Gamma.Location = new System.Drawing.Point(479, 28);
+            this.textBox_HO_Gamma.Name = "textBox_HO_Gamma";
+            this.textBox_HO_Gamma.Size = new System.Drawing.Size(89, 27);
+            this.textBox_HO_Gamma.TabIndex = 31;
+            this.textBox_HO_Gamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HO_Gamma_KeyPress);
+            // 
+            // textBox_HO_slopeangle
+            // 
+            this.textBox_HO_slopeangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_HO_slopeangle.Location = new System.Drawing.Point(191, 61);
+            this.textBox_HO_slopeangle.Name = "textBox_HO_slopeangle";
+            this.textBox_HO_slopeangle.Size = new System.Drawing.Size(89, 27);
+            this.textBox_HO_slopeangle.TabIndex = 33;
+            this.textBox_HO_slopeangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HO_slopeangle_KeyPress);
+            // 
+            // label_HO_3
+            // 
+            this.label_HO_3.AutoSize = true;
+            this.label_HO_3.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_HO_3.Location = new System.Drawing.Point(6, 57);
+            this.label_HO_3.Name = "label_HO_3";
+            this.label_HO_3.Size = new System.Drawing.Size(169, 38);
+            this.label_HO_3.TabIndex = 32;
+            this.label_HO_3.Text = "消波塊斜坡面與 :\r\n水平面之夾角";
+            // 
+            // gp_BD
+            // 
+            this.gp_BD.Controls.Add(this.label_BD_1);
+            this.gp_BD.Controls.Add(this.textBox_BD_KDL);
+            this.gp_BD.Controls.Add(this.chk_BlockWeightCalc_BD);
+            this.gp_BD.Controls.Add(this.textBox_BD_Kt);
+            this.gp_BD.Controls.Add(this.textBox_BD_slopeangle);
+            this.gp_BD.Controls.Add(this.label_BD_4);
+            this.gp_BD.Controls.Add(this.textBox_BD_Gamma);
+            this.gp_BD.Controls.Add(this.label_BD_2);
+            this.gp_BD.Controls.Add(this.label_BD_3);
+            this.gp_BD.Location = new System.Drawing.Point(9, 278);
+            this.gp_BD.Name = "gp_BD";
+            this.gp_BD.Size = new System.Drawing.Size(574, 125);
+            this.gp_BD.TabIndex = 37;
+            this.gp_BD.TabStop = false;
+            this.gp_BD.Text = "  堤身段(航道側)消波工重量計算";
+            // 
+            // label_BD_1
+            // 
+            this.label_BD_1.AutoSize = true;
+            this.label_BD_1.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_BD_1.Location = new System.Drawing.Point(6, 32);
+            this.label_BD_1.Name = "label_BD_1";
+            this.label_BD_1.Size = new System.Drawing.Size(179, 19);
+            this.label_BD_1.TabIndex = 40;
+            this.label_BD_1.Text = "消波形塊安定係數:";
+            // 
+            // textBox_BD_KDL
+            // 
+            this.textBox_BD_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BD_KDL.Location = new System.Drawing.Point(191, 29);
+            this.textBox_BD_KDL.Name = "textBox_BD_KDL";
+            this.textBox_BD_KDL.Size = new System.Drawing.Size(89, 27);
+            this.textBox_BD_KDL.TabIndex = 42;
+            this.textBox_BD_KDL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_KDL_KeyPress);
+            // 
+            // chk_BlockWeightCalc_BD
+            // 
+            this.chk_BlockWeightCalc_BD.AutoSize = true;
+            this.chk_BlockWeightCalc_BD.Location = new System.Drawing.Point(14, 3);
+            this.chk_BlockWeightCalc_BD.Name = "chk_BlockWeightCalc_BD";
+            this.chk_BlockWeightCalc_BD.Size = new System.Drawing.Size(15, 14);
+            this.chk_BlockWeightCalc_BD.TabIndex = 41;
+            this.chk_BlockWeightCalc_BD.UseVisualStyleBackColor = true;
+            this.chk_BlockWeightCalc_BD.CheckedChanged += new System.EventHandler(this.chk_BlockWeightCalc_BD_CheckedChanged);
+            // 
+            // textBox_BD_Kt
+            // 
+            this.textBox_BD_Kt.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BD_Kt.Location = new System.Drawing.Point(479, 65);
+            this.textBox_BD_Kt.Name = "textBox_BD_Kt";
+            this.textBox_BD_Kt.Size = new System.Drawing.Size(89, 27);
+            this.textBox_BD_Kt.TabIndex = 35;
+            this.textBox_BD_Kt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_Kt_KeyPress);
+            // 
+            // textBox_BD_slopeangle
+            // 
+            this.textBox_BD_slopeangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BD_slopeangle.Location = new System.Drawing.Point(191, 62);
+            this.textBox_BD_slopeangle.Name = "textBox_BD_slopeangle";
+            this.textBox_BD_slopeangle.Size = new System.Drawing.Size(89, 27);
+            this.textBox_BD_slopeangle.TabIndex = 46;
+            this.textBox_BD_slopeangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_slopeangle_KeyPress);
+            // 
+            // label_BD_4
+            // 
+            this.label_BD_4.AutoSize = true;
+            this.label_BD_4.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_BD_4.Location = new System.Drawing.Point(304, 65);
+            this.label_BD_4.Name = "label_BD_4";
+            this.label_BD_4.Size = new System.Drawing.Size(109, 19);
+            this.label_BD_4.TabIndex = 34;
+            this.label_BD_4.Text = "波高傳遞率";
+            // 
+            // textBox_BD_Gamma
+            // 
+            this.textBox_BD_Gamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BD_Gamma.Location = new System.Drawing.Point(479, 29);
+            this.textBox_BD_Gamma.Name = "textBox_BD_Gamma";
+            this.textBox_BD_Gamma.Size = new System.Drawing.Size(89, 27);
+            this.textBox_BD_Gamma.TabIndex = 44;
+            this.textBox_BD_Gamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_Gamma_KeyPress);
+            // 
+            // label_BD_2
+            // 
+            this.label_BD_2.AutoSize = true;
+            this.label_BD_2.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_BD_2.Location = new System.Drawing.Point(304, 32);
+            this.label_BD_2.Name = "label_BD_2";
+            this.label_BD_2.Size = new System.Drawing.Size(169, 19);
+            this.label_BD_2.TabIndex = 43;
+            this.label_BD_2.Text = "消波塊單位體積重";
+            // 
+            // label_BD_3
+            // 
+            this.label_BD_3.AutoSize = true;
+            this.label_BD_3.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_BD_3.Location = new System.Drawing.Point(6, 58);
+            this.label_BD_3.Name = "label_BD_3";
+            this.label_BD_3.Size = new System.Drawing.Size(169, 38);
+            this.label_BD_3.TabIndex = 45;
+            this.label_BD_3.Text = "消波塊斜坡面與 :\r\n水平面之夾角";
+            // 
+            // gp_HE
+            // 
+            this.gp_HE.Controls.Add(this.label_HE_1);
+            this.gp_HE.Controls.Add(this.chk_BlockWeightCalc_HE);
+            this.gp_HE.Controls.Add(this.textBox_HE_KDL);
+            this.gp_HE.Controls.Add(this.label_HE_2);
+            this.gp_HE.Controls.Add(this.label_HE_3);
+            this.gp_HE.Controls.Add(this.textBox_HE_Gamma);
+            this.gp_HE.Controls.Add(this.textBox_HE_slopeangle);
+            this.gp_HE.Location = new System.Drawing.Point(9, 150);
+            this.gp_HE.Name = "gp_HE";
+            this.gp_HE.Size = new System.Drawing.Size(574, 120);
+            this.gp_HE.TabIndex = 36;
+            this.gp_HE.TabStop = false;
+            this.gp_HE.Text = "  堤頭部加強消波工重量計算";
+            // 
+            // label_HE_1
+            // 
+            this.label_HE_1.AutoSize = true;
+            this.label_HE_1.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_HE_1.Location = new System.Drawing.Point(6, 32);
+            this.label_HE_1.Name = "label_HE_1";
+            this.label_HE_1.Size = new System.Drawing.Size(179, 19);
+            this.label_HE_1.TabIndex = 34;
+            this.label_HE_1.Text = "消波形塊安定係數:";
+            // 
+            // chk_BlockWeightCalc_HE
+            // 
+            this.chk_BlockWeightCalc_HE.AutoSize = true;
+            this.chk_BlockWeightCalc_HE.Location = new System.Drawing.Point(14, 3);
+            this.chk_BlockWeightCalc_HE.Name = "chk_BlockWeightCalc_HE";
+            this.chk_BlockWeightCalc_HE.Size = new System.Drawing.Size(15, 14);
+            this.chk_BlockWeightCalc_HE.TabIndex = 34;
+            this.chk_BlockWeightCalc_HE.UseVisualStyleBackColor = true;
+            this.chk_BlockWeightCalc_HE.CheckedChanged += new System.EventHandler(this.chk_BlockWeightCalc_HE_CheckedChanged);
+            // 
+            // textBox_HE_KDL
+            // 
+            this.textBox_HE_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_HE_KDL.Location = new System.Drawing.Point(191, 29);
+            this.textBox_HE_KDL.Name = "textBox_HE_KDL";
+            this.textBox_HE_KDL.Size = new System.Drawing.Size(89, 27);
+            this.textBox_HE_KDL.TabIndex = 35;
+            this.textBox_HE_KDL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HE_KDL_KeyPress);
+            // 
+            // label_HE_2
+            // 
+            this.label_HE_2.AutoSize = true;
+            this.label_HE_2.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_HE_2.Location = new System.Drawing.Point(304, 32);
+            this.label_HE_2.Name = "label_HE_2";
+            this.label_HE_2.Size = new System.Drawing.Size(169, 19);
+            this.label_HE_2.TabIndex = 36;
+            this.label_HE_2.Text = "消波塊單位體積重";
+            // 
+            // label_HE_3
+            // 
+            this.label_HE_3.AutoSize = true;
+            this.label_HE_3.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label_HE_3.Location = new System.Drawing.Point(6, 58);
+            this.label_HE_3.Name = "label_HE_3";
+            this.label_HE_3.Size = new System.Drawing.Size(169, 38);
+            this.label_HE_3.TabIndex = 38;
+            this.label_HE_3.Text = "消波塊斜坡面與 :\r\n水平面之夾角";
+            // 
+            // textBox_HE_Gamma
+            // 
+            this.textBox_HE_Gamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_HE_Gamma.Location = new System.Drawing.Point(479, 29);
+            this.textBox_HE_Gamma.Name = "textBox_HE_Gamma";
+            this.textBox_HE_Gamma.Size = new System.Drawing.Size(89, 27);
+            this.textBox_HE_Gamma.TabIndex = 37;
+            this.textBox_HE_Gamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HE_Gamma_KeyPress);
+            // 
+            // textBox_HE_slopeangle
+            // 
+            this.textBox_HE_slopeangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_HE_slopeangle.Location = new System.Drawing.Point(191, 62);
+            this.textBox_HE_slopeangle.Name = "textBox_HE_slopeangle";
+            this.textBox_HE_slopeangle.Size = new System.Drawing.Size(89, 27);
+            this.textBox_HE_slopeangle.TabIndex = 39;
+            this.textBox_HE_slopeangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HE_slopeangle_KeyPress);
+            // 
             // tabPage_MaterialAndFirction
             // 
             this.tabPage_MaterialAndFirction.Controls.Add(this.labelT);
@@ -762,9 +1123,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle103.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle103.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle103;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewTextBoxColumn1.HeaderText = "序號";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -788,8 +1149,8 @@
             // 
             // 摩擦係數值
             // 
-            dataGridViewCellStyle104.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle104;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle2;
             this.摩擦係數值.HeaderText = "摩擦係數值";
             this.摩擦係數值.Name = "摩擦係數值";
             this.摩擦係數值.Width = 120;
@@ -829,9 +1190,9 @@
             // 
             // 序號
             // 
-            dataGridViewCellStyle105.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle105.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle105;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle3;
             this.序號.HeaderText = "序號";
             this.序號.Name = "序號";
             this.序號.ReadOnly = true;
@@ -892,8 +1253,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle106.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle106;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -903,8 +1264,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle108.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle108;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 354);
             this.ELDGV1.TabIndex = 0;
@@ -914,9 +1275,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle107.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle107.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle107;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1119,362 +1480,27 @@
             this.SFD_LogFile.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_LogFile.FilterIndex = 0;
             // 
-            // tabPage_OtherChkSet
-            // 
-            this.tabPage_OtherChkSet.Controls.Add(this.groupBox2);
-            this.tabPage_OtherChkSet.Controls.Add(this.groupBox1);
-            this.tabPage_OtherChkSet.Location = new System.Drawing.Point(4, 25);
-            this.tabPage_OtherChkSet.Name = "tabPage_OtherChkSet";
-            this.tabPage_OtherChkSet.Size = new System.Drawing.Size(1075, 521);
-            this.tabPage_OtherChkSet.TabIndex = 4;
-            this.tabPage_OtherChkSet.Text = "其他檢核";
-            this.tabPage_OtherChkSet.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.gp_HO);
-            this.groupBox1.Controls.Add(this.gp_BD);
-            this.groupBox1.Controls.Add(this.gp_HE);
-            this.groupBox1.Font = new System.Drawing.Font("標楷體", 14F);
-            this.groupBox1.Location = new System.Drawing.Point(8, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(589, 515);
-            this.groupBox1.TabIndex = 28;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "消波工檢核計算";
-            // 
-            // textBox_BD_Kt
-            // 
-            this.textBox_BD_Kt.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_BD_Kt.Location = new System.Drawing.Point(479, 65);
-            this.textBox_BD_Kt.Name = "textBox_BD_Kt";
-            this.textBox_BD_Kt.Size = new System.Drawing.Size(89, 27);
-            this.textBox_BD_Kt.TabIndex = 35;
-            this.textBox_BD_Kt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_Kt_KeyPress);
-            // 
-            // label_BD_4
-            // 
-            this.label_BD_4.AutoSize = true;
-            this.label_BD_4.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_BD_4.Location = new System.Drawing.Point(304, 65);
-            this.label_BD_4.Name = "label_BD_4";
-            this.label_BD_4.Size = new System.Drawing.Size(109, 19);
-            this.label_BD_4.TabIndex = 34;
-            this.label_BD_4.Text = "波高傳遞率";
-            // 
-            // textBox_HO_slopeangle
-            // 
-            this.textBox_HO_slopeangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HO_slopeangle.Location = new System.Drawing.Point(191, 61);
-            this.textBox_HO_slopeangle.Name = "textBox_HO_slopeangle";
-            this.textBox_HO_slopeangle.Size = new System.Drawing.Size(89, 27);
-            this.textBox_HO_slopeangle.TabIndex = 33;
-            this.textBox_HO_slopeangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HO_slopeangle_KeyPress);
-            // 
-            // label_HO_3
-            // 
-            this.label_HO_3.AutoSize = true;
-            this.label_HO_3.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_HO_3.Location = new System.Drawing.Point(6, 57);
-            this.label_HO_3.Name = "label_HO_3";
-            this.label_HO_3.Size = new System.Drawing.Size(169, 38);
-            this.label_HO_3.TabIndex = 32;
-            this.label_HO_3.Text = "消波塊斜坡面與 :\r\n水平面之夾角";
-            // 
-            // textBox_HO_Gamma
-            // 
-            this.textBox_HO_Gamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HO_Gamma.Location = new System.Drawing.Point(479, 28);
-            this.textBox_HO_Gamma.Name = "textBox_HO_Gamma";
-            this.textBox_HO_Gamma.Size = new System.Drawing.Size(89, 27);
-            this.textBox_HO_Gamma.TabIndex = 31;
-            this.textBox_HO_Gamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HO_Gamma_KeyPress);
-            // 
-            // label_HO_2
-            // 
-            this.label_HO_2.AutoSize = true;
-            this.label_HO_2.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_HO_2.Location = new System.Drawing.Point(304, 31);
-            this.label_HO_2.Name = "label_HO_2";
-            this.label_HO_2.Size = new System.Drawing.Size(169, 19);
-            this.label_HO_2.TabIndex = 30;
-            this.label_HO_2.Text = "消波塊單位體積重";
-            // 
-            // textBox_HO_KDL
-            // 
-            this.textBox_HO_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HO_KDL.Location = new System.Drawing.Point(191, 28);
-            this.textBox_HO_KDL.Name = "textBox_HO_KDL";
-            this.textBox_HO_KDL.Size = new System.Drawing.Size(89, 27);
-            this.textBox_HO_KDL.TabIndex = 29;
-            this.textBox_HO_KDL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HO_KDL_KeyPress);
-            // 
-            // chk_BlockWeightCalc_HO
-            // 
-            this.chk_BlockWeightCalc_HO.AutoSize = true;
-            this.chk_BlockWeightCalc_HO.Location = new System.Drawing.Point(14, 3);
-            this.chk_BlockWeightCalc_HO.Name = "chk_BlockWeightCalc_HO";
-            this.chk_BlockWeightCalc_HO.Size = new System.Drawing.Size(15, 14);
-            this.chk_BlockWeightCalc_HO.TabIndex = 0;
-            this.chk_BlockWeightCalc_HO.UseVisualStyleBackColor = true;
-            this.chk_BlockWeightCalc_HO.CheckedChanged += new System.EventHandler(this.chk_BlockWeightCalc_HO_CheckedChanged);
-            // 
-            // label_HO_1
-            // 
-            this.label_HO_1.AutoSize = true;
-            this.label_HO_1.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_HO_1.Location = new System.Drawing.Point(6, 31);
-            this.label_HO_1.Name = "label_HO_1";
-            this.label_HO_1.Size = new System.Drawing.Size(179, 19);
-            this.label_HO_1.TabIndex = 28;
-            this.label_HO_1.Text = "消波形塊安定係數:";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.textBox_BK);
-            this.groupBox2.Controls.Add(this.label_BrestCheck_2);
-            this.groupBox2.Controls.Add(this.textBox_ConcreteAllowStress);
-            this.groupBox2.Controls.Add(this.chk_HeadBreastCalc);
-            this.groupBox2.Controls.Add(this.label_BreastCheck_1);
-            this.groupBox2.Font = new System.Drawing.Font("標楷體", 14F);
-            this.groupBox2.Location = new System.Drawing.Point(603, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(466, 104);
-            this.groupBox2.TabIndex = 29;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "  胸牆部安定檢核計算";
-            // 
-            // textBox_BK
-            // 
-            this.textBox_BK.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_BK.Location = new System.Drawing.Point(308, 62);
-            this.textBox_BK.Name = "textBox_BK";
-            this.textBox_BK.Size = new System.Drawing.Size(100, 27);
-            this.textBox_BK.TabIndex = 37;
-            this.textBox_BK.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BK_KeyPress_1);
-            // 
-            // label_BrestCheck_2
-            // 
-            this.label_BrestCheck_2.AutoSize = true;
-            this.label_BrestCheck_2.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_BrestCheck_2.Location = new System.Drawing.Point(22, 65);
-            this.label_BrestCheck_2.Name = "label_BrestCheck_2";
-            this.label_BrestCheck_2.Size = new System.Drawing.Size(119, 19);
-            this.label_BrestCheck_2.TabIndex = 36;
-            this.label_BrestCheck_2.Text = "Bk\' (cm) = ";
-            // 
-            // textBox_ConcreteAllowStress
-            // 
-            this.textBox_ConcreteAllowStress.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_ConcreteAllowStress.Location = new System.Drawing.Point(308, 28);
-            this.textBox_ConcreteAllowStress.Name = "textBox_ConcreteAllowStress";
-            this.textBox_ConcreteAllowStress.Size = new System.Drawing.Size(100, 27);
-            this.textBox_ConcreteAllowStress.TabIndex = 35;
-            this.textBox_ConcreteAllowStress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_ConcreteAllowStress_KeyPress_1);
-            // 
-            // chk_HeadBreastCalc
-            // 
-            this.chk_HeadBreastCalc.AutoSize = true;
-            this.chk_HeadBreastCalc.Location = new System.Drawing.Point(17, 4);
-            this.chk_HeadBreastCalc.Name = "chk_HeadBreastCalc";
-            this.chk_HeadBreastCalc.Size = new System.Drawing.Size(15, 14);
-            this.chk_HeadBreastCalc.TabIndex = 0;
-            this.chk_HeadBreastCalc.UseVisualStyleBackColor = true;
-            this.chk_HeadBreastCalc.CheckedChanged += new System.EventHandler(this.chk_HeadBreastCalc_CheckedChanged_1);
-            // 
-            // label_BreastCheck_1
-            // 
-            this.label_BreastCheck_1.AutoSize = true;
-            this.label_BreastCheck_1.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_BreastCheck_1.Location = new System.Drawing.Point(13, 31);
-            this.label_BreastCheck_1.Name = "label_BreastCheck_1";
-            this.label_BreastCheck_1.Size = new System.Drawing.Size(259, 19);
-            this.label_BreastCheck_1.TabIndex = 34;
-            this.label_BreastCheck_1.Text = "混凝土容許應力(kg/cm2) = ";
-            // 
-            // gp_HE
-            // 
-            this.gp_HE.Controls.Add(this.label_HE_1);
-            this.gp_HE.Controls.Add(this.chk_BlockWeightCalc_HE);
-            this.gp_HE.Controls.Add(this.textBox_HE_KDL);
-            this.gp_HE.Controls.Add(this.label_HE_2);
-            this.gp_HE.Controls.Add(this.label_HE_3);
-            this.gp_HE.Controls.Add(this.textBox_HE_Gamma);
-            this.gp_HE.Controls.Add(this.textBox_HE_slopeangle);
-            this.gp_HE.Location = new System.Drawing.Point(9, 150);
-            this.gp_HE.Name = "gp_HE";
-            this.gp_HE.Size = new System.Drawing.Size(574, 120);
-            this.gp_HE.TabIndex = 36;
-            this.gp_HE.TabStop = false;
-            this.gp_HE.Text = "  堤頭部加強消波工重量計算";
-            // 
-            // gp_BD
-            // 
-            this.gp_BD.Controls.Add(this.label_BD_1);
-            this.gp_BD.Controls.Add(this.textBox_BD_KDL);
-            this.gp_BD.Controls.Add(this.chk_BlockWeightCalc_BD);
-            this.gp_BD.Controls.Add(this.textBox_BD_Kt);
-            this.gp_BD.Controls.Add(this.textBox_BD_slopeangle);
-            this.gp_BD.Controls.Add(this.label_BD_4);
-            this.gp_BD.Controls.Add(this.textBox_BD_Gamma);
-            this.gp_BD.Controls.Add(this.label_BD_2);
-            this.gp_BD.Controls.Add(this.label_BD_3);
-            this.gp_BD.Location = new System.Drawing.Point(9, 278);
-            this.gp_BD.Name = "gp_BD";
-            this.gp_BD.Size = new System.Drawing.Size(574, 125);
-            this.gp_BD.TabIndex = 37;
-            this.gp_BD.TabStop = false;
-            this.gp_BD.Text = "  堤身段(航道側)消波工重量計算";
-            // 
-            // gp_HO
-            // 
-            this.gp_HO.Controls.Add(this.chk_BlockWeightCalc_HO);
-            this.gp_HO.Controls.Add(this.label_HO_1);
-            this.gp_HO.Controls.Add(this.textBox_HO_KDL);
-            this.gp_HO.Controls.Add(this.label_HO_2);
-            this.gp_HO.Controls.Add(this.textBox_HO_Gamma);
-            this.gp_HO.Controls.Add(this.textBox_HO_slopeangle);
-            this.gp_HO.Controls.Add(this.label_HO_3);
-            this.gp_HO.Location = new System.Drawing.Point(9, 31);
-            this.gp_HO.Name = "gp_HO";
-            this.gp_HO.Size = new System.Drawing.Size(574, 113);
-            this.gp_HO.TabIndex = 38;
-            this.gp_HO.TabStop = false;
-            this.gp_HO.Text = "  堤身段(港外側)消波工重量計算";
-            // 
-            // chk_BlockWeightCalc_HE
-            // 
-            this.chk_BlockWeightCalc_HE.AutoSize = true;
-            this.chk_BlockWeightCalc_HE.Location = new System.Drawing.Point(14, 3);
-            this.chk_BlockWeightCalc_HE.Name = "chk_BlockWeightCalc_HE";
-            this.chk_BlockWeightCalc_HE.Size = new System.Drawing.Size(15, 14);
-            this.chk_BlockWeightCalc_HE.TabIndex = 34;
-            this.chk_BlockWeightCalc_HE.UseVisualStyleBackColor = true;
-            this.chk_BlockWeightCalc_HE.CheckedChanged += new System.EventHandler(this.chk_BlockWeightCalc_HE_CheckedChanged);
-            // 
-            // label_HE_1
-            // 
-            this.label_HE_1.AutoSize = true;
-            this.label_HE_1.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_HE_1.Location = new System.Drawing.Point(6, 32);
-            this.label_HE_1.Name = "label_HE_1";
-            this.label_HE_1.Size = new System.Drawing.Size(179, 19);
-            this.label_HE_1.TabIndex = 34;
-            this.label_HE_1.Text = "消波形塊安定係數:";
-            // 
-            // textBox_HE_KDL
-            // 
-            this.textBox_HE_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HE_KDL.Location = new System.Drawing.Point(191, 29);
-            this.textBox_HE_KDL.Name = "textBox_HE_KDL";
-            this.textBox_HE_KDL.Size = new System.Drawing.Size(89, 27);
-            this.textBox_HE_KDL.TabIndex = 35;
-            this.textBox_HE_KDL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HE_KDL_KeyPress);
-            // 
-            // label_HE_2
-            // 
-            this.label_HE_2.AutoSize = true;
-            this.label_HE_2.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_HE_2.Location = new System.Drawing.Point(304, 32);
-            this.label_HE_2.Name = "label_HE_2";
-            this.label_HE_2.Size = new System.Drawing.Size(169, 19);
-            this.label_HE_2.TabIndex = 36;
-            this.label_HE_2.Text = "消波塊單位體積重";
-            // 
-            // textBox_HE_Gamma
-            // 
-            this.textBox_HE_Gamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HE_Gamma.Location = new System.Drawing.Point(479, 29);
-            this.textBox_HE_Gamma.Name = "textBox_HE_Gamma";
-            this.textBox_HE_Gamma.Size = new System.Drawing.Size(89, 27);
-            this.textBox_HE_Gamma.TabIndex = 37;
-            this.textBox_HE_Gamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HE_Gamma_KeyPress);
-            // 
-            // textBox_HE_slopeangle
-            // 
-            this.textBox_HE_slopeangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HE_slopeangle.Location = new System.Drawing.Point(191, 62);
-            this.textBox_HE_slopeangle.Name = "textBox_HE_slopeangle";
-            this.textBox_HE_slopeangle.Size = new System.Drawing.Size(89, 27);
-            this.textBox_HE_slopeangle.TabIndex = 39;
-            this.textBox_HE_slopeangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HE_slopeangle_KeyPress);
-            // 
-            // label_HE_3
-            // 
-            this.label_HE_3.AutoSize = true;
-            this.label_HE_3.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_HE_3.Location = new System.Drawing.Point(6, 58);
-            this.label_HE_3.Name = "label_HE_3";
-            this.label_HE_3.Size = new System.Drawing.Size(169, 38);
-            this.label_HE_3.TabIndex = 38;
-            this.label_HE_3.Text = "消波塊斜坡面與 :\r\n水平面之夾角";
-            // 
-            // label_BD_1
-            // 
-            this.label_BD_1.AutoSize = true;
-            this.label_BD_1.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_BD_1.Location = new System.Drawing.Point(6, 32);
-            this.label_BD_1.Name = "label_BD_1";
-            this.label_BD_1.Size = new System.Drawing.Size(179, 19);
-            this.label_BD_1.TabIndex = 40;
-            this.label_BD_1.Text = "消波形塊安定係數:";
-            // 
-            // chk_BlockWeightCalc_BD
-            // 
-            this.chk_BlockWeightCalc_BD.AutoSize = true;
-            this.chk_BlockWeightCalc_BD.Location = new System.Drawing.Point(14, 3);
-            this.chk_BlockWeightCalc_BD.Name = "chk_BlockWeightCalc_BD";
-            this.chk_BlockWeightCalc_BD.Size = new System.Drawing.Size(15, 14);
-            this.chk_BlockWeightCalc_BD.TabIndex = 41;
-            this.chk_BlockWeightCalc_BD.UseVisualStyleBackColor = true;
-            this.chk_BlockWeightCalc_BD.CheckedChanged += new System.EventHandler(this.chk_BlockWeightCalc_BD_CheckedChanged);
-            // 
-            // textBox_BD_KDL
-            // 
-            this.textBox_BD_KDL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_BD_KDL.Location = new System.Drawing.Point(191, 29);
-            this.textBox_BD_KDL.Name = "textBox_BD_KDL";
-            this.textBox_BD_KDL.Size = new System.Drawing.Size(89, 27);
-            this.textBox_BD_KDL.TabIndex = 42;
-            this.textBox_BD_KDL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_KDL_KeyPress);
-            // 
-            // label_BD_2
-            // 
-            this.label_BD_2.AutoSize = true;
-            this.label_BD_2.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_BD_2.Location = new System.Drawing.Point(304, 32);
-            this.label_BD_2.Name = "label_BD_2";
-            this.label_BD_2.Size = new System.Drawing.Size(169, 19);
-            this.label_BD_2.TabIndex = 43;
-            this.label_BD_2.Text = "消波塊單位體積重";
-            // 
-            // label_BD_3
-            // 
-            this.label_BD_3.AutoSize = true;
-            this.label_BD_3.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label_BD_3.Location = new System.Drawing.Point(6, 58);
-            this.label_BD_3.Name = "label_BD_3";
-            this.label_BD_3.Size = new System.Drawing.Size(169, 38);
-            this.label_BD_3.TabIndex = 45;
-            this.label_BD_3.Text = "消波塊斜坡面與 :\r\n水平面之夾角";
-            // 
-            // textBox_BD_Gamma
-            // 
-            this.textBox_BD_Gamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_BD_Gamma.Location = new System.Drawing.Point(479, 29);
-            this.textBox_BD_Gamma.Name = "textBox_BD_Gamma";
-            this.textBox_BD_Gamma.Size = new System.Drawing.Size(89, 27);
-            this.textBox_BD_Gamma.TabIndex = 44;
-            this.textBox_BD_Gamma.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_Gamma_KeyPress);
-            // 
-            // textBox_BD_slopeangle
-            // 
-            this.textBox_BD_slopeangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_BD_slopeangle.Location = new System.Drawing.Point(191, 62);
-            this.textBox_BD_slopeangle.Name = "textBox_BD_slopeangle";
-            this.textBox_BD_slopeangle.Size = new System.Drawing.Size(89, 27);
-            this.textBox_BD_slopeangle.TabIndex = 46;
-            this.textBox_BD_slopeangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BD_slopeangle_KeyPress);
+            // 輸出ToolStripMenuItem
+            // 
+            this.輸出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.輸出Log檔案ToolStripMenuItem,
+            this.輸出Excel檔案ToolStripMenuItem});
+            this.輸出ToolStripMenuItem.Name = "輸出ToolStripMenuItem";
+            this.輸出ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.輸出ToolStripMenuItem.Text = "輸出";
+            // 
+            // 輸出Log檔案ToolStripMenuItem
+            // 
+            this.輸出Log檔案ToolStripMenuItem.Name = "輸出Log檔案ToolStripMenuItem";
+            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.輸出Log檔案ToolStripMenuItem.Text = "輸出Log檔案";
+            // 
+            // 輸出Excel檔案ToolStripMenuItem
+            // 
+            this.輸出Excel檔案ToolStripMenuItem.Name = "輸出Excel檔案ToolStripMenuItem";
+            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.輸出Excel檔案ToolStripMenuItem.Text = "輸出Excel檔案";
+            this.輸出Excel檔案ToolStripMenuItem.Click += new System.EventHandler(this.btn_OutputExcel_Click);
             // 
             // Form_RDExamProgress
             // 
@@ -1499,6 +1525,16 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage_BasicParameter.ResumeLayout(false);
             this.tabPage_BasicParameter.PerformLayout();
+            this.tabPage_OtherChkSet.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.gp_HO.ResumeLayout(false);
+            this.gp_HO.PerformLayout();
+            this.gp_BD.ResumeLayout(false);
+            this.gp_BD.PerformLayout();
+            this.gp_HE.ResumeLayout(false);
+            this.gp_HE.PerformLayout();
             this.tabPage_MaterialAndFirction.ResumeLayout(false);
             this.tabPage_MaterialAndFirction.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -1510,16 +1546,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).EndInit();
             this.tabPage_RunCheck.ResumeLayout(false);
             this.tabPage_RunCheck.PerformLayout();
-            this.tabPage_OtherChkSet.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.gp_HE.ResumeLayout(false);
-            this.gp_HE.PerformLayout();
-            this.gp_BD.ResumeLayout(false);
-            this.gp_BD.PerformLayout();
-            this.gp_HO.ResumeLayout(false);
-            this.gp_HO.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1648,5 +1674,8 @@
         private System.Windows.Forms.Label label_HE_3;
         private System.Windows.Forms.TextBox textBox_HE_Gamma;
         private System.Windows.Forms.TextBox textBox_HE_slopeangle;
+        private System.Windows.Forms.ToolStripMenuItem 輸出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 輸出Log檔案ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 輸出Excel檔案ToolStripMenuItem;
     }
 }
