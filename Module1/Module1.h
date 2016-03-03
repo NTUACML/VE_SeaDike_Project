@@ -8,10 +8,10 @@
 using namespace System;
 
 namespace VE_SD {
-	public value struct MyPoint
+	public value struct DataBank
 	{
 		int x, y, z, time;
-		MyPoint(int x, int y, int z, int t)
+		DataBank(int x, int y, int z, int t)
 		{
 			this->x = x;
 			this->y = y;
@@ -62,7 +62,7 @@ namespace VE_SD {
 		void Test();
 		void VarOut(double % out);
 
-		MyPoint AA; //Test
+		DataBank VarBank; //Test
 
 	private:
 		//Data
@@ -72,4 +72,6 @@ namespace VE_SD {
 		//Func
 		void MsgAdd();
 	};
+
+	
 }
