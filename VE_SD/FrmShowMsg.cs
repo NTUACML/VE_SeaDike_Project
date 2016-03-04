@@ -56,5 +56,10 @@ namespace VE_SD
                 e.Handled = true;
             }
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;//完全禁止輸入字.
+        }
     }
 }

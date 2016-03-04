@@ -550,6 +550,7 @@ namespace VE_SD
             }
             else { return false; }
         }
+
         #region 力矩計算點變更
         private void button1_Click(object sender, EventArgs e)
         {
@@ -599,6 +600,15 @@ namespace VE_SD
             {
                 繪上EL();
             }
+        }
+        private void textBox_GroundELE_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_ArmorBlockEle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         private void textBox_H0_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -4151,27 +4161,33 @@ namespace VE_SD
         }
         private void textBox_CheckMessageShow_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
 
+            e.Handled = true;
 
         }
+        bool hh = false;
         private void textBox_CheckMessageShow_KeyDown(object sender, KeyEventArgs e)
         {
             //檢核頁面顯示計算訊息的textbox,限制只能按下Ctrl+C[複製],Ctrl+A[全選]. 
             //
+            //MessageBox.Show(e.KeyCode.ToString());
             if (e.Control && e.KeyCode==Keys.A)
             {
                 //MessageBox.Show("Yes");
                 ((TextBox)sender).SelectAll();
                 e.Handled = true;
+                hh = true;
             }
             else if(e.Control && e.KeyCode==Keys.C)
             {
                 e.Handled = true;
+                hh = true;
             }
             else
             {
+                MessageBox.Show("Handle event");
                 e.Handled = true;
+                hh = true;
             }
         }
         #region 關閉表單
@@ -5041,6 +5057,31 @@ namespace VE_SD
                 }
             }
         }
+
+        #region Tab控制器
+        //Tab Control控制器.
+        private void tabControl1_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+            if(("D1D2D3D4D5D6D7D8D9D0".Contains(e.KeyCode.ToString())) && e.Control)
+            {
+                //按下數字鍵
+                int selectedindex;
+                int.TryParse(e.KeyCode.ToString().Replace("D", ""), out selectedindex);
+                //MessageBox.Show(selectedindex.ToString());
+                if (selectedindex < 1 || selectedindex > 5)
+                {
+                    //Do nothing.
+                }
+                else
+                {
+                    tabControl1.SelectedIndex = (selectedindex - 1);
+                }
+            }
+            //e.Handled = !"D1D2D3D4D5D6D7D8D9D0".Contains(e.KeyCode.ToString());
+            //MessageBox.Show(e.KeyCode.ToString());
+        }
+        #endregion
 
 
     }
