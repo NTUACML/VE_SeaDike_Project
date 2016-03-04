@@ -4149,6 +4149,31 @@ namespace VE_SD
 
             }
         }
+        private void textBox_CheckMessageShow_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+
+
+        }
+        private void textBox_CheckMessageShow_KeyDown(object sender, KeyEventArgs e)
+        {
+            //檢核頁面顯示計算訊息的textbox,限制只能按下Ctrl+C[複製],Ctrl+A[全選]. 
+            //
+            if (e.Control && e.KeyCode==Keys.A)
+            {
+                //MessageBox.Show("Yes");
+                ((TextBox)sender).SelectAll();
+                e.Handled = true;
+            }
+            else if(e.Control && e.KeyCode==Keys.C)
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
         #region 關閉表單
 
         private void Form_RDExamProgress_FormClosed(object sender, FormClosedEventArgs e)
@@ -5016,5 +5041,7 @@ namespace VE_SD
                 }
             }
         }
+
+
     }
 }

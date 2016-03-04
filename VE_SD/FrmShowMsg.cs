@@ -34,6 +34,27 @@ namespace VE_SD
         {
             this.Text = titleMsg;// = ShowMsg;
             this.textBox1.Text  = ShowMsg;
+
+            this.textBox1.SelectionStart = 0;
+            this.textBox1.DeselectAll();
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                //MessageBox.Show("Yes");
+                ((TextBox)sender).SelectAll();
+                e.Handled = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.C)
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = true;
+            }
         }
     }
 }

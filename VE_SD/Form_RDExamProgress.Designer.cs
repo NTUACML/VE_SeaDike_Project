@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -323,16 +323,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend3);
             this.chart_Plot.Location = new System.Drawing.Point(138, 9);
             this.chart_Plot.Name = "chart_Plot";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart_Plot.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart_Plot.Series.Add(series3);
             this.chart_Plot.Size = new System.Drawing.Size(821, 354);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -1147,9 +1147,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridViewTextBoxColumn1.HeaderText = "序號";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -1173,8 +1173,8 @@
             // 
             // 摩擦係數值
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle14;
             this.摩擦係數值.HeaderText = "摩擦係數值";
             this.摩擦係數值.Name = "摩擦係數值";
             this.摩擦係數值.Width = 120;
@@ -1214,9 +1214,9 @@
             // 
             // 序號
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle15;
             this.序號.HeaderText = "序號";
             this.序號.Name = "序號";
             this.序號.ReadOnly = true;
@@ -1277,8 +1277,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1288,8 +1288,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 354);
             this.ELDGV1.TabIndex = 0;
@@ -1299,9 +1299,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle17;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1457,11 +1457,14 @@
             // textBox_CheckMessageShow
             // 
             this.textBox_CheckMessageShow.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_CheckMessageShow.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.textBox_CheckMessageShow.Location = new System.Drawing.Point(11, 32);
             this.textBox_CheckMessageShow.Multiline = true;
             this.textBox_CheckMessageShow.Name = "textBox_CheckMessageShow";
             this.textBox_CheckMessageShow.Size = new System.Drawing.Size(485, 462);
             this.textBox_CheckMessageShow.TabIndex = 2;
+            this.textBox_CheckMessageShow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_CheckMessageShow_KeyDown);
+            this.textBox_CheckMessageShow.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_CheckMessageShow_KeyPress);
             // 
             // btn_Test
             // 
