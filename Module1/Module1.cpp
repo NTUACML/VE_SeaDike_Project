@@ -137,8 +137,11 @@ bool VE_SD::Module1::Run()
 		MsgAdd();
 		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
 	}
-	//// Wave Pressure Moment Cal
-	//Internal->WavePressureCal();
+	// Wave Pressure Moment Cal
+	if (!Internal->WavePressureCal()) {
+		MsgAdd();
+		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
+	}
 	//// Self Weight Moment Cal
 	//Internal->WeightCal();
 
@@ -226,7 +229,16 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "Beta Max*: " << Var->betaMax_Star << std::endl;
 	FILE << "Hs: " << Var->Hs << std::endl;
 	FILE << "Hmax: " << Var->Hmax << std::endl;
-
+	FILE << "******波壓計算******" << std::endl;
+	FILE << "Alpha 1: " << Var->alpha1 << std::endl;
+	FILE << "Alpha 2: " << Var->alpha2 << std::endl;
+	FILE << "Alpha 3: " << Var->alpha3 << std::endl;
+	FILE << "Eta*: " << Var->eta_Star << std::endl;
+	FILE << "hc*: " << Var->hc_Star << std::endl;
+	FILE << "P1: " << Var->P1 << std::endl;
+	FILE << "P2: " << Var->P2 << std::endl;
+	FILE << "P3: " << Var->P3 << std::endl;
+	FILE << "P4: " << Var->P4 << std::endl;
 	FILE.close();
 	return true;
 }

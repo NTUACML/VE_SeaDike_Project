@@ -501,6 +501,7 @@ namespace VE_SD
 
         private void btn_Test_Click(object sender, EventArgs e)
         {
+            開始檢核ToolStripMenuItem_Click(sender, e);
             //***********************************************************
 
 
@@ -3983,6 +3984,10 @@ namespace VE_SD
             ELA = ELArray;
             Array.Resize(ref ELA, ELA.GetLength(0) + 1);
             ELA[ELA.GetUpperBound(0)] = double.Parse(textBox_HWL.Text);
+            Array.Resize(ref ELA, ELA.GetLength(0) + 1);
+            ELA[ELA.GetUpperBound(0)] = MinEL;
+            Array.Resize(ref ELA, ELA.GetLength(0) + 1);
+            ELA[ELA.GetUpperBound(0)] = MaxEL;
             Array.Sort(ELA);
             //- Push Level
             Mod.DeleteAllLevel();
