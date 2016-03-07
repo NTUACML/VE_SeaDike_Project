@@ -239,6 +239,22 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "P2: " << Var->P2 << std::endl;
 	FILE << "P3: " << Var->P3 << std::endl;
 	FILE << "P4: " << Var->P4 << std::endl;
+	FILE << "******ªiÀ£Ås¯x******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL :" << Var->LevelSection[i].Level<< "\t" <<
+			"P: "<< Var->LevelSection[i].P << "\t" <<
+			"FP: "<< Var->LevelSection[i].FP << "\t" <<
+			"Y: " << Var->LevelSection[i].L_Y << "\t" <<
+			"MP: " << Var->LevelSection[i].Mp << "\t" <<
+			 std::endl;
+	}
+	FILE << "ªiÀ£¦X­p: " << Var->Fp << std::endl;
+	FILE << "¶É­ËÅs¯x: " << Var->Mp << std::endl;
+	FILE << "******´­À£¤O******" << std::endl;
+	FILE << "Pu: " << Var->Pu << std::endl;
+	FILE << "Fu: " << Var->Fu << std::endl;
+	FILE << "Mu: " << Var->Mu << std::endl;
 	FILE.close();
 	return true;
 }

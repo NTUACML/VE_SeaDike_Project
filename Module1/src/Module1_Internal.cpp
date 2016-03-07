@@ -49,7 +49,6 @@ bool Module1_Internal::GeoPreCal()
 				Var->LevelSection[i].BlockId.push_back(j);
 			}
 		}
-		Var->LevelSection[i].L_Y = ((Var->LevelSection[i + 1].Level + Var->LevelSection[i].Level) / 2.0) - Var->Ref_y;
 	}
 
 	//Base Block Length
@@ -201,64 +200,69 @@ bool Module1_Internal::WavePressureCal()
 	Var->P3 = Var->alpha3 * Var->P1;
 
 	Var->P4 = Var->P1 * Var->alpha4;
-	//// Pressure Moment.
-	////- Find HWL 
-	//size_t HWL_ID = 0;
-	//double eps = 1e-3, Dis_Face, M;
-	//for (size_t i = 1; i < Var->LevelSection.size(); i++)
-	//{
-	//	if ((Var->LevelSection[i - 1].Level - eps) < Var->HWL
-	//		&&
-	//		Var->HWL <= (Var->LevelSection[i].Level + eps)) {
-	//		HWL_ID = i;
-	//	}
-	//}
-	////- Put Wave P magnitude
-	////-- Put P3
-	//Var->LevelSection.begin()->P = Var->P3;
-	////-- Put P4
-	//Var->LevelSection.end()->P = Var->P4;
-	////-- Put HWL
-	//Var->LevelSection[HWL_ID].P = Var->P1;
-	////-- Interpolation
-	//M = (Var->LevelSection[HWL_ID].P - Var->LevelSection.begin()->P) / (Var->LevelSection[HWL_ID].Level - Var->LevelSection.begin()->Level);
-	//for (size_t i = 1; i < HWL_ID; i++)
-	//{
-	//	Var->LevelSection[i].P = Var->LevelSection.begin()->P + M * (Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level);
-	//}
-	//M = (Var->LevelSection.end()->P - Var->LevelSection[HWL_ID].P) / (Var->LevelSection.end()->Level - Var->LevelSection[HWL_ID].Level);
-	//for (size_t i = HWL_ID + 1; i < Var->LevelSection.size() - 1; i++)
-	//{
-	//	Var->LevelSection[i].P = Var->LevelSection[HWL_ID].P + M * (Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level);
-	//}
-	////- Wave Pressure & Moment
-	//for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
-	//{
-	//	Dis_Face = Var->LevelSection[i + 1].Level - Var->LevelSection[i].Level;
-	//	Var->LevelSection[i].FP = Var->LevelSection[i].P * Dis_Face;
-	//	Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
-	//}
-	//Var->LevelSection.end()->FP = 0.0;
-	//Var->LevelSection.end()->Mp = 0.0;
+	// Pressure Moment.
+	//- Find HWL 
+	size_t HWL_ID = 0;
+	double eps = 1e-3, Dis_Face, M;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		if ((Var->LevelSection[i].Level) > (Var->HWL - eps)
+			&&
+			(Var->LevelSection[i].Level) < (Var->HWL + eps)
+			) {
+			HWL_ID = i;
+		}
+	}
+	//- Put Wave P magnitude
+	//-- Put P3
+	Var->LevelSection.begin()->P = Var->P3;
+	//-- Put P4
+	(Var->LevelSection.end()-1)->P = Var->P4;
+	//-- Put HWL
+	Var->LevelSection[HWL_ID].P = Var->P1;
+	//-- Interpolation
+	M = (Var->LevelSection[HWL_ID].P - Var->LevelSection.begin()->P) / (Var->LevelSection[HWL_ID].Level - Var->LevelSection.begin()->Level);
+	for (size_t i = 1; i < HWL_ID; i++)
+	{
+		Var->LevelSection[i].P = Var->LevelSection.begin()->P + M * (Var->LevelSection[i].Level - Var->LevelSection.begin()->Level);
+	}
+	M = ((Var->LevelSection.end()-1)->P - Var->LevelSection[HWL_ID].P) / ((Var->LevelSection.end()-1)->Level - Var->LevelSection[HWL_ID].Level);
+	for (size_t i = HWL_ID + 1; i < Var->LevelSection.size()-1 ; i++)
+	{
+		Var->LevelSection[i].P = Var->LevelSection[HWL_ID].P + M * (Var->LevelSection[i].Level - Var->LevelSection[HWL_ID].Level);
+	}
+	//- Wave Pressure & Moment
+	Var->LevelSection.begin()->FP = 0.0;
+	Var->LevelSection.begin()->L_Y = 0.0;
+	Var->LevelSection.begin()->Mp = 0.0;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	{
+		Dis_Face = Var->LevelSection[i].Level - Var->LevelSection[i-1].Level;
+		Var->LevelSection[i].FP = Var->LevelSection[i].P * Dis_Face;
+		Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + Dis_Face/2.0;
+		Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
+	}
+	Var->LevelSection.end()->FP = 0.0;
+	Var->LevelSection.end()->Mp = 0.0;
 
-	////- Sum Total Wave Force
-	//Var->Fp = 0.0;
-	//Var->Mp = 0.0;
-	//for (size_t i = 0; i < Var->LevelSection.size(); i++)
-	//{
-	//	Var->Fp += Var->LevelSection[i].FP;
-	//	Var->Mp += Var->LevelSection[i].Mp;
-	//}
-	//Var->Err_Msg += "波壓計算處理完畢! \r\n";
+	//- Sum Total Wave Force
+	Var->Fp = 0.0;
+	Var->Mp = 0.0;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		Var->Fp += Var->LevelSection[i].FP;
+		Var->Mp += Var->LevelSection[i].Mp;
+	}
+	Var->Err_Msg += "波壓計算處理完畢! \r\n";
 
-	//// Left Force
-	//Var->Pu = 0.5 * (1.0 + std::cos(Var->beta)) * Var->alpha1 * Var->alpha3 * Var->DensitySea * Var->Hmax * Var->lamda;
+	// Left Force
+	Var->Pu = 0.5 * (1.0 + std::cos(Var->beta)) * Var->alpha1 * Var->alpha3 * Var->DensitySea * Var->Hmax * Var->lamda;
 
-	//Var->Fu = 0.5 * Var->Pu * Var->B;
+	Var->Fu = 0.5 * Var->Pu * Var->B;
 
-	//Var->Mu = (2.0 / 3.0) * Var->Fu * Var->B;
+	Var->Mu = (2.0 / 3.0) * Var->Fu * Var->B;
 
-	//Var->Err_Msg += "上揚力計算處理完畢! \r\n";
+	Var->Err_Msg += "上揚力計算處理完畢! \r\n";
 
 	return true;
 }
