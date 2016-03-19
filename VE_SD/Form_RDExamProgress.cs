@@ -3218,7 +3218,10 @@ namespace VE_SD
                 listBox_SectSetting.Items.Add(BlockMainArray[i].名稱);
             }
             if (BlockMainArray.GetLength(0) > 0)
-            {  調整Chart(chart_Plot);繪上EL(); }
+            {
+                ELDGV1.Enabled = true;
+                調整Chart(chart_Plot);繪上EL();
+            }
 
             //檢核區塊.
 

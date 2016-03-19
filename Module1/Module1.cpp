@@ -127,23 +127,19 @@ bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
 bool VE_SD::Module1::Run()
 {
 	// Geo Pre-Calculate
-	if (!Internal->GeoPreCal()) {
+	if (!Internal->GeoPreCal() // Geo Pre-Calculate
+		||
+		!Internal->WaterLevelCal() // Water Level Cal
+		||
+		!Internal->WavePressureCal() // Wave Pressure Moment Cal
+		||
+		!Internal->WeightCal() // Self Weight Moment Cal
+		||
+		!Internal->BodySafeCheck() // Safe Check!!!!!
+		) {
 		MsgAdd();
 		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
 	}
-	
-	// Water Level Cal
-	if (!Internal->WaterLevelCal()) {
-		MsgAdd();
-		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
-	}
-	// Wave Pressure Moment Cal
-	if (!Internal->WavePressureCal()) {
-		MsgAdd();
-		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
-	}
-	//// Self Weight Moment Cal
-	//Internal->WeightCal();
 
 	// Mesg Print
 	MsgAdd();
@@ -151,7 +147,6 @@ bool VE_SD::Module1::Run()
 	//Mesg
 	ErrMsg += "*** Module - 1 計算結束 *** \r\n";
 
-	
 	//Test---
 
 	return true;
@@ -255,6 +250,30 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "Pu: " << Var->Pu << std::endl;
 	FILE << "Fu: " << Var->Fu << std::endl;
 	FILE << "Mu: " << Var->Mu << std::endl;
+	FILE << "******堤種計算******" << std::endl;
+	size_t id;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL " << " : " << Var->LevelSection[i].Level << std::endl;
+		FILE << "-> 包含區塊編號與資訊: " << std::endl;
+		
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			id = Var->LevelSection[i].BlockId[j];
+			FILE << "Id: "<< id + 1 <<"\t";
+			FILE << "A: " << Var->BlockData[id].Area << "\t";
+			FILE << "Garma: " << Var->BlockData[id].Density << "\t";
+			FILE << "W: " << Var->BlockData[id].SelfWeight << "\t";
+			FILE << "X: " << Var->BlockData[id].WeightC.x << "\t";
+			FILE << "Mw: " << Var->BlockData[id].Mw;
+			FILE << std::endl;
+		}
+	}
+	FILE << "塊體總種: " << Var->W << std::endl;
+	FILE << "總體力矩: " << Var->Mw << std::endl;
+	FILE << "******堤體安定檢核******" << std::endl;
+	FILE << "塊體滑動SF: " << Var->CalBody_SlideSF << std::endl;
+	FILE << "塊體傾倒SF: " << Var->CalBody_RotateSF << std::endl;
 	FILE.close();
 	return true;
 }

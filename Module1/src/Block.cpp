@@ -9,6 +9,7 @@ void Block::Cal_Area()
 		Area += Node[i].x * Node[j].y;
 		Area -= Node[i].y * Node[j].x;
 	}
+	Area *= 0.5;
 }
 
 void Block::Cal_WeightC()

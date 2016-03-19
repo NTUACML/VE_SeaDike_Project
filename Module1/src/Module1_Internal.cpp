@@ -269,10 +269,17 @@ bool Module1_Internal::WavePressureCal()
 
 bool Module1_Internal::WeightCal()
 {
+	double eps = 1e-3;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
 		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
-		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].WeightC.x;
+		if (Var->BlockData[i].Density <= (1.0 + eps))
+		{
+			Var->BlockData[i].Mw = 0.0; //Water!!
+		}
+		else {
+			Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].WeightC.x;
+		}	
 	}
 	//- Sum Total Weight and Moment
 	Var->W = 0.0;
@@ -284,7 +291,7 @@ bool Module1_Internal::WeightCal()
 	}
 
 	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
-	return false;
+	return true;
 }
 
 bool Module1_Internal::BodySafeCheck()
@@ -310,6 +317,20 @@ bool Module1_Internal::BodySafeCheck()
 	Var->CalBody_SlideSF = AveMu * (Var->W - Var->Fu) / Var->Fp;
 
 	Var->CalBody_RotateSF = (Var->Mw - Var->Mu) / Var->Mp;
+
+	if (Var->CalBody_SlideSF >= Var->SlideSF) {
+		Var->Err_Msg += "滑動檢核 (通過)! \r\n";
+	}
+	else {
+		Var->Err_Msg += "滑動檢核 (失敗)! \r\n";
+	}
+
+	if (Var->CalBody_RotateSF >= Var->RotateSF) {
+		Var->Err_Msg += "傾倒檢核 (通過)! \r\n";
+	}
+	else {
+		Var->Err_Msg += "傾倒檢核 (失敗)! \r\n";
+	}
 
 	return true;
 }
