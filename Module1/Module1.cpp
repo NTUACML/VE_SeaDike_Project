@@ -124,23 +124,86 @@ bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
 	return true;
 }
 
+bool VE_SD::Module1::Get_DataBank_Data()
+{
+	// EL Section!
+	VarBank.EL_Out = gcnew array< EL_SectionResult^ >(int(Var->LevelSection.size()));
+	for (int i = 0; i < Var->LevelSection.size(); ++i) {
+		VarBank.EL_Out[i] = gcnew EL_SectionResult;
+		VarBank.EL_Out[i]->EL = Var->LevelSection[i].Level;
+		VarBank.EL_Out[i]->P = Var->LevelSection[i].P;
+		VarBank.EL_Out[i]->FP = Var->LevelSection[i].FP;
+		VarBank.EL_Out[i]->Y = Var->LevelSection[i].L_Y;
+		VarBank.EL_Out[i]->Mp = Var->LevelSection[i].Mp;
+
+		VarBank.EL_Out[i]->BlockNum = gcnew array< Int32 >(int(Var->LevelSection[i].BlockId.size()));
+		for (int j = 0; j < Var->LevelSection[i].BlockId.size(); ++j) {
+			VarBank.EL_Out[i]->BlockNum[j] = int(Var->LevelSection[i].BlockId[j]);
+		}
+	}
+
+	// EL Block!
+	VarBank.Block_Out = gcnew array< BlockResult^ >(int(Var->BlockData.size()));
+	for (int i = 0; i < Var->BlockData.size(); ++i) {
+		VarBank.Block_Out[i] = gcnew BlockResult;
+		VarBank.Block_Out[i]->A = Var->BlockData[i].Area;
+		VarBank.Block_Out[i]->garma = Var->BlockData[i].Density;
+		VarBank.Block_Out[i]->W = Var->BlockData[i].SelfWeight;
+		VarBank.Block_Out[i]->X = Var->BlockData[i].WeightC.x;
+		VarBank.Block_Out[i]->Mw = Var->BlockData[i].Mw;
+	}
+
+	// Var Get!
+	VarBank.h = Var->h;
+	VarBank.h_plun = Var->h_plun;
+	VarBank.hc = Var->hc;
+	VarBank.d = Var->d;
+	VarBank.L0 = Var->L0;
+	VarBank.H0_plun = Var->H0_plun;
+	VarBank.L = Var->L;
+	VarBank.h_D_L0 = Var->h_D_L0;
+	VarBank.beta0 = Var->beta0;
+	VarBank.beta1 = Var->beta1;
+	VarBank.betaMax = Var->betaMax;
+	VarBank.beta0_Star = Var->beta0_Star;
+	VarBank.beta1_Star = Var->beta1_Star;
+	VarBank.betaMax_Star = Var->betaMax_Star;
+	VarBank.Hs = Var->Hs;
+	VarBank.Hmax = Var->Hmax;
+	VarBank.hb = Var->hb;
+	VarBank.alpha1 = Var->alpha1;
+	VarBank.alpha2 = Var->alpha2;
+	VarBank.alpha3 = Var->alpha3;
+	VarBank.eta_Star = Var->eta_Star;
+	VarBank.hc_Star = Var->hc_Star;
+	VarBank.P1 = Var->P1;
+	VarBank.P2 = Var->P2;
+	VarBank.P3 = Var->P3;
+	VarBank.Pu = Var->Pu;
+	VarBank.Fu = Var->Fu;
+	VarBank.Mu = Var->Mu;
+	VarBank.CalBody_SlideSF = Var->CalBody_SlideSF;
+	VarBank.CalBody_RotateSF = Var->CalBody_RotateSF;
+
+	return true;
+}
+
 bool VE_SD::Module1::Run()
 {
 	// Geo Pre-Calculate
-	if (!Internal->GeoPreCal()) {
+	if (!Internal->GeoPreCal() // Geo Pre-Calculate
+		||
+		!Internal->WaterLevelCal() // Water Level Cal
+		||
+		!Internal->WavePressureCal() // Wave Pressure Moment Cal
+		||
+		!Internal->WeightCal() // Self Weight Moment Cal
+		||
+		!Internal->BodySafeCheck() // Safe Check!!!!!
+		) {
 		MsgAdd();
 		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
 	}
-	
-	// Water Level Cal
-	if (!Internal->WaterLevelCal()) {
-		MsgAdd();
-		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
-	}
-	//// Wave Pressure Moment Cal
-	//Internal->WavePressureCal();
-	//// Self Weight Moment Cal
-	//Internal->WeightCal();
 
 	// Mesg Print
 	MsgAdd();
@@ -148,7 +211,6 @@ bool VE_SD::Module1::Run()
 	//Mesg
 	ErrMsg += "*** Module - 1 計算結束 *** \r\n";
 
-	
 	//Test---
 
 	return true;
@@ -226,7 +288,56 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "Beta Max*: " << Var->betaMax_Star << std::endl;
 	FILE << "Hs: " << Var->Hs << std::endl;
 	FILE << "Hmax: " << Var->Hmax << std::endl;
-
+	FILE << "******波壓計算******" << std::endl;
+	FILE << "Alpha 1: " << Var->alpha1 << std::endl;
+	FILE << "Alpha 2: " << Var->alpha2 << std::endl;
+	FILE << "Alpha 3: " << Var->alpha3 << std::endl;
+	FILE << "Eta*: " << Var->eta_Star << std::endl;
+	FILE << "hc*: " << Var->hc_Star << std::endl;
+	FILE << "P1: " << Var->P1 << std::endl;
+	FILE << "P2: " << Var->P2 << std::endl;
+	FILE << "P3: " << Var->P3 << std::endl;
+	FILE << "P4: " << Var->P4 << std::endl;
+	FILE << "******波壓彎矩******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL :" << Var->LevelSection[i].Level<< "\t" <<
+			"P: "<< Var->LevelSection[i].P << "\t" <<
+			"FP: "<< Var->LevelSection[i].FP << "\t" <<
+			"Y: " << Var->LevelSection[i].L_Y << "\t" <<
+			"MP: " << Var->LevelSection[i].Mp << "\t" <<
+			 std::endl;
+	}
+	FILE << "波壓合計: " << Var->Fp << std::endl;
+	FILE << "傾倒彎矩: " << Var->Mp << std::endl;
+	FILE << "******揚壓力******" << std::endl;
+	FILE << "Pu: " << Var->Pu << std::endl;
+	FILE << "Fu: " << Var->Fu << std::endl;
+	FILE << "Mu: " << Var->Mu << std::endl;
+	FILE << "******堤種計算******" << std::endl;
+	size_t id;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL " << " : " << Var->LevelSection[i].Level << std::endl;
+		FILE << "-> 包含區塊編號與資訊: " << std::endl;
+		
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			id = Var->LevelSection[i].BlockId[j];
+			FILE << "Id: "<< id + 1 <<"\t";
+			FILE << "A: " << Var->BlockData[id].Area << "\t";
+			FILE << "Garma: " << Var->BlockData[id].Density << "\t";
+			FILE << "W: " << Var->BlockData[id].SelfWeight << "\t";
+			FILE << "X: " << Var->BlockData[id].WeightC.x << "\t";
+			FILE << "Mw: " << Var->BlockData[id].Mw;
+			FILE << std::endl;
+		}
+	}
+	FILE << "塊體總種: " << Var->W << std::endl;
+	FILE << "總體力矩: " << Var->Mw << std::endl;
+	FILE << "******堤體安定檢核******" << std::endl;
+	FILE << "塊體滑動SF: " << Var->CalBody_SlideSF << std::endl;
+	FILE << "塊體傾倒SF: " << Var->CalBody_RotateSF << std::endl;
 	FILE.close();
 	return true;
 }

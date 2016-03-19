@@ -507,6 +507,7 @@ namespace VE_SD
 
         private void btn_Test_Click(object sender, EventArgs e)
         {
+            開始檢核ToolStripMenuItem_Click(sender, e);
             //***********************************************************
 
 
@@ -3246,7 +3247,10 @@ namespace VE_SD
                 listBox_SectSetting.Items.Add(BlockMainArray[i].名稱);
             }
             if (BlockMainArray.GetLength(0) > 0)
-            {  調整Chart(chart_Plot);繪上EL(); }
+            {
+                ELDGV1.Enabled = true;
+                調整Chart(chart_Plot);繪上EL();
+            }
 
             //檢核區塊.
 
@@ -4012,6 +4016,10 @@ namespace VE_SD
             ELA = ELArray;
             Array.Resize(ref ELA, ELA.GetLength(0) + 1);
             ELA[ELA.GetUpperBound(0)] = double.Parse(textBox_HWL.Text);
+            Array.Resize(ref ELA, ELA.GetLength(0) + 1);
+            ELA[ELA.GetUpperBound(0)] = MinEL;
+            Array.Resize(ref ELA, ELA.GetLength(0) + 1);
+            ELA[ELA.GetUpperBound(0)] = MaxEL;
             Array.Sort(ELA);
             //- Push Level
             Mod.DeleteAllLevel();
@@ -4022,11 +4030,11 @@ namespace VE_SD
             //6. SF Input
             Mod.SF_CoefInput(double.Parse(textBox_SFSlide.Text), double.Parse(textBox_SFOver.Text));
 
-            //int a= Mod.AA.x;
+           
             //ELArray[0]
             //**********************************************************************************************************************//
 
-            //Mod.VarBank.GetData(); //Get all Var
+            //Mod.VarBank.G //Get all Var
             //Mod.VarBank.
 
             //計算.
@@ -4084,39 +4092,45 @@ namespace VE_SD
                 //執行EXCEL 輸出.
                 try
                 {
-                    wSheet =(Excel._Worksheet) wBook.Worksheets[1];//第一個工作表.
+                    Mod.Get_DataBank_Data(); //Loading Running Result data.
+                    wSheet = (Excel._Worksheet) wBook.Worksheets[1];//第一個工作表.
                     wSheet.Name = "第一個表格";
                     wSheet.Activate();
 
                     range = wSheet.Cells[1, 1];
-                    range.Value = "名稱";
-                    range.Borders.Weight = Excel.XlBorderWeight.xlMedium;
-                    range.Interior.Color = ColorTranslator.ToOle(Color.Gray) ;
-                    range.Font.Color = ColorTranslator.ToOle(Color.White);
-                    range.Font.Bold = true;
+                    range.Value = Mod.VarBank.alpha1.ToString();
 
-                    wSheet.Cells[2, 1] = "10";
-                    wSheet.Cells[3, 1] = "20";
-                    wSheet.Cells[4, 1].Formula = "=SUM(A2:A3)";//string.Format("A{0}:A{1}",2,4);
+                    //range = wSheet.Cells[3, 1];
+                    //range.Value = Mod.VarBank.Block_Out[1]
+                    //range = wSheet.Cells[1, 1];
+                    //range.Value = "名稱";
+                    //range.Borders.Weight = Excel.XlBorderWeight.xlMedium;
+                    //range.Interior.Color = ColorTranslator.ToOle(Color.Gray) ;
+                    //range.Font.Color = ColorTranslator.ToOle(Color.White);
+                    //range.Font.Bold = true;
+
+                    //wSheet.Cells[2, 1] = "10";
+                    //wSheet.Cells[3, 1] = "20";
+                    //wSheet.Cells[4, 1].Formula = "=SUM(A2:A3)";//string.Format("A{0}:A{1}",2,4);
 
 
-                    range = wSheet.Cells[1, 1];
-                    range.Columns.AutoFit();
-                    range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[3, 2]];
-                    range.Borders.LineStyle = 1;
-                    range.Borders.Color = ColorTranslator.ToOle(Color.Black);
-                    range.Borders.Weight = Excel.XlBorderWeight.xlThick;
+                    //range = wSheet.Cells[1, 1];
+                    //range.Columns.AutoFit();
+                    //range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[3, 2]];
+                    //range.Borders.LineStyle = 1;
+                    //range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                    //range.Borders.Weight = Excel.XlBorderWeight.xlThick;
 
-                    range = wSheet.Range[wSheet.Cells[2, 3], wSheet.Cells[3, 4]];
-                    range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick,Excel.XlColorIndex.xlColorIndexAutomatic);
-                    range.AutoFormat(Excel.XlRangeAutoFormat.xlRangeAutoFormat3DEffects1,true, false, true, false, true, true);
+                    //range = wSheet.Range[wSheet.Cells[2, 3], wSheet.Cells[3, 4]];
+                    //range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick,Excel.XlColorIndex.xlColorIndexAutomatic);
+                    //range.AutoFormat(Excel.XlRangeAutoFormat.xlRangeAutoFormat3DEffects1,true, false, true, false, true, true);
 
-                    range = wSheet.Cells[8, 1];
-                    range.Value = "\u03B4=20.0";
-                    //excelRange.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlThick,
-                    //XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
-                    //excelRange.Merge(excelRange.MergeCells);
-                    //_workSheet.get_Range("A15", "B15").Merge(_workSheet.get_Range("A15", "B15").MergeCells);
+                    //range = wSheet.Cells[8, 1];
+                    //range.Value = "\u03B4=20.0";
+                    ////excelRange.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlThick,
+                    ////XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
+                    ////excelRange.Merge(excelRange.MergeCells);
+                    ////_workSheet.get_Range("A15", "B15").Merge(_workSheet.get_Range("A15", "B15").MergeCells);
                     wBook.SaveAs(getpath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 }
                 catch (Exception ex)

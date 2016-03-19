@@ -49,7 +49,6 @@ bool Module1_Internal::GeoPreCal()
 				Var->LevelSection[i].BlockId.push_back(j);
 			}
 		}
-		Var->LevelSection[i].L_Y = ((Var->LevelSection[i + 1].Level + Var->LevelSection[i].Level) / 2.0) - Var->Ref_y;
 	}
 
 	//Base Block Length
@@ -171,15 +170,6 @@ bool Module1_Internal::WaterLevelCal()
 		Var->Hmax = std::min(std::min(Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->hb, Var->betaMax_Star * Var->H0_plun), 1.8*KsHo_p);
 	}
 
-	//--------Test-----------
-	std::ofstream File;
-	File.open("Test.txt");
-	File << Var->beta0_Star * Var->H0_plun + Var->beta1_Star * Var->h << std::endl;
-	File << Var->betaMax_Star * Var->H0_plun << std::endl;
-	File << 1.8*KsHo_p << std::endl;
-	File.close();
-	//--------Test-----------
-
 	Var->Err_Msg += "背景水理資料處理完畢! \r\n";
 	return true;
 }
@@ -205,7 +195,7 @@ bool Module1_Internal::WavePressureCal()
 
 	Var->P1 = 0.5 * (1.0 + std::cos(Var->beta)) * (Var->alpha1 + Var->alpha2 * std::pow(std::cos(Var->beta), 2.0)) * Var->DensitySea * Var->Hmax * Var->lamda;
 
-	Var->P2 = Var->P1 / (std::cosh(2.0 * M_PI * Var->h) / Var->L);
+	Var->P2 = Var->P1 / std::cosh(2.0 * M_PI * Var->h / Var->L) ;
 
 	Var->P3 = Var->alpha3 * Var->P1;
 
@@ -214,11 +204,12 @@ bool Module1_Internal::WavePressureCal()
 	//- Find HWL 
 	size_t HWL_ID = 0;
 	double eps = 1e-3, Dis_Face, M;
-	for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
-		if ((Var->LevelSection[i - 1].Level - eps) < Var->HWL
+		if ((Var->LevelSection[i].Level) > (Var->HWL - eps)
 			&&
-			Var->HWL <= (Var->LevelSection[i].Level + eps)) {
+			(Var->LevelSection[i].Level) < (Var->HWL + eps)
+			) {
 			HWL_ID = i;
 		}
 	}
@@ -226,25 +217,29 @@ bool Module1_Internal::WavePressureCal()
 	//-- Put P3
 	Var->LevelSection.begin()->P = Var->P3;
 	//-- Put P4
-	Var->LevelSection.end()->P = Var->P4;
+	(Var->LevelSection.end()-1)->P = Var->P4;
 	//-- Put HWL
 	Var->LevelSection[HWL_ID].P = Var->P1;
 	//-- Interpolation
 	M = (Var->LevelSection[HWL_ID].P - Var->LevelSection.begin()->P) / (Var->LevelSection[HWL_ID].Level - Var->LevelSection.begin()->Level);
 	for (size_t i = 1; i < HWL_ID; i++)
 	{
-		Var->LevelSection[i].P = Var->LevelSection.begin()->P + M * (Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level);
+		Var->LevelSection[i].P = Var->LevelSection.begin()->P + M * (Var->LevelSection[i].Level - Var->LevelSection.begin()->Level);
 	}
-	M = (Var->LevelSection.end()->P - Var->LevelSection[HWL_ID].P) / (Var->LevelSection.end()->Level - Var->LevelSection[HWL_ID].Level);
-	for (size_t i = HWL_ID + 1; i < Var->LevelSection.size() - 1; i++)
+	M = ((Var->LevelSection.end()-1)->P - Var->LevelSection[HWL_ID].P) / ((Var->LevelSection.end()-1)->Level - Var->LevelSection[HWL_ID].Level);
+	for (size_t i = HWL_ID + 1; i < Var->LevelSection.size()-1 ; i++)
 	{
-		Var->LevelSection[i].P = Var->LevelSection[HWL_ID].P + M * (Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level);
+		Var->LevelSection[i].P = Var->LevelSection[HWL_ID].P + M * (Var->LevelSection[i].Level - Var->LevelSection[HWL_ID].Level);
 	}
 	//- Wave Pressure & Moment
-	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
+	Var->LevelSection.begin()->FP = 0.0;
+	Var->LevelSection.begin()->L_Y = 0.0;
+	Var->LevelSection.begin()->Mp = 0.0;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++)
 	{
-		Dis_Face = Var->LevelSection[i + 1].Level - Var->LevelSection[i].Level;
+		Dis_Face = Var->LevelSection[i].Level - Var->LevelSection[i-1].Level;
 		Var->LevelSection[i].FP = Var->LevelSection[i].P * Dis_Face;
+		Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + Dis_Face/2.0;
 		Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
 	}
 	Var->LevelSection.end()->FP = 0.0;
@@ -274,10 +269,17 @@ bool Module1_Internal::WavePressureCal()
 
 bool Module1_Internal::WeightCal()
 {
+	double eps = 1e-3;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
 		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
-		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].WeightC.x;
+		if (Var->BlockData[i].Density <= (1.0 + eps))
+		{
+			Var->BlockData[i].Mw = 0.0; //Water!!
+		}
+		else {
+			Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].WeightC.x;
+		}	
 	}
 	//- Sum Total Weight and Moment
 	Var->W = 0.0;
@@ -289,7 +291,7 @@ bool Module1_Internal::WeightCal()
 	}
 
 	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
-	return false;
+	return true;
 }
 
 bool Module1_Internal::BodySafeCheck()
@@ -315,6 +317,20 @@ bool Module1_Internal::BodySafeCheck()
 	Var->CalBody_SlideSF = AveMu * (Var->W - Var->Fu) / Var->Fp;
 
 	Var->CalBody_RotateSF = (Var->Mw - Var->Mu) / Var->Mp;
+
+	if (Var->CalBody_SlideSF >= Var->SlideSF) {
+		Var->Err_Msg += "滑動檢核 (通過)! \r\n";
+	}
+	else {
+		Var->Err_Msg += "滑動檢核 (失敗)! \r\n";
+	}
+
+	if (Var->CalBody_RotateSF >= Var->RotateSF) {
+		Var->Err_Msg += "傾倒檢核 (通過)! \r\n";
+	}
+	else {
+		Var->Err_Msg += "傾倒檢核 (失敗)! \r\n";
+	}
 
 	return true;
 }
