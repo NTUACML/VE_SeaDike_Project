@@ -188,6 +188,9 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.Mu = Var->Mu;
 	VarBank.CalBody_SlideSF = Var->CalBody_SlideSF;
 	VarBank.CalBody_RotateSF = Var->CalBody_RotateSF;
+	VarBank.W = Var->W;
+	VarBank.Mw = Var->Mw;
+	VarBank.Mp = Var->Mp;
 
 	return true;
 }

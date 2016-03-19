@@ -3987,7 +3987,8 @@ namespace VE_SD
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
             //4. 選擇性參數給定
-            Mod.OptionalVarInput(double.Parse(textBox_HB.Text));
+            double HBTest;
+            Mod.OptionalVarInput(double.TryParse(textBox_HB.Text,out HBTest)? HBTest :-9999);
             //5.   其他檢核:
             //5-1. 消波工檢核計算.
             if (chk_BlockWeightCalc_HO.Checked )
@@ -4102,8 +4103,11 @@ namespace VE_SD
                     range = wSheet.Cells[1, 1];
                     range.Value = Mod.VarBank.alpha1.ToString();
 
-                    //Mod.VarBank.Block_Out[2].
-
+                    wSheet.Cells[3, 1].Value = Mod.VarBank.Block_Out[2].A ;
+                    wSheet.Cells[3, 2].Value = Mod.VarBank.Block_Out[2].garma;
+                    wSheet.Cells[3, 3].Value = Mod.VarBank.Block_Out[2].W;
+                    wSheet.Cells[3, 4].Value = Mod.VarBank.Block_Out[2].X;
+                    wSheet.Cells[3, 5].Value = Mod.VarBank.Block_Out[2].Mw;
                     //range = wSheet.Cells[3, 1];
                     //range.Value = Mod.VarBank.Block_Out[1]
                     //range = wSheet.Cells[1, 1];

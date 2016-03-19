@@ -23,7 +23,7 @@ namespace VE_SD {
 		double h, h_plun, hc, d, H0, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L,
 			beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
 			alpha1, alpha2, alpha3, alpha4, eta_Star, hc_Star, 
-			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF;
+			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF, W, Mw;
 
 		array< EL_SectionResult >^ EL_Out;
 		array< BlockResult >^ Block_Out;
