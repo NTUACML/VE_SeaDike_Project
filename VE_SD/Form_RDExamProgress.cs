@@ -3986,15 +3986,17 @@ namespace VE_SD
             Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "e" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
-            //4.   其他檢核:
-            //4-1. 消波工檢核計算.
-            if(chk_BlockWeightCalc_HO.Checked )
+            //4. 選擇性參數給定
+            Mod.OptionalVarInput(double.Parse(textBox_HB.Text));
+            //5.   其他檢核:
+            //5-1. 消波工檢核計算.
+            if (chk_BlockWeightCalc_HO.Checked )
             {
                 //
 
             }
                      
-            //5. Block給定.
+            //6. Block給定.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
             {
                 //- 迴圈塞入Block.
@@ -4010,7 +4012,7 @@ namespace VE_SD
             }
 
 
-            //6. Level給定.
+            //7. Level給定.
             //- 創建排序 ELA (包含HWL)
             double[] ELA = new double[] {};
             ELA = ELArray;
@@ -4027,7 +4029,7 @@ namespace VE_SD
             {
                 Mod.NewLevel(ELA[i]);
             }
-            //6. SF Input
+            //8. SF Input
             Mod.SF_CoefInput(double.Parse(textBox_SFSlide.Text), double.Parse(textBox_SFOver.Text));
 
            
@@ -4099,6 +4101,8 @@ namespace VE_SD
 
                     range = wSheet.Cells[1, 1];
                     range.Value = Mod.VarBank.alpha1.ToString();
+
+                    //Mod.VarBank.Block_Out[2].
 
                     //range = wSheet.Cells[3, 1];
                     //range.Value = Mod.VarBank.Block_Out[1]

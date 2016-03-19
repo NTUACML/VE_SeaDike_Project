@@ -117,6 +117,12 @@ bool VE_SD::Module1::BaseDesignInput(double _S, double _Base_Level, double _Brea
 	return true;
 }
 
+bool VE_SD::Module1::OptionalVarInput(double _hb)
+{
+	Var->hb = _hb;
+	return true;
+}
+
 bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
 {
 	Var->SlideSF = _SlideSF;
@@ -127,30 +133,28 @@ bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
 bool VE_SD::Module1::Get_DataBank_Data()
 {
 	// EL Section!
-	VarBank.EL_Out = gcnew array< EL_SectionResult^ >(int(Var->LevelSection.size()));
+	VarBank.EL_Out = gcnew array< EL_SectionResult >(int(Var->LevelSection.size()));
 	for (int i = 0; i < Var->LevelSection.size(); ++i) {
-		VarBank.EL_Out[i] = gcnew EL_SectionResult;
-		VarBank.EL_Out[i]->EL = Var->LevelSection[i].Level;
-		VarBank.EL_Out[i]->P = Var->LevelSection[i].P;
-		VarBank.EL_Out[i]->FP = Var->LevelSection[i].FP;
-		VarBank.EL_Out[i]->Y = Var->LevelSection[i].L_Y;
-		VarBank.EL_Out[i]->Mp = Var->LevelSection[i].Mp;
+		VarBank.EL_Out[i].EL = Var->LevelSection[i].Level;
+		VarBank.EL_Out[i].P = Var->LevelSection[i].P;
+		VarBank.EL_Out[i].FP = Var->LevelSection[i].FP;
+		VarBank.EL_Out[i].Y = Var->LevelSection[i].L_Y;
+		VarBank.EL_Out[i].Mp = Var->LevelSection[i].Mp;
 
-		VarBank.EL_Out[i]->BlockNum = gcnew array< Int32 >(int(Var->LevelSection[i].BlockId.size()));
+		VarBank.EL_Out[i].BlockNum = gcnew array< Int32 >(int(Var->LevelSection[i].BlockId.size()));
 		for (int j = 0; j < Var->LevelSection[i].BlockId.size(); ++j) {
-			VarBank.EL_Out[i]->BlockNum[j] = int(Var->LevelSection[i].BlockId[j]);
+			VarBank.EL_Out[i].BlockNum[j] = int(Var->LevelSection[i].BlockId[j]);
 		}
 	}
 
 	// EL Block!
-	VarBank.Block_Out = gcnew array< BlockResult^ >(int(Var->BlockData.size()));
+	VarBank.Block_Out = gcnew array< BlockResult >(int(Var->BlockData.size()));
 	for (int i = 0; i < Var->BlockData.size(); ++i) {
-		VarBank.Block_Out[i] = gcnew BlockResult;
-		VarBank.Block_Out[i]->A = Var->BlockData[i].Area;
-		VarBank.Block_Out[i]->garma = Var->BlockData[i].Density;
-		VarBank.Block_Out[i]->W = Var->BlockData[i].SelfWeight;
-		VarBank.Block_Out[i]->X = Var->BlockData[i].WeightC.x;
-		VarBank.Block_Out[i]->Mw = Var->BlockData[i].Mw;
+		VarBank.Block_Out[i].A = Var->BlockData[i].Area;
+		VarBank.Block_Out[i].garma = Var->BlockData[i].Density;
+		VarBank.Block_Out[i].W = Var->BlockData[i].SelfWeight;
+		VarBank.Block_Out[i].X = Var->BlockData[i].WeightC.x;
+		VarBank.Block_Out[i].Mw = Var->BlockData[i].Mw;
 	}
 
 	// Var Get!

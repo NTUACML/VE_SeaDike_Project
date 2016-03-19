@@ -25,8 +25,8 @@ namespace VE_SD {
 			alpha1, alpha2, alpha3, alpha4, eta_Star, hc_Star, 
 			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF;
 
-		array< EL_SectionResult^ >^ EL_Out;
-		array< BlockResult^ >^ Block_Out;
+		array< EL_SectionResult >^ EL_Out;
+		array< BlockResult >^ Block_Out;
 
 	};
 
@@ -62,7 +62,11 @@ namespace VE_SD {
 							double _Ks, double _Kd, double _lamda, 
 							double _beta);
 		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
+		bool OptionalVarInput(double _hb);
+
 		bool SF_CoefInput(double _SlideSF, double _RotateSF);
+
+		//- Get Var Function
 		bool Get_DataBank_Data();
 
 		//- Run API

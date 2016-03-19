@@ -161,8 +161,10 @@ bool Module1_Internal::WaterLevelCal()
 		Var->Hs = std::min(std::min(Var->beta0 * Var->H0_plun + Var->beta1 * Var->h, Var->betaMax * Var->H0_plun), KsHo_p);
 	}
 
-	Var->hb = Var->h + 5.0 * Var->Hs * Var->S;
-
+	if (Var->hb < -9998) {
+		Var->hb = Var->h + 5.0 * Var->Hs * Var->S;
+	}
+	
 	if (Var->h_D_L0 >= 0.2) {
 		Var->Hmax = 1.8 * KsHo_p;
 	}
