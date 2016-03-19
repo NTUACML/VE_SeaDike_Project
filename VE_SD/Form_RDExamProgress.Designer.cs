@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -162,6 +162,9 @@
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox_HB = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -181,6 +184,7 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).BeginInit();
             this.tabPage_RunCheck.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox_SectSetting
@@ -309,13 +313,14 @@
             // 輸出Log檔案ToolStripMenuItem
             // 
             this.輸出Log檔案ToolStripMenuItem.Name = "輸出Log檔案ToolStripMenuItem";
-            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.輸出Log檔案ToolStripMenuItem.Text = "輸出Log檔案";
+            this.輸出Log檔案ToolStripMenuItem.Click += new System.EventHandler(this.輸出Log檔案ToolStripMenuItem_Click);
             // 
             // 輸出Excel檔案ToolStripMenuItem
             // 
             this.輸出Excel檔案ToolStripMenuItem.Name = "輸出Excel檔案ToolStripMenuItem";
-            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.輸出Excel檔案ToolStripMenuItem.Text = "輸出Excel檔案";
             this.輸出Excel檔案ToolStripMenuItem.Click += new System.EventHandler(this.btn_OutputExcel_Click);
             // 
@@ -323,20 +328,22 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea9.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea9);
-            legend9.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend9);
+            chartArea5.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend5);
             this.chart_Plot.Location = new System.Drawing.Point(138, 9);
             this.chart_Plot.Name = "chart_Plot";
-            series9.ChartArea = "ChartArea1";
-            series9.Legend = "Legend1";
-            series9.Name = "Series1";
-            this.chart_Plot.Series.Add(series9);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.chart_Plot.Series.Add(series5);
             this.chart_Plot.Size = new System.Drawing.Size(821, 354);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
             this.chart_Plot.Click += new System.EventHandler(this.chart_Plot_Click);
+            this.chart_Plot.MouseHover += new System.EventHandler(this.chart_Plot_MouseHover);
+            this.chart_Plot.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart_Plot_MouseMove);
             // 
             // tabControl1
             // 
@@ -356,6 +363,7 @@
             // 
             // tabPage_BasicParameter
             // 
+            this.tabPage_BasicParameter.Controls.Add(this.groupBox5);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_ArmorBlockEle);
             this.tabPage_BasicParameter.Controls.Add(this.label26);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_GroundELE);
@@ -701,6 +709,7 @@
             this.textBox_H0.Name = "textBox_H0";
             this.textBox_H0.Size = new System.Drawing.Size(100, 27);
             this.textBox_H0.TabIndex = 2;
+            this.textBox_H0.TextChanged += new System.EventHandler(this.textBox_H0_TextChanged);
             this.textBox_H0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_H0_KeyPress);
             // 
             // label2
@@ -1151,9 +1160,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle49.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle49;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle25;
             this.dataGridViewTextBoxColumn1.HeaderText = "序號";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -1177,8 +1186,8 @@
             // 
             // 摩擦係數值
             // 
-            dataGridViewCellStyle50.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle26;
             this.摩擦係數值.HeaderText = "摩擦係數值";
             this.摩擦係數值.Name = "摩擦係數值";
             this.摩擦係數值.Width = 120;
@@ -1218,9 +1227,9 @@
             // 
             // 序號
             // 
-            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle51.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle27;
             this.序號.HeaderText = "序號";
             this.序號.Name = "序號";
             this.序號.ReadOnly = true;
@@ -1281,8 +1290,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle52;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle28;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1292,8 +1301,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 354);
             this.ELDGV1.TabIndex = 0;
@@ -1303,9 +1312,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle53.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle29;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1511,6 +1520,36 @@
             this.SFD_LogFile.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_LogFile.FilterIndex = 0;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.textBox_HB);
+            this.groupBox5.Controls.Add(this.label18);
+            this.groupBox5.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox5.Location = new System.Drawing.Point(600, 20);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(454, 467);
+            this.groupBox5.TabIndex = 35;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "選擇性參數(不填者採系統內算)";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(16, 39);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(59, 19);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Hb = ";
+            // 
+            // textBox_HB
+            // 
+            this.textBox_HB.Location = new System.Drawing.Point(68, 29);
+            this.textBox_HB.Name = "textBox_HB";
+            this.textBox_HB.Size = new System.Drawing.Size(100, 30);
+            this.textBox_HB.TabIndex = 1;
+            this.textBox_HB.TextChanged += new System.EventHandler(this.textBox_HB_TextChanged);
+            this.textBox_HB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HB_KeyPress);
+            // 
             // Form_RDExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1555,6 +1594,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).EndInit();
             this.tabPage_RunCheck.ResumeLayout(false);
             this.tabPage_RunCheck.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1686,5 +1727,8 @@
         private System.Windows.Forms.ToolStripMenuItem 輸出ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 輸出Log檔案ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 輸出Excel檔案ToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox textBox_HB;
+        private System.Windows.Forms.Label label18;
     }
 }

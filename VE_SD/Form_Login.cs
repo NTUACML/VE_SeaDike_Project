@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace VE_SD
 {
     public partial class Form_Login : Form
     {
+        string LeastUserLoginInFile = "LoginInUserInfo.txt";
         public Form_Login()
         {
             InitializeComponent();
@@ -21,13 +23,48 @@ namespace VE_SD
         public Form_Login(Form callingForm)
         {
             mainForm = callingForm as Form1;
+
+
             InitializeComponent();
+        }
+        private void Form_Login_Load(object sender, EventArgs e)
+        {
+            //加入直接顯示上一次最後登入之使用者資訊檔案.
+
+            FileInfo fi = new FileInfo(LeastUserLoginInFile); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (fi.Exists)
+            {
+                StreamReader sr = new StreamReader(LeastUserLoginInFile);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                string s1, s2;
+                try
+                {
+                    //第一行:使用者ID.
+                    //第二行:使用者名稱.
+                    s1 = sr.ReadLine();
+                    if (s1 != "")
+                    {
+                        textBox_UserID.Text = s1;
+                    }
+                    s2 = sr.ReadLine();
+                    if (s2 != "")
+                    {
+                        textBox_UserName.Text = s2;
+                    }
+                }
+                catch
+                {
+                    textBox_UserID.Text = "";
+                    textBox_UserName.Text = "";
+                }
+                sr.Close();
+            }//是否此檔案存在.
         }
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("您確定要取消登入? 取消登入後將自動關閉程式!", "登入取消", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 this.Close();
+                mainForm.Close();//關閉所有執行程序.
             }
             else
             {
@@ -38,18 +75,30 @@ namespace VE_SD
         private void btn_Login_Click(object sender, EventArgs e)
         {
             //檢查登入資訊是否合理.
+            string getID = textBox_UserID.Text;
             string getName = textBox_UserName.Text;
-            string getcode = textBox_Code.Text;
 
-            //檢查機制暫時沒寫.
+            if(getID=="" || getName=="" )
+            {
+                //錯誤.
+                MessageBox.Show("您沒有填入正確的資訊!!", "登入使用者資訊", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            //
-
+            //寫出檔案.
+            StreamWriter sw= new StreamWriter(LeastUserLoginInFile);
+            sw.WriteLine(getID);
+            sw.WriteLine(getName);
+            sw.Flush();
+            sw.Close();
             //設定表單變數.
             //http://stackoverflow.com/questions/4822980/how-to-access-a-form-control-for-another-form
             this.mainForm.LoginTextSetting = "OK"; //*************************
+            this.mainForm.LoginInUserID = getID;
+            this.mainForm.LoginInUserName = getName;
             this.Close();
         }
+
 
     }
 }

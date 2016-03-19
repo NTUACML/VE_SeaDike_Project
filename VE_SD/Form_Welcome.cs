@@ -35,16 +35,16 @@ namespace VE_SD
         private void timer1_Tick(object sender, EventArgs e)
         {
             timerticker += 1;
-            if (timerticker == 3)
+            if (timerticker == 1)
             {
                 label1.Text = "正在載入必須的檔案";
             }
-            if (timerticker == 10)
+            if (timerticker == 3)
             {
                 label1.Text = "正在啟動程式...";
                 //System.Threading.Thread.Sleep(2000);
             }
-            if (timerticker == 15)
+            if (timerticker == 5)
             {
                 timer1.Stop();
                 this.Close();

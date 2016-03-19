@@ -63,6 +63,7 @@ namespace VE_SD
 
 
         #endregion
+        private Form1 mainForm = null;
         string selectname = null;  //目前點選到的Block.
         Module1 Mod = null;
         private struct MaterialsRoughness
@@ -82,6 +83,11 @@ namespace VE_SD
             //chart_Plot.Series[0].Points.DataBindXY(X2, Y2);
             //chart_Plot.Series[0].Color = Color.Red;
 
+        }
+        public Form_RDExamProgress(Form callingForm)
+        {
+            mainForm = callingForm as Form1;//傳入物件參考.
+            InitializeComponent();
         }
         public Class_BlockSect BlockObj
         {
@@ -654,6 +660,11 @@ namespace VE_SD
                 e.Handled = h;
             }
 
+        }
+        private void textBox_HB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //選擇性參數.
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         private void textBox_Slope_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -1803,6 +1814,9 @@ namespace VE_SD
             XmlElement 海水單位體積重量 = doc.CreateElement("海水單位體積重量");
             海水單位體積重量.SetAttribute("Value", textBox_SeaGamma.Text);
 
+            XmlElement HB計算值 = doc.CreateElement("HB值");
+            HB計算值.SetAttribute("Value", textBox_HB.Text==""?"-9999":textBox_HB.Text .ToString());//若空白則寫入-9999.
+
             XmlElement 消波工堤身段港外側重量檢核啟用 = doc.CreateElement("消波工堤身段港外側重量檢核啟用");
             消波工堤身段港外側重量檢核啟用.SetAttribute("Value", chk_BlockWeightCalc_HO.Checked?"TRUE":"FALSE");
 
@@ -1837,6 +1851,7 @@ namespace VE_SD
             全域參數XML點.AppendChild(滑動安全係數);
             全域參數XML點.AppendChild(傾倒安全係數);
             全域參數XML點.AppendChild(海水單位體積重量);
+            全域參數XML點.AppendChild(HB計算值);
             全域參數XML點.AppendChild(消波工堤身段港外側重量檢核啟用);
             if(chk_BlockWeightCalc_HO.Checked)
             {
@@ -2110,6 +2125,7 @@ namespace VE_SD
             double SeaGammar;
             double GroundEler;
             double ArmorGroundEler;
+            double HBr;
             bool 啟用消波工堤身段港外側重量計算r;
             bool 啟用消波工堤頭部加強重量計算r;
             bool 啟用消波工堤身段航道側重量計算r;
@@ -2339,6 +2355,18 @@ namespace VE_SD
                 if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out SeaGammar))
                 {
                     return "海水單位體積重量讀取失敗";
+                }
+
+                //HB值.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/HB值");
+                if (object.Equals(RNode, null))
+                {
+                    return "HB值讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out HBr))
+                {
+                    return "HB值讀取失敗";
                 }
 
                 //消波工重量檢核啟用.
@@ -2976,6 +3004,7 @@ namespace VE_SD
             textBox_SFOver.Text = SFOverr.ToString();
             textBox_SFSlide.Text = SFSlider.ToString();
             textBox_SeaGamma.Text = SeaGammar.ToString();
+            textBox_HB.Text = HBr == -9999 ? "" : HBr.ToString();//若為-9999,則視為空白.
 
             if(啟用消波工堤身段港外側重量計算r)
             {
@@ -4159,6 +4188,10 @@ namespace VE_SD
 
             }
         }
+        private void 輸出Log檔案ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btn_LogOutput_Click(sender, e);
+        }
         private void textBox_CheckMessageShow_KeyPress(object sender, KeyPressEventArgs e)
         {
 
@@ -4185,7 +4218,7 @@ namespace VE_SD
             }
             else
             {
-                MessageBox.Show("Handle event");
+                //MessageBox.Show("Handle event");
                 e.Handled = true;
                 hh = true;
             }
@@ -5081,7 +5114,32 @@ namespace VE_SD
             //e.Handled = !"D1D2D3D4D5D6D7D8D9D0".Contains(e.KeyCode.ToString());
             //MessageBox.Show(e.KeyCode.ToString());
         }
+
         #endregion
+
+        Point? prePosition = null;
+        ToolTip ToolTipChart = new ToolTip();
+
+
+        private void chart_Plot_MouseHover(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void chart_Plot_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void textBox_HB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox_H0_TextChanged(object sender, EventArgs e)
+        {
+
+        }
 
 
     }

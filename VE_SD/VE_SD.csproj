@@ -105,6 +105,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultsBank.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_BlockNameAndCorrdinate.resx">
       <DependentUpon>Form_BlockNameAndCorrdinate.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_RDExamProgress.resx">
       <DependentUpon>Form_RDExamProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_SDM.resx">
+      <DependentUpon>Form_SDM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Welcome.resx">
       <DependentUpon>Form_Welcome.cs</DependentUpon>
