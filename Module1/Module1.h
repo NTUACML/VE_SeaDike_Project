@@ -8,13 +8,25 @@
 using namespace System;
 
 namespace VE_SD {
+	public value struct EL_SectionResult {
+		double EL, P, FP, Y, Mp;
+		array<Int32>^ BlockNum;
+	};
+
+	public value struct BlockResult {
+		double A, garma, W, X, Mw;
+	};
+
 	public value struct DataBank
+		// This struct only output!!!!
 	{
-		// Output Var
-		int x, y, z, time;
-		
-		// Function
-		void GetData() {};
+		double h, h_plun, hc, d, H0, L0, H0_plun, h_D_L0, Hs, Hmax, hb, L,
+			beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
+			alpha1, alpha2, alpha3, alpha4, eta_Star, hc_Star, 
+			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF;
+
+		array< EL_SectionResult^ >^ EL_Out;
+		array< BlockResult^ >^ Block_Out;
 
 	};
 
@@ -51,6 +63,7 @@ namespace VE_SD {
 							double _beta);
 		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
 		bool SF_CoefInput(double _SlideSF, double _RotateSF);
+		bool Get_DataBank_Data();
 
 		//- Run API
 		bool Run(); //Run Main Check Processor

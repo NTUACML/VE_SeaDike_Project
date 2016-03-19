@@ -4001,11 +4001,12 @@ namespace VE_SD
             //6. SF Input
             Mod.SF_CoefInput(double.Parse(textBox_SFSlide.Text), double.Parse(textBox_SFOver.Text));
 
-            //int a= Mod.AA.x;
+            Mod.Get_DataBank_Data();
+            //Mod.VarBank.h
             //ELArray[0]
             //**********************************************************************************************************************//
 
-            //Mod.VarBank.GetData(); //Get all Var
+            //Mod.VarBank.G //Get all Var
             //Mod.VarBank.
 
             //計算.

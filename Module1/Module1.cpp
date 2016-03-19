@@ -124,6 +124,70 @@ bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
 	return true;
 }
 
+bool VE_SD::Module1::Get_DataBank_Data()
+{
+	// EL Section!
+	VarBank.EL_Out = gcnew array< EL_SectionResult^ >(int(Var->LevelSection.size()));
+	for (int i = 0; i < Var->LevelSection.size(); ++i) {
+		VarBank.EL_Out[i] = gcnew EL_SectionResult;
+		VarBank.EL_Out[i]->EL = Var->LevelSection[i].Level;
+		VarBank.EL_Out[i]->P = Var->LevelSection[i].P;
+		VarBank.EL_Out[i]->FP = Var->LevelSection[i].FP;
+		VarBank.EL_Out[i]->Y = Var->LevelSection[i].L_Y;
+		VarBank.EL_Out[i]->Mp = Var->LevelSection[i].Mp;
+
+		VarBank.EL_Out[i]->BlockNum = gcnew array< Int32 >(int(Var->LevelSection[i].BlockId.size()));
+		for (int j = 0; j < Var->LevelSection[i].BlockId.size(); ++j) {
+			VarBank.EL_Out[i]->BlockNum[j] = int(Var->LevelSection[i].BlockId[j]);
+		}
+	}
+
+	// EL Block!
+	VarBank.Block_Out = gcnew array< BlockResult^ >(int(Var->BlockData.size()));
+	for (int i = 0; i < Var->BlockData.size(); ++i) {
+		VarBank.Block_Out[i] = gcnew BlockResult;
+		VarBank.Block_Out[i]->A = Var->BlockData[i].Area;
+		VarBank.Block_Out[i]->garma = Var->BlockData[i].Density;
+		VarBank.Block_Out[i]->W = Var->BlockData[i].SelfWeight;
+		VarBank.Block_Out[i]->X = Var->BlockData[i].WeightC.x;
+		VarBank.Block_Out[i]->Mw = Var->BlockData[i].Mw;
+	}
+
+	// Var Get!
+	VarBank.h = Var->h;
+	VarBank.h_plun = Var->h_plun;
+	VarBank.hc = Var->hc;
+	VarBank.d = Var->d;
+	VarBank.L0 = Var->L0;
+	VarBank.H0_plun = Var->H0_plun;
+	VarBank.L = Var->L;
+	VarBank.h_D_L0 = Var->h_D_L0;
+	VarBank.beta0 = Var->beta0;
+	VarBank.beta1 = Var->beta1;
+	VarBank.betaMax = Var->betaMax;
+	VarBank.beta0_Star = Var->beta0_Star;
+	VarBank.beta1_Star = Var->beta1_Star;
+	VarBank.betaMax_Star = Var->betaMax_Star;
+	VarBank.Hs = Var->Hs;
+	VarBank.Hmax = Var->Hmax;
+	VarBank.hb = Var->hb;
+	VarBank.alpha1 = Var->alpha1;
+	VarBank.alpha2 = Var->alpha2;
+	VarBank.alpha3 = Var->alpha3;
+	VarBank.eta_Star = Var->eta_Star;
+	VarBank.hc_Star = Var->hc_Star;
+	VarBank.P1 = Var->P1;
+	VarBank.P2 = Var->P2;
+	VarBank.P3 = Var->P3;
+	VarBank.Pu = Var->Pu;
+	VarBank.Fu = Var->Fu;
+	VarBank.Mu = Var->Mu;
+	VarBank.CalBody_SlideSF = Var->CalBody_SlideSF;
+	VarBank.CalBody_RotateSF = Var->CalBody_RotateSF;
+
+	return true;
+}
+
 bool VE_SD::Module1::Run()
 {
 	// Geo Pre-Calculate
