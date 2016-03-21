@@ -19,9 +19,13 @@ namespace VE_SD
         {
             InitializeComponent();
         }
+        private string _LoginCondiotn;
         private Form1 mainForm = null;
-        public Form_Login(Form callingForm)
+        public Form_Login(Form callingForm,string LoginIn)
         {
+            _LoginCondiotn = LoginIn;
+            //"Exit Then End All"
+            //"Exit Then Return"
             mainForm = callingForm as Form1;
 
 
@@ -61,12 +65,19 @@ namespace VE_SD
         }
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("您確定要取消登入? 取消登入後將自動關閉程式!", "登入取消", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (_LoginCondiotn == "Exit Then End All")
             {
-                this.Close();
-                mainForm.Close();//關閉所有執行程序.
+                if (MessageBox.Show("您確定要取消登入? 取消登入後將自動關閉程式!", "登入取消", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    this.Close();
+                    mainForm.Close();//關閉所有執行程序.
+                }
+                else
+                {
+                    //不做任何事情.
+                }
             }
-            else
+            else if(_LoginCondiotn== "Exit Then Return")
             {
                 //不做任何事情.
             }

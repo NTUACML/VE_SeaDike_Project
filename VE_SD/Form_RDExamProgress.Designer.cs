@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -57,6 +57,9 @@
             this.chart_Plot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_BasicParameter = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBox_HB = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.textBox_ArmorBlockEle = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.textBox_GroundELE = new System.Windows.Forms.TextBox();
@@ -162,14 +165,15 @@
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.textBox_HB = new System.Windows.Forms.TextBox();
+            this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage_BasicParameter.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.tabPage_OtherChkSet.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -184,7 +188,7 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).BeginInit();
             this.tabPage_RunCheck.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox_SectSetting
@@ -313,14 +317,14 @@
             // 輸出Log檔案ToolStripMenuItem
             // 
             this.輸出Log檔案ToolStripMenuItem.Name = "輸出Log檔案ToolStripMenuItem";
-            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.輸出Log檔案ToolStripMenuItem.Text = "輸出Log檔案";
             this.輸出Log檔案ToolStripMenuItem.Click += new System.EventHandler(this.輸出Log檔案ToolStripMenuItem_Click);
             // 
             // 輸出Excel檔案ToolStripMenuItem
             // 
             this.輸出Excel檔案ToolStripMenuItem.Name = "輸出Excel檔案ToolStripMenuItem";
-            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.輸出Excel檔案ToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.輸出Excel檔案ToolStripMenuItem.Text = "輸出Excel檔案";
             this.輸出Excel檔案ToolStripMenuItem.Click += new System.EventHandler(this.btn_OutputExcel_Click);
             // 
@@ -328,16 +332,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea5.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend5);
+            chartArea1.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend1);
             this.chart_Plot.Location = new System.Drawing.Point(138, 9);
             this.chart_Plot.Name = "chart_Plot";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.chart_Plot.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart_Plot.Series.Add(series1);
             this.chart_Plot.Size = new System.Drawing.Size(821, 354);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -403,6 +407,36 @@
             this.tabPage_BasicParameter.TabIndex = 2;
             this.tabPage_BasicParameter.Text = "設計條件參數";
             this.tabPage_BasicParameter.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.textBox_HB);
+            this.groupBox5.Controls.Add(this.label18);
+            this.groupBox5.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox5.Location = new System.Drawing.Point(600, 20);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(454, 467);
+            this.groupBox5.TabIndex = 35;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "選擇性參數(不填者採系統內算)";
+            // 
+            // textBox_HB
+            // 
+            this.textBox_HB.Location = new System.Drawing.Point(68, 29);
+            this.textBox_HB.Name = "textBox_HB";
+            this.textBox_HB.Size = new System.Drawing.Size(100, 30);
+            this.textBox_HB.TabIndex = 1;
+            this.textBox_HB.TextChanged += new System.EventHandler(this.textBox_HB_TextChanged);
+            this.textBox_HB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HB_KeyPress);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(16, 39);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(59, 19);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Hb = ";
             // 
             // textBox_ArmorBlockEle
             // 
@@ -1160,9 +1194,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewTextBoxColumn1.HeaderText = "序號";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -1186,8 +1220,8 @@
             // 
             // 摩擦係數值
             // 
-            dataGridViewCellStyle26.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle2;
             this.摩擦係數值.HeaderText = "摩擦係數值";
             this.摩擦係數值.Name = "摩擦係數值";
             this.摩擦係數值.Width = 120;
@@ -1227,9 +1261,9 @@
             // 
             // 序號
             // 
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle3;
             this.序號.HeaderText = "序號";
             this.序號.Name = "序號";
             this.序號.ReadOnly = true;
@@ -1290,8 +1324,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1301,8 +1335,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 354);
             this.ELDGV1.TabIndex = 0;
@@ -1312,9 +1346,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1430,8 +1464,7 @@
             // 
             // tabPage_RunCheck
             // 
-            this.tabPage_RunCheck.Controls.Add(this.btn_LogOutput);
-            this.tabPage_RunCheck.Controls.Add(this.btn_OutputExcel);
+            this.tabPage_RunCheck.Controls.Add(this.groupBox6);
             this.tabPage_RunCheck.Controls.Add(this.textBox_CheckMessageShow);
             this.tabPage_RunCheck.Controls.Add(this.btn_Test);
             this.tabPage_RunCheck.Controls.Add(this.label_Show);
@@ -1446,7 +1479,7 @@
             // btn_LogOutput
             // 
             this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_LogOutput.Location = new System.Drawing.Point(506, 414);
+            this.btn_LogOutput.Location = new System.Drawing.Point(30, 24);
             this.btn_LogOutput.Name = "btn_LogOutput";
             this.btn_LogOutput.Size = new System.Drawing.Size(241, 38);
             this.btn_LogOutput.TabIndex = 4;
@@ -1458,7 +1491,7 @@
             // btn_OutputExcel
             // 
             this.btn_OutputExcel.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_OutputExcel.Location = new System.Drawing.Point(502, 458);
+            this.btn_OutputExcel.Location = new System.Drawing.Point(30, 68);
             this.btn_OutputExcel.Name = "btn_OutputExcel";
             this.btn_OutputExcel.Size = new System.Drawing.Size(245, 36);
             this.btn_OutputExcel.TabIndex = 3;
@@ -1520,35 +1553,36 @@
             this.SFD_LogFile.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_LogFile.FilterIndex = 0;
             // 
-            // groupBox5
+            // bkOutputExcelFile
             // 
-            this.groupBox5.Controls.Add(this.textBox_HB);
-            this.groupBox5.Controls.Add(this.label18);
-            this.groupBox5.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox5.Location = new System.Drawing.Point(600, 20);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(454, 467);
-            this.groupBox5.TabIndex = 35;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "選擇性參數(不填者採系統內算)";
+            this.bkOutputExcelFile.WorkerReportsProgress = true;
+            this.bkOutputExcelFile.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkOutputExcelFile_DoWork);
+            this.bkOutputExcelFile.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bkOutputExcelFile_ProgressChanged);
+            this.bkOutputExcelFile.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkOutputExcelFile_RunWorkerCompleted);
             // 
-            // label18
+            // groupBox6
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(16, 39);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(59, 19);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Hb = ";
+            this.groupBox6.Controls.Add(this.chk_OpenFileAfterOutput);
+            this.groupBox6.Controls.Add(this.btn_LogOutput);
+            this.groupBox6.Controls.Add(this.btn_OutputExcel);
+            this.groupBox6.Font = new System.Drawing.Font("標楷體", 12.25F);
+            this.groupBox6.Location = new System.Drawing.Point(502, 344);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(308, 150);
+            this.groupBox6.TabIndex = 5;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "輸出檢核結果";
             // 
-            // textBox_HB
+            // chk_OpenFileAfterOutput
             // 
-            this.textBox_HB.Location = new System.Drawing.Point(68, 29);
-            this.textBox_HB.Name = "textBox_HB";
-            this.textBox_HB.Size = new System.Drawing.Size(100, 30);
-            this.textBox_HB.TabIndex = 1;
-            this.textBox_HB.TextChanged += new System.EventHandler(this.textBox_HB_TextChanged);
-            this.textBox_HB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HB_KeyPress);
+            this.chk_OpenFileAfterOutput.AutoSize = true;
+            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(30, 116);
+            this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
+            this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 21);
+            this.chk_OpenFileAfterOutput.TabIndex = 5;
+            this.chk_OpenFileAfterOutput.Text = "輸出後自動開啟檔案";
+            this.toolTip1.SetToolTip(this.chk_OpenFileAfterOutput, "輸出後自動開啟檔案");
+            this.chk_OpenFileAfterOutput.UseVisualStyleBackColor = true;
             // 
             // Form_RDExamProgress
             // 
@@ -1573,6 +1607,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage_BasicParameter.ResumeLayout(false);
             this.tabPage_BasicParameter.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.tabPage_OtherChkSet.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1594,8 +1630,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).EndInit();
             this.tabPage_RunCheck.ResumeLayout(false);
             this.tabPage_RunCheck.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1730,5 +1766,8 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox textBox_HB;
         private System.Windows.Forms.Label label18;
+        private System.ComponentModel.BackgroundWorker bkOutputExcelFile;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox chk_OpenFileAfterOutput;
     }
 }

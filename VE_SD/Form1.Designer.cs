@@ -28,30 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.軟體偏好設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.軟體機碼設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.關閉此軟體ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.海堤檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.海堤檢核給Kavy玩ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.檢示使用者說明書ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label_LoginCond = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.TSSTATUS_label = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSP_Progressbar = new System.Windows.Forms.ToolStripProgressBar();
             this.TSP_UserInfoShow = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btn_StandardRDC = new System.Windows.Forms.Button();
             this.gp_ItemExplan = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
             this.pictureBox_ItemDescp = new System.Windows.Forms.PictureBox();
-            this.檢示使用者說明書ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.軟體偏好設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.軟體機碼設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
+            this.TSP_ChangeUserBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -89,6 +91,19 @@
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
             this.設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.設定ToolStripMenuItem.Text = "設定";
+            // 
+            // 軟體偏好設定ToolStripMenuItem
+            // 
+            this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
+            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
+            // 
+            // 軟體機碼設定ToolStripMenuItem
+            // 
+            this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
+            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
+            this.軟體機碼設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體機碼設定ToolStripMenuItem_Click);
             // 
             // 關閉此軟體ToolStripMenuItem
             // 
@@ -128,6 +143,13 @@
             this.說明ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.說明ToolStripMenuItem.Text = "說明";
             // 
+            // 檢示使用者說明書ToolStripMenuItem
+            // 
+            this.檢示使用者說明書ToolStripMenuItem.Name = "檢示使用者說明書ToolStripMenuItem";
+            this.檢示使用者說明書ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.檢示使用者說明書ToolStripMenuItem.Text = "檢示使用者說明書";
+            this.檢示使用者說明書ToolStripMenuItem.Click += new System.EventHandler(this.檢示使用者說明書ToolStripMenuItem_Click);
+            // 
             // label_LoginCond
             // 
             this.label_LoginCond.AutoSize = true;
@@ -143,7 +165,8 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSSTATUS_label,
             this.TSP_Progressbar,
-            this.TSP_UserInfoShow});
+            this.TSP_UserInfoShow,
+            this.TSP_ChangeUserBtn});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip1.Location = new System.Drawing.Point(0, 601);
             this.statusStrip1.Name = "statusStrip1";
@@ -182,6 +205,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "海堤檢核項目選擇";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(16, 383);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(369, 115);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "未開發";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(16, 270);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(369, 115);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "未開發";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(16, 156);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(369, 115);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "未開發";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // btn_StandardRDC
             // 
             this.btn_StandardRDC.Location = new System.Drawing.Point(16, 40);
@@ -204,42 +254,6 @@
             this.gp_ItemExplan.TabIndex = 4;
             this.gp_ItemExplan.TabStop = false;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(16, 156);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(369, 115);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "未開發";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(16, 270);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(369, 115);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "未開發";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(16, 383);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(369, 115);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "未開發";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // textBox_ItemDescp
-            // 
-            this.textBox_ItemDescp.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_ItemDescp.Location = new System.Drawing.Point(7, 25);
-            this.textBox_ItemDescp.Multiline = true;
-            this.textBox_ItemDescp.Name = "textBox_ItemDescp";
-            this.textBox_ItemDescp.Size = new System.Drawing.Size(655, 228);
-            this.textBox_ItemDescp.TabIndex = 0;
-            // 
             // pictureBox_ItemDescp
             // 
             this.pictureBox_ItemDescp.Location = new System.Drawing.Point(7, 259);
@@ -248,24 +262,25 @@
             this.pictureBox_ItemDescp.TabIndex = 1;
             this.pictureBox_ItemDescp.TabStop = false;
             // 
-            // 檢示使用者說明書ToolStripMenuItem
+            // textBox_ItemDescp
             // 
-            this.檢示使用者說明書ToolStripMenuItem.Name = "檢示使用者說明書ToolStripMenuItem";
-            this.檢示使用者說明書ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.檢示使用者說明書ToolStripMenuItem.Text = "檢示使用者說明書";
-            this.檢示使用者說明書ToolStripMenuItem.Click += new System.EventHandler(this.檢示使用者說明書ToolStripMenuItem_Click);
+            this.textBox_ItemDescp.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_ItemDescp.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.textBox_ItemDescp.Location = new System.Drawing.Point(7, 25);
+            this.textBox_ItemDescp.Multiline = true;
+            this.textBox_ItemDescp.Name = "textBox_ItemDescp";
+            this.textBox_ItemDescp.Size = new System.Drawing.Size(655, 228);
+            this.textBox_ItemDescp.TabIndex = 0;
             // 
-            // 軟體偏好設定ToolStripMenuItem
+            // TSP_ChangeUserBtn
             // 
-            this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
-            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
-            // 
-            // 軟體機碼設定ToolStripMenuItem
-            // 
-            this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
-            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
+            this.TSP_ChangeUserBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.TSP_ChangeUserBtn.Image = ((System.Drawing.Image)(resources.GetObject("TSP_ChangeUserBtn.Image")));
+            this.TSP_ChangeUserBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TSP_ChangeUserBtn.Name = "TSP_ChangeUserBtn";
+            this.TSP_ChangeUserBtn.Size = new System.Drawing.Size(116, 28);
+            this.TSP_ChangeUserBtn.Text = "變更登入之使用者";
+            this.TSP_ChangeUserBtn.Click += new System.EventHandler(this.TSP_ChangeUserBtn_Click);
             // 
             // Form1
             // 
@@ -278,7 +293,7 @@
             this.Controls.Add(this.label_LoginCond);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("標楷體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
@@ -324,6 +339,7 @@
         private System.Windows.Forms.ToolStripMenuItem 檢示使用者說明書ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 軟體偏好設定ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 軟體機碼設定ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton TSP_ChangeUserBtn;
     }
 }
 

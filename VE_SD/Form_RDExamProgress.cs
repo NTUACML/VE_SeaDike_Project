@@ -12,6 +12,7 @@ using System.IO;
 using System.Xml;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.VisualBasic.MyServices;
+using System.Diagnostics;
 
 
 namespace VE_SD
@@ -248,6 +249,7 @@ namespace VE_SD
             btnRemoveSects.Enabled = false;
             tsp_cond.Text = "請設定或編輯您的專案檔";
             tsp_progressbar.Visible = false;
+            chk_OpenFileAfterOutput.Checked = false;
 
 
             this.Text = "專案檔:未命名";
@@ -743,8 +745,9 @@ namespace VE_SD
             //4. 更新目前選擇的.
             listBox_SectSetting.SetSelected(BlockCount-1,true); //設定Listbox點選項目.
 
-            開始檢核ToolStripMenuItem.Enabled = true;
-            btn_Test.Enabled = true;
+            string Msg = "";
+            開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+            btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
 
             //btnRemoveSects.Enabled = true;
             //btn_ModifiedBlock.Enabled = true;
@@ -3272,8 +3275,9 @@ namespace VE_SD
             textBox_YO.ReadOnly = true;
             if (BlockMainArray.GetLength(0) > 0)
             {
-                開始檢核ToolStripMenuItem.Enabled = true;
-                btn_Test.Enabled = true;
+                string Msg = "";
+                開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+                btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
             }
             else
             {
@@ -3906,6 +3910,19 @@ namespace VE_SD
         private void 開始檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //檢核前預檢查.
+
+            //檢查是否有綁訂機碼.
+            string 驗證Msg = "";
+            if(mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            {
+                //Nothing.
+            }
+            else
+            {
+                MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            //******************************************************
             string CheckTextBoxString = "";
             if(!CheckTextBoxNoEmpty(ref CheckTextBoxString))
             {
@@ -4053,7 +4070,7 @@ namespace VE_SD
             {
                 MessageBox.Show("檢核計算完成", "海堤檢核計算", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btn_LogOutput.Enabled = true;
-                btn_OutputExcel.Enabled = false;
+                btn_OutputExcel.Enabled = true ;
             }
             //結果呈現.
             tabControl1.SelectedIndex = 4; //更換頁面.
@@ -4061,6 +4078,628 @@ namespace VE_SD
         #endregion
 
         #region 輸出檢核結果EXCEL表單
+        private void bkOutputExcelFile_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string getpath = e.Argument.ToString();
+            Excel.Application excelApp;
+            Excel._Workbook wBook;
+            Excel._Worksheet wSheet;
+            Excel.Range range;
+
+            excelApp = new Excel.Application();
+            excelApp.Visible = false;// true;//出現.
+            excelApp.DisplayAlerts = false;
+            excelApp.Workbooks.Add(Type.Missing);
+            wBook = excelApp.Workbooks[1];//第一個活頁簿.
+            wBook.Activate();
+
+
+            //執行EXCEL 輸出.
+            try
+            {
+                Mod.Get_DataBank_Data(); //Loading Running Result data.
+                wSheet = (Excel._Worksheet)wBook.Worksheets[1];//第一個工作表.
+                wSheet.Name = "海堤檢核計算結果報表";
+                wSheet.Activate();
+
+                //===========================================================================================
+                //1-1. 設計條件參數
+                range = wSheet.Cells[1, 1];
+                range.Value = "二、設計條件參數";
+                range.Font.Bold = true;
+                wSheet.get_Range("A1", "B1").Merge(wSheet.get_Range("A1", "B1").MergeCells);
+
+                range = wSheet.Cells[2, 1];
+                range.Value = "深海波波向";
+                range = wSheet.Cells[2, 2];
+                range.Value = cmb_seawaveDir.SelectedItem.ToString();// Mod.VarBank.alpha1.ToString();
+                range = wSheet.Cells[3, 1];
+                range.Value = "深海波波高(m)";
+                range = wSheet.Cells[3, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.H0.ToString();
+                range = wSheet.Cells[4, 1];
+                range.Value = "深海波週期(sec)";
+                range = wSheet.Cells[4, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_T0.Text.ToString();
+                range = wSheet.Cells[5, 1];
+                range.Value = "設計潮位(m)";
+                range = wSheet.Cells[5, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_HWL.Text.ToString();
+                range = wSheet.Cells[6, 1];
+                range.Value = "海床坡度";
+                range = wSheet.Cells[6, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Slope.Text.ToString();
+                range = wSheet.Cells[7, 1];
+                range.Value = "折射係數";
+                range = wSheet.Cells[7, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Kr.Text.ToString();
+                range = wSheet.Cells[8, 1];
+                range.Value = "淺化係數";
+                range = wSheet.Cells[8, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Ks.Text.ToString();
+                range = wSheet.Cells[9, 1];
+                range.Value = "繞射係數";
+                range = wSheet.Cells[9, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Kd.Text.ToString();
+                range = wSheet.Cells[10, 1];
+                range.Value = "波力折減係數";
+                range = wSheet.Cells[10, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Lenda.Text.ToString();
+                range = wSheet.Cells[11, 1];
+                range.Value = "入射波與堤體髮線之垂線夾角";
+                range = wSheet.Cells[11, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Beta.Text.ToString();
+                range = wSheet.Cells[12, 1];
+                range.Value = "地面線(m)";
+                range = wSheet.Cells[12, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_GroundELE.Text.ToString();
+                range = wSheet.Cells[13, 1];
+                range.Value = "消波塊高程(m)";
+                range = wSheet.Cells[13, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_ArmorBlockEle.Text.ToString();
+                if (textBox_HB.Text.ToString() != "")
+                {
+                    range = wSheet.Cells[14, 1];
+                    range.Value = "Hb";
+                    range = wSheet.Cells[14, 2];
+                    range.NumberFormatLocal = "0.00_ ";
+                    range.Value = textBox_HB.Text.ToString();
+                }
+
+                //加上框線.
+                range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[textBox_HB.Text.ToString() == "" ? 13 : 14, 2]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+                range.Columns.AutoFit();
+                //===========================================================================================
+
+                //===========================================================================================
+                //1-2 外力計算.
+                range = wSheet.Cells[16, 1];
+                range.Value = "三、外力計算";
+                range.Font.Bold = true;
+                wSheet.get_Range("A16", "B16").Merge(wSheet.get_Range("A16", "B16").MergeCells);
+                range = wSheet.Cells[17, 1];
+                range.Value = "1.水深條件";
+                wSheet.get_Range("A17", "B17").Merge(wSheet.get_Range("A17", "B17").MergeCells);
+
+                range = wSheet.Cells[18, 1];
+                range.Value = "h(m)";
+                range = wSheet.Cells[18, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.h.ToString();
+                range = wSheet.Cells[19, 1];
+                range.Value = "h'(m)";
+                range = wSheet.Cells[19, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.h_plun.ToString();
+                range = wSheet.Cells[20, 1];
+                range.Value = "hc(m)";
+                range = wSheet.Cells[20, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.hc.ToString();
+                range = wSheet.Cells[21, 1];
+                range.Value = "d(m)";
+                range = wSheet.Cells[21, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.d.ToString();
+                range = wSheet.Cells[22, 1];
+                range.Value = "2.有義波高H1/3及最大波高Hmax";
+                wSheet.get_Range("A22", "B22").Merge(wSheet.get_Range("A22", "B22").MergeCells);
+                range = wSheet.Cells[23, 1];
+                range.Value = "L0(m)";
+                range = wSheet.Cells[23, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.L0.ToString();
+                range = wSheet.Cells[24, 1];
+                range.Value = "HO'(m)";
+                range = wSheet.Cells[24, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.H0_plun.ToString();
+                range = wSheet.Cells[25, 1];
+                range.Value = "L(m)";
+                range = wSheet.Cells[25, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.L.ToString();
+                range = wSheet.Cells[26, 1];
+                range.Value = "h/L0";
+                range = wSheet.Cells[26, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.h_D_L0.ToString();
+                range = wSheet.Range[wSheet.Cells[17, 1], wSheet.Cells[26, 2]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+
+                range = wSheet.Cells[27, 1];
+                range.Value = "H1/3略算係數";
+                wSheet.get_Range("A27", "C27").Merge(wSheet.get_Range("A27", "C27").MergeCells);
+                range = wSheet.Cells[27, 4];
+                range.Value = "Hmax略算係數";
+                wSheet.get_Range("D27", "F27").Merge(wSheet.get_Range("D27", "F27").MergeCells);
+                range = wSheet.Cells[28, 1];
+                range.Value = "\u03B20";
+                range = wSheet.Cells[29, 1];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.beta0.ToString();
+                range = wSheet.Cells[28, 2];
+                range.Value = "\u03B21";
+                range = wSheet.Cells[29, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.beta1.ToString();
+                range = wSheet.Cells[28, 3];
+                range.Value = "\u03B2max";
+                range = wSheet.Cells[29, 3];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.betaMax.ToString();
+                range = wSheet.Cells[28, 4];
+                range.Value = "\u03B20*";
+                range = wSheet.Cells[29, 4];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.beta0_Star.ToString();
+                range = wSheet.Cells[28, 5];
+                range.Value = "\u03B21*";
+                range = wSheet.Cells[29, 5];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.beta1_Star.ToString();
+                range = wSheet.Cells[28, 6];
+                range.Value = "\u03B2max*";
+                range = wSheet.Cells[29, 6];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.betaMax_Star.ToString();
+                range = wSheet.Range[wSheet.Cells[27, 1], wSheet.Cells[29, 6]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+
+                range = wSheet.Cells[30, 1];
+                range.Value = "有義波高H1/3(m)";
+                range = wSheet.Cells[30, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Hs.ToString(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!有義波高H1/3-->HS.
+                range = wSheet.Cells[31, 1];
+                range.Value = "tan\03B8=slope";
+                range = wSheet.Cells[31, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_Slope.Text.ToString();
+                int ii;
+                if (textBox_HB.Text.ToString() == "")
+                {
+                    //顯示內部計算結果.
+                    range = wSheet.Cells[32, 1];
+                    range.Value = "Hb(m)";
+                    range = wSheet.Cells[32, 2];
+                    range.NumberFormatLocal = "0.00_ ";
+                    range.Value = Mod.VarBank.hb.ToString();
+                    ii = 32;
+                }
+                else
+                {
+                    ii = 31;
+                }
+                range = wSheet.Cells[ii + 1, 1];
+                range.Value = "最大波高Hmax(m)";
+                range = wSheet.Cells[ii + 1, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Hmax.ToString();
+
+                range = wSheet.Cells[ii + 2, 1];
+                range.Value = "3.波壓強度係數";
+                wSheet.get_Range("A" + (ii + 2).ToString(), "B" + (ii + 2).ToString()).Merge(wSheet.get_Range("A" + (ii + 2).ToString(), "B" + (ii + 2).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 3, 1];
+                range.Value = "\u03B11";
+                range = wSheet.Cells[ii + 3, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.alpha1.ToString();
+                range = wSheet.Cells[ii + 4, 1];
+                range.Value = "\u03B12";
+                range = wSheet.Cells[ii + 4, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.alpha2.ToString();
+                range = wSheet.Cells[ii + 5, 1];
+                range.Value = "\u03B13";
+                range = wSheet.Cells[ii + 5, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.alpha3.ToString();
+                range = wSheet.Cells[ii + 6, 1];
+                range.Value = "4.液壓作用高度";
+                wSheet.get_Range("A" + (ii + 6).ToString(), "B" + (ii + 6).ToString()).Merge(wSheet.get_Range("A" + (ii + 6).ToString(), "B" + (ii + 6).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 7, 1];
+                range.Value = "\u03B7*(m)";
+                range = wSheet.Cells[ii + 7, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.eta_Star.ToString();
+                range = wSheet.Cells[ii + 8, 1];
+                range.Value = "hc*(m)";
+                range = wSheet.Cells[ii + 8, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.hc_Star.ToString();
+                range = wSheet.Cells[ii + 9, 1];
+                range.Value = "5.波壓力計算";
+                wSheet.get_Range("A" + (ii + 9).ToString(), "B" + (ii + 9).ToString()).Merge(wSheet.get_Range("A" + (ii + 9).ToString(), "B" + (ii + 9).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 10, 1];
+                range.Value = "P1(t/m^2)";
+                range = wSheet.Cells[ii + 10, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.P1.ToString();
+                range = wSheet.Cells[ii + 11, 1];
+                range.Value = "P2(t/m^2)";
+                range = wSheet.Cells[ii + 11, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.P2.ToString();
+                range = wSheet.Cells[ii + 12, 1];
+                range.Value = "P3(t/m^2)";
+                range = wSheet.Cells[ii + 12, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.P3.ToString();
+                range = wSheet.Cells[ii + 13, 1];
+                range.Value = "P4(t/m^2)";
+                range = wSheet.Cells[ii + 13, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.P4.ToString();
+                range = wSheet.Range[wSheet.Cells[30, 1], wSheet.Cells[ii + 13, 2]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+
+                range = wSheet.Cells[ii + 14, 1];
+                range.Value = "分區";
+                range = wSheet.Cells[ii + 14, 2];
+                range.Value = "液壓強度P(t/m^2)";
+                range = wSheet.Cells[ii + 14, 3];
+                range.Value = "波壓FP(t/m^2)";
+                range = wSheet.Cells[ii + 14, 4];
+                range.Value = "力矩Y(m)";
+                range = wSheet.Cells[ii + 14, 5];
+                range.Value = "傾倒彎矩Mp(t-m/m)";
+
+
+                //EL表格.
+                int ix = 0;
+                for (int iii = Mod.VarBank.EL_Out.GetUpperBound(0); iii >= 0; iii--)
+                {
+                    //一行一行輸出.
+                    range = wSheet.Cells[ii + 15 + ix, 1];//分區
+                    range.Value = "EL" + (Mod.VarBank.EL_Out[iii].EL < 0 ? "-" : "+") + Math.Abs(Mod.VarBank.EL_Out[iii].EL).ToString();
+                    range = wSheet.Cells[ii + 15 + ix, 2];//波壓強度
+                    range.NumberFormatLocal = "0.00_ ";
+                    range.Value = Mod.VarBank.EL_Out[iii].P.ToString();
+                    range = wSheet.Cells[ii + 15 + ix, 3];//波壓.
+                    range.NumberFormatLocal = "0.00_ ";
+                    range.Value = Mod.VarBank.EL_Out[iii].FP.ToString();
+                    range = wSheet.Cells[ii + 15 + ix, 4];//力矩
+                    range.NumberFormatLocal = "0.00_ ";
+                    range.Value = Mod.VarBank.EL_Out[iii].Y.ToString();
+                    range = wSheet.Cells[ii + 15 + ix, 5];//傾倒彎矩.
+                    range.NumberFormatLocal = "0.00_ ";
+                    range.Value = Mod.VarBank.EL_Out[iii].Mp.ToString();
+                    //range = wSheet.Cells[ii + 15 + ix, 1];
+                    //range.Value
+                    ix += 1;
+                }
+                //填入合計.
+                range = wSheet.Cells[ii + 15 + ix, 1];//分區
+                range.Value = "合計";
+                range = wSheet.Cells[ii + 15 + ix, 2];//波壓強度
+                range.Value = "---";
+                range = wSheet.Cells[ii + 15 + ix, 3];//波壓.
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Fp.ToString();
+                range = wSheet.Cells[ii + 15 + ix, 4];//力矩
+                range.Value = "---";
+                range = wSheet.Cells[ii + 15 + ix, 5];//傾倒彎矩.
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Mp.ToString();
+                range = wSheet.Range[wSheet.Cells[ii + 14, 1], wSheet.Cells[ii + 15 + ix, 5]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+
+                ii = ii + 15 + ix;//合計列.
+
+                range = wSheet.Cells[ii + 1, 1];//揚壓力.
+                range.Value = "6.揚壓力計算";
+                wSheet.get_Range("A" + (ii + 1).ToString(), "B" + (ii + 1).ToString()).Merge(wSheet.get_Range("A" + (ii + 1).ToString(), "B" + (ii + 1).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 2, 1];//揚壓力.
+                range.Value = "Pu(t/m^2)";
+                range = wSheet.Cells[ii + 2, 2];//揚壓力:PU.
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Pu.ToString();
+                range = wSheet.Cells[ii + 3, 1];//揚壓力:Fu.
+                range.Value = "Fu(t/m)";
+                range = wSheet.Cells[ii + 3, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Fu.ToString();
+                range = wSheet.Cells[ii + 4, 1];//揚壓力:Fu.
+                range.Value = "Mu(t-m/m)";
+                range = wSheet.Cells[ii + 4, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Mu.ToString();
+                range = wSheet.Range[wSheet.Cells[ii + 1, 1], wSheet.Cells[ii + 4, 2]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+
+                range = wSheet.Cells[ii + 5, 1];//堤體自重及抵抗彎矩.
+                range.Value = "7.堤體自重及抵抗彎矩";
+                wSheet.get_Range("A" + (ii + 5).ToString(), "B" + (ii + 5).ToString()).Merge(wSheet.get_Range("A" + (ii + 5).ToString(), "B" + (ii + 5).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 6, 1];//堤體自重及抵抗彎矩.
+                range.Value = "分區";
+                wSheet.get_Range("A" + (ii + 6).ToString(), "B" + (ii + 6).ToString()).Merge(wSheet.get_Range("A" + (ii + 6).ToString(), "B" + (ii + 6).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 6, 3];//
+                range.Value = "A(m^2)";
+                range = wSheet.Cells[ii + 6, 4];//
+                range.Value = "\u03B3(t/m^3)";
+                range = wSheet.Cells[ii + 6, 5];//
+                range.Value = "W(t/m)";
+                range = wSheet.Cells[ii + 6, 6];//
+                range.Value = "X(m)";
+                range = wSheet.Cells[ii + 6, 7];//
+                range.Value = "Mw(t-m)";
+                //寫出表格資訊.
+                BlockResult[] BlockResultCol = Mod.VarBank.Block_Out;
+                ix = 0;
+                for (int iiii = Mod.VarBank.EL_Out.GetUpperBound(0) - 1; iiii >= 0; iiii--)
+                {
+                    int[] BlocKID = Mod.VarBank.EL_Out[iiii].BlockNum;
+                    range = wSheet.Cells[ii + 7 + ix, 1];//分區: EL.
+                    range.Value = "EL" + (Mod.VarBank.EL_Out[iiii].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[iiii].EL).ToString();
+                    wSheet.get_Range("A" + (ii + 7 + ix).ToString(), "A" + (ii + 7 + ix + BlocKID.GetUpperBound(0)).ToString()).Merge(wSheet.get_Range("A" + (ii + 7 + ix).ToString(), "A" + (ii + 7 + ix + BlocKID.GetUpperBound(0)).ToString()).MergeCells);
+
+                    for (int i3 = 0; i3 < BlocKID.GetLength(0); i3++)
+                    {
+                        int blockidget = BlocKID[i3];
+                        //依序填入資訊.
+                        range = wSheet.Cells[ii + 7 + ix, 2];//ID.
+                        range.NumberFormatLocal = "@";
+                        range.Value = "(" + (BlocKID[i3] + 1).ToString() + ")";
+                        range = wSheet.Cells[ii + 7 + ix, 3];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = BlockResultCol[blockidget].A.ToString();//A.
+                        range = wSheet.Cells[ii + 7 + ix, 4];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = BlockResultCol[blockidget].garma.ToString(); //Y;
+                        range = wSheet.Cells[ii + 7 + ix, 5];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = BlockResultCol[blockidget].W.ToString(); //W;
+                        range = wSheet.Cells[ii + 7 + ix, 6];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = BlockResultCol[blockidget].X.ToString(); //X;
+                        range = wSheet.Cells[ii + 7 + ix, 7];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = BlockResultCol[blockidget].Mw.ToString(); //MW;
+
+                        ix = ix + 1;
+                    }
+                }
+                //填入合計資料.
+                range = wSheet.Cells[ii + 7 + ix, 1];
+                range.Value = "合計";
+                wSheet.get_Range("A" + (ii + 7 + ix).ToString(), "B" + (ii + 7 + ix).ToString()).Merge(wSheet.get_Range("A" + (ii + 7 + ix).ToString(), "B" + (ii + 7 + ix).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 7 + ix, 3];
+                range.Value = "---";
+                range = wSheet.Cells[ii + 7 + ix, 4];
+                range.Value = "---";
+                range = wSheet.Cells[ii + 7 + ix, 5];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.W.ToString();//W.
+                range = wSheet.Cells[ii + 7 + ix, 6];
+                range.Value = "---";
+                range = wSheet.Cells[ii + 7 + ix, 7];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.Mw.ToString();//Mw.
+                range = wSheet.Range[wSheet.Cells[ii + 5, 1], wSheet.Cells[ii + 7 + ix, 7]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+                ii = ii + 7 + ix;
+
+                range = wSheet.Cells[ii + 2, 1];
+                range.Value = "四、堤體安定檢核";
+                range.Font.Bold = true;
+                wSheet.get_Range("A" + (ii + 2).ToString(), "B" + (ii + 2).ToString()).Merge(wSheet.get_Range("A" + (ii + 2).ToString(), "B" + (ii + 2).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 3, 1];
+                range.Value = "使用者給定滑動SF";
+                range = wSheet.Cells[ii + 3, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_SFSlide.Text.ToString();//使用者提供之安全係數
+                wSheet.get_Range("B" + (ii + 3).ToString(), "C" + (ii + 3).ToString()).Merge(wSheet.get_Range("B" + (ii + 3).ToString(), "C" + (ii + 3).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 4, 1];
+                range.Value = "計算出滑動SF";
+                range = wSheet.Cells[ii + 4, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.CalBody_SlideSF.ToString();
+                range = wSheet.Cells[ii + 4, 3];
+                if (Mod.VarBank.CalBody_SlideSF >= double.Parse(textBox_SFSlide.Text.ToString()))
+                {
+                    //通過.
+                    range.Value = "通過";
+                    range.Interior.Color = ColorTranslator.ToOle(Color.Gray);
+                    range.Font.Color = ColorTranslator.ToOle(Color.White);
+                }
+                else
+                {
+                    range.Value = "不通過";
+                    range.Interior.Color = ColorTranslator.ToOle(Color.Red);
+                    range.Font.Color = ColorTranslator.ToOle(Color.White);
+                }
+                range = wSheet.Cells[ii + 5, 1];
+                range.Value = "使用者給定傾倒SF";
+                range = wSheet.Cells[ii + 5, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = textBox_SFOver.Text.ToString();//使用者提供之安全係數
+                wSheet.get_Range("B" + (ii + 5).ToString(), "C" + (ii + 5).ToString()).Merge(wSheet.get_Range("B" + (ii + 5).ToString(), "C" + (ii + 5).ToString()).MergeCells);
+                range = wSheet.Cells[ii + 6, 1];
+                range.Value = "計算出傾倒SF";
+                range = wSheet.Cells[ii + 6, 2];
+                range.NumberFormatLocal = "0.00_ ";
+                range.Value = Mod.VarBank.CalBody_RotateSF.ToString();
+                range = wSheet.Cells[ii + 6, 3];
+                if (Mod.VarBank.CalBody_RotateSF >= double.Parse(textBox_SFOver.Text.ToString()))
+                {
+                    //通過.
+                    range.Value = "通過";
+                    range.Interior.Color = ColorTranslator.ToOle(Color.Gray);
+                    range.Font.Color = ColorTranslator.ToOle(Color.White);
+                }
+                else
+                {
+                    range.Value = "不通過";
+                    range.Interior.Color = ColorTranslator.ToOle(Color.Red);
+                    range.Font.Color = ColorTranslator.ToOle(Color.White);
+                }
+                range = wSheet.Range[wSheet.Cells[ii + 3, 1], wSheet.Cells[ii + 6, 3]];
+                range.Borders.LineStyle = 1;
+                range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+
+
+
+                range = wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[60000, 10]]; //.Select();//wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[ii + 15 + ix, 10]];
+                range.Columns.AutoFit();
+                range.Cells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                range.Font.Name = "微軟正黑體";
+
+                //===========================================================================================
+                wBook.Worksheets.Add(After: wBook.Sheets[wBook.Sheets.Count]);
+                wSheet = (Excel._Worksheet)wBook.Worksheets[wBook.Sheets.Count];//第一個工作表.
+                wSheet.Name = "報表資訊";
+                wSheet.Activate();
+                range = wSheet.Cells[1, 1];
+                range.Value = "報表產生時間";
+                range = wSheet.Cells[1, 2];
+                range.Value = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                range = wSheet.Cells[2, 1];
+                range.Value = "填表人員工編號";
+                range = wSheet.Cells[2, 2];
+                range.Value = this.mainForm.LoginInUserID;
+                range = wSheet.Cells[3, 1];
+                range.Value = "填表人名稱";
+                range = wSheet.Cells[3, 2];
+                range.Value = this.mainForm.LoginInUserName;
+                range = wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[60000, 10]]; //.Select();//wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[ii + 15 + ix, 10]];
+                range.Columns.AutoFit();
+                range.Cells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                range.Font.Name = "微軟正黑體";
+
+                //wSheet.Cells[3, 1].Value = Mod.VarBank.Block_Out[2].A ;
+                //wSheet.Cells[3, 2].Value = Mod.VarBank.Block_Out[2].garma;
+                //wSheet.Cells[3, 3].Value = Mod.VarBank.Block_Out[2].W;
+                //wSheet.Cells[3, 4].Value = Mod.VarBank.Block_Out[2].X;
+                //wSheet.Cells[3, 5].Value = Mod.VarBank.Block_Out[2].Mw;
+                //range = wSheet.Cells[3, 1];
+                //range.Value = Mod.VarBank.Block_Out[1]
+                //range = wSheet.Cells[1, 1];
+                //range.Value = "名稱";
+                //range.Borders.Weight = Excel.XlBorderWeight.xlMedium;
+                //range.Interior.Color = ColorTranslator.ToOle(Color.Gray) ;
+                //range.Font.Color = ColorTranslator.ToOle(Color.White);
+                //range.Font.Bold = true;
+
+                //wSheet.Cells[2, 1] = "10";
+                //wSheet.Cells[3, 1] = "20";
+                //wSheet.Cells[4, 1].Formula = "=SUM(A2:A3)";//string.Format("A{0}:A{1}",2,4);
+
+
+                //range = wSheet.Cells[1, 1];
+                //range.Columns.AutoFit();
+                //range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[3, 2]];
+                //range.Borders.LineStyle = 1;
+                //range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                //range.Borders.Weight = Excel.XlBorderWeight.xlThick;
+
+                //range = wSheet.Range[wSheet.Cells[2, 3], wSheet.Cells[3, 4]];
+                //range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick,Excel.XlColorIndex.xlColorIndexAutomatic);
+                //range.AutoFormat(Excel.XlRangeAutoFormat.xlRangeAutoFormat3DEffects1,true, false, true, false, true, true);
+
+                //range = wSheet.Cells[8, 1];
+                //range.Value = "\u03B4=20.0";
+                ////excelRange.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlThick,
+                ////XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
+                ////excelRange.Merge(excelRange.MergeCells);
+                ////_workSheet.get_Range("A15", "B15").Merge(_workSheet.get_Range("A15", "B15").MergeCells);
+                wBook.SaveAs(getpath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("輸出Excel檔案時發生意外的狀況而失敗" + Environment.NewLine + ex.Message.ToString(), "輸出失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            wBook.Close(false, Type.Missing, Type.Missing);
+            excelApp.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+            wBook = null;
+            wSheet = null;
+            range = null;
+            excelApp = null;
+            GC.Collect();
+        }
+        private void bkOutputExcelFile_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //什麼都不做.
+
+        }
+        private void bkOutputExcelFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            tsp_progressbar.Visible = false;
+            tsp_cond.Text = "您已輸出完成Excel檔案,謝謝使用";
+            MessageBox.Show("輸出完成!!","輸出Excel報表完成",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            
+            if(chk_OpenFileAfterOutput.Checked)
+            { 
+                try
+                {
+                    Process p = new Process();
+                    p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                    p.StartInfo.FileName = SFD_EXCELReport.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    p.Start();
+                }
+                catch
+                {
+                    //不做任何事情.
+                }
+
+            }
+        }
         private void btn_OutputExcel_Click(object sender, EventArgs e)
         {
             if(SFD_EXCELReport.ShowDialog()==DialogResult.OK && SFD_EXCELReport.FileName!="")
@@ -4069,93 +4708,21 @@ namespace VE_SD
                 string getpath = SFD_EXCELReport.FileName;
                 if(File.Exists(getpath))
                 {
-
                     //規定目前此excel檔案不可被開啟中.
                     if (IsFileLocked(new FileInfo(getpath)))
                     {
                         MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Excel打開中","輸出錯誤",MessageBoxButtons.OK,MessageBoxIcon.Stop);
                         return;
                     }
+
                 }
-
-
-                Excel.Application excelApp;
-                Excel._Workbook wBook;
-                Excel._Worksheet wSheet;
-                Excel.Range range;
-
-                excelApp = new Excel.Application();
-                excelApp.Visible = true;//出現.
-                excelApp.DisplayAlerts = false;
-                excelApp.Workbooks.Add(Type.Missing);
-                wBook = excelApp.Workbooks[1];//第一個活頁簿.
-                wBook.Activate();
-
-
-                //執行EXCEL 輸出.
-                try
-                {
-                    Mod.Get_DataBank_Data(); //Loading Running Result data.
-                    wSheet = (Excel._Worksheet) wBook.Worksheets[1];//第一個工作表.
-                    wSheet.Name = "第一個表格";
-                    wSheet.Activate();
-
-                    range = wSheet.Cells[1, 1];
-                    range.Value = Mod.VarBank.alpha1.ToString();
-
-                    wSheet.Cells[3, 1].Value = Mod.VarBank.Block_Out[2].A ;
-                    wSheet.Cells[3, 2].Value = Mod.VarBank.Block_Out[2].garma;
-                    wSheet.Cells[3, 3].Value = Mod.VarBank.Block_Out[2].W;
-                    wSheet.Cells[3, 4].Value = Mod.VarBank.Block_Out[2].X;
-                    wSheet.Cells[3, 5].Value = Mod.VarBank.Block_Out[2].Mw;
-                    //range = wSheet.Cells[3, 1];
-                    //range.Value = Mod.VarBank.Block_Out[1]
-                    //range = wSheet.Cells[1, 1];
-                    //range.Value = "名稱";
-                    //range.Borders.Weight = Excel.XlBorderWeight.xlMedium;
-                    //range.Interior.Color = ColorTranslator.ToOle(Color.Gray) ;
-                    //range.Font.Color = ColorTranslator.ToOle(Color.White);
-                    //range.Font.Bold = true;
-
-                    //wSheet.Cells[2, 1] = "10";
-                    //wSheet.Cells[3, 1] = "20";
-                    //wSheet.Cells[4, 1].Formula = "=SUM(A2:A3)";//string.Format("A{0}:A{1}",2,4);
-
-
-                    //range = wSheet.Cells[1, 1];
-                    //range.Columns.AutoFit();
-                    //range = wSheet.Range[wSheet.Cells[2, 1], wSheet.Cells[3, 2]];
-                    //range.Borders.LineStyle = 1;
-                    //range.Borders.Color = ColorTranslator.ToOle(Color.Black);
-                    //range.Borders.Weight = Excel.XlBorderWeight.xlThick;
-
-                    //range = wSheet.Range[wSheet.Cells[2, 3], wSheet.Cells[3, 4]];
-                    //range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick,Excel.XlColorIndex.xlColorIndexAutomatic);
-                    //range.AutoFormat(Excel.XlRangeAutoFormat.xlRangeAutoFormat3DEffects1,true, false, true, false, true, true);
-
-                    //range = wSheet.Cells[8, 1];
-                    //range.Value = "\u03B4=20.0";
-                    ////excelRange.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlThick,
-                    ////XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
-                    ////excelRange.Merge(excelRange.MergeCells);
-                    ////_workSheet.get_Range("A15", "B15").Merge(_workSheet.get_Range("A15", "B15").MergeCells);
-                    wBook.SaveAs(getpath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("輸出Excel檔案時發生意外的狀況而失敗" + Environment.NewLine + ex.Message.ToString(), "輸出失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-                wBook.Close(false, Type.Missing, Type.Missing);
-                excelApp.Quit();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
-                wBook = null;
-                wSheet = null;
-                range = null;
-                excelApp = null;
-                GC.Collect();
-
-                MessageBox.Show("輸出完成!!");
-
+                //執行輸出.
+                tsp_progressbar.Style = ProgressBarStyle.Marquee;
+                tsp_progressbar.Visible = true;
+                tsp_progressbar.MarqueeAnimationSpeed = 10;//0.1 sec.
+                tsp_cond.Text = "輸出Excel檔案中...";
+                bkOutputExcelFile.RunWorkerAsync(getpath);
+                
             }
         }
         public bool IsFileLocked(FileInfo file)
@@ -5163,6 +5730,6 @@ namespace VE_SD
 
         }
 
-
+ 
     }
 }
