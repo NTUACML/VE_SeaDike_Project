@@ -62,6 +62,19 @@ namespace VE_SD
                 }
                 sr.Close();
             }//是否此檔案存在.
+
+            if(_LoginCondiotn=="Exit Then End All")
+            {
+                //Do nothing currently.
+                label_Show.Text = "";
+            }
+            else if(_LoginCondiotn=="Exit Then Return")
+            {
+                this.Text = "變更登入之使用者";
+                this.btn_Login.Text = "變更";
+                this.btn_cancel.Text = "取消變更";
+                label_Show.Text = "請輸入新的使用者名稱與員工編號";
+            }
         }
         private void btn_cancel_Click(object sender, EventArgs e)
         {
@@ -80,6 +93,7 @@ namespace VE_SD
             else if(_LoginCondiotn== "Exit Then Return")
             {
                 //不做任何事情.
+                this.Close();
             }
         }
 

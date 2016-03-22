@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -155,6 +155,8 @@
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.propertyGrid_Block = new System.Windows.Forms.PropertyGrid();
             this.tabPage_RunCheck = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
             this.btn_LogOutput = new System.Windows.Forms.Button();
             this.btn_OutputExcel = new System.Windows.Forms.Button();
             this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
@@ -166,8 +168,8 @@
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
+            this.說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.檢視使用者說明書ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -228,7 +230,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.檔案ToolStripMenuItem,
-            this.步驟ToolStripMenuItem});
+            this.步驟ToolStripMenuItem,
+            this.說明ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
@@ -332,16 +335,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend3);
             this.chart_Plot.Location = new System.Drawing.Point(138, 9);
             this.chart_Plot.Name = "chart_Plot";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart_Plot.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart_Plot.Series.Add(series3);
             this.chart_Plot.Size = new System.Drawing.Size(821, 354);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -1194,9 +1197,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridViewTextBoxColumn1.HeaderText = "序號";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -1220,8 +1223,8 @@
             // 
             // 摩擦係數值
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle14;
             this.摩擦係數值.HeaderText = "摩擦係數值";
             this.摩擦係數值.Name = "摩擦係數值";
             this.摩擦係數值.Width = 120;
@@ -1261,9 +1264,9 @@
             // 
             // 序號
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle15;
             this.序號.HeaderText = "序號";
             this.序號.Name = "序號";
             this.序號.ReadOnly = true;
@@ -1324,8 +1327,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1335,8 +1338,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 354);
             this.ELDGV1.TabIndex = 0;
@@ -1346,9 +1349,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle17;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1476,6 +1479,30 @@
             this.tabPage_RunCheck.Text = "檢核";
             this.tabPage_RunCheck.UseVisualStyleBackColor = true;
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.chk_OpenFileAfterOutput);
+            this.groupBox6.Controls.Add(this.btn_LogOutput);
+            this.groupBox6.Controls.Add(this.btn_OutputExcel);
+            this.groupBox6.Font = new System.Drawing.Font("標楷體", 12.25F);
+            this.groupBox6.Location = new System.Drawing.Point(502, 344);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(308, 150);
+            this.groupBox6.TabIndex = 5;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "輸出檢核結果";
+            // 
+            // chk_OpenFileAfterOutput
+            // 
+            this.chk_OpenFileAfterOutput.AutoSize = true;
+            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(30, 116);
+            this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
+            this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 21);
+            this.chk_OpenFileAfterOutput.TabIndex = 5;
+            this.chk_OpenFileAfterOutput.Text = "輸出後自動開啟檔案";
+            this.toolTip1.SetToolTip(this.chk_OpenFileAfterOutput, "輸出後自動開啟檔案");
+            this.chk_OpenFileAfterOutput.UseVisualStyleBackColor = true;
+            // 
             // btn_LogOutput
             // 
             this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
@@ -1560,29 +1587,20 @@
             this.bkOutputExcelFile.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bkOutputExcelFile_ProgressChanged);
             this.bkOutputExcelFile.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkOutputExcelFile_RunWorkerCompleted);
             // 
-            // groupBox6
+            // 說明ToolStripMenuItem
             // 
-            this.groupBox6.Controls.Add(this.chk_OpenFileAfterOutput);
-            this.groupBox6.Controls.Add(this.btn_LogOutput);
-            this.groupBox6.Controls.Add(this.btn_OutputExcel);
-            this.groupBox6.Font = new System.Drawing.Font("標楷體", 12.25F);
-            this.groupBox6.Location = new System.Drawing.Point(502, 344);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(308, 150);
-            this.groupBox6.TabIndex = 5;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "輸出檢核結果";
+            this.說明ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.檢視使用者說明書ToolStripMenuItem});
+            this.說明ToolStripMenuItem.Name = "說明ToolStripMenuItem";
+            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.說明ToolStripMenuItem.Text = "說明";
             // 
-            // chk_OpenFileAfterOutput
+            // 檢視使用者說明書ToolStripMenuItem
             // 
-            this.chk_OpenFileAfterOutput.AutoSize = true;
-            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(30, 116);
-            this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
-            this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 21);
-            this.chk_OpenFileAfterOutput.TabIndex = 5;
-            this.chk_OpenFileAfterOutput.Text = "輸出後自動開啟檔案";
-            this.toolTip1.SetToolTip(this.chk_OpenFileAfterOutput, "輸出後自動開啟檔案");
-            this.chk_OpenFileAfterOutput.UseVisualStyleBackColor = true;
+            this.檢視使用者說明書ToolStripMenuItem.Name = "檢視使用者說明書ToolStripMenuItem";
+            this.檢視使用者說明書ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.檢視使用者說明書ToolStripMenuItem.Text = "檢視使用者說明書";
+            this.檢視使用者說明書ToolStripMenuItem.Click += new System.EventHandler(this.檢視使用者說明書ToolStripMenuItem_Click);
             // 
             // Form_RDExamProgress
             // 
@@ -1769,5 +1787,7 @@
         private System.ComponentModel.BackgroundWorker bkOutputExcelFile;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.CheckBox chk_OpenFileAfterOutput;
+        private System.Windows.Forms.ToolStripMenuItem 說明ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 檢視使用者說明書ToolStripMenuItem;
     }
 }

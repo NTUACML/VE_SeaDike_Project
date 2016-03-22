@@ -4593,6 +4593,142 @@ namespace VE_SD
                 range.Borders.Weight = Excel.XlBorderWeight.xlThin;
                 range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
 
+                ii = ii + 6+3;
+                int LargeItem = 5;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                if(chk_BlockWeightCalc_HO.Checked || chk_BlockWeightCalc_HE.Checked || chk_BlockWeightCalc_BD.Checked)
+                {
+                    //消波工重量計算.
+                    //1. 堤身段(港外側)
+                    //2. 堤頭部加強
+                    //3. 堤身段(航道側)
+                    range = wSheet.Cells[ii, 1];
+                    range.Value = mainForm.取得中文數字碼(LargeItem) +"、消波工重量計算";
+                    range.Font.Bold = true;
+                    wSheet.get_Range("A" + (ii).ToString(), "B" + (ii).ToString()).Merge(wSheet.get_Range("A" + (ii).ToString(), "B" + (ii).ToString()).MergeCells);
+
+                    ix = 0;
+                    int icc = 0;
+                    if(chk_BlockWeightCalc_HO.Checked)
+                    {
+                        //堤身段(港外側).
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = (ix + 1).ToString() + ".堤身段(港外側)";
+                        wSheet.get_Range("A" + (ii+1+icc).ToString(), "B" + (ii + 1 + icc).ToString()).Merge(wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).MergeCells);
+                        icc += 1;
+
+                        //基本參數填寫.
+                        //1-1. 消波形塊安定係數.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波形塊安定係數";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HO_KDL.Text.ToString();
+                        icc += 1;
+
+                        //1-2. 消波塊單位體積重量.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波塊單位體積重量";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HO_Gamma.Text.ToString();
+                        icc += 1;
+
+                        //1-3. 消波塊單位體積重量.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波塊斜坡面與水平面之夾角";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HO_slopeangle.Text.ToString();
+                        icc += 1;
+
+                        
+                        ix += 1;
+                    }
+
+                    if (chk_BlockWeightCalc_HE.Checked)
+                    {
+                        //堤頭部加強.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = (ix + 1).ToString() + ".堤頭部加強";
+                        wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).Merge(wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).MergeCells);
+                        icc += 1;
+
+                        //基本參數填寫.
+                        //1-1. 消波形塊安定係數.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波形塊安定係數";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HE_KDL.Text.ToString();
+                        icc += 1;
+
+                        //1-2. 消波塊單位體積重量.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波塊單位體積重量";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HE_Gamma.Text.ToString();
+                        icc += 1;
+
+                        //1-3. 消波塊單位體積重量.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波塊斜坡面與水平面之夾角";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HE_slopeangle.Text.ToString();
+                        icc += 1;
+
+                        ix += 1;
+                    }
+
+                    if (chk_BlockWeightCalc_BD.Checked)
+                    {
+                        //堤身段(航道側).
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = (ix + 1).ToString() + ".堤身段(航道側)";
+                        wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).Merge(wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).MergeCells);
+                        icc += 1;
+
+                        //基本參數填寫.
+                        //1-1. 消波形塊安定係數.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波形塊安定係數";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_BD_KDL.Text.ToString();
+                        icc += 1;
+
+                        //1-2. 消波塊單位體積重量.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波塊單位體積重量";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_BD_Gamma.Text.ToString();
+                        icc += 1;
+
+                        //1-3. 消波塊單位體積重量.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "消波塊斜坡面與水平面之夾角";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_BD_slopeangle.Text.ToString();
+                        icc += 1;
+
+                        //1-4. 波高傳遞率.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "波高傳遞率";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value =textBox_BD_Kt.Text.ToString();
+                        icc += 1;
+
+
+                        ix += 1;
+                    }
+
+
+                }
 
 
                 range = wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[60000, 10]]; //.Select();//wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[ii + 15 + ix, 10]];
@@ -5729,7 +5865,12 @@ namespace VE_SD
         {
 
         }
+        #region 檢視使用者說明書
 
- 
+        private void 檢視使用者說明書ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainForm.檢示使用者說明書ToolStripMenuItem_Click(sender, e);//呼叫相同方法.
+        }
+        #endregion
     }
 }

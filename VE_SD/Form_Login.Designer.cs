@@ -34,6 +34,7 @@
             this.btn_cancel = new System.Windows.Forms.Button();
             this.textBox_UserID = new System.Windows.Forms.TextBox();
             this.textBox_UserName = new System.Windows.Forms.TextBox();
+            this.label_Show = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -90,11 +91,21 @@
             this.textBox_UserName.Size = new System.Drawing.Size(352, 27);
             this.textBox_UserName.TabIndex = 5;
             // 
+            // label_Show
+            // 
+            this.label_Show.AutoSize = true;
+            this.label_Show.Location = new System.Drawing.Point(15, 91);
+            this.label_Show.Name = "label_Show";
+            this.label_Show.Size = new System.Drawing.Size(56, 16);
+            this.label_Show.TabIndex = 6;
+            this.label_Show.Text = "label3";
+            // 
             // Form_Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(479, 126);
+            this.Controls.Add(this.label_Show);
             this.Controls.Add(this.textBox_UserName);
             this.Controls.Add(this.textBox_UserID);
             this.Controls.Add(this.btn_cancel);
@@ -121,5 +132,6 @@
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.TextBox textBox_UserID;
         private System.Windows.Forms.TextBox textBox_UserName;
+        private System.Windows.Forms.Label label_Show;
     }
 }

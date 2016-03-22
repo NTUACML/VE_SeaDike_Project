@@ -109,12 +109,19 @@ namespace VE_SD
         }
         #region "檢視說明"
 
-        private void 檢示使用者說明書ToolStripMenuItem_Click(object sender, EventArgs e)
+        public void 檢示使用者說明書ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process p = new Process();
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            p.StartInfo.FileName = "EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            p.Start();
+            try
+            { 
+                Process p = new Process();
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                p.StartInfo.FileName = "EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                p.Start();
+            }
+            catch
+            {
+
+            }
         }
         #endregion
 
@@ -765,5 +772,33 @@ namespace VE_SD
             }
         }
         #endregion 
+
+
+        public string 取得中文數字碼(int N)
+        {
+            //整數.
+            Dictionary<int, string> 數字與國字碼對照 = new Dictionary<int, string>();
+            數字與國字碼對照.Add(0, "零");
+            數字與國字碼對照.Add(1, "一");
+            數字與國字碼對照.Add(2, "二");
+            數字與國字碼對照.Add(3, "三");
+            數字與國字碼對照.Add(4, "四");
+            數字與國字碼對照.Add(5, "五");
+            數字與國字碼對照.Add(6, "六");
+            數字與國字碼對照.Add(7, "七");
+            數字與國字碼對照.Add(8, "八");
+            數字與國字碼對照.Add(9, "九");
+            數字與國字碼對照.Add(10, "十");
+            
+            //目前沒有完整寫完.
+            if(N<0 || N>10)
+            {
+                return "沒有寫完喔";
+            }
+            else
+            {
+                return 數字與國字碼對照(N);
+            }
+        }
     }
 }
