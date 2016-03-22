@@ -50,7 +50,7 @@ public:
 	bool WaveBreakFuncOutside, WaveBreakFuncUpside, WaveBreakFuncInside;
 	double DensityOutside, DensityInside, DensityUpside,
 		SafeCoefOutside, SafeCoefInside, SafeCoefUpside,
-		SlopeOutside, SlopeInside, SlopeUpside, Kt;
+		SlopeOutside, SlopeInside, SlopeUpside, Kt, W1, W2, W3;
 
 	//- Mesg
 	std::string Err_Msg;

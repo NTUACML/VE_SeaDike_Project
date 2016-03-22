@@ -234,6 +234,9 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.W = Var->W;
 	VarBank.Mw = Var->Mw;
 	VarBank.Mp = Var->Mp;
+	VarBank.W1 = Var->W1;
+	VarBank.W2 = Var->W2;
+	VarBank.W3 = Var->W3;
 
 	return true;
 }
