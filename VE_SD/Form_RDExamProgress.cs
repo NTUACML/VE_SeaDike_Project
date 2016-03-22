@@ -4007,15 +4007,41 @@ namespace VE_SD
             double HBTest;
             Mod.OptionalVarInput(double.TryParse(textBox_HB.Text,out HBTest)? HBTest :-9999);
             //5.   其他檢核:
-            //5-1. 消波工檢核計算.
+            //5-1. 堤身段(外側)消波工檢核計算.
             if (chk_BlockWeightCalc_HO.Checked )
             {
-                //
-
+                Mod.WaveBreakOutsideCondition(true);
+                Mod.WaveBreakOutsideInput(double.Parse(textBox_HO_Gamma.Text), double.Parse(textBox_HO_KDL.Text), double.Parse(textBox_HO_slopeangle.Text));
             }
-                     
+            else
+            {
+                Mod.WaveBreakOutsideCondition(false);
+            }
+            //5-2. 堤頭部加強(上側)檢核計算.
+            if (chk_BlockWeightCalc_HE.Checked)
+            {
+                Mod.WaveBreakUpsideCondition(true);
+                Mod.WaveBreakUpsideInput(double.Parse(textBox_HE_Gamma.Text), double.Parse(textBox_HE_KDL.Text), double.Parse(textBox_HE_slopeangle.Text));
+            }
+            else
+            {
+                Mod.WaveBreakUpsideCondition(false);
+            }
+            //5-3. 堤身段(航道側)檢核計算.
+            if (chk_BlockWeightCalc_BD.Checked)
+            {
+                Mod.WaveBreakInsideCondition(true);
+                Mod.WaveBreakInsideInput(double.Parse(textBox_BD_Gamma.Text), double.Parse(textBox_BD_KDL.Text), double.Parse(textBox_BD_slopeangle.Text), double.Parse(textBox_BD_Kt.Text));
+            }
+            else
+            {
+                Mod.WaveBreakInsideCondition(false);
+            }
+
+
+
             //6. Block給定.
-            for(int i=0;i<BlockMainArray.GetLength(0);i++)
+            for (int i=0;i<BlockMainArray.GetLength(0);i++)
             {
                 //- 迴圈塞入Block.
                 //  [Kavy, 2016/03/03, wait to do: 下方NewBlock第三個參數更改為平均摩擦係數.

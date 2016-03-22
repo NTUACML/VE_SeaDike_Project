@@ -46,6 +46,11 @@ public:
 	double W, Mw, Max_level, Min_level;
 	//- SF Coef
 	double SlideSF, CalBody_SlideSF, RotateSF, CalBody_RotateSF;
+	//- Wave Break Weight
+	bool WaveBreakFuncOutside, WaveBreakFuncUpside, WaveBreakFuncInside;
+	double DensityOutside, DensityInside, DensityUpside,
+		SafeCoefOutside, SafeCoefInside, SafeCoefUpside,
+		SlopeOutside, SlopeInside, SlopeUpside, Kt;
 
 	//- Mesg
 	std::string Err_Msg;

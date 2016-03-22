@@ -130,6 +130,49 @@ bool VE_SD::Module1::SF_CoefInput(double _SlideSF, double _RotateSF)
 	return true;
 }
 
+bool VE_SD::Module1::WaveBreakOutsideCondition(bool _WaveBreakFuncOutside)
+{
+	Var->WaveBreakFuncOutside = _WaveBreakFuncOutside;
+	return true;
+}
+
+bool VE_SD::Module1::WaveBreakInsideCondition(bool _WaveBreakFuncInside)
+{
+	Var->WaveBreakFuncInside = _WaveBreakFuncInside;
+	return true;
+}
+
+bool VE_SD::Module1::WaveBreakUpsideCondition(bool _WaveBreakFuncUpside)
+{
+	Var->WaveBreakFuncUpside = _WaveBreakFuncUpside;
+	return true;
+}
+
+bool VE_SD::Module1::WaveBreakOutsideInput(double _Density, double _Coef, double _Slope)
+{
+	Var->DensityOutside = _Density;
+	Var->SafeCoefOutside = _Coef;
+	Var->SlopeOutside = _Slope;
+	return true;
+}
+
+bool VE_SD::Module1::WaveBreakInsideInput(double _Density, double _Coef, double _Slope, double _Kt)
+{
+	Var->DensityInside = _Density;
+	Var->SafeCoefInside = _Coef;
+	Var->SafeCoefInside = _Slope;
+	Var->Kt = _Kt;
+	return true;
+}
+
+bool VE_SD::Module1::WaveBreakUpsideInput(double _Density, double _Coef, double _Slope)
+{
+	Var->DensityUpside = _Density;
+	Var->SafeCoefUpside = _Coef;
+	Var->SlopeUpside = _Slope;
+	return true;
+}
+
 bool VE_SD::Module1::Get_DataBank_Data()
 {
 	// EL Section!
