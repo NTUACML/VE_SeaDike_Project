@@ -63,8 +63,14 @@ namespace VE_SD {
 							double _beta);
 		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
 		bool OptionalVarInput(double _hb);
-
 		bool SF_CoefInput(double _SlideSF, double _RotateSF);
+		bool WaveBreakOutsideCondition(bool _WaveBreakFuncOutside);
+		bool WaveBreakInsideCondition(bool _WaveBreakFuncInside);
+		bool WaveBreakUpsideCondition(bool _WaveBreakFuncUpside);
+		bool WaveBreakOutsideInput(double _Density, double _Coef, double _Slope);
+		bool WaveBreakInsideInput(double _Density, double _Coef, double _Slope, double _Kt);
+		bool WaveBreakUpsideInput(double _Density, double _Coef, double _Slope);
+
 
 		//- Get Var Function
 		bool Get_DataBank_Data();
