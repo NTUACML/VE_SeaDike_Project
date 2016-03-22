@@ -3452,7 +3452,6 @@ namespace VE_SD
         {
 
         }
-
         #region 檢核主區塊
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -4102,11 +4101,20 @@ namespace VE_SD
             tabControl1.SelectedIndex = 4; //更換頁面.
         }
         #endregion
-
         #region 輸出檢核結果EXCEL表單
         private void bkOutputExcelFile_DoWork(object sender, DoWorkEventArgs e)
         {
             string getpath = e.Argument.ToString();
+
+        }
+        private void bkOutputExcelFile_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //什麼都不做.
+           // MessageBox.Show(e.UserState.ToString());
+
+        }
+        private string 寫出檢核結果Excel表(string getpath)
+        {
             Excel.Application excelApp;
             Excel._Workbook wBook;
             Excel._Worksheet wSheet;
@@ -4119,6 +4127,7 @@ namespace VE_SD
             wBook = excelApp.Workbooks[1];//第一個活頁簿.
             wBook.Activate();
 
+            string getMsg = "OK";
 
             //執行EXCEL 輸出.
             try
@@ -4619,28 +4628,28 @@ namespace VE_SD
                 range.Borders.Weight = Excel.XlBorderWeight.xlThin;
                 range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
 
-                ii = ii + 6+3;
+                ii = ii + 6 + 3;
                 int LargeItem = 5;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                
-                if(chk_BlockWeightCalc_HO.Checked || chk_BlockWeightCalc_HE.Checked || chk_BlockWeightCalc_BD.Checked)
+
+                if (chk_BlockWeightCalc_HO.Checked || chk_BlockWeightCalc_HE.Checked || chk_BlockWeightCalc_BD.Checked)
                 {
                     //消波工重量計算.
                     //1. 堤身段(港外側)
                     //2. 堤頭部加強
                     //3. 堤身段(航道側)
                     range = wSheet.Cells[ii, 1];
-                    range.Value = mainForm.取得中文數字碼(LargeItem) +"、消波工重量計算";
+                    range.Value = mainForm.取得中文數字碼(LargeItem) + "、消波工重量計算";
                     range.Font.Bold = true;
                     wSheet.get_Range("A" + (ii).ToString(), "B" + (ii).ToString()).Merge(wSheet.get_Range("A" + (ii).ToString(), "B" + (ii).ToString()).MergeCells);
 
                     ix = 0;
                     int icc = 0;
-                    if(chk_BlockWeightCalc_HO.Checked)
+                    if (chk_BlockWeightCalc_HO.Checked)
                     {
                         //堤身段(港外側).
                         range = wSheet.Cells[ii + 1 + icc, 1];
                         range.Value = (ix + 1).ToString() + ".堤身段(港外側)";
-                        wSheet.get_Range("A" + (ii+1+icc).ToString(), "B" + (ii + 1 + icc).ToString()).Merge(wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).MergeCells);
+                        wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).Merge(wSheet.get_Range("A" + (ii + 1 + icc).ToString(), "B" + (ii + 1 + icc).ToString()).MergeCells);
                         icc += 1;
 
                         //基本參數填寫.
@@ -4675,7 +4684,7 @@ namespace VE_SD
                         range.Value = "W1(Ton)";
                         range = wSheet.Cells[ii + 1 + icc, 2];
                         range.NumberFormatLocal = "0.00_ ";
-                        range.Value = textBox_HO_slopeangle.Text.ToString();//!!!!!!!!!!!!!!!!!!!!!!!!
+                        range.Value = Mod.VarBank.W1.ToString();
                         icc += 1;
                         ix += 1;
                     }
@@ -4719,7 +4728,7 @@ namespace VE_SD
                         range.Value = "W2(Ton)";
                         range = wSheet.Cells[ii + 1 + icc, 2];
                         range.NumberFormatLocal = "0.00_ ";
-                        range.Value = textBox_HO_slopeangle.Text.ToString();//!!!!!!!!!!!!!!!!!!!!!!!!
+                        range.Value = Mod.VarBank.W2.ToString();//!!!!!!!!!!!!!!!!!!!!!!!!
                         icc += 1;
                         ix += 1;
                     }
@@ -4762,21 +4771,27 @@ namespace VE_SD
                         range.Value = "波高傳遞率";
                         range = wSheet.Cells[ii + 1 + icc, 2];
                         range.NumberFormatLocal = "0.00_ ";
-                        range.Value =textBox_BD_Kt.Text.ToString();
+                        range.Value = textBox_BD_Kt.Text.ToString();
                         icc += 1;
 
                         //輸出.
-                        //出水高 R.
+                        //W3(Ton)
                         range = wSheet.Cells[ii + 1 + icc, 1];
-                        range.Value = "W1(Ton)";
+                        range.Value = "W3(Ton)";
                         range = wSheet.Cells[ii + 1 + icc, 2];
                         range.NumberFormatLocal = "0.00_ ";
-                        range.Value = ""; //!!!!!!!!!!!!!!!!!!!!!!!!
+                        range.Value = Mod.VarBank.W3.ToString(); //!!!!!!!!!!!!!!!!!!!!!!!!
                         icc += 1;
                         ix += 1;
                     }
 
-
+                    range = wSheet.Range[wSheet.Cells[ii + 1, 1], wSheet.Cells[ii + 1 + icc, 2]];
+                    range.Borders.LineStyle = 1;
+                    range.Borders.Color = ColorTranslator.ToOle(Color.Black);
+                    range.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    range.BorderAround(Type.Missing, Excel.XlBorderWeight.xlThick, Excel.XlColorIndex.xlColorIndexAutomatic);
+                    LargeItem += 1;
+                    ii = ii + 1 + icc + 2;//變更位置.
                 }
 
 
@@ -4797,11 +4812,11 @@ namespace VE_SD
                 range = wSheet.Cells[2, 1];
                 range.Value = "填表人員工編號";
                 range = wSheet.Cells[2, 2];
-                range.Value = this.mainForm.LoginInUserID;
+                range.Value = mainForm.LoginInUserID;
                 range = wSheet.Cells[3, 1];
                 range.Value = "填表人名稱";
                 range = wSheet.Cells[3, 2];
-                range.Value = this.mainForm.LoginInUserName;
+                range.Value = mainForm.LoginInUserName;
                 range = wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[60000, 10]]; //.Select();//wSheet.Range[wSheet.Cells[1, 1], wSheet.Cells[ii + 15 + ix, 10]];
                 range.Columns.AutoFit();
                 range.Cells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
@@ -4847,6 +4862,8 @@ namespace VE_SD
             }
             catch (Exception ex)
             {
+                //bkOutputExcelFile.ReportProgress(0, "出現意外:" + ex.Message.ToString());
+                getMsg = "輸出Excel檔案時發生意外的狀況而失敗" + Environment.NewLine + ex.Message.ToString();
                 //MessageBox.Show("輸出Excel檔案時發生意外的狀況而失敗" + Environment.NewLine + ex.Message.ToString(), "輸出失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             wBook.Close(false, Type.Missing, Type.Missing);
@@ -4857,14 +4874,12 @@ namespace VE_SD
             range = null;
             excelApp = null;
             GC.Collect();
-        }
-        private void bkOutputExcelFile_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            //什麼都不做.
-
+            return getMsg;
         }
         private void bkOutputExcelFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+
+            //暫時廢棄不用.
             tsp_progressbar.Visible = false;
             tsp_cond.Text = "您已輸出完成Excel檔案,謝謝使用";
             MessageBox.Show("輸出完成!!","輸出Excel報表完成",MessageBoxButtons.OK,MessageBoxIcon.Information);
@@ -4906,7 +4921,38 @@ namespace VE_SD
                 tsp_progressbar.Visible = true;
                 tsp_progressbar.MarqueeAnimationSpeed = 10;//0.1 sec.
                 tsp_cond.Text = "輸出Excel檔案中...";
-                bkOutputExcelFile.RunWorkerAsync(getpath);
+
+                tsp_progressbar.Visible = false;
+                string getMsg = 寫出檢核結果Excel表(getpath);
+
+                if(getMsg!="OK")
+                {
+                    MessageBox.Show("您的Excel表單輸出出現錯誤!" + Environment.NewLine + getMsg, "EXCEL輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tsp_cond.Text = "您沒有成功輸出檢核報表";
+
+
+                }
+                else
+                {
+                    tsp_cond.Text = "您已輸出完成Excel檔案,謝謝使用";
+                    MessageBox.Show("輸出完成!!", "輸出Excel報表完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (chk_OpenFileAfterOutput.Checked)
+                    {
+                        try
+                        {
+                            Process p = new Process();
+                            p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                            p.StartInfo.FileName = SFD_EXCELReport.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            p.Start();
+                        }
+                        catch
+                        {
+                            //不做任何事情.
+                        }
+
+                    }
+                }//有無成功輸出.
+                //bkOutputExcelFile.RunWorkerAsync(getpath);
                 
             }
         }
@@ -5665,8 +5711,6 @@ namespace VE_SD
 
 
         #endregion
-
-
         #region 其他檢核
         private void chk_BlockWeightCalc_HO_CheckedChanged(object sender, EventArgs e)
         {
