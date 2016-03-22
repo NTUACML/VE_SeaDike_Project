@@ -797,7 +797,7 @@ namespace VE_SD
             }
             else
             {
-                return 數字與國字碼對照(N);
+                return 數字與國字碼對照[N];
             }
         }
     }

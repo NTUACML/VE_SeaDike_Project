@@ -4642,7 +4642,15 @@ namespace VE_SD
                         range.Value = textBox_HO_slopeangle.Text.ToString();
                         icc += 1;
 
-                        
+
+                        //輸出.
+                        //W1
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "W1(Ton)";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HO_slopeangle.Text.ToString();//!!!!!!!!!!!!!!!!!!!!!!!!
+                        icc += 1;
                         ix += 1;
                     }
 
@@ -4679,6 +4687,14 @@ namespace VE_SD
                         range.Value = textBox_HE_slopeangle.Text.ToString();
                         icc += 1;
 
+                        //輸出.
+                        //W2
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "W2(Ton)";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = textBox_HO_slopeangle.Text.ToString();//!!!!!!!!!!!!!!!!!!!!!!!!
+                        icc += 1;
                         ix += 1;
                     }
 
@@ -4723,7 +4739,14 @@ namespace VE_SD
                         range.Value =textBox_BD_Kt.Text.ToString();
                         icc += 1;
 
-
+                        //輸出.
+                        //出水高 R.
+                        range = wSheet.Cells[ii + 1 + icc, 1];
+                        range.Value = "W1(Ton)";
+                        range = wSheet.Cells[ii + 1 + icc, 2];
+                        range.NumberFormatLocal = "0.00_ ";
+                        range.Value = ""; //!!!!!!!!!!!!!!!!!!!!!!!!
+                        icc += 1;
                         ix += 1;
                     }
 
