@@ -253,6 +253,8 @@ bool VE_SD::Module1::Run()
 		!Internal->WeightCal() // Self Weight Moment Cal
 		||
 		!Internal->BodySafeCheck() // Safe Check!!!!!
+		||
+		!Internal->BreakerSafeCheck() // Breaker Safe Check
 		) {
 		MsgAdd();
 		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
@@ -391,6 +393,16 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE << "******堤體安定檢核******" << std::endl;
 	FILE << "塊體滑動SF: " << Var->CalBody_SlideSF << std::endl;
 	FILE << "塊體傾倒SF: " << Var->CalBody_RotateSF << std::endl;
+
+	if (Var->WaveBreakFuncOutside == true) {
+		FILE << "******消波工程-港外側計算******" << std::endl;
+		FILE << "W1: " << Var->W1 << std::endl;
+	}
+
+	if (Var->WaveBreakFuncUpside == true) {
+		FILE << "******消波工程-堤頭部加強******" << std::endl;
+		FILE << "W2: " << Var->W2 << std::endl;
+	}
 	FILE.close();
 	return true;
 }

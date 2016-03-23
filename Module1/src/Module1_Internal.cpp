@@ -339,10 +339,27 @@ bool Module1_Internal::BodySafeCheck()
 
 bool Module1_Internal::BreakerSafeCheck()
 {
-	return false;
+	double Sr, CotTheta;
+	if (Var->WaveBreakFuncOutside == true) {
+		Sr = Var->DensityOutside / Var->DensitySea;
+		CotTheta = 1.0 / Var->SlopeOutside;
+		Var->W1 = (Var->DensityOutside * std::pow(Var->Hs, 3.0)) /
+			(Var->SafeCoefOutside * std::pow(Sr - 1.0, 3.0) * CotTheta);
+		Var->Err_Msg += "消波工程-港外側計算完成! \r\n";
+	}
+
+	if (Var->WaveBreakFuncUpside == true) {
+		Sr = Var->DensityUpside / Var->DensitySea;
+		CotTheta = 1.0 / Var->SlopeUpside;
+		Var->W2 = 1.5 * (Var->DensityUpside * std::pow(Var->Hs, 3.0)) /
+			(Var->SafeCoefUpside * std::pow(Sr - 1.0, 3.0) * CotTheta);
+		Var->Err_Msg += "消波工程-堤頭部加強計算完成! \r\n";
+	}
+	return true;
 }
 
 bool Module1_Internal::UpperSafeCheck()
 {
 	return false;
 }
+
