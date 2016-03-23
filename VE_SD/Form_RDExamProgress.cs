@@ -3161,7 +3161,7 @@ namespace VE_SD
                 textBox_ConcreteAllowStress.Enabled=false;
                 textBox_BK.Enabled = false;
 
-                chk_BlockWeightCalc_HO.Checked = false;
+                chk_HeadBreastCalc.Checked = false;
                 textBox_ConcreteAllowStress.Text = ""; // 混凝土容許應力r.ToString();
                 textBox_BK.Text = ""; // BKr.ToString();
             }
