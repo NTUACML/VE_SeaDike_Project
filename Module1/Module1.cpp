@@ -160,7 +160,7 @@ bool VE_SD::Module1::WaveBreakInsideInput(double _Density, double _Coef, double 
 {
 	Var->DensityInside = _Density;
 	Var->SafeCoefInside = _Coef;
-	Var->SafeCoefInside = _Slope;
+	Var->SlopeInside = _Slope;
 	Var->Kt = _Kt;
 	return true;
 }
@@ -400,8 +400,13 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	}
 
 	if (Var->WaveBreakFuncUpside == true) {
-		FILE << "******猧祘-出繷场眏******" << std::endl;
+		FILE << "******猧祘-出繷场璸衡******" << std::endl;
 		FILE << "W2: " << Var->W2 << std::endl;
+	}
+
+	if (Var->WaveBreakFuncInside == true) {
+		FILE << "******猧祘-出繷场璸衡******" << std::endl;
+		FILE << "W3: " << Var->W3 << std::endl;
 	}
 	FILE.close();
 	return true;
