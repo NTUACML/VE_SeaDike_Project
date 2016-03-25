@@ -22,6 +22,7 @@ namespace VE_SD
         string _LoginInUserName;
         bool _PSKEYCORRECT;
         bool loginsuccess = false;
+        private string 驗證機碼存放位置 = "C:\\LKK";
 
         public Form1()
         {
@@ -81,6 +82,11 @@ namespace VE_SD
         {
             //此功能已取消,目前主表單已直接改為海堤檢核主表單.
             //開啟海堤檢核主表單.
+            Form_RDExamProgress frdexam = new Form_RDExamProgress(this);
+            frdexam.ShowDialog();
+            return;
+
+
             Form_SDM fsdm = new Form_SDM();
             fsdm.ShowDialog();
 
@@ -124,7 +130,6 @@ namespace VE_SD
             }
         }
         #endregion
-
         #region  更改使用者
         private void TSP_ChangeUserBtn_Click(object sender, EventArgs e)
         {
@@ -136,14 +141,35 @@ namespace VE_SD
             TSP_UserInfoShow.Text = "目前登入使用者ID:" + _LoginInUserID + ",名稱為" + _LoginInUserName;
         }
         #endregion
-
         #region 設定機碼
         private void 軟體機碼設定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             string MKey = 密碼加密(GetCPUID()+ "_" + GetMacAddress());//獲取此機器之數據.
-            string MKeyPostiion = "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            string MPSPosition = "MPS.KEY";
+            string MKeyPostiion =驗證機碼存放位置+ "\\" + "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            string MPSPosition = 驗證機碼存放位置 + "\\" + "MPS.KEY";
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (!Directory.Exists(驗證機碼存放位置))
+            {
+                //採取自動建立此資料夾.
+                Directory.CreateDirectory(驗證機碼存放位置);
+                //無驗證碼.
+                //創建新的驗證資訊.
+                StreamWriter sw1 = new StreamWriter(MKeyPostiion);
+                sw1.WriteLine(MKey);
+                sw1.Flush();
+                sw1.Close();
+                string NewPSKey;
+                NewPSKey = 產生隨機碼();
+                StreamWriter sw2 = new StreamWriter(MPSPosition);
+                sw2.WriteLine(NewPSKey);
+                sw2.Flush();
+                sw2.Close();
+                MessageBox.Show("由於您的驗證機碼與驗證密碼尚未設定,已成功建立之" + Environment.NewLine + "您新的驗證密碼(請務必記住此密碼)為" + NewPSKey, "您的驗證機制已重新更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _PSKEYCORRECT = false;
+                return;
+            }
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             FileInfo mk = new FileInfo(MKeyPostiion);
             FileInfo mps = new FileInfo(MPSPosition);
             string getMKey = null;
@@ -557,8 +583,8 @@ namespace VE_SD
         public bool 檢視目前是否已設定正確機碼來鎖定機器(ref string Msg)
         {
             string NewKey = 密碼加密(GetCPUID() + "_" + GetMacAddress());//獲取此機器之數據並且加密.
-            string MKeyPostiion = "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            string MPSPosition = "MPS.KEY";
+            string MKeyPostiion =驗證機碼存放位置 + "\\" +  "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            string MPSPosition = 驗證機碼存放位置 + "\\" + "MPS.KEY";
             FileInfo mk = new FileInfo(MKeyPostiion);
             FileInfo mps = new FileInfo(MPSPosition);
             string getMKey = null;
@@ -772,8 +798,6 @@ namespace VE_SD
             }
         }
         #endregion 
-
-
         public string 取得中文數字碼(int N)
         {
             //整數.

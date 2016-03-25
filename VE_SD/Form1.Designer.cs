@@ -45,6 +45,7 @@
             this.TSSTATUS_label = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSP_Progressbar = new System.Windows.Forms.ToolStripProgressBar();
             this.TSP_UserInfoShow = new System.Windows.Forms.ToolStripStatusLabel();
+            this.TSP_ChangeUserBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
             this.gp_ItemExplan = new System.Windows.Forms.GroupBox();
             this.pictureBox_ItemDescp = new System.Windows.Forms.PictureBox();
             this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
-            this.TSP_ChangeUserBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -89,7 +89,7 @@
             this.軟體偏好設定ToolStripMenuItem,
             this.軟體機碼設定ToolStripMenuItem});
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.設定ToolStripMenuItem.Text = "設定";
             // 
             // 軟體偏好設定ToolStripMenuItem
@@ -101,7 +101,7 @@
             // 軟體機碼設定ToolStripMenuItem
             // 
             this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
-            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
             this.軟體機碼設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體機碼設定ToolStripMenuItem_Click);
             // 
@@ -125,6 +125,7 @@
             this.海堤檢核ToolStripMenuItem.Name = "海堤檢核ToolStripMenuItem";
             this.海堤檢核ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.海堤檢核ToolStripMenuItem.Text = "海堤檢核";
+            this.海堤檢核ToolStripMenuItem.Visible = false;
             this.海堤檢核ToolStripMenuItem.Click += new System.EventHandler(this.海堤檢核ToolStripMenuItem_Click);
             // 
             // 海堤檢核給Kavy玩ToolStripMenuItem
@@ -190,6 +191,16 @@
             this.TSP_UserInfoShow.Name = "TSP_UserInfoShow";
             this.TSP_UserInfoShow.Size = new System.Drawing.Size(128, 25);
             this.TSP_UserInfoShow.Text = "toolStripStatusLabel1";
+            // 
+            // TSP_ChangeUserBtn
+            // 
+            this.TSP_ChangeUserBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.TSP_ChangeUserBtn.Image = ((System.Drawing.Image)(resources.GetObject("TSP_ChangeUserBtn.Image")));
+            this.TSP_ChangeUserBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TSP_ChangeUserBtn.Name = "TSP_ChangeUserBtn";
+            this.TSP_ChangeUserBtn.Size = new System.Drawing.Size(116, 28);
+            this.TSP_ChangeUserBtn.Text = "變更登入之使用者";
+            this.TSP_ChangeUserBtn.Click += new System.EventHandler(this.TSP_ChangeUserBtn_Click);
             // 
             // groupBox1
             // 
@@ -271,16 +282,6 @@
             this.textBox_ItemDescp.Name = "textBox_ItemDescp";
             this.textBox_ItemDescp.Size = new System.Drawing.Size(655, 228);
             this.textBox_ItemDescp.TabIndex = 0;
-            // 
-            // TSP_ChangeUserBtn
-            // 
-            this.TSP_ChangeUserBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.TSP_ChangeUserBtn.Image = ((System.Drawing.Image)(resources.GetObject("TSP_ChangeUserBtn.Image")));
-            this.TSP_ChangeUserBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.TSP_ChangeUserBtn.Name = "TSP_ChangeUserBtn";
-            this.TSP_ChangeUserBtn.Size = new System.Drawing.Size(116, 28);
-            this.TSP_ChangeUserBtn.Text = "變更登入之使用者";
-            this.TSP_ChangeUserBtn.Click += new System.EventHandler(this.TSP_ChangeUserBtn_Click);
             // 
             // Form1
             // 
