@@ -355,6 +355,23 @@ bool Module1_Internal::BreakerSafeCheck()
 			(Var->SafeCoefUpside * std::pow(Sr - 1.0, 3.0) * CotTheta);
 		Var->Err_Msg += "消波工程-堤頭部加強計算完成! \r\n";
 	}
+
+	if (Var->WaveBreakFuncInside == true) {
+		double h_plun_D_h, hc_D_Hs, Ht, Sr;
+		Sr = Var->DensityInside / Var->DensitySea;
+		h_plun_D_h = Var->h_plun / Var->h;
+		hc_D_Hs = Var->hc / Var->Hs;
+		Ht = Var->Kt * Var->Hs;
+
+	/*	Var->h_plun_D_h = Var->h_plun / Var->h;
+		Var->hc_D_Hs = Var->hc / Var->Hs;
+		Var->Ht = Var->Kt * Var->Hs;*/
+
+		Var->W3 = (Var->DensityInside * std::pow(Ht, 3.0)) /
+			(Var->SafeCoefInside * std::pow(Sr - 1.0, 3.0) * CotTheta);
+
+		Var->Err_Msg += "消波工程-堤內側加強計算完成! \r\n";
+	}
 	return true;
 }
 
