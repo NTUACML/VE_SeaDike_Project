@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox_SectSetting = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -54,6 +54,8 @@
             this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.輸出Log檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.輸出Excel檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.檢視使用者說明書ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chart_Plot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_BasicParameter = new System.Windows.Forms.TabPage();
@@ -138,8 +140,6 @@
             this.摩擦係數值 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label27 = new System.Windows.Forms.Label();
             this.DGMaterial = new System.Windows.Forms.DataGridView();
-            this.序號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.材質名稱 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage_AddBlock = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ReferencedMaterialCHKL = new System.Windows.Forms.CheckedListBox();
@@ -168,8 +168,12 @@
             this.SFD_EXCELReport = new System.Windows.Forms.SaveFileDialog();
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
-            this.說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.檢視使用者說明書ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label19 = new System.Windows.Forms.Label();
+            this.cmb_DeepWaveActDir = new System.Windows.Forms.ComboBox();
+            this.textBox_BataFix = new System.Windows.Forms.TextBox();
+            this.序號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.材質名稱 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmb_ShowOnBlockListChoice = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -198,9 +202,9 @@
             this.listBox_SectSetting.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox_SectSetting.FormattingEnabled = true;
             this.listBox_SectSetting.ItemHeight = 19;
-            this.listBox_SectSetting.Location = new System.Drawing.Point(6, 40);
+            this.listBox_SectSetting.Location = new System.Drawing.Point(6, 78);
             this.listBox_SectSetting.Name = "listBox_SectSetting";
-            this.listBox_SectSetting.Size = new System.Drawing.Size(126, 460);
+            this.listBox_SectSetting.Size = new System.Drawing.Size(126, 422);
             this.listBox_SectSetting.TabIndex = 0;
             this.listBox_SectSetting.SelectedIndexChanged += new System.EventHandler(this.listBox_SectSetting_SelectedIndexChanged);
             // 
@@ -331,20 +335,35 @@
             this.輸出Excel檔案ToolStripMenuItem.Text = "輸出Excel檔案";
             this.輸出Excel檔案ToolStripMenuItem.Click += new System.EventHandler(this.btn_OutputExcel_Click);
             // 
+            // 說明ToolStripMenuItem
+            // 
+            this.說明ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.檢視使用者說明書ToolStripMenuItem});
+            this.說明ToolStripMenuItem.Name = "說明ToolStripMenuItem";
+            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.說明ToolStripMenuItem.Text = "說明";
+            // 
+            // 檢視使用者說明書ToolStripMenuItem
+            // 
+            this.檢視使用者說明書ToolStripMenuItem.Name = "檢視使用者說明書ToolStripMenuItem";
+            this.檢視使用者說明書ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.檢視使用者說明書ToolStripMenuItem.Text = "檢視使用者說明書";
+            this.檢視使用者說明書ToolStripMenuItem.Click += new System.EventHandler(this.檢視使用者說明書ToolStripMenuItem_Click);
+            // 
             // chart_Plot
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea3.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend3);
+            chartArea4.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend4);
             this.chart_Plot.Location = new System.Drawing.Point(138, 9);
             this.chart_Plot.Name = "chart_Plot";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart_Plot.Series.Add(series3);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart_Plot.Series.Add(series4);
             this.chart_Plot.Size = new System.Drawing.Size(821, 354);
             this.chart_Plot.TabIndex = 3;
             this.chart_Plot.Text = "chart_Plot";
@@ -370,6 +389,9 @@
             // 
             // tabPage_BasicParameter
             // 
+            this.tabPage_BasicParameter.Controls.Add(this.textBox_BataFix);
+            this.tabPage_BasicParameter.Controls.Add(this.cmb_DeepWaveActDir);
+            this.tabPage_BasicParameter.Controls.Add(this.label19);
             this.tabPage_BasicParameter.Controls.Add(this.groupBox5);
             this.tabPage_BasicParameter.Controls.Add(this.textBox_ArmorBlockEle);
             this.tabPage_BasicParameter.Controls.Add(this.label26);
@@ -444,7 +466,7 @@
             // textBox_ArmorBlockEle
             // 
             this.textBox_ArmorBlockEle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_ArmorBlockEle.Location = new System.Drawing.Point(401, 145);
+            this.textBox_ArmorBlockEle.Location = new System.Drawing.Point(401, 180);
             this.textBox_ArmorBlockEle.Name = "textBox_ArmorBlockEle";
             this.textBox_ArmorBlockEle.Size = new System.Drawing.Size(100, 27);
             this.textBox_ArmorBlockEle.TabIndex = 34;
@@ -454,7 +476,7 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label26.Location = new System.Drawing.Point(37, 148);
+            this.label26.Location = new System.Drawing.Point(37, 183);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(359, 19);
             this.label26.TabIndex = 33;
@@ -463,7 +485,7 @@
             // textBox_GroundELE
             // 
             this.textBox_GroundELE.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_GroundELE.Location = new System.Drawing.Point(401, 112);
+            this.textBox_GroundELE.Location = new System.Drawing.Point(401, 147);
             this.textBox_GroundELE.Name = "textBox_GroundELE";
             this.textBox_GroundELE.Size = new System.Drawing.Size(100, 27);
             this.textBox_GroundELE.TabIndex = 32;
@@ -473,7 +495,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label25.Location = new System.Drawing.Point(37, 115);
+            this.label25.Location = new System.Drawing.Point(37, 150);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(359, 19);
             this.label25.TabIndex = 31;
@@ -482,7 +504,7 @@
             // textBox_SeaGamma
             // 
             this.textBox_SeaGamma.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SeaGamma.Location = new System.Drawing.Point(401, 460);
+            this.textBox_SeaGamma.Location = new System.Drawing.Point(401, 485);
             this.textBox_SeaGamma.Name = "textBox_SeaGamma";
             this.textBox_SeaGamma.Size = new System.Drawing.Size(100, 27);
             this.textBox_SeaGamma.TabIndex = 30;
@@ -494,7 +516,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label23.Location = new System.Drawing.Point(36, 463);
+            this.label23.Location = new System.Drawing.Point(36, 488);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(359, 19);
             this.label23.TabIndex = 29;
@@ -507,9 +529,9 @@
             this.cmb_seawaveDir.FormattingEnabled = true;
             this.cmb_seawaveDir.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.cmb_seawaveDir.Items.AddRange(new object[] {
-            "E",
-            "W"});
-            this.cmb_seawaveDir.Location = new System.Drawing.Point(401, 20);
+            "左",
+            "右"});
+            this.cmb_seawaveDir.Location = new System.Drawing.Point(400, 46);
             this.cmb_seawaveDir.Name = "cmb_seawaveDir";
             this.cmb_seawaveDir.Size = new System.Drawing.Size(101, 27);
             this.cmb_seawaveDir.TabIndex = 26;
@@ -518,7 +540,7 @@
             // textBox_SFOver
             // 
             this.textBox_SFOver.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SFOver.Location = new System.Drawing.Point(401, 423);
+            this.textBox_SFOver.Location = new System.Drawing.Point(401, 448);
             this.textBox_SFOver.Name = "textBox_SFOver";
             this.textBox_SFOver.Size = new System.Drawing.Size(100, 27);
             this.textBox_SFOver.TabIndex = 25;
@@ -530,7 +552,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label17.Location = new System.Drawing.Point(36, 426);
+            this.label17.Location = new System.Drawing.Point(36, 451);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(359, 19);
             this.label17.TabIndex = 24;
@@ -539,7 +561,7 @@
             // textBox_SFSlide
             // 
             this.textBox_SFSlide.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SFSlide.Location = new System.Drawing.Point(402, 390);
+            this.textBox_SFSlide.Location = new System.Drawing.Point(402, 415);
             this.textBox_SFSlide.Name = "textBox_SFSlide";
             this.textBox_SFSlide.Size = new System.Drawing.Size(100, 27);
             this.textBox_SFSlide.TabIndex = 23;
@@ -550,7 +572,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label16.Location = new System.Drawing.Point(37, 393);
+            this.label16.Location = new System.Drawing.Point(37, 418);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(359, 19);
             this.label16.TabIndex = 22;
@@ -560,7 +582,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微軟正黑體", 14F);
-            this.label15.Location = new System.Drawing.Point(507, 175);
+            this.label15.Location = new System.Drawing.Point(507, 210);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(28, 24);
             this.label15.TabIndex = 21;
@@ -570,7 +592,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("微軟正黑體", 14F);
-            this.label14.Location = new System.Drawing.Point(508, 81);
+            this.label14.Location = new System.Drawing.Point(508, 116);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(39, 24);
             this.label14.TabIndex = 20;
@@ -580,7 +602,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("微軟正黑體", 14F);
-            this.label13.Location = new System.Drawing.Point(507, 48);
+            this.label13.Location = new System.Drawing.Point(507, 83);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(28, 24);
             this.label13.TabIndex = 19;
@@ -589,26 +611,27 @@
             // textBox_Beta
             // 
             this.textBox_Beta.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Beta.Location = new System.Drawing.Point(401, 356);
+            this.textBox_Beta.Location = new System.Drawing.Point(401, 385);
             this.textBox_Beta.Name = "textBox_Beta";
             this.textBox_Beta.Size = new System.Drawing.Size(100, 27);
             this.textBox_Beta.TabIndex = 18;
+            this.textBox_Beta.TextChanged += new System.EventHandler(this.textBox_Beta_TextChanged);
             this.textBox_Beta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Beta_KeyPress);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label10.Location = new System.Drawing.Point(36, 345);
+            this.label10.Location = new System.Drawing.Point(36, 388);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(359, 38);
+            this.label10.Size = new System.Drawing.Size(359, 19);
             this.label10.TabIndex = 17;
-            this.label10.Text = "入射波與堤體法線之垂線夾角\r\n(正負15度修正後) .......... β    =";
+            this.label10.Text = "入射波與堤體法線之垂線夾角 .β    =";
             // 
             // textBox_Lenda
             // 
             this.textBox_Lenda.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Lenda.Location = new System.Drawing.Point(402, 321);
+            this.textBox_Lenda.Location = new System.Drawing.Point(402, 356);
             this.textBox_Lenda.Name = "textBox_Lenda";
             this.textBox_Lenda.Size = new System.Drawing.Size(100, 27);
             this.textBox_Lenda.TabIndex = 16;
@@ -618,7 +641,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label9.Location = new System.Drawing.Point(37, 324);
+            this.label9.Location = new System.Drawing.Point(37, 359);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(359, 19);
             this.label9.TabIndex = 15;
@@ -627,7 +650,7 @@
             // textBox_Kd
             // 
             this.textBox_Kd.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Kd.Location = new System.Drawing.Point(402, 292);
+            this.textBox_Kd.Location = new System.Drawing.Point(402, 327);
             this.textBox_Kd.Name = "textBox_Kd";
             this.textBox_Kd.Size = new System.Drawing.Size(100, 27);
             this.textBox_Kd.TabIndex = 14;
@@ -637,7 +660,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label8.Location = new System.Drawing.Point(37, 295);
+            this.label8.Location = new System.Drawing.Point(37, 330);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(359, 19);
             this.label8.TabIndex = 13;
@@ -646,7 +669,7 @@
             // textBox_Ks
             // 
             this.textBox_Ks.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Ks.Location = new System.Drawing.Point(401, 261);
+            this.textBox_Ks.Location = new System.Drawing.Point(401, 296);
             this.textBox_Ks.Name = "textBox_Ks";
             this.textBox_Ks.Size = new System.Drawing.Size(100, 27);
             this.textBox_Ks.TabIndex = 12;
@@ -656,7 +679,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label7.Location = new System.Drawing.Point(36, 264);
+            this.label7.Location = new System.Drawing.Point(36, 299);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(359, 19);
             this.label7.TabIndex = 11;
@@ -665,7 +688,7 @@
             // textBox_T0
             // 
             this.textBox_T0.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_T0.Location = new System.Drawing.Point(402, 82);
+            this.textBox_T0.Location = new System.Drawing.Point(402, 117);
             this.textBox_T0.Name = "textBox_T0";
             this.textBox_T0.Size = new System.Drawing.Size(100, 27);
             this.textBox_T0.TabIndex = 10;
@@ -675,7 +698,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label6.Location = new System.Drawing.Point(37, 85);
+            this.label6.Location = new System.Drawing.Point(37, 120);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(359, 19);
             this.label6.TabIndex = 9;
@@ -684,7 +707,7 @@
             // textBox_Kr
             // 
             this.textBox_Kr.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Kr.Location = new System.Drawing.Point(401, 233);
+            this.textBox_Kr.Location = new System.Drawing.Point(401, 268);
             this.textBox_Kr.Name = "textBox_Kr";
             this.textBox_Kr.Size = new System.Drawing.Size(100, 27);
             this.textBox_Kr.TabIndex = 8;
@@ -694,7 +717,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label5.Location = new System.Drawing.Point(36, 236);
+            this.label5.Location = new System.Drawing.Point(36, 271);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(359, 19);
             this.label5.TabIndex = 7;
@@ -703,7 +726,7 @@
             // textBox_Slope
             // 
             this.textBox_Slope.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Slope.Location = new System.Drawing.Point(401, 204);
+            this.textBox_Slope.Location = new System.Drawing.Point(401, 239);
             this.textBox_Slope.Name = "textBox_Slope";
             this.textBox_Slope.Size = new System.Drawing.Size(100, 27);
             this.textBox_Slope.TabIndex = 6;
@@ -714,7 +737,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label4.Location = new System.Drawing.Point(37, 207);
+            this.label4.Location = new System.Drawing.Point(37, 242);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(359, 19);
             this.label4.TabIndex = 5;
@@ -723,7 +746,7 @@
             // textBox_HWL
             // 
             this.textBox_HWL.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_HWL.Location = new System.Drawing.Point(400, 176);
+            this.textBox_HWL.Location = new System.Drawing.Point(400, 211);
             this.textBox_HWL.Name = "textBox_HWL";
             this.textBox_HWL.Size = new System.Drawing.Size(100, 27);
             this.textBox_HWL.TabIndex = 4;
@@ -733,7 +756,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label3.Location = new System.Drawing.Point(36, 179);
+            this.label3.Location = new System.Drawing.Point(36, 214);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(359, 19);
             this.label3.TabIndex = 3;
@@ -742,7 +765,7 @@
             // textBox_H0
             // 
             this.textBox_H0.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_H0.Location = new System.Drawing.Point(401, 48);
+            this.textBox_H0.Location = new System.Drawing.Point(401, 83);
             this.textBox_H0.Name = "textBox_H0";
             this.textBox_H0.Size = new System.Drawing.Size(100, 27);
             this.textBox_H0.TabIndex = 2;
@@ -753,7 +776,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label2.Location = new System.Drawing.Point(37, 51);
+            this.label2.Location = new System.Drawing.Point(37, 86);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(359, 19);
             this.label2.TabIndex = 1;
@@ -1183,11 +1206,13 @@
             this.材質一,
             this.材質二,
             this.摩擦係數值});
+            this.DGMaterialRough.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.DGMaterialRough.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.DGMaterialRough.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.DGMaterialRough.Location = new System.Drawing.Point(15, 24);
             this.DGMaterialRough.Name = "DGMaterialRough";
             this.DGMaterialRough.RowTemplate.Height = 24;
+            this.DGMaterialRough.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGMaterialRough.Size = new System.Drawing.Size(748, 447);
             this.DGMaterialRough.TabIndex = 0;
             this.DGMaterialRough.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterialRough_CellValueChanged);
@@ -1197,9 +1222,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridViewTextBoxColumn1.HeaderText = "序號";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -1223,8 +1248,8 @@
             // 
             // 摩擦係數值
             // 
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle23;
             this.摩擦係數值.HeaderText = "摩擦係數值";
             this.摩擦係數值.Name = "摩擦係數值";
             this.摩擦係數值.Width = 120;
@@ -1243,17 +1268,18 @@
             this.DGMaterial.AllowUserToResizeColumns = false;
             this.DGMaterial.AllowUserToResizeRows = false;
             this.DGMaterial.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.DGMaterial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGMaterial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DGMaterial.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.序號,
             this.材質名稱});
+            this.DGMaterial.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.DGMaterial.ImeMode = System.Windows.Forms.ImeMode.On;
             this.DGMaterial.Location = new System.Drawing.Point(17, 34);
             this.DGMaterial.MultiSelect = false;
             this.DGMaterial.Name = "DGMaterial";
             this.DGMaterial.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.DGMaterial.RowTemplate.Height = 24;
-            this.DGMaterial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DGMaterial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGMaterial.Size = new System.Drawing.Size(247, 453);
             this.DGMaterial.TabIndex = 0;
             this.DGMaterial.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterial_CellValueChanged);
@@ -1262,23 +1288,9 @@
             this.DGMaterial.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterial_UserDeletedRow);
             this.DGMaterial.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterial_UserDeletingRow);
             // 
-            // 序號
-            // 
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle15;
-            this.序號.HeaderText = "序號";
-            this.序號.Name = "序號";
-            this.序號.ReadOnly = true;
-            this.序號.Width = 70;
-            // 
-            // 材質名稱
-            // 
-            this.材質名稱.HeaderText = "材質名稱";
-            this.材質名稱.Name = "材質名稱";
-            // 
             // tabPage_AddBlock
             // 
+            this.tabPage_AddBlock.Controls.Add(this.cmb_ShowOnBlockListChoice);
             this.tabPage_AddBlock.Controls.Add(this.groupBox3);
             this.tabPage_AddBlock.Controls.Add(this.ELDGV1);
             this.tabPage_AddBlock.Controls.Add(this.btn_ModifiedBlock);
@@ -1327,8 +1339,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1338,8 +1350,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 354);
             this.ELDGV1.TabIndex = 0;
@@ -1349,9 +1361,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle20;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1359,9 +1371,9 @@
             // btn_ModifiedBlock
             // 
             this.btn_ModifiedBlock.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ModifiedBlock.Location = new System.Drawing.Point(74, 13);
+            this.btn_ModifiedBlock.Location = new System.Drawing.Point(84, 15);
             this.btn_ModifiedBlock.Name = "btn_ModifiedBlock";
-            this.btn_ModifiedBlock.Size = new System.Drawing.Size(58, 24);
+            this.btn_ModifiedBlock.Size = new System.Drawing.Size(48, 24);
             this.btn_ModifiedBlock.TabIndex = 12;
             this.btn_ModifiedBlock.Text = "Edit";
             this.toolTip1.SetToolTip(this.btn_ModifiedBlock, "修改Block");
@@ -1587,20 +1599,87 @@
             this.bkOutputExcelFile.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bkOutputExcelFile_ProgressChanged);
             this.bkOutputExcelFile.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkOutputExcelFile_RunWorkerCompleted);
             // 
-            // 說明ToolStripMenuItem
+            // label19
             // 
-            this.說明ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.檢視使用者說明書ToolStripMenuItem});
-            this.說明ToolStripMenuItem.Name = "說明ToolStripMenuItem";
-            this.說明ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.說明ToolStripMenuItem.Text = "說明";
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label19.Location = new System.Drawing.Point(37, 49);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(359, 19);
+            this.label19.TabIndex = 36;
+            this.label19.Text = "海側方向......................... =";
             // 
-            // 檢視使用者說明書ToolStripMenuItem
+            // cmb_DeepWaveActDir
             // 
-            this.檢視使用者說明書ToolStripMenuItem.Name = "檢視使用者說明書ToolStripMenuItem";
-            this.檢視使用者說明書ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.檢視使用者說明書ToolStripMenuItem.Text = "檢視使用者說明書";
-            this.檢視使用者說明書ToolStripMenuItem.Click += new System.EventHandler(this.檢視使用者說明書ToolStripMenuItem_Click);
+            this.cmb_DeepWaveActDir.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_DeepWaveActDir.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_DeepWaveActDir.FormattingEnabled = true;
+            this.cmb_DeepWaveActDir.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.cmb_DeepWaveActDir.Items.AddRange(new object[] {
+            "E",
+            "ESE",
+            "ES",
+            "SSE",
+            "S",
+            "SSW",
+            "WS",
+            "WSW",
+            "W",
+            "WNW",
+            "WS",
+            "NNW",
+            "N",
+            "NNE",
+            "EN",
+            "ENE"});
+            this.cmb_DeepWaveActDir.Location = new System.Drawing.Point(400, 17);
+            this.cmb_DeepWaveActDir.Name = "cmb_DeepWaveActDir";
+            this.cmb_DeepWaveActDir.Size = new System.Drawing.Size(101, 27);
+            this.cmb_DeepWaveActDir.TabIndex = 37;
+            // 
+            // textBox_BataFix
+            // 
+            this.textBox_BataFix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox_BataFix.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BataFix.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBox_BataFix.Location = new System.Drawing.Point(507, 385);
+            this.textBox_BataFix.Name = "textBox_BataFix";
+            this.textBox_BataFix.ReadOnly = true;
+            this.textBox_BataFix.Size = new System.Drawing.Size(87, 27);
+            this.textBox_BataFix.TabIndex = 38;
+            // 
+            // 序號
+            // 
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle24;
+            this.序號.FillWeight = 50F;
+            this.序號.HeaderText = "序號";
+            this.序號.Name = "序號";
+            this.序號.ReadOnly = true;
+            this.序號.Width = 50;
+            // 
+            // 材質名稱
+            // 
+            this.材質名稱.FillWeight = 120F;
+            this.材質名稱.HeaderText = "材質名稱";
+            this.材質名稱.Name = "材質名稱";
+            this.材質名稱.Width = 120;
+            // 
+            // cmb_ShowOnBlockListChoice
+            // 
+            this.cmb_ShowOnBlockListChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_ShowOnBlockListChoice.FormattingEnabled = true;
+            this.cmb_ShowOnBlockListChoice.Items.AddRange(new object[] {
+            "無",
+            "單位體積重",
+            "Moment計算",
+            "材質"});
+            this.cmb_ShowOnBlockListChoice.Location = new System.Drawing.Point(6, 45);
+            this.cmb_ShowOnBlockListChoice.Name = "cmb_ShowOnBlockListChoice";
+            this.cmb_ShowOnBlockListChoice.Size = new System.Drawing.Size(126, 23);
+            this.cmb_ShowOnBlockListChoice.TabIndex = 14;
+            this.cmb_ShowOnBlockListChoice.SelectedIndexChanged += new System.EventHandler(this.cmb_ShowOnBlockListChoice_SelectedIndexChanged);
             // 
             // Form_RDExamProgress
             // 
@@ -1739,8 +1818,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn 材質一;
         private System.Windows.Forms.DataGridViewComboBoxColumn 材質二;
         private System.Windows.Forms.DataGridViewTextBoxColumn 摩擦係數值;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 序號;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 材質名稱;
         private System.Windows.Forms.DataGridViewTextBoxColumn EL;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckedListBox ReferencedMaterialCHKL;
@@ -1789,5 +1866,11 @@
         private System.Windows.Forms.CheckBox chk_OpenFileAfterOutput;
         private System.Windows.Forms.ToolStripMenuItem 說明ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 檢視使用者說明書ToolStripMenuItem;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox cmb_DeepWaveActDir;
+        private System.Windows.Forms.TextBox textBox_BataFix;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 序號;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 材質名稱;
+        private System.Windows.Forms.ComboBox cmb_ShowOnBlockListChoice;
     }
 }

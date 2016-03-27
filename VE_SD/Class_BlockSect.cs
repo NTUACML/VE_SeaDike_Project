@@ -26,8 +26,9 @@ namespace VE_SD
         //private double _拋石水中單位體積重量 = 1.0;
         //private double _砂土水中單位體積重量 = 1.0;
         //private double _海水單位體積重量 = 1.03;
-        private double _單位體積重量 = 1.8;
+        private double _單位體積重量 = 2.3;
         private string _使用材質="";//這個Block的使用材質.
+        private bool _計算Moment與否 = true;// = "開啟";
         private string[] _參考材質 = new string[] { };//這個Block使用的周圍參考材質.
         private double _平均摩擦係數;
        // private double _滑倒安全係數 = 1.2;
@@ -135,6 +136,11 @@ namespace VE_SD
         {
             get { return _使用材質; }
             set { _使用材質=value  ; }
+        }
+        public bool 計算Moment與否
+        {
+            get { return _計算Moment與否; }
+            set { _計算Moment與否=value ; }
         }
         public double 平均摩擦係數
         {

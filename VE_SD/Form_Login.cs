@@ -14,6 +14,8 @@ namespace VE_SD
 {
     public partial class Form_Login : Form
     {
+        string LoginFileFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD";
+        
         string LeastUserLoginInFile = "LoginInUserInfo.txt";
         public Form_Login()
         {
@@ -34,11 +36,11 @@ namespace VE_SD
         private void Form_Login_Load(object sender, EventArgs e)
         {
             //加入直接顯示上一次最後登入之使用者資訊檔案.
-
-            FileInfo fi = new FileInfo(LeastUserLoginInFile); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //MessageBox.Show(LoginFileFolder);
+            FileInfo fi = new FileInfo(LoginFileFolder + "\\" + LeastUserLoginInFile); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (fi.Exists)
             {
-                StreamReader sr = new StreamReader(LeastUserLoginInFile);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                StreamReader sr = new StreamReader(LoginFileFolder + "\\" + LeastUserLoginInFile);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 string s1, s2;
                 try
                 {
@@ -111,7 +113,11 @@ namespace VE_SD
             }
 
             //寫出檔案.
-            StreamWriter sw= new StreamWriter(LeastUserLoginInFile);
+            if(!Directory.Exists(LoginFileFolder))
+            {
+                Directory.CreateDirectory(LoginFileFolder);
+            }
+            StreamWriter sw= new StreamWriter(LoginFileFolder + "\\" + LeastUserLoginInFile);
             sw.WriteLine(getID);
             sw.WriteLine(getName);
             sw.Flush();

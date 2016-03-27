@@ -104,7 +104,8 @@ namespace VE_SD
             //double[] Y2 = { 10, 20 }; //, 20, 20 };
 
             //Tab 1.[公用參數設定區塊]初始化
-            cmb_seawaveDir.SelectedItem = "E";
+            cmb_seawaveDir.SelectedItem = "右";
+            cmb_DeepWaveActDir.SelectedItem = "E";
             textBox_H0.Text = "13.22";
             textBox_T0.Text = "14.30";
             textBox_GroundELE.Text = "-7.5";
@@ -116,6 +117,7 @@ namespace VE_SD
             textBox_Kd.Text = "1.000";
             textBox_Lenda.Text = "0.90";
             textBox_Beta.Text = "0";
+            textBox_BataFix.Text = "0";
             textBox_SFSlide.Text = "1.2";
             textBox_SFOver.Text = "1.2";
             textBox_SeaGamma.Text = "1.03";
@@ -188,6 +190,10 @@ namespace VE_SD
             MaterialNameToArraySubScript.Clear();
             MaterialSubscriptToName.Clear();
 
+            //2016/03/26.
+            //加入讀取預設摩擦係數設定之功能於此.
+            讀入摩擦係數初始設定();
+
 
             chart_Plot.Series.Clear();
             //Tab 3.[Block新增刪減區塊]初始化.
@@ -212,8 +218,9 @@ namespace VE_SD
             //chart_Plot.Series[1].Points.Add(new DataPoint(30, new double[] { 10, 0 }));
             //chart_Plot.Series[1].BorderColor = Color.Black;
             //chart_Plot.Series[1].Color = Color.LightGray;//= Color.Transparent;
-            
+
             //設定EL
+            cmb_ShowOnBlockListChoice.SelectedItem = "單位體積重";
             ELDGV1.Rows.Clear();
             ELDGV1.Enabled = false; //初始設定變更為不可操控,要等到有Block時才開始能填入.
             chart_Plot.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -259,7 +266,59 @@ namespace VE_SD
 
 
         }
-
+        #region 摩擦係數初始設定
+        private void 讀入摩擦係數初始設定()
+        {
+            //之後可以更改為讀取檔案之方式,但目前不開發此種操作.
+            EscapeDGMaterialCellValueChangedFunction = true;
+            DGMaterial.Rows.Clear();
+            EscapeDGMaterialRoughnessCellContentChanged = true;
+            DGMaterialRough.Rows.Clear();
+            Array.Resize(ref MaterialArray, 3); MaterialCount = 3;
+            MaterialArray[0] = "混凝土方塊";
+            MaterialArray[1] = "混凝土拋石";
+            MaterialArray[2] = "場注混凝土";
+            Array.Resize(ref MaterialsCoefArray, 4); MaterialRoughnessArrayCount = 4;
+            MaterialsCoefArray[0].coef = 0.5;//混凝土方塊與方塊.
+            MaterialsCoefArray[0].Id1 = 0;
+            MaterialsCoefArray[0].Id2 = 0;
+            MaterialsCoefArray[1].coef = 0.6;//混凝土方塊與拋石.
+            MaterialsCoefArray[1].Id1 = 0;
+            MaterialsCoefArray[1].Id2 = 1;
+            MaterialsCoefArray[2].coef = 0.7;//場注混凝土與拋石.
+            MaterialsCoefArray[2].Id1 = 2;
+            MaterialsCoefArray[2].Id2 = 1;
+            MaterialsCoefArray[3].coef = 0.8;//拋石與拋石.
+            MaterialsCoefArray[3].Id1 = 1;
+            MaterialsCoefArray[3].Id2 = 1;
+            MaterialNameToArraySubScript.Clear();
+            MaterialSubscriptToName.Clear();
+            for (int i = 0; i < MaterialArray.GetLength(0); i++)
+            {
+                DGMaterial.Rows.Add(new object[] { (i + 1).ToString(), MaterialArray[i].ToString() });
+                MaterialNameToArraySubScript.Add(MaterialArray[i].ToString(), i);
+                MaterialSubscriptToName.Add(i, MaterialArray[i].ToString());
+            }
+            //MaterialsCoefArray = MaterialsCoefArrayR;
+            //MaterialRoughnessArrayCount = MaterialsCoefCountR;
+            DGMaterialRough.Rows.Clear();
+            for (int i = 0; i < MaterialsCoefArray.GetLength(0); i++)
+            {
+                DGMaterialRough.Rows.Add(new object[] { (i + 1).ToString(), MaterialsCoefArray[i].Id1 == -9999 ? "" : MaterialSubscriptToName[MaterialsCoefArray[i].Id1], MaterialsCoefArray[i].Id2 == -9999 ? "" : MaterialSubscriptToName[MaterialsCoefArray[i].Id2], MaterialsCoefArray[i].coef == -9999 ? "" : MaterialsCoefArray[i].coef.ToString() });
+            }
+            //設定下拉式選單.
+            //設定Combobox內容.
+            foreach (DataGridViewRow row in DGMaterialRough.Rows)
+            {
+                var cell = (DataGridViewComboBoxCell)(row.Cells[1]);
+                cell.DataSource = MaterialArray;
+                var cell2 = (DataGridViewComboBoxCell)(row.Cells[2]);
+                cell2.DataSource = MaterialArray;
+            }
+            EscapeDGMaterialCellValueChangedFunction = false;
+            EscapeDGMaterialRoughnessCellContentChanged = false;
+        }
+        #endregion
         #region Chart互動區
         private void chart_Plot_Click(object sender, EventArgs e)
         {
@@ -414,7 +473,7 @@ namespace VE_SD
                     {
                         //Clear previous selected.
                         chart_Plot.Series[selectname].Color = Color.Black;
-                        chart_Plot.Series[selectname].BorderWidth = 1;
+                        chart_Plot.Series[selectname].BorderWidth = 2;
                         selectname = null;
                         listBox_SectSetting.SelectedIndex = -1;
                         propertyGrid_Block.SelectedObject = null;
@@ -693,6 +752,48 @@ namespace VE_SD
         {
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
+        private void textBox_Beta_TextChanged(object sender, EventArgs e)
+        {
+            //Not handle.
+            double tryD;
+            double fixD = -9999;
+            if (double.TryParse(textBox_Beta.Text.ToString(), out tryD))
+            {
+                //MessageBox.Show(tryD.ToString());
+                if (tryD < 0)
+                {
+                    if (Math.Abs(tryD) > 15)
+                    {
+                        fixD = tryD + 15;
+                    }
+                    else
+                    {
+                        fixD = 0;
+                    }
+
+                }
+                else if (tryD > 0)
+                {
+                    if (tryD > 15)
+                    {
+                        fixD = tryD - 15;
+                    }
+                    else
+                    {
+                        fixD = 0;
+                    }
+                }
+                else
+                {
+                    fixD = tryD;
+                }
+                textBox_BataFix.Text = (fixD).ToString();
+            }
+            else
+            {
+                textBox_BataFix.Text = "";
+            }
+        }
         private void textBox_SFSlide_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
@@ -706,6 +807,30 @@ namespace VE_SD
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         #endregion
+        public String 根據選擇的呈現選項回傳Block屬性(Class_BlockSect B)
+        {
+            if(cmb_ShowOnBlockListChoice.SelectedItem.ToString()=="無")
+            {
+                return "";
+            }
+            else if(cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "單位體積重")
+            {
+                return "(" + B.單位體積重量.ToString() + ")";
+            }
+            else if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "Moment計算")
+            {
+                return "(" + B.計算Moment與否.ToString() + ")";
+            }
+            else if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "材質")
+            {
+                return "(" + B.使用材質 + ")";
+            }
+            else
+            {
+                return "";
+            }
+
+        }
         #region 形塊增加與刪除,點選之主要區域
         private void btn_AddASect_Click(object sender, EventArgs e)
         {
@@ -730,7 +855,7 @@ namespace VE_SD
 
             //2. 新增到Listbox與Array上.
             BlockCount = listBox_SectSetting.Items.Count;
-            listBox_SectSetting.Items.Add(InterfaceBlock.名稱);
+            listBox_SectSetting.Items.Add(InterfaceBlock.名稱 + 根據選擇的呈現選項回傳Block屬性(InterfaceBlock));// "(2.4)");
             Array.Resize(ref BlockMainArray, BlockCount + 1);
             BlockMainArray[BlockCount] = InterfaceBlock;
             //此時參數都是預設值.
@@ -769,7 +894,7 @@ namespace VE_SD
                 if (!object.Equals(selectname, null))
                 {
                     chart_Plot.Series[selectname].Color = Color.Black;
-                    chart_Plot.Series[selectname].MarkerBorderWidth = 1;
+                    chart_Plot.Series[selectname].MarkerBorderWidth = 2;
                     selectname = null;
                 }
                 //listBox_SectSetting.SelectedIndex = -1;
@@ -785,17 +910,17 @@ namespace VE_SD
             if(!object.Equals(selectname, null))
             {
                 chart_Plot.Series[selectname].BorderColor = Color.Black;
-                chart_Plot.Series[selectname].BorderWidth = 1;
+                chart_Plot.Series[selectname].BorderWidth = 2;
                 chart_Plot.Series[selectname].Color = Color.Black;
-                chart_Plot.Series[selectname].MarkerBorderWidth = 1;
+                chart_Plot.Series[selectname].MarkerBorderWidth = 2;
             }
             string nowname = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex];
             //MessageBox.Show(nowname);
 
             chart_Plot.Series[nowname].BorderColor = Color.Red;
-            chart_Plot.Series[nowname].BorderWidth = 2;
+            chart_Plot.Series[nowname].BorderWidth = 3;
             chart_Plot.Series[nowname].Color = Color.Red;
-            chart_Plot.Series[nowname].MarkerBorderWidth = 2;
+            chart_Plot.Series[nowname].MarkerBorderWidth = 3;
             selectname = nowname;
 
             //2.Property Grid更換.
@@ -906,7 +1031,7 @@ namespace VE_SD
 
             chart_Plot.Series[NewI.名稱].BorderColor = Color.Black ;
             chart_Plot.Series[NewI.名稱].Color = Color.Black;//= Color.Transparent;
-            chart_Plot.Series[NewI.名稱].MarkerBorderWidth = 1;
+            chart_Plot.Series[NewI.名稱].MarkerBorderWidth = 2;
             ELDGV1.Enabled = true;
             調整Chart(chart_Plot);
             
@@ -965,7 +1090,24 @@ namespace VE_SD
             //BlockMainArray[id].砂土水中單位體積重量 = D.砂土水中;
 
             BlockMainArray[id].單位體積重量 = D.單位體積重量;
+            BlockMainArray[id].計算Moment與否 = D.計算Moment與否;
             BlockMainArray[id].使用材質 = D.使用材質;
+
+            listBox_SectSetting.Items[listBox_SectSetting.SelectedIndex] = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex] + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[listBox_SectSetting.SelectedIndex]);//; "(" + D.單位體積重量 + ")";
+
+        }
+        private void cmb_ShowOnBlockListChoice_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //呈現方式變更.
+            if(BlockMainArray.GetLength(0)==0)
+            {
+                return;
+            }
+            for(int i=0;i<listBox_SectSetting.Items.Count;i++)
+            {
+                listBox_SectSetting.Items[i] = BlockListSubScriptToName[i] + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[i]);
+            }
+            //完成.
         }
         private void propertyGrid_Block_Click(object sender, EventArgs e)
         {
@@ -1068,6 +1210,8 @@ namespace VE_SD
         }
         private void 調整Chart(Chart INS)
         {
+            //包含繪上Block編號之文字.
+
             double Xmin = 1000000; // double.MaxValue;
             double Xmax = -100000; // double.MinValue;
             double Ymin = Xmin;
@@ -1098,8 +1242,10 @@ namespace VE_SD
             double xdiff = (Xmax - Xmin);
             double ydiff = (Ymax - Ymin);
             double xspace, yspace;
-            xspace = xdiff / 4.0;//5 label.
-            yspace = ydiff / 4.0;//5 label.
+            xspace = 取得最佳Interval(Xmin, Xmax);
+            yspace = 取得最佳Interval(Ymin, Ymax);
+            //xspace = xdiff / 4.0;//5 label.
+            //yspace = ydiff / 4.0;//5 label.
 
 
             //if (xdiff <= 1)
@@ -1150,23 +1296,37 @@ namespace VE_SD
             //{
             //    yspace = 100;
             //}
-            double NewXmax = Xmax;// Xmin - xspace / 2.0 + 6.5 * xspace;// + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
-            double NewYmax = Ymax+yspace/2.0;// Ymin - yspace / 2.0 + 6.5 * yspace;
+            double NewXmin = Math.Floor(Xmin / xspace) * xspace;
+            double NewXmax =Math.Ceiling( Xmax/xspace)*xspace;// Xmin - xspace / 2.0 + 6.5 * xspace;// + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
+            double NewYmax = Math.Ceiling(Ymax/yspace)*yspace+yspace/2.0;// Ymin - yspace / 2.0 + 6.5 * yspace;
+            double NewYmin = Math.Ceiling(Ymin / yspace) * yspace;
             //double NewYmax = Ymin + Math.Floor((Ymax - Ymin) / yspace + 0.5) * yspace;
             //label_Show.Text = Xmin.ToString() + "," + NewXmax.ToString(); // + ":" + NewYmax.ToString();
 
-            INS.ChartAreas[0].AxisX.Minimum = Xmin-xspace/2.0;// -xspace/2.0;// - xspace;
+            INS.ChartAreas[0].AxisX.Minimum = NewXmin;// -xspace/2.0;// -xspace/2.0;// - xspace;
             INS.ChartAreas[0].AxisX.Maximum = NewXmax;// NewXmax;
             INS.ChartAreas[0].AxisX.Interval = xspace;
-            INS.ChartAreas[0].AxisY.Minimum = Ymin;// - yspace;
+            INS.ChartAreas[0].AxisY.Minimum = NewYmin;// - yspace;
             INS.ChartAreas[0].AxisY.Maximum = NewYmax;// NewYmax;
             INS.ChartAreas[0].AxisY.Interval = yspace;
             INS.ChartAreas[0].RecalculateAxesScale();
 
 
+
             //繪上EL();
 
         }
+        public double 取得最佳Interval(double MinV, double MaxV)
+        {
+            //Interval不能有過多之小數點,要盡量為非無限長之類型.
+            // int[] NumberAvailable = new int[] { 2, 3, 4, 5, 8, 10 };
+            //With ability to create an instance, but if you just want calculate and throw it away:
+            //double tickX = new AxisAssists(aMaxX - aMinX, 8).Tick;
+            AxisAssists A = new AxisAssists(MaxV - MinV, 5);
+            double space = A.Tick;
+            return space;
+        }
+    
         void 取得目前ELMIN與ELMAX(ref double[] ELMIN,ref double[] ELMAX,ref double AllCenterX)
         {
             //double xcenterright = -10000000;
@@ -1346,13 +1506,13 @@ namespace VE_SD
                 double XCenterX = -100000;
                 取得目前ELMIN與ELMAX(ref ELMINInner, ref ELMAXInner,ref XCenterX);
                 //根據目前選取的海向,決定ARROW圖與EL最大值與最小值.
-                if(cmb_seawaveDir.SelectedItem.ToString()=="E")
+                if(cmb_seawaveDir.SelectedItem.ToString()=="右")
                 {
                     //[東].海側在右邊,箭頭往左邊畫.
                     MinEL = ELMINInner[1];
                     MaxEL = ELMAXInner[1];
                 }
-                else if(cmb_seawaveDir.SelectedItem.ToString()=="W")
+                else if(cmb_seawaveDir.SelectedItem.ToString()=="左")
                 {
                     //[西].海側在左邊,箭頭往右邊.
                     MinEL = ELMINInner[0];
@@ -1552,7 +1712,7 @@ namespace VE_SD
                 }
                 double ydiff = (Ymax - Ymin);
                 double  yspace;
-                yspace = ydiff / 4.0;
+                yspace = 取得最佳Interval(Ymax, Ymin);//;ydiff / 4.0;
 
                 //if (ydiff <= 1)
                 //{
@@ -1580,7 +1740,9 @@ namespace VE_SD
                 //}
                 //double NewXmax = Xmin + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
                 ///MessageBox.Show(Ymax.ToString());
-                double NewYmax = Ymax+yspace/2.0;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
+                //
+                double NewYmin = Math.Floor(Ymin / yspace) * yspace;
+                double NewYmax =Math.Ceiling( Ymax/yspace)*yspace+yspace/2.0;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
 
                 //chart_Plot.Series.Add("ARROW");
                 //chart_Plot.Series["ARROW"].ChartType = SeriesChartType.Line;
@@ -1592,11 +1754,42 @@ namespace VE_SD
                 TextAnnotation SeaSidetext = new TextAnnotation();
                 SeaSidetext.AxisX = chart_Plot.ChartAreas[0].AxisX;
                 SeaSidetext.AxisY = chart_Plot.ChartAreas[0].AxisY;
-                SeaSidetext.AnchorX = cmb_seawaveDir.SelectedItem.ToString()=="W"?(chart_Plot.ChartAreas[0].AxisX.Minimum+xspace/3.0):(chart_Plot.ChartAreas[0].AxisX.Maximum-xspace/3.0);
+                SeaSidetext.AnchorX = cmb_seawaveDir.SelectedItem.ToString()=="左"?(chart_Plot.ChartAreas[0].AxisX.Minimum+xspace/3.0):(chart_Plot.ChartAreas[0].AxisX.Maximum-xspace/3.0);
                 SeaSidetext.AnchorY = NewYmax - yspace / 2.0;
                 SeaSidetext.Font = new Font("微軟正黑體", 14, FontStyle.Bold);
                 SeaSidetext.Text = "海側";// (cmb_seawaveDir.SelectedItem.ToString()=="E"?"<":"") + "========="+ (cmb_seawaveDir.SelectedItem.ToString()=="W"?">":"");
                 chart_Plot.Annotations.Add(SeaSidetext);
+
+
+                //畫上Block名稱.
+                for(int i=0;i<BlockMainArray.GetLength(0);i++)
+                {
+                    TextAnnotation TT = new TextAnnotation();
+                    double xcc = 0;
+                    int PointCount = BlockMainArray[i].座標點數;
+                    double ycc = 0;
+                    double ymaxi = -1000000;
+                    double ymini = -ymaxi;
+                    double[] gx = BlockMainArray[i].X;
+                    double[] gy = BlockMainArray[i].Y;
+                    for(int j=0;j<PointCount;j++)
+                    {
+                        xcc += (gx[j]);
+                        ycc += (gy[j]);
+                        if (gy[j] > ymaxi) { ymaxi = gy[j]; }
+                        if (gy[j] < ymini) { ymini = gy[j]; }
+
+                    }
+                    xcc = xcc / (double)PointCount;
+                    ycc = ycc / (double)PointCount;
+                    TT.AxisX = chart_Plot.ChartAreas[0].AxisX;
+                    TT.AxisY = chart_Plot.ChartAreas[0].AxisY;
+                    TT.AnchorX = xcc; //cmb_seawaveDir.SelectedItem.ToString() == "W" ? (chart_Plot.ChartAreas[0].AxisX.Minimum + xspace / 3.0) : (chart_Plot.ChartAreas[0].AxisX.Maximum - xspace / 3.0);
+                    TT.AnchorY = ycc-(ymaxi- ymini)/5.0;// NewYmax - yspace / 2.0;
+                    TT.Font = new Font("微軟正黑體", 10, FontStyle.Bold);
+                    TT.Text = BlockListSubScriptToName[i];
+                    chart_Plot.Annotations.Add(TT);
+                }
                 //chart_Plot.ChartAreas[0].AxisX.CustomLabels.Add((chart_Plot.ChartAreas[0].AxisX.Minimum + chart_Plot.ChartAreas[0].AxisX.Maximum) / 2.0, Ymax - yspace / 2.0, "====>", 1, LabelMarkStyle.LineSideMark);
 
                 //加入點資料.
@@ -1615,7 +1808,7 @@ namespace VE_SD
                 //chart_Plot.Series["ARROW"].IsVisibleInLegend = false;
 
                 //設定軸的範圍.
-                chart_Plot.ChartAreas[0].AxisY.Minimum = Ymin;// Ymin - yspace;
+                chart_Plot.ChartAreas[0].AxisY.Minimum = NewYmin;// Ymin - yspace;
                 chart_Plot.ChartAreas[0].AxisY.Maximum = NewYmax;
                 chart_Plot.ChartAreas[0].AxisY.Interval = yspace;
                 chart_Plot.ChartAreas[0].RecalculateAxesScale();
@@ -1696,10 +1889,10 @@ namespace VE_SD
             chart_Plot.Series[NewName].MarkerBorderWidth = 2;
             調整Chart(chart_Plot);
             繪上EL();
- 
+
 
             //修改Listbox.
-            listBox_SectSetting.Items[oldpos] = InterfaceBlock.名稱;
+            listBox_SectSetting.Items[oldpos] = InterfaceBlock.名稱 + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[oldpos]);// "(" + BlockMainArray[oldpos].單位體積重量.ToString() + ")";
         }
          
         #endregion
@@ -1772,9 +1965,18 @@ namespace VE_SD
             //*************************************************************************************
             //2. 全域參數設定區塊
             //建立子節點
+            XmlElement 選擇Tab = doc.CreateElement("選擇Tab");
+            選擇Tab.SetAttribute("Value", tabControl1.SelectedIndex.ToString());
+
             XmlElement 深海波波向info = doc.CreateElement("深海波波向");
-            深海波波向info.SetAttribute("Value",cmb_seawaveDir.SelectedItem.ToString());
+            深海波波向info.SetAttribute("Value", cmb_DeepWaveActDir.SelectedItem.ToString());
+        
+            XmlElement 海側方向info = doc.CreateElement("海側方向");
+            海側方向info.SetAttribute("Value",cmb_seawaveDir.SelectedItem.ToString());
             //MessageBox.Show("H1-1");
+
+            XmlElement BlockToolTipinfo = doc.CreateElement("BlockTooltip資訊");
+            BlockToolTipinfo.SetAttribute("Value", cmb_ShowOnBlockListChoice.SelectedItem.ToString());
 
             XmlElement 深海波波高info = doc.CreateElement("深海波波高");
             深海波波高info.SetAttribute("Value", textBox_H0.Text);
@@ -1840,7 +2042,9 @@ namespace VE_SD
 
 
             //加入所有參數節點到Global Parameters節點上
+            全域參數XML點.AppendChild(選擇Tab);
             全域參數XML點.AppendChild(深海波波向info);
+            全域參數XML點.AppendChild(海側方向info);
             全域參數XML點.AppendChild(深海波波高info);
             全域參數XML點.AppendChild(深海波週期info);
             全域參數XML點.AppendChild(地面線info);
@@ -2041,6 +2245,9 @@ namespace VE_SD
                 Block單位體積重量.SetAttribute("Value", BlockMainArray[i].單位體積重量.ToString());
                 XmlElement Block使用材質 = doc.CreateElement("使用材質");
                 Block使用材質.SetAttribute("Value", BlockMainArray[i].使用材質.ToString());
+                XmlElement Block是否計算Moment = doc.CreateElement("計算Moment");
+                Block是否計算Moment.SetAttribute("Value", BlockMainArray[i].計算Moment與否.ToString());
+
 
                 //BlockNode.AppendChild(Block混凝土方塊與方塊摩擦係數);
                 //BlockNode.AppendChild(Block混凝土方塊與拋石摩擦係數);
@@ -2054,6 +2261,7 @@ namespace VE_SD
                 //BlockNode.AppendChild(Block海水單位體積重量);
                 BlockNode.AppendChild(Block單位體積重量);
                 BlockNode.AppendChild(Block使用材質);
+                BlockNode.AppendChild(Block是否計算Moment);
 
                 string[] 周圍參考材質 = BlockMainArray[i].周圍參考材質;
                 for(int i2=0;i2<周圍參考材質.GetLength(0);i2++)
@@ -2108,13 +2316,91 @@ namespace VE_SD
             MessageBox.Show("儲存完畢!!!","專案檔儲存",MessageBoxButtons.OK,MessageBoxIcon.Information);
             //深海波波向info.SetAttribute("電話", "0806449");
         }
+        private Boolean 是否為合適之深海波波向(string InputS)
+        {
+            bool r = false;
+            //E
+            //ESE
+            //ES
+            //SSE
+            //S
+            //SSW
+            //WS
+            //WSW
+            //W
+            //WNW
+            //WN
+            //NNW
+            //N
+            //NNE
+            //EN
+            //ENE
+            switch(InputS)
+            {
+                case "E":
+                    r = true;
+                    break;
+                case "ESE":
+                    r = true;
+                    break;
+                case "ES":
+                    r = true;
+                    break;
+                case "SSE":
+                    r = true;
+                    break;
+                case "S":
+                    r = true;
+                    break;
+                case "SSW":
+                    r = true;
+                    break;
+                case "WS":
+                    r = true;
+                    break;
+                case "WSW":
+                    r = true;
+                    break;
+                case "W":
+                    r = true;
+                    break;
+                case "WNW":
+                    r = true;
+                    break;
+                case "WN":
+                    r = true;
+                    break;
+                case "NNW":
+                    r = true;
+                    break;
+                case "N":
+                    r = true;
+                    break;
+                case "NNE":
+                    r = true;
+                    break;
+                case "EN":
+                    r = true;
+                    break;
+                case "ENE":
+                    r = true;
+                    break;
+               //default:
+               //     r = false;
+                //    break;
+
+            }
+            return r;
+        }
         private string 打開XML專案檔(string OpenPath)
         {
             //若失敗，會回傳失敗訊息.
             //若成功,會回傳空字串.
             string openMessage = "";
-            double xor;// = 0.0;
-            double yor;// = 0.0;
+            double xor;// = 0.0; //已取消
+            double yor;// = 0.0; //已取消
+
+            
             double H0r;// = 13.22;
             double T0r;// = 14.30;
             double HWLr;// = 2.44;
@@ -2151,6 +2437,7 @@ namespace VE_SD
 
 
             string dirr;
+            string deepDirr;
 
             Class_BlockSect[] BlockMainArrayR = new Class_BlockSect[] { };
             int blockSizer = 0;
@@ -2162,6 +2449,9 @@ namespace VE_SD
             int MaterialCountR = 0;
             MaterialsRoughness[] MaterialsCoefArrayR = new MaterialsRoughness[] { };
             int MaterialsCoefCountR = 0;
+
+            int SelectedTab = -1;
+            string BlockToolTip資訊選擇;
 
 
             //開始來開啟.
@@ -2181,16 +2471,54 @@ namespace VE_SD
                     return "版本控制標籤錯誤!!";
                 }
 
-                RNode=doc.SelectSingleNode("Root/GlobalParameters/深海波波向");
+                //選擇Tab.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/選擇Tab");
+                if (object.Equals(RNode, null))
+                {
+                    return "選擇Tab讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!int.TryParse(Relement.GetAttribute("Value").ToString(),out SelectedTab))
+                {
+                    return "選擇Tab值錯誤";
+                }
+
+                //深海波波向.
+                RNode =doc.SelectSingleNode("Root/GlobalParameters/深海波波向");
                 if (object.Equals(RNode, null))
                 {
                     return "深海波波向讀取失敗";
                 }
                 Relement = (XmlElement)RNode;
-                dirr = Relement.GetAttribute("Value");
-                if (dirr != "E" && dirr != "N" && dirr != "W" && dirr != "S")
+                deepDirr = Relement.GetAttribute("Value");
+                if (!是否為合適之深海波波向(deepDirr))
                 {
-                    return "深海波波向值錯誤";
+                    return "深海波波向值錯誤" + deepDirr;
+                }
+
+                //海側方向.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/海側方向");
+                if (object.Equals(RNode, null))
+                {
+                    return "海側方向讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                dirr = Relement.GetAttribute("Value");
+                if (dirr != "左" && dirr != "右") // && dirr != "W" && dirr != "S")
+                {
+                    return "海側方向值錯誤";
+                }
+                //Block Tooltip資訊選擇.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/BlockTooltip資訊");
+                if (object.Equals(RNode, null))
+                {
+                    return "Block Tooltip資訊讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                BlockToolTip資訊選擇 = Relement.GetAttribute("Value").ToString();
+                if (BlockToolTip資訊選擇!="無" && BlockToolTip資訊選擇!= "單位體積重" && BlockToolTip資訊選擇!= "Moment計算" && BlockToolTip資訊選擇!= "材質")
+                {
+                    return "Block Tooltip資訊讀取失敗";
                 }
 
                 //深海波波高
@@ -2739,6 +3067,7 @@ namespace VE_SD
                     }
                     BlockMainArrayR[blockSizer].座標點數 = PointCount;
                     double ftest;
+                    bool btest;
                     //RNode = BlockNode.SelectSingleNode("混凝土方塊與方塊摩擦係數");
                     //if (object.Equals(RNode, null))
                     //{
@@ -2880,6 +3209,19 @@ namespace VE_SD
                     }
                     BlockMainArrayR[blockSizer].單位體積重量 = ftest;
 
+                    //計算Moment與否.
+                    RNode = BlockNode.SelectSingleNode("計算Moment");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "Block讀取計算Moment狀況失敗!";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!bool.TryParse(Relement.GetAttribute("Value"), out btest))
+                    {
+                        return "Block讀取計算Moment狀況失敗!";
+                    }
+                    BlockMainArrayR[blockSizer].計算Moment與否 = btest;
+
                     //Block使用材質
                     RNode = BlockNode.SelectSingleNode("使用材質");
                     if(object.Equals(RNode,null))
@@ -2993,7 +3335,9 @@ namespace VE_SD
             //==============================================================================================//
             //沒問題之後,開始替代所有設定.
             //全域參數.
+            cmb_DeepWaveActDir.SelectedItem =deepDirr;
             cmb_seawaveDir.SelectedItem = dirr;
+            cmb_ShowOnBlockListChoice.SelectedItem = BlockToolTip資訊選擇;
             textBox_H0.Text = H0r.ToString();
             textBox_ArmorBlockEle.Text = ArmorGroundEler.ToString();
             textBox_GroundELE.Text = GroundEler.ToString();
@@ -3246,8 +3590,8 @@ namespace VE_SD
                 }
                 chart_Plot.Series[BlockMainArray[i].名稱].BorderColor = Color.Black;
                 chart_Plot.Series[BlockMainArray[i].名稱].Color = Color.Black;
-                chart_Plot.Series[BlockMainArray[i].名稱].MarkerBorderWidth = 1; //Color.Black;
-                listBox_SectSetting.Items.Add(BlockMainArray[i].名稱);
+                chart_Plot.Series[BlockMainArray[i].名稱].MarkerBorderWidth = 2; //Color.Black;
+                listBox_SectSetting.Items.Add(BlockMainArray[i].名稱 + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[i]));// "(" + BlockMainArray[i].單位體積重量.ToString() + ")");
             }
             if (BlockMainArray.GetLength(0) > 0)
             {
@@ -3288,8 +3632,14 @@ namespace VE_SD
             btn_OutputExcel.Enabled = false;
             tsp_cond.Text = "請設定或編輯您的專案檔";
             tsp_progressbar.Visible = false;
+            if(SelectedTab!=-1 && SelectedTab>=0 && SelectedTab<=tabControl1.TabCount-1)
+            {
+                tabControl1.SelectedIndex = SelectedTab;
+            }
             //==============================================================================================//
 
+            EscapeDGMaterialCellValueChangedFunction = false;
+            EscapeDGMaterialRoughnessCellContentChanged = false;
             return "";
 
         }
@@ -3829,13 +4179,13 @@ namespace VE_SD
             double XCenterX = -100000;
             取得目前ELMIN與ELMAX(ref ELMINInner, ref ELMAXInner, ref XCenterX);
             //根據目前選取的海向,決定ARROW圖與EL最大值與最小值.
-            if (cmb_seawaveDir.SelectedItem.ToString() == "E")
+            if (cmb_seawaveDir.SelectedItem.ToString() == "右")
             {
                 //[東].海側在右邊,箭頭往左邊畫.
                 MinEL = ELMINInner[1];
                 MaxEL = ELMAXInner[1];
             }
-            else if (cmb_seawaveDir.SelectedItem.ToString() == "W")
+            else if (cmb_seawaveDir.SelectedItem.ToString() == "左")
             {
                 //[西].海側在左邊,箭頭往右邊.
                 MinEL = ELMINInner[0];
@@ -3999,7 +4349,7 @@ namespace VE_SD
             //1. H0, HWL, 海水r.
             Mod.WaterDesignInput(double.Parse(textBox_H0.Text), double.Parse(textBox_HWL.Text), double.Parse(textBox_SeaGamma.Text));
             //2. 波向, T0, Kr, Ks , Kd, lambda, beta.
-            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "e" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
+            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "右" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
             //4. 選擇性參數給定
@@ -4127,16 +4477,44 @@ namespace VE_SD
             wBook = excelApp.Workbooks[1];//第一個活頁簿.
             wBook.Activate();
 
+            string PNGStoredFolderPath=Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
             string getMsg = "OK";
 
             //執行EXCEL 輸出.
             try
             {
+                //輸出Chart圖檔.
+                string[] TempName = new string[] { };
+                for(int i=0;i<chart_Plot.Series.Count;i++)
+                {
+                    if(chart_Plot.Series[i].IsVisibleInLegend)
+                    {
+                        Array.Resize(ref TempName, TempName.GetLength(0) + 1);
+                        TempName[TempName.GetUpperBound(0)] = chart_Plot.Series[i].Name;
+                        chart_Plot.Series[i].IsVisibleInLegend = false;
+                    }
+                }
+                //chart_Plot.Legends.
+                if(listBox_SectSetting.SelectedIndex!=-1)
+                {
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
+                }
+                chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
+                for(int i=0;i<TempName.GetLength(0);i++)
+                {
+                    chart_Plot.Series[TempName[i]].IsVisibleInLegend = false;
+                }
+                if (listBox_SectSetting.SelectedIndex != -1)
+                {
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Red;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth =3;
+                }
                 Mod.Get_DataBank_Data(); //Loading Running Result data.
                 wSheet = (Excel._Worksheet)wBook.Worksheets[1];//第一個工作表.
                 wSheet.Name = "海堤檢核計算結果報表";
                 wSheet.Activate();
-
+                wSheet.Shapes.AddPicture(PNGStoredFolderPath, Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 150,0 , 520, 290);
                 //===========================================================================================
                 //1-1. 設計條件參數
                 range = wSheet.Cells[1, 1];
@@ -4991,7 +5369,8 @@ namespace VE_SD
         {
             if(object.Equals(Mod,null))
             {
-                MessageBox.Show("你的計算主體'MOD'為Null!!!!!");
+                //MessageBox.Show("你的計算主體'MOD'為Null!!!!!");
+                MessageBox.Show("您目前沒有完成的檢核結果!請重新檢核,若您無法使用檢核功能,請確認您的軟體已授權,或是聯絡開發商", "Log檔案輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
@@ -5004,7 +5383,14 @@ namespace VE_SD
                 string getpath = SFD_LogFile.FileName;
                 //呼叫.
                 Mod.OutPutLogFile(getpath);
-                MessageBox.Show("輸出完成!");
+                MessageBox.Show("輸出完成!","輸出Log File完成",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                if(chk_OpenFileAfterOutput.Checked)
+                 {
+                    Process p = new Process();
+                    p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                    p.StartInfo.FileName = SFD_LogFile.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    p.Start();
+                }
 
             }
         }
@@ -5106,6 +5492,7 @@ namespace VE_SD
         bool EscapeDGMaterialCellValueChangedFunction = false;
         private void DGMaterial_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            //MessageBox.Show("OO" + EscapeDGMaterialCellValueChangedFunction.ToString());
             if (EscapeDGMaterialCellValueChangedFunction)
             {
                 EscapeDGMaterialCellValueChangedFunction = false;
@@ -5124,6 +5511,11 @@ namespace VE_SD
                 int addedrow = e.RowIndex;
                 //MessageBox.Show(e.Row.Cells[1].Value.ToString());
                 //MessageBox.Show(DGMaterial.Rows[0].Cells[1].Value.ToString());
+                if(DGMaterial.Rows.Count==1 || addedrow>=DGMaterial.Rows.Count)
+                {
+                    //This is an error need to be escaped.
+                    return;
+                }
                 if (DGMaterial.Rows[addedrow].Cells[1].Value == null)
                 {
                     return;
@@ -5207,7 +5599,11 @@ namespace VE_SD
                     }
                     MaterialRoughnessArrayCount += 1;
                 }
-
+                //以下區段必須要有Block時才有效.
+                if(BlockMainArray.GetLength(0)==0)
+                {
+                    return;
+                }
                 Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
@@ -5243,7 +5639,7 @@ namespace VE_SD
 
 
             //修改材質名稱時.
-            MessageBox.Show("H2");
+            //MessageBox.Show("H2");
             if(MaterialArray.GetLength(0)==0)
             {
                 MessageBox.Show("Size =0 ");
@@ -5964,6 +6360,9 @@ namespace VE_SD
         {
             mainForm.檢示使用者說明書ToolStripMenuItem_Click(sender, e);//呼叫相同方法.
         }
+
         #endregion
+
+
     }
 }
