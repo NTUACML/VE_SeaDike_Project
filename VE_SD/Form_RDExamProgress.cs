@@ -3892,6 +3892,13 @@ namespace VE_SD
                 //MessageBox.Show("您入射波與堤體法線垂直交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //return false;
             }
+            if (textBox_BataFix.Text.ToString() == "")
+            {
+                ErrorMsg += ("您入射波與堤體法線垂直交角(修正後)沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您入射波與堤體法線垂直交角沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+            }
             if (textBox_SFSlide.Text.ToString() == "")
             {
                 ErrorMsg += ("您滑動安全係數沒有選擇!!!" + Environment.NewLine);
@@ -4349,7 +4356,7 @@ namespace VE_SD
             //1. H0, HWL, 海水r.
             Mod.WaterDesignInput(double.Parse(textBox_H0.Text), double.Parse(textBox_HWL.Text), double.Parse(textBox_SeaGamma.Text));
             //2. 波向, T0, Kr, Ks , Kd, lambda, beta.
-            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "右" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_Beta.Text));
+            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "右" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_BataFix.Text));
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
             //4. 選擇性參數給定
@@ -4394,7 +4401,8 @@ namespace VE_SD
             {
                 //- 迴圈塞入Block.
                 //  [Kavy, 2016/03/03, wait to do: 下方NewBlock第三個參數更改為平均摩擦係數.
-                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].平均摩擦係數); //, BlockMainArray[i].場注土方塊與拋石摩擦係數); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // 2016/03/29. 新增是否計算Moment選項.
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].平均摩擦係數);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
                 int 座標點數 = BlockMainArray[i].座標點數;
