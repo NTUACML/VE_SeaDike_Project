@@ -4393,8 +4393,16 @@ namespace VE_SD
             {
                 Mod.WaveBreakInsideCondition(false);
             }
-
-
+            //5-4. 胸牆部安定檢核
+            if (chk_HeadBreastCalc.Checked)
+            {
+                Mod.UpperBlockCheckCondition(true);
+                Mod.UpperBlockCheckInput(double.Parse(textBox_ConcreteAllowStress.Text), double.Parse(textBox_BK.Text));
+            }
+            else
+            {
+                Mod.UpperBlockCheckCondition(false);
+            }
 
             //6. Block給定.
             for (int i=0;i<BlockMainArray.GetLength(0);i++)

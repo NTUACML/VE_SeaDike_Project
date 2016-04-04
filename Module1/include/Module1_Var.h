@@ -45,12 +45,15 @@ public:
 	//- Total Block
 	double W, Mw, Max_level, Min_level;
 	//- SF Coef
-	double SlideSF, CalBody_SlideSF, RotateSF, CalBody_RotateSF;
+	double SlideSF, CalBody_SlideSF, RotateSF, CalBody_RotateSF, CalUpper_SlideSF, CalUpper_RotateSF;
 	//- Wave Break Weight
 	bool WaveBreakFuncOutside, WaveBreakFuncUpside, WaveBreakFuncInside;
 	double DensityOutside, DensityInside, DensityUpside,
 		SafeCoefOutside, SafeCoefInside, SafeCoefUpside,
 		SlopeOutside, SlopeInside, SlopeUpside, Kt, W1, W2, W3;
+	//- Upper Block Check
+	bool UpperBlockCheckCondi;
+	double Vc, Bk, Bk_plun;
 
 	//- Mesg
 	std::string Err_Msg;

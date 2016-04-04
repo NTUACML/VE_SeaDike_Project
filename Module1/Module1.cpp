@@ -173,6 +173,19 @@ bool VE_SD::Module1::WaveBreakUpsideInput(double _Density, double _Coef, double 
 	return true;
 }
 
+bool VE_SD::Module1::UpperBlockCheckCondition(bool _UpperBlockCheckCondi)
+{
+	Var->UpperBlockCheckCondi = _UpperBlockCheckCondi;
+	return true;
+}
+
+bool VE_SD::Module1::UpperBlockCheckInput(double _Vc, double _Bk_plun)
+{
+	Var->Vc = _Vc;
+	Var->Bk_plun = _Bk_plun;
+	return true;
+}
+
 bool VE_SD::Module1::Get_DataBank_Data()
 {
 	// EL Section!
@@ -255,6 +268,8 @@ bool VE_SD::Module1::Run()
 		!Internal->BodySafeCheck() // Safe Check!!!!!
 		||
 		!Internal->BreakerSafeCheck() // Breaker Safe Check
+		||
+		!Internal->UpperSafeCheck() //Upper Block Safe Check
 		) {
 		MsgAdd();
 		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
@@ -407,6 +422,14 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	if (Var->WaveBreakFuncInside == true) {
 		FILE << "******消波工程-堤頭部計算******" << std::endl;
 		FILE << "W3: " << Var->W3 << std::endl;
+	}
+
+	if (Var->UpperBlockCheckCondi == true) {
+		FILE << "******胸牆部安定檢核******" << std::endl;
+		FILE << "胸牆滑動SF: " << Var->CalUpper_SlideSF << std::endl;
+		FILE << "胸牆傾倒SF: " << Var->CalUpper_RotateSF << std::endl;
+		FILE << "混泥土容許剪應力: " << Var->Vc << std::endl;
+		FILE << "計算BK: " << Var->Bk << std::endl;
 	}
 	FILE.close();
 	return true;
