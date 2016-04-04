@@ -363,10 +363,6 @@ bool Module1_Internal::BreakerSafeCheck()
 		hc_D_Hs = Var->hc / Var->Hs;
 		Ht = Var->Kt * Var->Hs;
 
-	/*	Var->h_plun_D_h = Var->h_plun / Var->h;
-		Var->hc_D_Hs = Var->hc / Var->Hs;
-		Var->Ht = Var->Kt * Var->Hs;*/
-
 		Var->W3 = (Var->DensityInside * std::pow(Ht, 3.0)) /
 			(Var->SafeCoefInside * std::pow(Sr - 1.0, 3.0) * CotTheta);
 
@@ -377,6 +373,88 @@ bool Module1_Internal::BreakerSafeCheck()
 
 bool Module1_Internal::UpperSafeCheck()
 {
-	return false;
+	if (Var->UpperBlockCheckCondi) {
+		size_t UpperEL_Id = Var->LevelSection.size() - 2;
+		std::vector<size_t> Block_ID = Var->LevelSection[UpperEL_Id].BlockId;
+
+		size_t UseBlockId = Block_ID[0];
+		if (Var->Direction == 1) // E direction (Find Maximun X block)
+		{
+			for (size_t i = 0; i < Block_ID.size(); i++)
+			{
+				if (Var->BlockData[Block_ID[i]].WeightC.x >= UseBlockId) {
+					UseBlockId = Block_ID[i];
+				}
+			}
+		}
+		else { // Wdirection (Find Minmun X block)
+			for (size_t i = 0; i < Block_ID.size(); i++)
+			{
+				if (Var->BlockData[Block_ID[i]].WeightC.x <= UseBlockId) {
+					UseBlockId = Block_ID[i];
+				}
+			}
+		}
+
+		Var->CalUpper_SlideSF = (Var->BlockData[UseBlockId].FrictionC * Var->BlockData[UseBlockId].SelfWeight) / Var->LevelSection[UpperEL_Id].FP;
+
+		double ref_x, ref_y;
+		ref_x = Var->BlockData[UseBlockId].WeightC.x;
+		ref_y = Var->BlockData[UseBlockId].WeightC.y;
+
+		if (Var->Direction == 1) // E direction (Find Maximun X block)
+		{
+			for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
+			{
+				if (Var->BlockData[UseBlockId].Node[i].x <= ref_x) {
+					ref_x = Var->BlockData[UseBlockId].Node[i].x;
+				}
+			}
+		}
+		else { // Wdirection (Find Minmun X block)
+			for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
+			{
+				if (Var->BlockData[UseBlockId].Node[i].x >= ref_x) {
+					ref_x = Var->BlockData[UseBlockId].Node[i].x;
+				}
+			}
+		}
+
+		for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
+		{
+			if (Var->BlockData[UseBlockId].Node[i].y <= ref_y) {
+				ref_y = Var->BlockData[UseBlockId].Node[i].y;
+			}
+		}
+
+		Var->CalUpper_RotateSF = (Var->BlockData[UseBlockId].SelfWeight * std::abs(Var->BlockData[UseBlockId].WeightC.x - ref_x)) /
+			(Var->LevelSection[UpperEL_Id].FP * std::abs(Var->BlockData[UseBlockId].WeightC.y - ref_y));
+
+
+		if (Var->CalUpper_SlideSF >= Var->SlideSF) {
+			Var->Err_Msg += "胸牆部滑動檢核 (成功)! \r\n";
+		}
+		else {
+			Var->Err_Msg += "胸牆部滑動檢核 (失敗) -> 啟動剪力榫計算! \r\n";
+			Var->Bk = ((1.2 * Var->LevelSection[UpperEL_Id].FP - Var->BlockData[UseBlockId].FrictionC * Var->BlockData[UseBlockId].SelfWeight) / Var->Vc) * 100.0;
+			Var->Err_Msg += "剪力榫計算完成! \r\n";
+
+			if (Var->Bk_plun >= Var->Bk) {
+				Var->Err_Msg += "設計之剪力榫 (滿足) 計算所需! \r\n";
+			}
+			else {
+				Var->Err_Msg += "設計之剪力榫 (不滿足) 計算所需! \r\n";
+			}
+		}
+
+		if (Var->CalUpper_RotateSF >= Var->RotateSF) {
+			Var->Err_Msg += "胸牆部傾倒檢核 (成功)! \r\n";
+		}
+		else {
+			Var->Err_Msg += "胸牆部傾倒檢核 (失敗)! \r\n";
+		}
+	}
+	
+	return true;
 }
 
