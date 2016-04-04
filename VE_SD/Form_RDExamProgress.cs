@@ -2044,6 +2044,7 @@ namespace VE_SD
             //加入所有參數節點到Global Parameters節點上
             全域參數XML點.AppendChild(選擇Tab);
             全域參數XML點.AppendChild(深海波波向info);
+            全域參數XML點.AppendChild(BlockToolTipinfo);
             全域參數XML點.AppendChild(海側方向info);
             全域參數XML點.AppendChild(深海波波高info);
             全域參數XML點.AppendChild(深海波週期info);
@@ -5853,7 +5854,7 @@ namespace VE_SD
             MaterialNameToArraySubScript.Clear();
             Array.Resize(ref MaterialArray, 0);
             MaterialCount = 0;
-            MessageBox.Show(DGMaterial.Rows.Count.ToString());
+            //MessageBox.Show(DGMaterial.Rows.Count.ToString());
             for(int i=0;i<DGMaterial.Rows.Count-1;i++)
             {
                 Array.Resize(ref MaterialArray, i + 1);
@@ -5876,7 +5877,7 @@ namespace VE_SD
             //變更摩擦係數設定矩陣(重裝).
             Array.Resize(ref MaterialsCoefArray, 0);
             MaterialRoughnessArrayCount = 0;
-            MessageBox.Show("D1-2");
+            //MessageBox.Show("D1-2");
             //string ms = "";
             //foreach (KeyValuePair<string, int> entry in MaterialNameToArraySubScript)
             //{
@@ -5914,7 +5915,7 @@ namespace VE_SD
                 var cell2 = (DataGridViewComboBoxCell)(row.Cells[2]);
                 cell2.DataSource = MaterialArray;
             }
-            MessageBox.Show("D1-3");
+            //MessageBox.Show("D1-3");
             //完成移除.
 
             //檢視所有Block,變更使用此材質之設定為空白.
