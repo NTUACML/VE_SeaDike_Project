@@ -24,7 +24,7 @@ namespace VE_SD {
 			beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
 			alpha1, alpha2, alpha3, alpha4, eta_Star, hc_Star, 
 			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF, W, Mw,
-			W1, W2, W3;
+			W1, W2, W3, CalUpper_SlideSF, CalUpper_RotateSF, CalBk;
 
 		array< EL_SectionResult >^ EL_Out;
 		array< BlockResult >^ Block_Out;

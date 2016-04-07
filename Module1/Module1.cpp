@@ -251,6 +251,9 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.W1 = Var->W1;
 	VarBank.W2 = Var->W2;
 	VarBank.W3 = Var->W3;
+	VarBank.CalUpper_SlideSF = Var->CalUpper_SlideSF;
+	VarBank.CalUpper_RotateSF = Var->CalUpper_RotateSF;
+	VarBank.CalBk = Var->Bk;
 
 	return true;
 }
