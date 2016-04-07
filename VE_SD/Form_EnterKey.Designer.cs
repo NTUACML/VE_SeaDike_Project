@@ -39,7 +39,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label1.Location = new System.Drawing.Point(12, 43);
+            this.label1.Location = new System.Drawing.Point(12, 66);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(139, 19);
             this.label1.TabIndex = 0;
@@ -49,14 +49,14 @@
             // 
             this.textBox_CODE.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_CODE.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.textBox_CODE.Location = new System.Drawing.Point(13, 66);
+            this.textBox_CODE.Location = new System.Drawing.Point(12, 88);
             this.textBox_CODE.Name = "textBox_CODE";
             this.textBox_CODE.Size = new System.Drawing.Size(292, 29);
             this.textBox_CODE.TabIndex = 1;
             // 
             // btn_OK
             // 
-            this.btn_OK.Location = new System.Drawing.Point(153, 105);
+            this.btn_OK.Location = new System.Drawing.Point(149, 123);
             this.btn_OK.Name = "btn_OK";
             this.btn_OK.Size = new System.Drawing.Size(75, 23);
             this.btn_OK.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(230, 105);
+            this.btn_Cancel.Location = new System.Drawing.Point(230, 123);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_Cancel.TabIndex = 3;
@@ -87,7 +87,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 134);
+            this.ClientSize = new System.Drawing.Size(317, 158);
             this.Controls.Add(this.label_SHOW);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_OK);
@@ -95,7 +95,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form_EnterKey";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "驗證";

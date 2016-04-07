@@ -142,10 +142,93 @@ namespace VE_SD
         }
         #endregion
         #region 設定機碼
+        private void 軟體驗證ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //驗證此軟體.
+
+            //1. 檢查是否有驗證資訊.
+            string F1 = 機碼密碼初步加密(GetCPUID() + "_" + GetMacAddress());
+            string F2 = 密碼轉16位密碼計算(F1);
+            string NewKey = 密碼16位碼再加密(F2);
+            MessageBox.Show(NewKey);
+            //string MKey = 機碼密碼初步加密(GetCPUID() + "_" + GetMacAddress());
+            string MKeyPostiion = 驗證機碼存放位置 + "\\" + "MKEY.KEY";
+            string getMKkey = null;
+            string gets = "";
+            this._PSKEYCORRECT = false;
+            if(!Directory.Exists(驗證機碼存放位置))
+            {
+                //沒有驗證過.
+                Form_EnterKey fkey = new Form_EnterKey(this, NewKey, "請連絡相關人員來提供您驗證密碼" + Environment.NewLine + F2);
+                fkey.ShowDialog();
+               
+                if(!_PSKEYCORRECT)
+                {
+                    //失敗.
+                    
+                }
+                else
+                {
+                    Directory.CreateDirectory(驗證機碼存放位置);
+                    StreamWriter sw1 = new StreamWriter(MKeyPostiion);
+                    sw1.WriteLine(NewKey);
+                    sw1.Flush();
+                    sw1.Close();
+                    this._PSKEYCORRECT = false;
+                }
+            }
+            else
+            {
+                if(!File.Exists(MKeyPostiion))
+                {
+                    //無此檔案,視為無驗證過.
+                    Form_EnterKey fkey = new Form_EnterKey(this, NewKey, "請連絡相關人員來提供您驗證密碼" + Environment.NewLine + F2);
+                    fkey.ShowDialog();
+
+                    if (!_PSKEYCORRECT)
+                    {
+                        //失敗.
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(驗證機碼存放位置);
+                        StreamWriter sw1 = new StreamWriter(MKeyPostiion);
+                        sw1.WriteLine(NewKey);
+                        sw1.Flush();
+                        sw1.Close();
+                        this._PSKEYCORRECT = false;
+                    }
+                }
+                else
+                {
+                    //讀取檔案的第一行.
+                    StreamReader sr1 = new StreamReader(MKeyPostiion);
+                    gets = sr1.ReadLine();
+                    getMKkey = gets;//取得轉換完成之密碼.如1234-5678
+                    sr1.Close();
+
+                    if(getMKkey!=NewKey)
+                    {
+                        //失敗.
+                        //殺掉檔案,顯示失敗.
+                        MessageBox.Show("您的驗證已過時,請聯絡相關人員提供最新之驗證", "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        File.Delete(MKeyPostiion);
+
+                    }
+                    else
+                    {
+                        //沒事.
+                        MessageBox.Show("您的驗證無誤","軟體驗證",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    }
+                }
+
+            }
+        }
         private void 軟體機碼設定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            string MKey = 密碼加密(GetCPUID()+ "_" + GetMacAddress());//獲取此機器之數據.
+            string MKey = 機碼密碼初步加密(GetCPUID()+ "_" + GetMacAddress());//獲取此機器之數據.
             string MKeyPostiion =驗證機碼存放位置+ "\\" + "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             string MPSPosition = 驗證機碼存放位置 + "\\" + "MPS.KEY";
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -580,126 +663,162 @@ namespace VE_SD
         //    }
         //    return CodeValue;
         //}
-        public bool 檢視目前是否已設定正確機碼來鎖定機器(ref string Msg)
+        public bool 檢視目前是否已有合理認證(ref string Msg)
         {
-            string NewKey = 密碼加密(GetCPUID() + "_" + GetMacAddress());//獲取此機器之數據並且加密.
-            string MKeyPostiion =驗證機碼存放位置 + "\\" +  "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            string MPSPosition = 驗證機碼存放位置 + "\\" + "MPS.KEY";
+            string F1 = 機碼密碼初步加密(GetCPUID() + "_" + GetMacAddress());
+            string F2 = 密碼轉16位密碼計算(F1);
+            string NewKey = 密碼16位碼再加密(F2);
+            string MKeyPostiion = 驗證機碼存放位置 + "\\" + "MKEY.KEY";
             FileInfo mk = new FileInfo(MKeyPostiion);
-            FileInfo mps = new FileInfo(MPSPosition);
             string getMKey = null;
-            string getmpsKey = null;
             string gets = "";
             if (mk.Exists)
             {
                 //讀取檔案的第一行.
                 StreamReader sr1 = new StreamReader(MKeyPostiion);
                 gets = sr1.ReadLine();
-                getMKey = gets;
+                getMKey = gets;//取得轉換完成之密碼.如1234-5678
                 sr1.Close();
             }
-            if (mps.Exists)
+            if(object.Equals(getMKey,null))
             {
-                StreamReader sr2 = new StreamReader(MPSPosition);
-                getmpsKey = sr2.ReadLine();
-                sr2.Close();
-            }
-            getmpsKey = getmpsKey == "" ? null : getmpsKey;
-            //getMKey = 密碼解密(getMKey);//解密.
-            if (object.Equals(getMKey,null))
-            {
-                if(object.Equals(getmpsKey,null))
-                {
-                    Msg = "您的驗證資訊受損,請重新認證並取得新的驗證密碼";
-                    return false;
-                }
-                else
-                {
-                    //有驗證密碼.
-                    Msg = "您的驗證資訊已遺失,請重新認證,認證過程中需輸入您舊的驗證密碼";
-                    return false;
-                }
+                //沒有.
+                return false;
             }
             else
             {
-                
-                //有驗證機碼.
-                if(getMKey!=NewKey)
+                //有Key,但是否合理要檢查一下.
+                if(NewKey!=getMKey)
                 {
-                    //驗證機碼不一致.
-                    if(object.Equals(getMKey,null))
-                    {
-                        Msg = "您驗證資訊已過期,請重新更新驗證資訊並取得新的驗證密碼";
-                        return false;
-                    }
-                    else
-                    {
-                        Msg = "您的驗證資訊錯誤!請重新更新驗證資訊(過程中需輸入驗證密碼)並取得最新的驗證密碼";
-                        return false;
-                    }
+                    //失敗.
+                    return false;
                 }
                 else
                 {
-                    //驗證機碼相同,但可能缺失驗證密碼.
-                    if(object.Equals(getMKey,null))
-                    {
-                        Msg = "您的驗證密碼發生錯誤,可能已遺失,請立即更新最新的驗證密碼";
-                        return false;
-                    }
-                    else
-                    {
-                        Msg = "";
-                        return true;//ok.
-                    }
+                    return true;
                 }
             }
-            //string keyPathString = "SOFTWARE\\VESD_TOOL";
-            //string pathstring = null;
-            //string BuiltPASSKey = 取得內存密碼();
-            //Msg = "";
-
-            //Microsoft.Win32.RegistryKey startnn = Microsoft.Win32.Registry.LocalMachine;
-            //Microsoft.Win32.RegistryKey programnn = startnn.OpenSubKey(keyPathString);
-            //if (programnn != null)
-            //{
-            //    try
-            //    {
-            //        pathstring = (string)programnn.GetValue("PATH_S");//獲取機碼.
-            //    }
-            //    catch
-            //    {
-
-            //    }
-            //    if(object.Equals(BuiltPASSKey,null))
-            //    {
-            //        Msg = "您的驗證密碼遺失,請重新認證此電腦,並記錄提供的驗證密碼";
-            //        return false;
-            //    }
-            //    else if(pathstring==NewKey)
-            //    {
-            //        //ok.
-            //        Msg = "無問題";
-            //        return true;
-            //    }
-            //    else // if(pathstring!=NewKey)
-            //    {
-            //        //錯誤.
-            //        Msg = "驗證資訊錯誤,請重新認證此電腦(認證時須輸入驗證密碼)";
-            //        return false;
-            //    }
-
-            //}
-            //else
-            //{
-            //    //無機碼.
-            //    Msg = "您目前沒有驗證資訊,請認證此電腦以便使用後續功能";
-            //    return false;
-            //}
-
         }
-        private string 密碼加密(string InputS) //,string InputS2)
+        //public bool 檢視目前是否已設定正確機碼來鎖定機器(ref string Msg)
+        //{
+        //    string NewKey = 密碼加密(GetCPUID() + "_" + GetMacAddress());//獲取此機器之數據並且加密.
+        //    string MKeyPostiion =驗證機碼存放位置 + "\\" +  "MKEY.KEY"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //    string MPSPosition = 驗證機碼存放位置 + "\\" + "MPS.KEY";
+        //    FileInfo mk = new FileInfo(MKeyPostiion);
+        //    FileInfo mps = new FileInfo(MPSPosition);
+        //    string getMKey = null;
+        //    string getmpsKey = null;
+        //    string gets = "";
+        //    if (mk.Exists)
+        //    {
+        //        //讀取檔案的第一行.
+        //        StreamReader sr1 = new StreamReader(MKeyPostiion);
+        //        gets = sr1.ReadLine();
+        //        getMKey = gets;
+        //        sr1.Close();
+        //    }
+        //    if (mps.Exists)
+        //    {
+        //        StreamReader sr2 = new StreamReader(MPSPosition);
+        //        getmpsKey = sr2.ReadLine();
+        //        sr2.Close();
+        //    }
+        //    getmpsKey = getmpsKey == "" ? null : getmpsKey;
+        //    //getMKey = 密碼解密(getMKey);//解密.
+        //    if (object.Equals(getMKey,null))
+        //    {
+        //        if(object.Equals(getmpsKey,null))
+        //        {
+        //            Msg = "您的驗證資訊受損,請重新認證並取得新的驗證密碼";
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            //有驗證密碼.
+        //            Msg = "您的驗證資訊已遺失,請重新認證,認證過程中需輸入您舊的驗證密碼";
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+                
+        //        //有驗證機碼.
+        //        if(getMKey!=NewKey)
+        //        {
+        //            //驗證機碼不一致.
+        //            if(object.Equals(getMKey,null))
+        //            {
+        //                Msg = "您驗證資訊已過期,請重新更新驗證資訊並取得新的驗證密碼";
+        //                return false;
+        //            }
+        //            else
+        //            {
+        //                Msg = "您的驗證資訊錯誤!請重新更新驗證資訊(過程中需輸入驗證密碼)並取得最新的驗證密碼";
+        //                return false;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //驗證機碼相同,但可能缺失驗證密碼.
+        //            if(object.Equals(getMKey,null))
+        //            {
+        //                Msg = "您的驗證密碼發生錯誤,可能已遺失,請立即更新最新的驗證密碼";
+        //                return false;
+        //            }
+        //            else
+        //            {
+        //                Msg = "";
+        //                return true;//ok.
+        //            }
+        //        }
+        //    }
+        //    //string keyPathString = "SOFTWARE\\VESD_TOOL";
+        //    //string pathstring = null;
+        //    //string BuiltPASSKey = 取得內存密碼();
+        //    //Msg = "";
+
+        //    //Microsoft.Win32.RegistryKey startnn = Microsoft.Win32.Registry.LocalMachine;
+        //    //Microsoft.Win32.RegistryKey programnn = startnn.OpenSubKey(keyPathString);
+        //    //if (programnn != null)
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        pathstring = (string)programnn.GetValue("PATH_S");//獲取機碼.
+        //    //    }
+        //    //    catch
+        //    //    {
+
+        //    //    }
+        //    //    if(object.Equals(BuiltPASSKey,null))
+        //    //    {
+        //    //        Msg = "您的驗證密碼遺失,請重新認證此電腦,並記錄提供的驗證密碼";
+        //    //        return false;
+        //    //    }
+        //    //    else if(pathstring==NewKey)
+        //    //    {
+        //    //        //ok.
+        //    //        Msg = "無問題";
+        //    //        return true;
+        //    //    }
+        //    //    else // if(pathstring!=NewKey)
+        //    //    {
+        //    //        //錯誤.
+        //    //        Msg = "驗證資訊錯誤,請重新認證此電腦(認證時須輸入驗證密碼)";
+        //    //        return false;
+        //    //    }
+
+        //    //}
+        //    //else
+        //    //{
+        //    //    //無機碼.
+        //    //    Msg = "您目前沒有驗證資訊,請認證此電腦以便使用後續功能";
+        //    //    return false;
+        //    //}
+
+        //}
+        private string 機碼密碼初步加密(string InputS) //,string InputS2)
         {
-            //
+            //將
             if(object.Equals(InputS, null))
             {
                 return null;
@@ -724,31 +843,135 @@ namespace VE_SD
             return result;
             //return InputS + "_" + InputS2;
         }
-        public string 密碼解密(string InputS)
+        public string 密碼轉16位密碼計算(string InputS)
         {
+            //機碼轉換預設是8+6.
             if(object.Equals(InputS,null))
             {
                 return null;
             }
-            string result = "";
-            //string inputs3 = InputS + "_" + InputS2;
-            foreach (char c in InputS)
+            int i = 0;
+            int[] A1 = new int[] { };
+            Array.Resize(ref A1, 16);
+            int[] A2 = new int[] { };
+            Array.Resize(ref A2, 16);
+            for(int ix=0;ix<A1.GetLength(0);ix++)
             {
-                int asciicode;
+                A1[ix] = 30;
+            }
+            for (int ix = 0; ix < A2.GetLength(0); ix++)
+            {
+                A2[ix] = 30;
+            }
+            int f1 = 0;
+            int f2 = 0;
+            string r1 = "";
+            foreach(char c in InputS)
+            {
+                int asciicode=0;
                 try
                 {
                     asciicode = Convert.ToInt32(c);
-                    asciicode -= 1;
-                    result += Convert.ToChar(asciicode);
+                    asciicode += 1;
                 }
                 catch
+                { }
+                if(i<=15)
                 {
-                    //無法轉換.
-                    result += c;
+                    A1[f1] = asciicode;
+                    f1 += 1;
                 }
+                else if(i>16 && i<=32)
+                {
+                    A2[f2] = asciicode;
+                    f2 += 1;
+                }
+                i = i + 1;
             }
-            return result;
+
+
+            int[] A3 = A1;
+            //轉換成16位.
+            for(int ix=0;ix<A1.GetLength(0);ix++)
+            {
+                int currentnumber;
+                currentnumber = A1[ix] + A2[ix];
+                string temps = "";
+                int testI = -9999;
+                int tempcount = currentnumber;
+                while(true)
+                {
+                    temps = tempcount.ToString();
+                    tempcount = 0;
+                    foreach(char c in temps)
+                    {
+                        testI = -9999;
+                        if(int.TryParse(c.ToString(),out testI))
+                        {
+                            tempcount += testI;
+                        }
+                    }
+                    if(tempcount<10)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        //Continue.
+                    }
+                }
+                //
+                A3[ix] = tempcount;
+            }
+
+
+            i = 1;
+            for(int ix=0;ix<A3.GetLength(0);ix++)
+            {
+
+                    //r1 += A3[ix].ToString();
+
+                 r1 += A3[ix].ToString();
+                if(i%4==0 && i!=A3.GetLength(0))
+                {
+                    r1 += "-";
+                }
+
+                i = i + 1;
+            }
+            return r1;
+
         }
+       
+        public string 密碼16位碼再加密(string inputs)
+        {
+            return inputs;
+        }
+        //public string 密碼解密(string InputS)
+        //{
+        //    if(object.Equals(InputS,null))
+        //    {
+        //        return null;
+        //    }
+        //    string result = "";
+        //    //string inputs3 = InputS + "_" + InputS2;
+        //    foreach (char c in InputS)
+        //    {
+        //        int asciicode;
+        //        try
+        //        {
+        //            asciicode = Convert.ToInt32(c);
+        //            asciicode -= 1;
+        //            result += Convert.ToChar(asciicode);
+        //        }
+        //        catch
+        //        {
+        //            //無法轉換.
+        //            result += c;
+        //        }
+        //    }
+        //    return result;
+        //}
         //private string 密碼解密(string Inputs)
         //{
             
@@ -824,5 +1047,7 @@ namespace VE_SD
                 return 數字與國字碼對照[N];
             }
         }
+
+
     }
 }

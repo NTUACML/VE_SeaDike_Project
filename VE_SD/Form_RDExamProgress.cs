@@ -11,6 +11,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Xml;
 using Excel = Microsoft.Office.Interop.Excel;
+using WORD = Microsoft.Office.Interop.Word;
 using Microsoft.VisualBasic.MyServices;
 using System.Diagnostics;
 
@@ -474,6 +475,7 @@ namespace VE_SD
                         //Clear previous selected.
                         chart_Plot.Series[selectname].Color = Color.Black;
                         chart_Plot.Series[selectname].BorderWidth = 2;
+                        //chart_Plot.Series[nowname].BorderWidth = 3;
                         selectname = null;
                         listBox_SectSetting.SelectedIndex = -1;
                         propertyGrid_Block.SelectedObject = null;
@@ -871,7 +873,7 @@ namespace VE_SD
             listBox_SectSetting.SetSelected(BlockCount-1,true); //設定Listbox點選項目.
 
             string Msg = "";
-            開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+            開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// 檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
             btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
 
             //btnRemoveSects.Enabled = true;
@@ -894,7 +896,7 @@ namespace VE_SD
                 if (!object.Equals(selectname, null))
                 {
                     chart_Plot.Series[selectname].Color = Color.Black;
-                    chart_Plot.Series[selectname].MarkerBorderWidth = 2;
+                    chart_Plot.Series[selectname].BorderWidth = 2;
                     selectname = null;
                 }
                 //listBox_SectSetting.SelectedIndex = -1;
@@ -909,18 +911,18 @@ namespace VE_SD
             //1.更換Chart 繪製與加入不在這個區塊.
             if(!object.Equals(selectname, null))
             {
-                chart_Plot.Series[selectname].BorderColor = Color.Black;
+                //chart_Plot.Series[selectname].BorderColor = Color.Black;
                 chart_Plot.Series[selectname].BorderWidth = 2;
                 chart_Plot.Series[selectname].Color = Color.Black;
-                chart_Plot.Series[selectname].MarkerBorderWidth = 2;
+                //chart_Plot.Series[selectname].MarkerBorderWidth = 2;
             }
             string nowname = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex];
             //MessageBox.Show(nowname);
 
-            chart_Plot.Series[nowname].BorderColor = Color.Red;
+            //chart_Plot.Series[nowname].BorderColor = Color.Red;
             chart_Plot.Series[nowname].BorderWidth = 3;
             chart_Plot.Series[nowname].Color = Color.Red;
-            chart_Plot.Series[nowname].MarkerBorderWidth = 3;
+            //chart_Plot.Series[nowname].MarkerBorderWidth = 3;
             selectname = nowname;
 
             //2.Property Grid更換.
@@ -3589,9 +3591,10 @@ namespace VE_SD
                 {
                     chart_Plot.Series[BlockMainArray[i].名稱].Points.AddXY(getx[0], gety[0]);
                 }
-                chart_Plot.Series[BlockMainArray[i].名稱].BorderColor = Color.Black;
+                //chart_Plot.Series[BlockMainArray[i].名稱].BorderColor = Color.Black;
                 chart_Plot.Series[BlockMainArray[i].名稱].Color = Color.Black;
-                chart_Plot.Series[BlockMainArray[i].名稱].MarkerBorderWidth = 2; //Color.Black;
+                chart_Plot.Series[BlockMainArray[i].名稱].BorderWidth = 2;
+                //chart_Plot.Series[BlockMainArray[i].名稱].MarkerBorderWidth = 2; //Color.Black;
                 listBox_SectSetting.Items.Add(BlockMainArray[i].名稱 + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[i]));// "(" + BlockMainArray[i].單位體積重量.ToString() + ")");
             }
             if (BlockMainArray.GetLength(0) > 0)
@@ -3621,7 +3624,7 @@ namespace VE_SD
             if (BlockMainArray.GetLength(0) > 0)
             {
                 string Msg = "";
-                開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+                開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
                 btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
             }
             else
@@ -3631,6 +3634,7 @@ namespace VE_SD
             }
             btn_LogOutput.Enabled = false;
             btn_OutputExcel.Enabled = false;
+            輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
             tsp_cond.Text = "請設定或編輯您的專案檔";
             tsp_progressbar.Visible = false;
             if(SelectedTab!=-1 && SelectedTab>=0 && SelectedTab<=tabControl1.TabCount-1)
@@ -4270,7 +4274,7 @@ namespace VE_SD
 
             //檢查是否有綁訂機碼.
             string 驗證Msg = "";
-            if(mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            if(mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
             {
                 //Nothing.
             }
@@ -4286,6 +4290,7 @@ namespace VE_SD
                 FrmShowMsg FF = new FrmShowMsg(CheckTextBoxString,"您有資料未填完成或填入值不正確");
                 FF.Show();
                 btn_OutputExcel.Enabled = false;
+                輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
                 btn_LogOutput.Enabled = false;
                 return;
             }
@@ -4298,6 +4303,7 @@ namespace VE_SD
                 FF.Show();
                 //失敗時,把原先的東西都關掉.
                 btn_OutputExcel.Enabled = false;
+                輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
                 btn_LogOutput.Enabled = false;
                 return;//禁止往下繼續進行.
             }
@@ -4336,6 +4342,7 @@ namespace VE_SD
                     {
                         MessageBox.Show("出現程式錯誤!!!!此時應該要排除找不到摩擦係數的問題!!!");
                         btn_OutputExcel.Enabled = false;
+                        輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
                         btn_LogOutput.Enabled = false;
                         return;
                     }
@@ -4458,12 +4465,15 @@ namespace VE_SD
                 MessageBox.Show("檢核計算失敗!!!!!", "海堤檢核計算:失敗", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 btn_LogOutput.Enabled = false;
                 btn_OutputExcel.Enabled = false;
+                輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
             }
             else
             {
+                
                 MessageBox.Show("檢核計算完成", "海堤檢核計算", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btn_LogOutput.Enabled = true;
                 btn_OutputExcel.Enabled = true ;
+                輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
             }
             //結果呈現.
             tabControl1.SelectedIndex = 4; //更換頁面.
@@ -4515,8 +4525,10 @@ namespace VE_SD
                 //chart_Plot.Legends.
                 if(listBox_SectSetting.SelectedIndex!=-1)
                 {
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Black;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth = 2;
+                    //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
+                    //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
                 }
                 chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
                 for(int i=0;i<TempName.GetLength(0);i++)
@@ -4525,8 +4537,8 @@ namespace VE_SD
                 }
                 if (listBox_SectSetting.SelectedIndex != -1)
                 {
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Red;
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth =3;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Red;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth =3;
                 }
                 Mod.Get_DataBank_Data(); //Loading Running Result data.
                 wSheet = (Excel._Worksheet)wBook.Worksheets[1];//第一個工作表.
@@ -5298,6 +5310,60 @@ namespace VE_SD
         }
         private void btn_OutputExcel_Click(object sender, EventArgs e)
         {
+            if(SFD_WordOutput.ShowDialog()==DialogResult.OK && SFD_WordOutput.FileName!="")
+            {
+                string getpathword = SFD_WordOutput.FileName;
+                if(File.Exists(getpathword))
+                {
+                    //規定目前此excel檔案不可被開啟中.
+                    if (IsFileLocked(new FileInfo(getpathword)))
+                    {
+                        MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Word打開中", "輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                }
+                tsp_progressbar.Style = ProgressBarStyle.Marquee;
+                tsp_progressbar.MarqueeAnimationSpeed = 10;
+                tsp_progressbar.Visible = true;
+                tsp_cond.Text = "輸出Word檔案報表中";
+
+               
+                string getMsg = 輸出Word報表(SFD_WordOutput.FileName);
+                tsp_progressbar.Visible = false;
+
+                if(getMsg=="ok")
+                { 
+                  tsp_cond.Text = "您已輸出完成Word檔案,謝謝使用";
+                  MessageBox.Show("輸出完成!!", "輸出Word報表檔案完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                  if (chk_OpenFileAfterOutput.Checked)
+                  {
+                    try
+                    {
+                        Process p = new Process();
+                        p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                        p.StartInfo.FileName = SFD_WordOutput.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        p.Start();
+                    }
+                    catch
+                    {
+                        //不做任何事情.
+                    }
+
+                  }
+                }
+                else
+                {
+                    MessageBox.Show("您的Word報表輸出出現錯誤!" + Environment.NewLine + getMsg.Replace("ERROR:",""), "WORD輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tsp_cond.Text = "您沒有成功輸出檢核報表";
+                }
+            }
+
+
+            return;
+
+
+            //*****************************************************************************************
+            //以下為原先Excel輸出部分,已被避開.
             if(SFD_EXCELReport.ShowDialog()==DialogResult.OK && SFD_EXCELReport.FileName!="")
             {
                 //輸出.
@@ -6288,12 +6354,10 @@ namespace VE_SD
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         #endregion
-
         private void textBox_SFOver_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void DGMaterialRough_KeyUp(object sender, KeyEventArgs e)
         {
             if(DGMaterialRough.CurrentCell.RowIndex!=-1)
@@ -6322,7 +6386,6 @@ namespace VE_SD
                 }
             }
         }
-
         #region Tab控制器
         //Tab Control控制器.
         private void tabControl1_KeyDown(object sender, KeyEventArgs e)
@@ -6348,11 +6411,8 @@ namespace VE_SD
         }
 
         #endregion
-
         Point? prePosition = null;
         ToolTip ToolTipChart = new ToolTip();
-
-
         private void chart_Plot_MouseHover(object sender, EventArgs e)
         {
             
@@ -6379,8 +6439,650 @@ namespace VE_SD
             mainForm.檢示使用者說明書ToolStripMenuItem_Click(sender, e);//呼叫相同方法.
         }
 
+
         #endregion
 
+        private void 輸出Word檔案ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btn_OutputExcel_Click(sender, e);//目前已改為輸出Word檔案.
+        }
+        private string 輸出Word報表(string getPath)
+        {
+            string OutMsg = "ok";
+            if(object.Equals(Mod,null))
+            {
+                //沒有作檢核.
+                MessageBox.Show("您必須要先進行檢核才可輸出Word檔案!");
+                OutMsg = "ERROR:您必須要先進行檢核才可輸出Word檔案";
+                return OutMsg;
+            }
+            string tempplateFile = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\x64\\Release\\Output_Template.docx";//!!!!!!!!!!!!!!!!!!!!!!
+            string outputFile = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\x64\\Release\\TestWord.docx";//!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //outputFile = getPath;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            FileInfo f1 = new FileInfo(outputFile);
+            if (IsFileLocked(f1))
+            {
+                //無法輸出
+                //MessageBox.Show("您所欲輸出的檔案目前開啟或是被鎖定中,請檢視此檔案是否可被編輯,並且關閉任何開啟此檔案中的程式","輸出Word檔案錯誤",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                OutMsg = "ERROR:WORD檔案仍被鎖定中";
+                return OutMsg;
+                
+            }
+            File.Copy(tempplateFile, outputFile,true);
+            Mod.Get_DataBank_Data(); //Loading Running Result data.
 
+            WORD.Application wdApplication = null;
+            wdApplication = new WORD.Application();
+            wdApplication.Visible = true;
+            if (wdApplication != null)
+            {
+                //try
+                //{
+                    //WORD.Document newDocument = wdApplication.Documents.Add();
+                    WORD.Document newDocument = wdApplication.Documents.Open(outputFile);
+
+                    WORD.Range wdrange = null;
+                    WORD.Table TableRef = null;
+                    object unit = WORD.WdUnits.wdCharacter;
+                    object lu = WORD.WdUnits.wdLine;
+                    //object story = WORD.WdUnits.wdLine;
+                    object count = 1;
+                    object dcount = 2;
+                    object tcount = 3;
+
+                    //取得第一個Table:
+                    //1. 填表資訊.
+                    TableRef = newDocument.Tables[1];
+                    //填表人員工編號.
+                    TableRef.Rows[1].Cells[2].Range.Text = mainForm.LoginInUserID.ToString();
+                    //填表人名稱.
+                    TableRef.Rows[2].Cells[2].Range.Text = mainForm.LoginInUserName.ToString();
+                    //時間.
+                    TableRef.Rows[3].Cells[2].Range.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+
+                    //第二個表格.
+                    //2. 設計條件.
+                    TableRef = newDocument.Tables[2];
+                    //MessageBox.Show(TableRef.Rows[1].Cells[1].Range.Text.ToString());
+                    //深海波波向.
+                    TableRef.Rows[1].Cells[2].Range.Text = cmb_DeepWaveActDir.SelectedItem.ToString();
+                    //海側方向.
+                    TableRef.Rows[2].Cells[2].Range.Text = cmb_seawaveDir.SelectedItem.ToString();
+                    //深海波波高(m).
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.H0.ToString("0.00");
+                    //深海波週期(sec)
+                    TableRef.Rows[4].Cells[2].Range.Text = textBox_T0.Text.ToString();
+                    //設計潮位(m)
+                    TableRef.Rows[5].Cells[2].Range.Text = textBox_HWL.Text.ToString();
+                    //海床波度
+                    TableRef.Rows[6].Cells[2].Range.Text = textBox_Slope.Text.ToString();
+                    //折射係數Kr.
+                    TableRef.Rows[7].Cells[2].Range.Text = textBox_Kr.Text.ToString();
+                    //淺化係數Ks.
+                    TableRef.Rows[8].Cells[2].Range.Text = textBox_Ks.Text.ToString();
+                    //繞射係數Kd.
+                    TableRef.Rows[9].Cells[2].Range.Text = textBox_Kd.Text.ToString();
+                    //波力折減係數lambda
+                    TableRef.Rows[10].Cells[2].Range.Text = textBox_Lenda.Text.ToString();
+                    //入射波與堤體法線之垂向夾角(未修正).
+                    TableRef.Rows[11].Cells[2].Range.Text = textBox_Beta.Text.ToString();
+                    //入射波與堤體法線之垂向夾角(修正後).
+                    TableRef.Rows[12].Cells[2].Range.Text = textBox_BataFix.Text.ToString();
+                    //地面線(m)
+                    TableRef.Rows[13].Cells[2].Range.Text = textBox_GroundELE.Text.ToString();
+                    //消波塊高程(m)
+                    TableRef.Rows[14].Cells[2].Range.Text = textBox_ArmorBlockEle.Text.ToString();
+                    //MessageBox.Show(Mod.VarBank.H0.ToString("0.00"));
+
+
+                    //第三個表格.
+                    //外力計算:水深條件.
+                    TableRef = newDocument.Tables[3];
+                    //h(m)
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.h.ToString("0.00");
+                    //h'(m)
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.h_plun.ToString("0.00");
+                    //hc(m)
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.hc.ToString("0.00");
+                    //d(m)
+                    TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.d.ToString("0.00");
+
+                    //第四個表格.
+                    //有義波高H1/3及最大波高Hmax.
+                    //參數表1-1.
+                    TableRef = newDocument.Tables[4];
+                    //L0(m)
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.L0.ToString("0.00");
+                    //H0'(m)
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.H0_plun.ToString("0.00");
+                    //L(m)
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.L.ToString("0.00");
+                    //h/L0
+                    TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.h_D_L0.ToString("0.00");
+
+                    //參數表1-2.
+                    //H1/3與Hmax概算表.
+                    TableRef = newDocument.Tables[5];
+                    //B0.
+                    TableRef.Rows[3].Cells[1].Range.Text = Mod.VarBank.beta0.ToString("0.00");
+                    //B1.
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.beta1.ToString("0.00");
+                    //Bmax.
+                    TableRef.Rows[3].Cells[3].Range.Text = Mod.VarBank.betaMax.ToString("0.00");
+                    //B0*.
+                    TableRef.Rows[3].Cells[4].Range.Text = Mod.VarBank.beta0_Star.ToString("0.00");
+                    //B1*.
+                    TableRef.Rows[3].Cells[5].Range.Text = Mod.VarBank.beta1_Star.ToString("0.00");
+                    //Bmax*.
+                    TableRef.Rows[3].Cells[6].Range.Text = Mod.VarBank.betaMax_Star.ToString("0.00");
+
+                    //參數表1-3.
+                    //有義波高其餘計算結果.
+                    TableRef = newDocument.Tables[6];
+                    //有義波高H1/3(m)
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.Hs.ToString("0.00");//!!!!!!!!!!!!!!!!!!!!!!!!!
+                                                                                           //tan(theta)
+                    TableRef.Rows[2].Cells[2].Range.Text = textBox_Slope.Text.ToString();
+                    //hb(內算)[3].
+                    //hb(外供)[4].
+                    if (textBox_HB.Text.ToString() == "")
+                    {
+                        TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.hb.ToString("0.00");
+                        //刪除外供.
+                        TableRef.Rows[4].Delete();
+                    }
+                    else
+                    {
+                        TableRef.Rows[3].Delete();
+                        TableRef.Rows[3].Cells[2].Range.Text = textBox_HB.Text.ToString();
+                    }
+                    //最大波高Hmax[5-->4].
+                    TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.Hmax.ToString("0.00");
+
+                    //第七個表格.
+                    //波壓強度係數.
+                    TableRef = newDocument.Tables[7];
+                    //a1.
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.alpha1.ToString("0.00");
+                    //a2.
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.alpha2.ToString("0.00");
+                    //a3.
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.alpha3.ToString("0.00");
+
+                    //第八個表格.
+                    //液壓作用高度.
+                    //n*
+                    TableRef = newDocument.Tables[8];
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.eta_Star.ToString("0.00");
+                    //hc*
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.hc_Star.ToString("0.00");
+
+                    //第九個表格.
+                    //波壓力計算.
+                    TableRef = newDocument.Tables[9];
+                    //P1(t/m^2)
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.P1.ToString("0.00");
+                    //P2(t/m^2)
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.P2.ToString("0.00");
+                    //P3(t/m^2)
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.P3.ToString("0.00");
+                    //P4(t/m^2)
+                    TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.P4.ToString("0.00");
+
+
+                    //第十個表格.
+                    //插入各個EL分區之P,FP,Y與MP計算結果.
+                    //wdrange = TableRef.Rows[4].Cells[1].Range;
+                    //wdrange.Select();
+                    //wdApplication.Selection.MoveDown(ref lu, 1, Type.Missing);
+                    //wdApplication.Selection.MoveDown(ref lu, 1, Type.Missing);
+                    //TableRef = newDocument.Tables.Add(wdApplication.Selection.Range,Mod.VarBank.EL_Out.GetLength(0)+2, 5);
+                    //TableRef.Rows[1].Cells[1].Range.Text = "分區";
+                    //TableRef.Rows[1].Cells[2].Range.Text = "波壓強度P(t/m^2)";
+                    TableRef = newDocument.Tables[10];
+                    //根據有多少EL進行插入動作.
+                    for (int i = 1; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[2]);//在原本Row[2]之前插入列.
+                    }
+                    //填入資訊.
+                    for (int i = Mod.VarBank.EL_Out.GetUpperBound(0); i >= 0; i--)
+                    {
+                        //分區.
+                        int ix = Mod.VarBank.EL_Out.GetUpperBound(0) - i;
+                        TableRef.Rows[2 + ix].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL < 0 ? "-" : "+") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        //波壓強度.
+                        TableRef.Rows[2 + ix].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].P.ToString("0.00");
+                        //波壓FP
+                        TableRef.Rows[2 + ix].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].FP.ToString("0.00");
+                        //力矩Y
+                        TableRef.Rows[2 + ix].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Y.ToString("0.00");
+                        //傾倒彎矩Mp
+                        TableRef.Rows[2 + ix].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Mp.ToString("0.00");
+                    }
+                    //填入最後合計.
+                    //波壓.
+                    TableRef.Rows[2 + Mod.VarBank.EL_Out.GetLength(0)].Cells[3].Range.Text = Mod.VarBank.Fp.ToString("0.00");
+                    //傾倒彎矩
+                    TableRef.Rows[2 + Mod.VarBank.EL_Out.GetLength(0)].Cells[5].Range.Text = Mod.VarBank.Mp.ToString("0.00");
+
+
+                    //第十一個表格.
+                    //揚壓力計算
+                    TableRef = newDocument.Tables[11];
+                    //Pu
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.Pu.ToString("0.00");
+                    //Fu
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.Fu.ToString("0.00");
+                    //Mu
+                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.Mu.ToString("0.00");
+
+                    //第十二個表格.
+                    //堤體自重與抵抗彎矩表.
+                    TableRef = newDocument.Tables[12];
+                    //插入不足欄位,插入不足之Block數量.
+                    BlockResult[] BlockResultCol = Mod.VarBank.Block_Out;
+                    for (int i = BlockResultCol.GetUpperBound(0) - 1; i >= 0; i--)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[2]);
+                    }
+                    int rowstart = 2;
+                    int rowend = 2;
+                    for (int i = Mod.VarBank.EL_Out.GetUpperBound(0) - 1; i >= 0; i--)
+                    {
+
+                        int[] BlocKID = Mod.VarBank.EL_Out[i].BlockNum;
+                        //合併所需之儲存格.
+                        rowend = rowstart + BlocKID.GetLength(0) - 1;
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString(); ;
+                        for (int ii = 0; ii <= BlocKID.GetUpperBound(0); ii++)
+                        {
+                            int blockidGet = BlocKID[ii];
+                            //編號.
+                            TableRef.Rows[rowstart + ii].Cells[2].Range.Text = BlockListSubScriptToName[blockidGet];//BlockResultCol[blockidGet];// "(" + (blockidGet + 1).ToString() + ")"; ;
+                                                                                                                    //A
+                            TableRef.Rows[rowstart + ii].Cells[3].Range.Text = BlockResultCol[blockidGet].A.ToString("0.00");
+                            //Y
+                            TableRef.Rows[rowstart + ii].Cells[4].Range.Text = BlockResultCol[blockidGet].garma.ToString("0.00");
+                            //W
+                            TableRef.Rows[rowstart + ii].Cells[5].Range.Text = BlockResultCol[blockidGet].W.ToString("0.00");
+                            //X
+                            TableRef.Rows[rowstart + ii].Cells[6].Range.Text = BlockResultCol[blockidGet].X.ToString("0.00");
+                            //Mw.
+                            TableRef.Rows[rowstart + ii].Cells[7].Range.Text = BlockResultCol[blockidGet].Mw.ToString("0.00");
+                        }
+                        rowstart = rowend + 1;
+                    }
+                    //填入合計資料.
+                    //W.
+                    TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.W.ToString("0.00");
+                    //Mw.
+                    TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.Mw.ToString("0.00");
+                    //合併儲存格.
+
+
+                    rowstart = 2;
+                    rowend = 2;
+                    int minuscount = 0;
+                    for (int i = Mod.VarBank.EL_Out.GetUpperBound(0) - 1; i >= 0; i--)
+                    {
+                        int[] BlocKID = Mod.VarBank.EL_Out[i].BlockNum;
+                        rowend = rowstart + BlocKID.GetLength(0) - 1;
+                        if (BlocKID.GetLength(0) > 2)
+                        {
+                            TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
+                            minuscount += BlocKID.GetLength(0) - 1;
+                        }
+                        rowstart = rowend + 1;
+                    }
+                    //TableRef.Rows[rowstart-minuscount].Cells[1].Merge(TableRef.Rows[rowstart-minuscount].Cells[2]);
+                    //TableRef.Rows[1].Cells[1].Merge(TableRef.Rows[1].Cells[2]);
+
+                    wdrange = TableRef.Columns[1].Cells[rowstart - minuscount].Range;
+                    wdrange.Select();
+                    wdApplication.Selection.MoveDown(ref lu, 1, Type.Missing);
+
+                    //插入圖.
+                    string PNGStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
+                    string[] TempName = new string[] { };
+                    for (int i = 0; i < chart_Plot.Series.Count; i++)
+                    {
+                        if (chart_Plot.Series[i].IsVisibleInLegend)
+                        {
+                            Array.Resize(ref TempName, TempName.GetLength(0) + 1);
+                            TempName[TempName.GetUpperBound(0)] = chart_Plot.Series[i].Name;
+                            chart_Plot.Series[i].IsVisibleInLegend = false;
+                        }
+                    }
+                    //chart_Plot.Legends.
+                    if (listBox_SectSetting.SelectedIndex != -1)
+                    {
+                        //MessageBox.Show(BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]);
+                        chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Black;
+                        chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth = 2;
+                        //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
+                        //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
+                    }
+                    chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
+                    for (int i = 0; i < TempName.GetLength(0); i++)
+                    {
+                        chart_Plot.Series[TempName[i]].IsVisibleInLegend = false;
+                    }
+                    if (listBox_SectSetting.SelectedIndex != -1)
+                    {
+                        //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Red;
+                        //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 3;
+                        chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Red;
+                        chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth = 3;
+                    }
+                    wdApplication.Selection.InlineShapes.AddPicture(PNGStoredFolderPath);
+
+
+                    //第十三個表格.
+                    //堤體安定檢查.
+                    TableRef = newDocument.Tables[13];
+                    //滑動檢查.
+                    TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.CalBody_SlideSF.ToString("0.00");
+                    if (Mod.VarBank.CalBody_SlideSF > double.Parse(textBox_SFSlide.Text.ToString()))
+                    {
+                        TableRef.Rows[1].Cells[3].Range.Text = ">=" + textBox_SFSlide.Text.ToString() + " ...OK";
+                    }
+                    else
+                    {
+                        TableRef.Rows[1].Cells[3].Range.Text = "<" + textBox_SFSlide.Text.ToString() + " ...N.G.";
+                    }
+                    //傾倒檢查.
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.CalBody_RotateSF.ToString("0.00");
+                    if (Mod.VarBank.CalBody_RotateSF > double.Parse(textBox_SFOver.Text.ToString()))
+                    {
+                        TableRef.Rows[2].Cells[3].Range.Text = ">=" + textBox_SFOver.Text.ToString() + " ...OK";
+                    }
+                    else
+                    {
+                        TableRef.Rows[2].Cells[3].Range.Text = "<" + textBox_SFOver.Text.ToString() + " ...N.G.";
+                    }
+
+                  //其他檢核.
+                  //其他檢核為選擇性檢核項目.
+                  //5-1. 消波工重量計算.
+                  //5-1-A. 堤身段(港外側): 第十四個表格.
+                  //  若選擇不做,則合併TABLE之儲存格,並畫上斜線.
+                   TableRef = newDocument.Tables[14];
+                   if(chk_BlockWeightCalc_HO.Checked)
+                   {
+                    //消波形塊安定係數Kd.
+                    TableRef.Rows[1].Cells[2].Range.Text = textBox_HO_KDL.Text.ToString();
+                    //消波塊單位體積重量rc.
+                    TableRef.Rows[2].Cells[2].Range.Text = textBox_HO_Gamma.Text.ToString();
+                    //消波塊斜坡面與水平面之夾角.
+                    TableRef.Rows[3].Cells[2].Range.Text = textBox_HO_slopeangle.Text.ToString();
+                    //W1(Ton).
+                    TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.W1.ToString("0.00");
+                   }
+                   else
+                   {
+                    TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
+                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                  }
+
+                //5-1-B. 堤頭部加強: 第十五個表格.
+                TableRef = newDocument.Tables[15];
+                if (chk_BlockWeightCalc_HE.Checked)
+                {
+                    //消波形塊安定係數Kd.
+                    TableRef.Rows[1].Cells[2].Range.Text = textBox_HE_KDL.Text.ToString();
+                    //消波塊單位體積重量rc.
+                    TableRef.Rows[2].Cells[2].Range.Text = textBox_HE_Gamma.Text.ToString();
+                    //消波塊斜坡面與水平面之夾角.
+                    TableRef.Rows[3].Cells[2].Range.Text = textBox_HE_slopeangle.Text.ToString();
+                    //W2(Ton).
+                    TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.W2.ToString("0.00");
+                }
+                else
+                {
+                    TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
+                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                }
+
+                //5-1-C. 堤身段(航道側): 第十六個表格.
+                TableRef = newDocument.Tables[16];
+                if (chk_BlockWeightCalc_BD.Checked)
+                {
+                    //消波形塊安定係數Kd.
+                    TableRef.Rows[1].Cells[2].Range.Text = textBox_BD_KDL.Text.ToString();
+                    //消波塊單位體積重量rc.
+                    TableRef.Rows[2].Cells[2].Range.Text = textBox_BD_Gamma.Text.ToString();
+                    //消波塊斜坡面與水平面之夾角.
+                    TableRef.Rows[3].Cells[2].Range.Text = textBox_BD_slopeangle.Text.ToString();
+                    //波高傳遞率Kt.
+                    TableRef.Rows[4].Cells[2].Range.Text = textBox_BD_Kt.Text.ToString();
+                    //h'/h.
+                    TableRef.Rows[5].Cells[2].Range.Text = (Mod.VarBank.h_plun / Mod.VarBank.h).ToString("0.00");
+                    //H1/3.
+                    TableRef.Rows[6].Cells[2].Range.Text = Mod.VarBank.Hs.ToString("0.00");
+                    //hc / H1/3.
+                    TableRef.Rows[7].Cells[2].Range.Text = (Mod.VarBank.hc / Mod.VarBank.Hs).ToString("0.00");
+                    //Ht(m)
+                    TableRef.Rows[8].Cells[2].Range.Text = (double.Parse(textBox_BD_Kt.Text.ToString()) * Mod.VarBank.Hs).ToString("0.00");
+                    //W3(Ton).
+                    TableRef.Rows[9].Cells[2].Range.Text = Mod.VarBank.W3.ToString("0.00");
+                }
+                else
+                {
+                    TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[9]);
+                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                }
+
+                //6-1. 胸牆部安定檢核計算.
+                //6-1-A. 滑動SF檢核: 第十七個表格.
+                TableRef = newDocument.Tables[17];
+                //1. 滑動SF.
+                //TableRef.Rows[1].Cells[2].Range.Text=Mod.VarBank.
+
+                newDocument.Save(); // (outputFile);
+                    newDocument.Close(false, Type.Missing, Type.Missing);
+
+                //}
+                //catch(Exception ex)
+                //{
+                //    OutMsg = "ERROR:WORD處理出現錯誤" + Environment.NewLine + ex.Message.ToString();
+
+               // }
+
+
+                //Process p = new Process();
+                //p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                //p.StartInfo.FileName = outputFile;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //p.Start();
+                OutMsg = "ok";
+            }
+            else
+            {
+                OutMsg = "ERROR:WORD APP無法成功開啟";
+            }
+            wdApplication.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(wdApplication);
+
+            return OutMsg;
+
+        }
+        private void 試驗輸出Word檔案()
+        { 
+            string outputFile = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\x64\\Release\\TestWord.docx";
+            WORD.Application wdApplication = null;
+            wdApplication = new WORD.Application();
+            wdApplication.Visible = true;
+            if(wdApplication!=null)
+            {
+                WORD.Document newDocument = wdApplication.Documents.Add();
+                WORD.Range wdrange = null;
+                WORD.Table TableRef = null;
+                //WORD.Range wdrange = newDocument.Range(0, 0);
+                //Following code will add a Nary Equation
+                //wdrange.Select();
+                //WORD.Range wdFunctionR = wdApplication.Selection.OMaths
+                //    .Add(wdApplication.Selection.Range);
+                //WORD.OMathFunction wdFunction = wdApplication.Selection
+                //    .OMaths[1].Functions.Add(wdApplication.Selection.Range,
+                //    WORD.WdOMathFunctionType.wdOMathFunctionNary);
+                //WORD.OMathNary wdNary = wdFunction.Nary;
+                //wdNary.Char = 8721;
+                //wdNary.Grow = false;
+                //wdNary.SubSupLim = false;
+                //wdNary.HideSub = false;
+                //wdNary.HideSup = false;
+                ////Following code will setup value in Nary Function
+                WORD.Selection wdSelection = null; // = wdApplication.Selection;
+                
+                object unit = WORD.WdUnits.wdCharacter;
+                object lu = WORD.WdUnits.wdLine;
+                object count = 1;
+                object dcount = 2;
+                object tcount = 3;
+                //wdSelection.MoveLeft(ref unit, ref count);
+                //wdSelection.TypeText("11");
+                //wdSelection.MoveLeft(ref unit, ref tcount);
+                //wdSelection.TypeText("12");
+                //wdSelection.MoveDown(ref lu, ref count);
+                //wdSelection.TypeText("13");
+                //wdNary.Application.Visible = true;
+                //wdrange.Text = "This is the first line of all\n";
+                wdApplication.Selection.TypeText("This is first line " + wdApplication.Selection.Start.ToString() + "\n");
+                object story = WORD.WdUnits.wdLine;
+                wdApplication.Selection.MoveDown(ref story, 1, Type.Missing);
+                wdApplication.Selection.TypeText ("This is second line " + wdApplication.Selection.Start.ToString() + "\n");
+                wdApplication.Selection.MoveDown(ref story, 1, Type.Missing);
+                wdApplication.Selection.TypeText("\u03B2max * " + wdApplication.Selection.Start.ToString() + "\n");
+                wdApplication.Selection.MoveDown(ref story, 1, Type.Missing);
+                //插入一個表格吧.
+                wdrange = newDocument.Range(wdApplication.Selection.Start, wdApplication.Selection.Start);
+                TableRef=newDocument.Tables.Add(wdrange, 10, 5);
+                //測試Merge與撰寫內容以及格式.
+                TableRef.Rows[1].Cells[1].Range.Text = "分區";
+                TableRef.Rows[1].Cells[1].Range.Font.Bold = 1;
+                TableRef.Rows[1].Cells[1].Range.Font.Size = 14;
+                TableRef.Rows[1].Cells[1].Range.Font.Position = 1;
+                TableRef.Rows[1].Cells[1].Range.Font.Name = "微軟正黑體";
+
+                TableRef.Rows[1].Cells[3].Range.Text = "A(m2)"; // + wdApplication.Selection.End.ToString();
+                TableRef.Rows[1].Cells[3].Range.Font.Bold = 1;
+                TableRef.Rows[1].Cells[3].Range.Font.Size = 14;
+                TableRef.Rows[1].Cells[3].Range.Font.Position = 1;
+                TableRef.Rows[1].Cells[3].Range.Font.Name = "微軟正黑體";
+                wdrange = TableRef.Rows[1].Cells[3].Range;
+                wdrange.Select();
+                //wdrange = newDocument.Range(wdApplication.Selection.End - 2, wdApplication.Selection.End -2); //(wdApplication.Selection.Start-2, wdApplication.Selection.Start - 2);
+                //wdrange.Select();
+                //wdrange.Font.Subscript = 3;
+                wdrange = newDocument.Range(wdApplication.Selection.End - 3, wdApplication.Selection.End - 2);
+                wdrange.Font.Superscript = 3;
+                //MessageBox.Show(wdApplication.Selection.Start.ToString() + ":" + wdApplication.Selection.End.ToString());
+                //MessageBox.Show(wdApplication.Selection.Start.ToString());
+                //wdrange.Characters(3) =;
+                //TableRef.Rows[1].Cells[3
+
+                TableRef.Rows[1].Cells[1].Merge(TableRef.Rows[1].Cells[2]);
+                TableRef.Rows[1].Cells[1].Range.ParagraphFormat.Alignment = WORD.WdParagraphAlignment.wdAlignParagraphCenter;
+                TableRef.Rows[1].Cells[1].VerticalAlignment = WORD.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+                TableRef.Rows[1].Cells[2].Range.ParagraphFormat.Alignment = WORD.WdParagraphAlignment.wdAlignParagraphCenter;
+                TableRef.Rows[10].Select();
+                wdApplication.Selection.MoveDown(ref story, 1, Type.Missing);
+                wdApplication.Selection.TypeText("\n");
+                wdApplication.Selection.MoveUp(ref story, 1, Type.Missing);
+                string PNGStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
+                string[] TempName = new string[] { };
+                for (int i = 0; i < chart_Plot.Series.Count; i++)
+                {
+                    if (chart_Plot.Series[i].IsVisibleInLegend)
+                    {
+                        Array.Resize(ref TempName, TempName.GetLength(0) + 1);
+                        TempName[TempName.GetUpperBound(0)] = chart_Plot.Series[i].Name;
+                        chart_Plot.Series[i].IsVisibleInLegend = false;
+                    }
+                }
+                //chart_Plot.Legends.
+                if (listBox_SectSetting.SelectedIndex != -1)
+                {
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
+                }
+                chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
+                for (int i = 0; i < TempName.GetLength(0); i++)
+                {
+                    chart_Plot.Series[TempName[i]].IsVisibleInLegend = false;
+                }
+                if (listBox_SectSetting.SelectedIndex != -1)
+                {
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Red;
+                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 3;
+                }
+                wdApplication.Selection.InlineShapes.AddPicture(PNGStoredFolderPath);
+
+
+
+                //wdrange = TableRef.Rows[1].Cells[3].Range;
+                //wdrange.Select();
+                //WORD.Range wdFunctionR = wdApplication.Selection.OMaths
+                //    .Add(wdApplication.Selection.Range);
+                //WORD.OMathFunction wdFunction = wdApplication.Selection
+                //    .OMaths[1].Functions.Add(wdApplication.Selection.Range,
+                //    WORD.WdOMathFunctionType.wdOMathFunctionFrac);
+                //WORD.OMathFrac Frac = wdFunction.Frac;
+                //WORD.OMathNary wdNary = wdFunction.Nary;
+
+                //WORD.OMathFunc= wdFunction.Frac;
+                //wdNary.Char = 8721;
+                //wdNary.Grow = false;
+                //wdNary.SubSupLim = false;
+                //wdNary.HideSub = false;
+                //wdNary.HideSup = false;
+
+
+
+                //wdSelection = wdApplication.Selection;
+                //count = 3;
+                //wdSelection.MoveLeft(ref unit, count,WORD.WdMovementType.wdMove );
+                //wdApplication.Selection.TypeText("BA");
+                //wdSelection.TypeText("=2");
+                //count =3;
+                //wdSelection.MoveLeft(ref unit, ref count);
+                //wdSelection.TypeText("b"); 
+                //wdSelection.TypeText("Add");
+                //MessageBox.Show(wdSelection.Start.ToString());
+
+
+                // MessageBox.Show()
+                //wdSelection.TypeText("=4");
+                //wdSelection.MoveLeft(ref unit, ref tcount);
+                //wdSelection.TypeText("test");// "\u03B24");
+                //wdSelection.MoveUp(ref lu, ref count);
+                //wdSelection.TypeText("Test2");//\u03B23");
+                //TableRef.Rows[1].Cells[4].Range.Select();
+
+                //wdrange = newDocument.Range(1, 0);
+                //wdrange.Select();
+                //wdrange.Text = "This is second line\n";
+
+                //Word.Document document = this.Application.ActiveDocument;
+                //Word.Range rng = document.Paragraphs[1].Range;
+
+                //// Change the formatting. To change the font size for a right-to-left language, 
+                //// such as Arabic or Hebrew, use the Font.SizeBi property instead of Font.Size.
+                //rng.Font.Size = 14;
+                //rng.Font.Name = "Arial";
+                //rng.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+
+                newDocument.SaveAs(outputFile);
+                newDocument.Close(false, Type.Missing, Type.Missing);
+                wdApplication.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(wdApplication);
+
+                Process p = new Process();
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                p.StartInfo.FileName = outputFile;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                p.Start();
+            }
+        }
     }
 }
