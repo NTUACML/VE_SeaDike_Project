@@ -239,6 +239,7 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.P1 = Var->P1;
 	VarBank.P2 = Var->P2;
 	VarBank.P3 = Var->P3;
+	VarBank.P4 = Var->P4;
 	VarBank.Pu = Var->Pu;
 	VarBank.Fu = Var->Fu;
 	VarBank.Mu = Var->Mu;
