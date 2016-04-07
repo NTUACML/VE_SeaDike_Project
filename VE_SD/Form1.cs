@@ -23,6 +23,7 @@ namespace VE_SD
         bool _PSKEYCORRECT;
         bool loginsuccess = false;
         private string 驗證機碼存放位置 = "C:\\LKK";
+        private string Exepath = System.IO.Directory.GetCurrentDirectory();
 
         public Form1()
         {
@@ -106,12 +107,22 @@ namespace VE_SD
         }
         private void btn_StandardRDC_MouseEnter(object sender, EventArgs e)
         {
+            //MessageBox.Show(Exepath);
             this.textBox_ItemDescp.Text = "此為海堤檢核程式,使用者須輸入計算所需之參數以求得海堤設計是否符合所需之標準";
-            
+            try
+            { 
+              this.pictureBox_ItemDescp.Load(Exepath + "\\PIC\\STDVESD.JPG");
+            }
+            catch
+            {
+                this.pictureBox_ItemDescp.Image = null;
+            }
+
         }
         private void btn_StandardRDC_MouseLeave(object sender, EventArgs e)
         {
             this.textBox_ItemDescp.Text = "";
+            this.pictureBox_ItemDescp.Image = null;
         }
         #region "檢視說明"
 

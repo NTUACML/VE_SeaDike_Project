@@ -4274,7 +4274,7 @@ namespace VE_SD
 
             //檢查是否有綁訂機碼.
             string 驗證Msg = "";
-            if(mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
             {
                 //Nothing.
             }
@@ -6822,7 +6822,7 @@ namespace VE_SD
                    else
                    {
                     TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
-                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
                   }
 
                 //5-1-B. 堤頭部加強: 第十五個表格.
@@ -6841,7 +6841,7 @@ namespace VE_SD
                 else
                 {
                     TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
-                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
                 }
 
                 //5-1-C. 堤身段(航道側): 第十六個表格.
@@ -6870,14 +6870,28 @@ namespace VE_SD
                 else
                 {
                     TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[9]);
-                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                    //TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                    TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
                 }
 
                 //6-1. 胸牆部安定檢核計算.
                 //6-1-A. 滑動SF檢核: 第十七個表格.
                 TableRef = newDocument.Tables[17];
                 //1. 滑動SF.
-                //TableRef.Rows[1].Cells[2].Range.Text=Mod.VarBank.
+                //TableRef.Rows[1].Cells[2].Range.Text=Mod.VarBank
+
+                //若檢核不通過.
+                //混凝土容許應力Vc.
+                //TableRef.Rows[2].Cells[2].Range.Text = textBox_ConcreteAllowStress.Text.ToString();
+                //BK(內算).
+
+                //BK'
+                //TableRef.Rows[4].Cells[2].Range.Text = textBox_BK.Text.ToString();
+
+                //若檢核通過
+
+                //6-1-B. 傾倒SF:第18個表格
+                //
 
                 newDocument.Save(); // (outputFile);
                     newDocument.Close(false, Type.Missing, Type.Missing);
@@ -7083,6 +7097,11 @@ namespace VE_SD
                 p.StartInfo.FileName = outputFile;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 p.Start();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            btn_Test_Click(sender, e);
         }
     }
 }

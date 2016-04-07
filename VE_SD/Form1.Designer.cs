@@ -34,6 +34,7 @@
             this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.軟體偏好設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.軟體機碼設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.軟體驗證ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.關閉此軟體ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.海堤檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +55,6 @@
             this.gp_ItemExplan = new System.Windows.Forms.GroupBox();
             this.pictureBox_ItemDescp = new System.Windows.Forms.PictureBox();
             this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
-            this.軟體驗證ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -91,27 +91,34 @@
             this.軟體機碼設定ToolStripMenuItem,
             this.軟體驗證ToolStripMenuItem});
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.設定ToolStripMenuItem.Text = "設定";
             // 
             // 軟體偏好設定ToolStripMenuItem
             // 
             this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
-            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
             // 
             // 軟體機碼設定ToolStripMenuItem
             // 
             this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
-            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
             this.軟體機碼設定ToolStripMenuItem.Visible = false;
             this.軟體機碼設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體機碼設定ToolStripMenuItem_Click);
             // 
+            // 軟體驗證ToolStripMenuItem
+            // 
+            this.軟體驗證ToolStripMenuItem.Name = "軟體驗證ToolStripMenuItem";
+            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體驗證ToolStripMenuItem.Text = "軟體驗證";
+            this.軟體驗證ToolStripMenuItem.Click += new System.EventHandler(this.軟體驗證ToolStripMenuItem_Click);
+            // 
             // 關閉此軟體ToolStripMenuItem
             // 
             this.關閉此軟體ToolStripMenuItem.Name = "關閉此軟體ToolStripMenuItem";
-            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.關閉此軟體ToolStripMenuItem.Text = "關閉此軟體";
             // 
             // 功能ToolStripMenuItem
@@ -270,28 +277,23 @@
             // 
             // pictureBox_ItemDescp
             // 
-            this.pictureBox_ItemDescp.Location = new System.Drawing.Point(7, 259);
+            this.pictureBox_ItemDescp.Location = new System.Drawing.Point(7, 145);
             this.pictureBox_ItemDescp.Name = "pictureBox_ItemDescp";
-            this.pictureBox_ItemDescp.Size = new System.Drawing.Size(655, 266);
+            this.pictureBox_ItemDescp.Size = new System.Drawing.Size(655, 380);
+            this.pictureBox_ItemDescp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox_ItemDescp.TabIndex = 1;
             this.pictureBox_ItemDescp.TabStop = false;
             // 
             // textBox_ItemDescp
             // 
+            this.textBox_ItemDescp.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_ItemDescp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_ItemDescp.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_ItemDescp.Location = new System.Drawing.Point(7, 25);
             this.textBox_ItemDescp.Multiline = true;
             this.textBox_ItemDescp.Name = "textBox_ItemDescp";
-            this.textBox_ItemDescp.Size = new System.Drawing.Size(655, 228);
+            this.textBox_ItemDescp.Size = new System.Drawing.Size(655, 119);
             this.textBox_ItemDescp.TabIndex = 0;
-            // 
-            // 軟體驗證ToolStripMenuItem
-            // 
-            this.軟體驗證ToolStripMenuItem.Name = "軟體驗證ToolStripMenuItem";
-            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.軟體驗證ToolStripMenuItem.Text = "軟體驗證";
-            this.軟體驗證ToolStripMenuItem.Click += new System.EventHandler(this.軟體驗證ToolStripMenuItem_Click);
             // 
             // Form1
             // 
