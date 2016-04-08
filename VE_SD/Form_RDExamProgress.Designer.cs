@@ -162,6 +162,7 @@
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.propertyGrid_Block = new System.Windows.Forms.PropertyGrid();
             this.tabPage_RunCheck = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
             this.btn_LogOutput = new System.Windows.Forms.Button();
@@ -176,7 +177,7 @@
             this.SFD_LogFile = new System.Windows.Forms.SaveFileDialog();
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
+            this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -398,6 +399,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1083, 550);
             this.tabControl1.TabIndex = 4;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyDown);
             // 
             // tabPage_BasicParameter
@@ -1587,6 +1589,16 @@
             this.tabPage_RunCheck.Text = "檢核";
             this.tabPage_RunCheck.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(795, 32);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.chk_OpenFileAfterOutput);
@@ -1700,16 +1712,12 @@
             this.SFD_WordOutput.Filter = "WORD 2013(.docx)|*.docx|Word 2010(.doc)|*.doc";
             this.SFD_WordOutput.FilterIndex = 0;
             // 
-            // button2
+            // bk_OutputWordReport
             // 
-            this.button2.Location = new System.Drawing.Point(795, 32);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.bk_OutputWordReport.WorkerReportsProgress = true;
+            this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
+            this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
+            this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
             // Form_RDExamProgress
             // 
@@ -1724,6 +1732,7 @@
             this.Name = "Form_RDExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form_RDExamProgress";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_RDExamProgress_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_RDExamProgress_FormClosed);
             this.Load += new System.EventHandler(this.Form_RDExamProgress_Load);
             this.statusStrip1.ResumeLayout(false);
@@ -1905,5 +1914,6 @@
         private System.Windows.Forms.ToolStripMenuItem 輸出Word檔案ToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog SFD_WordOutput;
         private System.Windows.Forms.Button button2;
+        private System.ComponentModel.BackgroundWorker bk_OutputWordReport;
     }
 }

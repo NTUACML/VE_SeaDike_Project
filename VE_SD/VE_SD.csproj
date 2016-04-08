@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RDExameTextBox_Object_Class.cs" />
     <Compile Include="RealRandom.cs" />
     <Compile Include="ResultsBank.cs" />
     <EmbeddedResource Include="Form1.resx">
