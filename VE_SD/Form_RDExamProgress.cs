@@ -14,6 +14,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using WORD = Microsoft.Office.Interop.Word;
 using Microsoft.VisualBasic.MyServices;
 using System.Diagnostics;
+using System.Net;
 
 
 namespace VE_SD
@@ -4290,6 +4291,7 @@ namespace VE_SD
             //}
             //else
             //{
+            //    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName +  "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
             //    MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             //    return;
             //}
@@ -4489,6 +4491,7 @@ namespace VE_SD
             tabControl1.SelectedIndex = 4; //更換頁面.
             //檢核完成,更新RRCOL[紀錄Textbox內容]
             載入Textbox到矩陣內();
+            this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')已成功進行標準海堤檢核,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
 
         }
         private void 載入Textbox到矩陣內()
@@ -6542,6 +6545,9 @@ namespace VE_SD
             {
                 tsp_cond.Text = "您已輸出完成Word檔案,謝謝使用";
                 MessageBox.Show("輸出完成!!", "輸出Word報表檔案完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
+                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                
                 if (chk_OpenFileAfterOutput.Checked)
                 {
                     try

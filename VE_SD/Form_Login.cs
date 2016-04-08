@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
 
 
 namespace VE_SD
@@ -37,6 +38,7 @@ namespace VE_SD
         {
             //加入直接顯示上一次最後登入之使用者資訊檔案.
             //MessageBox.Show(LoginFileFolder);
+            //MessageBox.Show(Dns.GetHostName());
             FileInfo fi = new FileInfo(LoginFileFolder + "\\" + LeastUserLoginInFile); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (fi.Exists)
             {
@@ -122,6 +124,8 @@ namespace VE_SD
             sw.WriteLine(getName);
             sw.Flush();
             sw.Close();
+
+            this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')有登入活動,員工編號為'" + getID + "',員工名稱為'" + getName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
             //設定表單變數.
             //http://stackoverflow.com/questions/4822980/how-to-access-a-form-control-for-another-form
             this.mainForm.LoginTextSetting = "OK"; //*************************

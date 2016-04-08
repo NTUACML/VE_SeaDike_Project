@@ -13,6 +13,9 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Management.Instrumentation;
 using System.Configuration;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace VE_SD
 {
@@ -24,6 +27,9 @@ namespace VE_SD
         bool loginsuccess = false;
         private string 驗證機碼存放位置 = "C:\\LKK";
         private string Exepath = System.IO.Directory.GetCurrentDirectory();
+        private string PORT = "2016";
+        UdpClient U;//宣告UDP通訊物件.
+        Thread th;//宣告監聽用執行緒.
 
         public Form1()
         {
@@ -102,6 +108,7 @@ namespace VE_SD
 
         private void btn_StandardRDC_Click(object sender, EventArgs e)
         {
+            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
             Form_RDExamProgress frdexam = new Form_RDExamProgress(this);
             frdexam.ShowDialog();
         }
@@ -176,7 +183,7 @@ namespace VE_SD
                 if(!_PSKEYCORRECT)
                 {
                     //失敗.
-                    
+                    this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                 }
                 else
                 {
@@ -186,6 +193,7 @@ namespace VE_SD
                     sw1.Flush();
                     sw1.Close();
                     this._PSKEYCORRECT = false;
+                    this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                 }
             }
             else
@@ -199,7 +207,7 @@ namespace VE_SD
                     if (!_PSKEYCORRECT)
                     {
                         //失敗.
-
+                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                     }
                     else
                     {
@@ -209,6 +217,7 @@ namespace VE_SD
                         sw1.Flush();
                         sw1.Close();
                         this._PSKEYCORRECT = false;
+                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                     }
                 }
                 else
@@ -223,6 +232,7 @@ namespace VE_SD
                     {
                         //失敗.
                         //殺掉檔案,顯示失敗.
+                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證因密碼不符合已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                         MessageBox.Show("您的驗證已過時,請聯絡相關人員提供最新之驗證", "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         File.Delete(MKeyPostiion);
 
@@ -230,6 +240,7 @@ namespace VE_SD
                     else
                     {
                         //沒事.
+                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證通過(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                         MessageBox.Show("您的驗證無誤","軟體驗證",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     }
                 }
@@ -987,7 +998,7 @@ namespace VE_SD
         //{
             
         //}
-        private string GetCPUID()
+        public string GetCPUID()
         {
             try
             {
@@ -1007,7 +1018,7 @@ namespace VE_SD
                 return "unknow";
             }
         }
-        private string GetMacAddress()
+        public string GetMacAddress()
         {
             try
             {
@@ -1059,6 +1070,59 @@ namespace VE_SD
             }
         }
 
+        #region 發送訊息給主機
+        public void 發送操作指令(string 操作訊息)
+        {
+            //發送訊息給固定IP.
+            //目前IP寫死.
+            string[] OtherIP = { "140.112.63.207" };//實體證實可傳送之主機IP位址.
 
+            //string IP = textBox_IP.Text.ToString();
+            int Port = int.Parse(PORT);
+            byte[] B = Encoding.Default.GetBytes(操作訊息);
+            UdpClient S = new UdpClient();
+            foreach(string f in OtherIP)
+            {
+                S.Send(B, B.Length, f, Port);//發送訊息.
+            }
+            S.Close();
+        }
+        public string MyIP()
+        {
+            string hn = Dns.GetHostName();//取得本機電腦名稱.
+            IPAddress[] ip = Dns.GetHostEntry(hn).AddressList;//取得本機IP陣列.
+            foreach (IPAddress it in ip)
+            {
+                if (it.AddressFamily == AddressFamily.InterNetwork)//如果是IP4.
+                {
+                    return it.ToString();
+                }
+            }
+            return "";
+
+        }
+        private void Listen()
+        {
+            //監聽程序.
+            //目前沒有在使用,使用此程式會需要通過使用者帳號控制之認證.
+            //PORT鎖定.
+
+            //int Port = int.Parse(PORT);//設定監聽用的通訊戶.
+            //U = new UdpClient(Port);//建立UDP監聽器實體
+            ////建立本機端點資訊.
+            //IPEndPoint EP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), Port);
+            //while (true) //持續監聽的無限迴圈,有資訊就處理,無則繼續等待.
+            //{
+            //    byte[] B = U.Receive(ref EP);
+            //    //textBox_GetWord.Text += (Encoding.Default.GetString(B) + Environment.NewLine);
+            //}
+
+        }
+        #endregion
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }
