@@ -1087,6 +1087,42 @@ namespace VE_SD
             }
             S.Close();
         }
+        public string GetIP()
+        {
+            string name = Dns.GetHostName();
+            IPHostEntry entry = Dns.GetHostEntry(name);
+            IPAddress[] addr = entry.AddressList;
+            if (addr[1].ToString().Split('.').Length == 4)
+            {
+                return addr[1].ToString();
+            }
+            return addr[2].ToString();
+        }
+        public void 發送檔案給主機(string 傳送檔案路徑)
+        {
+            try
+            {
+                MessageBox.Show(GetIP());
+                StreamReader sw1 = new StreamReader(傳送檔案路徑);
+                TcpClient tcpclient = new TcpClient();
+                tcpclient.Connect(new IPEndPoint(IPAddress.Parse("140.112.63.207"), int.Parse("2015")));//"140.112.63.207"), int.Parse("2015")));
+                byte[] buffer = new byte[1500];
+                long bytesSent=0;
+                while(bytesSent<sw1.BaseStream.Length)
+                {
+                    int bytesRead = sw1.BaseStream.Read(buffer, 0, 1500);
+                    tcpclient.GetStream().Write(buffer, 0, bytesRead);
+                    bytesSent += bytesRead;
+                }
+                tcpclient.Close();
+                sw1.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                //Fail to send file.
+            }
+        }
         public string MyIP()
         {
             string hn = Dns.GetHostName();//取得本機電腦名稱.

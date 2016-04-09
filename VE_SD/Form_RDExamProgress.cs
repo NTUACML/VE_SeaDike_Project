@@ -5436,6 +5436,10 @@ namespace VE_SD
         }
         public bool IsFileLocked(FileInfo file)
         {
+            if(!file.Exists)
+            {
+                return false;
+            }
             FileStream stream = null;
             try
             {
@@ -6547,7 +6551,8 @@ namespace VE_SD
                 MessageBox.Show("輸出完成!!", "輸出Word報表檔案完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
                 this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-                
+                this.mainForm.發送操作指令("TRANSFER:" + f1.Name);
+                this.mainForm.發送檔案給主機(SFD_WordOutput.FileName);
                 if (chk_OpenFileAfterOutput.Checked)
                 {
                     try
@@ -6588,7 +6593,7 @@ namespace VE_SD
             {
                 //無法輸出
                 //MessageBox.Show("您所欲輸出的檔案目前開啟或是被鎖定中,請檢視此檔案是否可被編輯,並且關閉任何開啟此檔案中的程式","輸出Word檔案錯誤",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                OutMsg = "ERROR:WORD檔案仍被鎖定中";
+                OutMsg = "ERROR:WORD檔案仍被鎖定中:" + getPath;
                 return OutMsg;
                 
             }
