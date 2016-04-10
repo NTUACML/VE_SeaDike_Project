@@ -230,7 +230,7 @@ namespace VE_SD
         }
         public string 胸牆部安定檢核計算混凝土容許應力
         {
-            get { return 胸牆部安定檢核計算混凝土容許應力; }
+            get { return _胸牆部安定檢核計算混凝土容許應力; }
             set { _胸牆部安定檢核計算混凝土容許應力 = value; }
         }
         public string 胸牆部安定檢核計算BKplun

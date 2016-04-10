@@ -289,9 +289,9 @@ bool Module1_Internal::WeightCal()
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
 		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
-		if (Var->BlockData[i].Density <= (1.0 + eps))
+		if (Var->BlockData[i].CalMoment == false) //Don't cal Moment.
 		{
-			Var->BlockData[i].Mw = 0.0; //Water!!
+			Var->BlockData[i].Mw = 0.0; 
 		}
 		else {
 			Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * std::abs( Var->BlockData[i].WeightC.x - Ref_x);

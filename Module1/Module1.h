@@ -47,7 +47,7 @@ namespace VE_SD {
 
 		//Public Function
 		//- Block Set
-		int NewBlock(double _Density, double _FrictionC); 
+		int NewBlock(double _Density, double _FrictionC, bool _CalMoment); 
 		bool DeleteBlock(int NumOfBlock);
 		bool SetBlockCoord(int NumOfBlock, double x, double y);
 		int GetNumOfBlock();
