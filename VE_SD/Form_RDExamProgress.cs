@@ -6568,7 +6568,7 @@ namespace VE_SD
                 //System.Threading.Thread.Sleep(5000);//暫停兩秒.
 
 
-
+                this.Refresh();
                 System.Threading.Thread.Sleep(5000);//暫停兩秒.
                 
                 FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
