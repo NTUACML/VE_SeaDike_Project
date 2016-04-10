@@ -28,8 +28,8 @@ VE_SD::Module1::!Module1()
 	this->~Module1();
 }
 
-int VE_SD::Module1::NewBlock(double _Density, double _FrictionC){
-	Var->BlockData.emplace_back(_Density,_FrictionC);
+int VE_SD::Module1::NewBlock(double _Density, double _FrictionC, bool _CalMoment) {
+	Var->BlockData.emplace_back(_Density,_FrictionC, _CalMoment);
 	return int(Var->BlockData.size());
 }
 
