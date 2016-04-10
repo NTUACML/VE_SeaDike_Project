@@ -89,20 +89,54 @@ namespace VE_SD
         {
             //此功能已取消,目前主表單已直接改為海堤檢核主表單.
             //開啟海堤檢核主表單.
+            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
             Form_RDExamProgress frdexam = new Form_RDExamProgress(this);
             frdexam.ShowDialog();
-            return;
+            //return;
 
 
-            Form_SDM fsdm = new Form_SDM();
-            fsdm.ShowDialog();
+            //Form_SDM fsdm = new Form_SDM();
+            //fsdm.ShowDialog();
 
         }
 
         private void 海堤檢核給Kavy玩ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form_ForKavyTest  kavytest = new Form_ForKavyTest();
-            kavytest.ShowDialog();
+            string temp1 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp2.docx";
+            string temp2 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp_2.txt";
+            File.Copy("C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Output_Template.docx", temp1, true);
+            File.Copy("C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Test.txt", temp2, true);
+            發送操作指令("TRANSFER:Temp2.docx" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+            發送檔案給主機(temp1);
+            while(bk_SendFIle.IsBusy)
+            {
+                System.Threading.Thread.Sleep(2000);
+            }
+
+            發送操作指令("TRANSFER:Temp_2.txt" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+            發送檔案給主機(temp2);
+
+
+            //Wait for ok.
+            //while (true)
+            //{
+            //    try
+            //    {
+            //        發送操作指令("TRANSFER:Temp_2.txt" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+
+            //        break;
+            //    }
+            //    catch
+            //    {
+
+            //    }
+
+            //}
+            //發送檔案給主機(temp2);
+
+            MessageBox.Show("Done");
+            //Form_ForKavyTest  kavytest = new Form_ForKavyTest();
+            //kavytest.ShowDialog();
 
         }
 
@@ -168,7 +202,7 @@ namespace VE_SD
             string F1 = 機碼密碼初步加密(GetCPUID() + "_" + GetMacAddress());
             string F2 = 密碼轉16位密碼計算(F1);
             string NewKey = 密碼16位碼再加密(F2);
-            MessageBox.Show(NewKey);
+            //MessageBox.Show(NewKey);
             //string MKey = 機碼密碼初步加密(GetCPUID() + "_" + GetMacAddress());
             string MKeyPostiion = 驗證機碼存放位置 + "\\" + "MKEY.KEY";
             string getMKkey = null;
@@ -192,6 +226,7 @@ namespace VE_SD
                     sw1.WriteLine(NewKey);
                     sw1.Flush();
                     sw1.Close();
+                    MessageBox.Show("驗證已通過","驗證軟體",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     this._PSKEYCORRECT = false;
                     this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                 }
@@ -967,7 +1002,69 @@ namespace VE_SD
        
         public string 密碼16位碼再加密(string inputs)
         {
-            return inputs;
+            //輸入值為"2312-5678-5567-3421.
+            string[] ss = inputs.Split('-');
+            //Each group need to calculate the number.
+            string result = "";
+            for(int i=0;i<ss.GetLength(0);i++)
+            {
+                double a;
+                double b;
+                double c;
+                double x;
+                a = double.Parse(ss[i].Substring(0, 1));
+                b = double.Parse(ss[i].Substring(1, 1));
+                c = double.Parse(ss[i].Substring(2, 1));
+                x = double.Parse(ss[i].Substring(3, 1));
+
+                double y = a * Math.Pow(x, 2.0) + b * x + c;
+
+                //Finding 二位數.
+                result += 二位數轉換輸出(y);
+                if(i==1)
+                {
+                    result += "-";
+                }
+            }
+
+            return result;
+        }
+        private string 二位數轉換輸出(double ii)
+        {
+            ii = Math.Abs(ii);
+            if(ii<10)
+            {
+                return "0" + ii.ToString();
+            }
+            else if(ii<100)
+            {
+                return ii.ToString();
+            }
+            else
+            {
+                string s = ii.ToString();
+                double currentvalue = 0;
+                while(true)
+                {
+                    currentvalue = 0;
+                    foreach(char c in s)
+                    {
+                        currentvalue = currentvalue + int.Parse(c.ToString());
+                    }
+                    if(currentvalue<100)
+                    {
+                        break;
+                    }
+                }
+                if(currentvalue<10)
+                {
+                    return "0" + currentvalue.ToString();
+                }
+                else
+                {
+                    return currentvalue.ToString();
+                }
+            }
         }
         //public string 密碼解密(string InputS)
         //{
@@ -1098,17 +1195,36 @@ namespace VE_SD
             }
             return addr[2].ToString();
         }
-        public void 發送檔案給主機(string 傳送檔案路徑)
+        private void bk_SendFIle_DoWork(object sender, DoWorkEventArgs e)
         {
+            //MessageBox.Show("HP:" + _傳送檔案使用Port);
+            string tempFile = e.Argument.ToString();
             try
             {
-                MessageBox.Show(GetIP());
-                StreamReader sw1 = new StreamReader(傳送檔案路徑);
+                //MessageBox.Show(GetIP());
+                //複製新的檔案為暫存檔案,以避免直接開啟檔案被鎖定.
                 TcpClient tcpclient = new TcpClient();
-                tcpclient.Connect(new IPEndPoint(IPAddress.Parse("140.112.63.207"), int.Parse("2015")));//"140.112.63.207"), int.Parse("2015")));
+                IAsyncResult result = tcpclient.BeginConnect(IPAddress.Parse("140.112.63.207"), int.Parse(_傳送檔案使用Port), null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(4000, true);
+                if (!success)
+                {
+                    //Fail..
+                    //MessageBox.Show("Fail");
+                    tcpclient.Close();
+                    //MessageBox.Show("Fail2");
+                    e.Result = null;
+                    _傳送成功與否 = false;
+                    
+                    //MessageBox.Show("Fail3");
+                    bk_SendFIle.CancelAsync();
+                }
+                //MessageBox.Show("HH");
+                StreamReader sw1 = new StreamReader(tempFile);// 傳送檔案路徑);
+                //sw1.Close();
+                //tcpclient.Connect(new IPEndPoint(IPAddress.Parse("140.112.63.207"), int.Parse(_傳送檔案使用Port)));//"140.112.63.207"), int.Parse("2015")));
                 byte[] buffer = new byte[1500];
-                long bytesSent=0;
-                while(bytesSent<sw1.BaseStream.Length)
+                long bytesSent = 0;
+                while (bytesSent < sw1.BaseStream.Length)
                 {
                     int bytesRead = sw1.BaseStream.Read(buffer, 0, 1500);
                     tcpclient.GetStream().Write(buffer, 0, bytesRead);
@@ -1116,12 +1232,241 @@ namespace VE_SD
                 }
                 tcpclient.Close();
                 sw1.Close();
+                _傳送成功與否 = true;
+                
             }
-            catch(Exception ex)
+            //catch()
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
+                //MessageBox.Show(ex.Message.ToString());
                 //Fail to send file.
+                _傳送成功與否 = false;
             }
+        }
+
+        private void bk_SendFIle_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Done");
+            FileInfo ftemp = new FileInfo(_傳送檔案暫時名稱);
+            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
+            //MessageBox.Show("H");
+            //傳送成功.
+            if (!object.Equals(_傳送檔案暫時名稱, null))
+            {
+
+
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+            }
+
+            //若傳送失敗,則考慮再傳送一次.
+            if (_傳送成功與否)
+            {
+                _傳送檔案暫時名稱 = null;
+            }
+            else
+            {
+                
+                //bk_SendFIle.RunWorkerAsync(tempFile);
+                //return;
+            }
+            
+        }
+        private void bk_AccessServerForDownload_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //MessageBox.Show("H");
+            bool GoingToDown = false;
+            string getPort = null;
+            string _TempName = e.Argument.ToString();
+            FileInfo ftemp = new FileInfo(_TempName);
+            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
+            try
+            {
+                TcpClient tcpclient = new TcpClient();
+                //tcpclient.SendTimeout = 1000;//只等兩秒.
+                //tcpclient.ReceiveTimeout = 1000;//只等兩秒.
+                IAsyncResult result = tcpclient.BeginConnect(IPAddress.Parse("140.112.63.207"), 2017, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(1000, true);
+                if(!success)
+                {
+                    //Fail..
+                    //MessageBox.Show("Fail");
+                    tcpclient.Close();
+                    //MessageBox.Show("Fail2");
+                    e.Result = null;
+                    _傳送成功與否 = false;
+                    //MessageBox.Show("Fail3");
+                    bk_AccessServerForDownload.CancelAsync();
+                }
+                //tcpclient.Connect("140.112.63.207", 2017);
+                Stream str = tcpclient.GetStream();
+                ASCIIEncoding asen = new ASCIIEncoding();
+                byte[] ba = asen.GetBytes("TRANSFER:" + ftemp.Name + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+                str.Write(ba, 0, ba.Length);
+                byte[] bb = new byte[100];
+                int k = str.Read(bb, 0, 100);//讀取回傳訊息.
+                string news = "";
+                for (int i = 0; i < k; i++)
+                {
+                    news = news + Convert.ToChar(bb[i]);
+                }
+                //MessageBox.Show(news);
+                if (news != "")
+                {
+                    if (news.IndexOf("OK:") != -1)
+                    {
+                        string[] ss = news.Replace("OK:", "").Split('\n');
+                        if (ss[0] != ftemp.Name)
+                        {
+                            //失敗.
+                            GoingToDown = false;
+                        }
+                        else
+                        {
+                            getPort = ss[1];
+                            GoingToDown = true;
+                        }
+                    }
+                    else
+                    {
+                        GoingToDown = false;
+                    }
+                }
+                tcpclient.Close();
+
+                //MessageBox.Show(getPort);
+                System.Threading.Thread.Sleep(8000);
+
+
+                TcpClient tcpclient2 = new TcpClient();
+                //IAsyncResult result2 = tcpclient.BeginConnect(IPAddress.Parse("140.112.63.207"), int.Parse(getPort), null, null);
+                //bool success2 = result2.AsyncWaitHandle.WaitOne(1500, true);
+                //if (!success2)
+                //{
+                    //Fail..
+                    //MessageBox.Show("Fail");
+                 //   tcpclient2.Close();
+                    //MessageBox.Show("Fail2");
+                 //   e.Result = null;
+                    _傳送成功與否 = false;
+
+                 //   MessageBox.Show("Fail3");
+                    //bk_SendFIle.CancelAsync();
+                //    bk_AccessServerForDownload.CancelAsync();
+               // }
+                //MessageBox.Show("HH");
+                
+                StreamReader sw1 = new StreamReader(tempFile);// 傳送檔案路徑);
+                //sw1.Close();
+                tcpclient2.Connect(new IPEndPoint(IPAddress.Parse("140.112.63.207"), int.Parse(getPort)));//"140.112.63.207"), int.Parse("2015")));
+                byte[] buffer = new byte[1500];
+                long bytesSent = 0;
+                while (bytesSent < sw1.BaseStream.Length)
+                {
+                    int bytesRead = sw1.BaseStream.Read(buffer, 0, 1500);
+                    tcpclient2.GetStream().Write(buffer, 0, bytesRead);
+                    bytesSent += bytesRead;
+                }
+                tcpclient2.Close();
+                sw1.Close();
+                _傳送成功與否 = true;
+
+
+                //e.Result = "OK" + _TempName + "\n" + getPort;
+                //MessageBox.Show("There");
+
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message.ToString());//!!!!!!!!
+                //MessageBox.Show(ex.StackTrace.ToString());//!!!!!!!
+                e.Result = null;
+            }
+        }
+        private void bk_AccessServerForDownload_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            FileInfo ftemp = new FileInfo(_傳送檔案暫時名稱);
+            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
+            //MessageBox.Show("H");
+            //傳送成功.
+            if (!object.Equals(_傳送檔案暫時名稱, null))
+            {
+
+
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+            }
+            _傳送檔案暫時名稱 = null;
+            //MessageBox.Show(e.Result.ToString());
+            //bool GoingToDown = false;
+            //if (object.Equals(e.Result,null))
+            //{
+            //    //Fails.
+            //    _傳送檔案使用Port = null;
+            //    _傳送檔案暫時名稱 = null;
+            //    _傳送成功與否 = false;
+            //    GoingToDown = false;
+            //    _Server連接回傳字串 = null;
+            //    _Server是否可以傳送 = false;
+
+            //}
+            //else
+            //{
+            //    string s = e.Result.ToString();
+            //    string[] ss = s.Replace("OK", "").Split('\n');
+            //    _傳送檔案暫時名稱 = ss[0];
+            //    _傳送檔案使用Port = ss[1];
+            //    _Server是否可以傳送 = true;
+            //    _Server連接回傳字串 = ss[1];
+            //    GoingToDown = true;
+            //}
+
+
+
+
+            //if (!GoingToDown)
+            //{
+            //    //失敗.
+            //    return;
+            //}
+
+
+            //_傳送成功與否 = false;
+            ////MessageBox.Show("P1");
+            ////_傳送檔案暫時名稱 = ;
+            ////_傳送檔案使用Port = ;// getPort;
+            //bk_SendFIle.RunWorkerAsync(_傳送檔案暫時名稱);
+        }
+        private bool _傳送成功與否 = false;
+        private string _傳送檔案暫時名稱 = null;
+        private string _傳送檔案使用Port=null;
+        private bool _Server是否可以傳送 = false;
+        private string _Server連接回傳字串 = null;
+        public void 發送檔案給主機(string 傳送檔案路徑)
+        {
+
+            //MessageBox.Show("H2");
+            FileInfo ftemp = new FileInfo(傳送檔案路徑);
+            if (!ftemp.Exists)
+            {
+                return;
+            }
+
+            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
+            File.Copy(傳送檔案路徑, tempFile, true);
+
+
+            //連接Server的檔案下載端.
+            _Server是否可以傳送 = false;
+            _傳送檔案暫時名稱 = 傳送檔案路徑;
+            bk_AccessServerForDownload.RunWorkerAsync(傳送檔案路徑);
+
+
+
         }
         public string MyIP()
         {
@@ -1159,6 +1504,45 @@ namespace VE_SD
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void 測試傳送遠端ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TcpClient tcpclient = new TcpClient();
+                tcpclient.Connect("140.112.63.207", 8001);
+                Stream str = tcpclient.GetStream();
+                ASCIIEncoding asen = new ASCIIEncoding();
+                byte[] ba = asen.GetBytes("This the test message");
+                str.Write(ba, 0, ba.Length);
+                byte[] bb = new byte[100];
+                int k = str.Read(bb, 0, 100);
+                string news = "";
+                for (int i = 0; i < k; i++)
+                {
+                    news = news + Convert.ToChar(bb[i]);
+                }
+                MessageBox.Show(news);
+                tcpclient.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show(ex.StackTrace.ToString());
+            }
+        }
+
+        private void 測試密碼轉換ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string TestCode="1472-8923-3516-9864";
+            MessageBox.Show(密碼16位碼再加密(TestCode));
+
+        }
+
+        private void 關閉此軟體ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

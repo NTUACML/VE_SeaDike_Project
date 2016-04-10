@@ -1597,6 +1597,7 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox6
@@ -1715,6 +1716,7 @@
             // bk_OutputWordReport
             // 
             this.bk_OutputWordReport.WorkerReportsProgress = true;
+            this.bk_OutputWordReport.WorkerSupportsCancellation = true;
             this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);

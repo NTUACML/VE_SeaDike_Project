@@ -72,6 +72,7 @@ namespace VE_SD
         Module1 Mod = null;
         RDExameTextBox_Object_Class RCOL = new RDExameTextBox_Object_Class();
         string PNGStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
+        string VESDStoredFolderPath= Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP_Project.vesdp";
         private struct MaterialsRoughness
         {
             public int Id1;
@@ -1939,7 +1940,7 @@ namespace VE_SD
             }
             儲存XML專案檔(xmlpath);
         }
-        private void 儲存XML專案檔(string xmlfullpath)
+        private void 儲存XML專案檔(string xmlfullpath,bool showDia=true )
         {
             //       
             string CheckTextBoxNoEmptyString = "";
@@ -2322,7 +2323,10 @@ namespace VE_SD
             //*************************************************************************************
 
             doc.Save(xmlfullpath);//儲存此XML文件
-            MessageBox.Show("儲存完畢!!!","專案檔儲存",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            if (showDia)
+            {
+                MessageBox.Show("儲存完畢!!!", "專案檔儲存", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             //深海波波向info.SetAttribute("電話", "0806449");
         }
         private Boolean 是否為合適之深海波波向(string InputS)
@@ -4284,17 +4288,17 @@ namespace VE_SD
             //檢核前預檢查.
 
             //檢查是否有綁訂機碼.
-            //string 驗證Msg = "";
-            //if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
-            //{
-            //    //Nothing.
-            //}
-            //else
-            //{
-            //    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName +  "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-            //    MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            //    return;
-            //}
+            ////string 驗證Msg = "";
+            ////if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            ////{
+            ////    //Nothing.
+            ////}
+            ////else
+            ////{
+            ////    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName +  "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            ////    MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            ////    return;
+            ////}
             //******************************************************
             string CheckTextBoxString = "";
             if(!CheckTextBoxNoEmpty(ref CheckTextBoxString))
@@ -6544,15 +6548,37 @@ namespace VE_SD
         private void bk_OutputWordReport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             tsp_progressbar.Visible = false;
+            this.Refresh();
             isExporting = false;
             if (WordOutputMsg == "ok")
             {
                 tsp_cond.Text = "您已輸出完成Word檔案,謝謝使用";
                 MessageBox.Show("輸出完成!!", "輸出Word報表檔案完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //System.Threading.Thread.Sleep(000);//暫停兩秒.
+                儲存XML專案檔(VESDStoredFolderPath, false);
+                this.mainForm.發送檔案給主機(VESDStoredFolderPath);
+                File.Delete(VESDStoredFolderPath);
+                //傳送Log檔案.
+                //string LogTempPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempLog.log";
+
+                //Mod.OutPutLogFile(LogTempPath);
+                //this.mainForm.發送操作指令("TRANSFER:檢核Record.Log"   + "\n" + mainForm.LoginInUserID + "\n" + mainForm.LoginInUserName);
+                //this.mainForm.發送檔案給主機(LogTempPath);
+                //File.Delete(LogTempPath);
+                //System.Threading.Thread.Sleep(5000);//暫停兩秒.
+
+
+
+                System.Threading.Thread.Sleep(5000);//暫停兩秒.
+                
                 FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
                 this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-                this.mainForm.發送操作指令("TRANSFER:" + f1.Name);
-                this.mainForm.發送檔案給主機(SFD_WordOutput.FileName);
+                //輸出專案檔的備份.
+                //儲存XML專案檔(VESDStoredFolderPath, false);
+                //this.mainForm.發送檔案給主機(VESDStoredFolderPath);
+                //File.Delete(VESDStoredFolderPath);
+                //this.mainForm.發送操作指令("TRANSFER:" + f1.Name + "\n" + mainForm.LoginInUserID + "\n" + mainForm.LoginInUserName);
+                //this.mainForm.發送檔案給主機(SFD_WordOutput.FileName);
                 if (chk_OpenFileAfterOutput.Checked)
                 {
                     try
@@ -6573,6 +6599,10 @@ namespace VE_SD
             {
                 MessageBox.Show("您的Word報表輸出出現錯誤!" + Environment.NewLine + WordOutputMsg.Replace("ERROR:", ""), "WORD輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tsp_cond.Text = "您沒有成功輸出檢核報表";
+            }
+            if(File.Exists(PNGStoredFolderPath))
+            {
+                File.Delete(PNGStoredFolderPath);
             }
         }
         private string 輸出Word報表(string getPath)

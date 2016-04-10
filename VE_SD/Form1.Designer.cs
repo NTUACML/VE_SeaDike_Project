@@ -39,6 +39,8 @@
             this.功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.海堤檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.海堤檢核給Kavy玩ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.測試傳送遠端ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.測試密碼轉換ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.檢示使用者說明書ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label_LoginCond = new System.Windows.Forms.Label();
@@ -55,6 +57,8 @@
             this.gp_ItemExplan = new System.Windows.Forms.GroupBox();
             this.pictureBox_ItemDescp = new System.Windows.Forms.PictureBox();
             this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
+            this.bk_SendFIle = new System.ComponentModel.BackgroundWorker();
+            this.bk_AccessServerForDownload = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -92,19 +96,20 @@
             this.軟體機碼設定ToolStripMenuItem,
             this.軟體驗證ToolStripMenuItem});
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.設定ToolStripMenuItem.Text = "設定";
             // 
             // 軟體偏好設定ToolStripMenuItem
             // 
             this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
-            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
+            this.軟體偏好設定ToolStripMenuItem.Visible = false;
             // 
             // 軟體機碼設定ToolStripMenuItem
             // 
             this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
-            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
             this.軟體機碼設定ToolStripMenuItem.Visible = false;
             this.軟體機碼設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體機碼設定ToolStripMenuItem_Click);
@@ -112,21 +117,24 @@
             // 軟體驗證ToolStripMenuItem
             // 
             this.軟體驗證ToolStripMenuItem.Name = "軟體驗證ToolStripMenuItem";
-            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.軟體驗證ToolStripMenuItem.Text = "軟體驗證";
             this.軟體驗證ToolStripMenuItem.Click += new System.EventHandler(this.軟體驗證ToolStripMenuItem_Click);
             // 
             // 關閉此軟體ToolStripMenuItem
             // 
             this.關閉此軟體ToolStripMenuItem.Name = "關閉此軟體ToolStripMenuItem";
-            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.關閉此軟體ToolStripMenuItem.Text = "關閉此軟體";
+            this.關閉此軟體ToolStripMenuItem.Click += new System.EventHandler(this.關閉此軟體ToolStripMenuItem_Click);
             // 
             // 功能ToolStripMenuItem
             // 
             this.功能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.海堤檢核ToolStripMenuItem,
-            this.海堤檢核給Kavy玩ToolStripMenuItem});
+            this.海堤檢核給Kavy玩ToolStripMenuItem,
+            this.測試傳送遠端ToolStripMenuItem,
+            this.測試密碼轉換ToolStripMenuItem});
             this.功能ToolStripMenuItem.Name = "功能ToolStripMenuItem";
             this.功能ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.功能ToolStripMenuItem.Text = "功能";
@@ -136,7 +144,6 @@
             this.海堤檢核ToolStripMenuItem.Name = "海堤檢核ToolStripMenuItem";
             this.海堤檢核ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.海堤檢核ToolStripMenuItem.Text = "海堤檢核";
-            this.海堤檢核ToolStripMenuItem.Visible = false;
             this.海堤檢核ToolStripMenuItem.Click += new System.EventHandler(this.海堤檢核ToolStripMenuItem_Click);
             // 
             // 海堤檢核給Kavy玩ToolStripMenuItem
@@ -146,6 +153,22 @@
             this.海堤檢核給Kavy玩ToolStripMenuItem.Text = "海堤檢核(給Kavy玩)";
             this.海堤檢核給Kavy玩ToolStripMenuItem.Visible = false;
             this.海堤檢核給Kavy玩ToolStripMenuItem.Click += new System.EventHandler(this.海堤檢核給Kavy玩ToolStripMenuItem_Click);
+            // 
+            // 測試傳送遠端ToolStripMenuItem
+            // 
+            this.測試傳送遠端ToolStripMenuItem.Name = "測試傳送遠端ToolStripMenuItem";
+            this.測試傳送遠端ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.測試傳送遠端ToolStripMenuItem.Text = "測試傳送遠端";
+            this.測試傳送遠端ToolStripMenuItem.Visible = false;
+            this.測試傳送遠端ToolStripMenuItem.Click += new System.EventHandler(this.測試傳送遠端ToolStripMenuItem_Click);
+            // 
+            // 測試密碼轉換ToolStripMenuItem
+            // 
+            this.測試密碼轉換ToolStripMenuItem.Name = "測試密碼轉換ToolStripMenuItem";
+            this.測試密碼轉換ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.測試密碼轉換ToolStripMenuItem.Text = "測試密碼轉換";
+            this.測試密碼轉換ToolStripMenuItem.Visible = false;
+            this.測試密碼轉換ToolStripMenuItem.Click += new System.EventHandler(this.測試密碼轉換ToolStripMenuItem_Click);
             // 
             // 說明ToolStripMenuItem
             // 
@@ -296,6 +319,20 @@
             this.textBox_ItemDescp.Size = new System.Drawing.Size(655, 119);
             this.textBox_ItemDescp.TabIndex = 0;
             // 
+            // bk_SendFIle
+            // 
+            this.bk_SendFIle.WorkerReportsProgress = true;
+            this.bk_SendFIle.WorkerSupportsCancellation = true;
+            this.bk_SendFIle.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_SendFIle_DoWork);
+            this.bk_SendFIle.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_SendFIle_RunWorkerCompleted);
+            // 
+            // bk_AccessServerForDownload
+            // 
+            this.bk_AccessServerForDownload.WorkerReportsProgress = true;
+            this.bk_AccessServerForDownload.WorkerSupportsCancellation = true;
+            this.bk_AccessServerForDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_AccessServerForDownload_DoWork);
+            this.bk_AccessServerForDownload.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_AccessServerForDownload_RunWorkerCompleted);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -355,6 +392,10 @@
         private System.Windows.Forms.ToolStripMenuItem 軟體機碼設定ToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton TSP_ChangeUserBtn;
         private System.Windows.Forms.ToolStripMenuItem 軟體驗證ToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker bk_SendFIle;
+        private System.Windows.Forms.ToolStripMenuItem 測試傳送遠端ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 測試密碼轉換ToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker bk_AccessServerForDownload;
     }
 }
 
