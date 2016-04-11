@@ -43,7 +43,7 @@ namespace VE_SD
             //根據傳遞資料與否決定顯示內容.
             chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart1.Series[0].BorderWidth = 2;
-            chart1.Series[0].BorderColor = Color.Red;
+            //chart1.Series[0].BorderColor = Color.Red;
             chart1.Series[0].Color = Color.Red;
 
             chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -78,6 +78,7 @@ namespace VE_SD
             {
                 //如果II不為空白,填入值.
                 oname = II.名稱;
+                nowname = II.名稱;
                 gp_AddNewName.Enabled = true;
                 gp_AddCoordinate.Enabled = true;
 
@@ -365,34 +366,57 @@ namespace VE_SD
             DataGridViewRowCollection rows = dataGridView1.Rows;
             for(int i=0;i<dataGridView1.Rows.Count;i++)
             {
-                if(double.TryParse(dataGridView1.Rows[i].Cells[0].Value.ToString(),out xtest))
+                try
+                {
+                    if (double.TryParse(dataGridView1.Rows[i].Cells[0].Value.ToString(), out xtest))
+                    {
+
+                    }
+                    else
+                    {
+                        label_Show.Text = "失敗: X轉換失敗-->" + (i.ToString()) + ":" + dataGridView1.Rows[i].Cells[0].Value.ToString();
+                    }
+                }
+                catch
+                {
+                    label_Show.Text = "失敗: X轉換失敗-->" + (i.ToString());
+                }
+                try
                 {
 
-                }
-                else
-                {
-                    label_Show.Text = "失敗: X轉換失敗-->" + (i.ToString()) + ":" + dataGridView1.Rows[i].Cells[0].Value.ToString();
-                }
-                if(double.TryParse(dataGridView1.Rows[i].Cells[1].Value.ToString(),out ytest))
-                {
+                    if (double.TryParse(dataGridView1.Rows[i].Cells[1].Value.ToString(), out ytest))
+                    {
 
+                    }
+                    else
+                    {
+                        label_Show.Text = "失敗: Y轉換失敗-->" + (i.ToString()) + ":" + dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    }
                 }
-                else
+                catch
                 {
-                    label_Show.Text = "失敗: Y轉換失敗-->" + (i.ToString()) + ":" + dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    label_Show.Text = "失敗: Y轉換失敗-->" + (i.ToString());
                 }
-                if(double.TryParse(dataGridView1.Rows[i].Cells[0].Value.ToString(),out xtest) && double.TryParse(dataGridView1.Rows[i].Cells[1].Value.ToString(),out ytest))
+                try
                 {
-                    Array.Resize(ref x, xsize + 1);
-                    x[xsize] = xtest;
-                    Array.Resize(ref y, ysize + 1);
-                    y[ysize] = ytest;
-                    xsize += 1;
-                    ysize += 1;
+                    if (double.TryParse(dataGridView1.Rows[i].Cells[0].Value.ToString(), out xtest) && double.TryParse(dataGridView1.Rows[i].Cells[1].Value.ToString(), out ytest))
+                    {
+                        Array.Resize(ref x, xsize + 1);
+                        x[xsize] = xtest;
+                        Array.Resize(ref y, ysize + 1);
+                        y[ysize] = ytest;
+                        xsize += 1;
+                        ysize += 1;
+                    }
+                    else
+                    {
+                        //label_Show.Text = "失敗:" + (i.ToString());
+                        success = false;
+                        break;
+                    }
                 }
-                else
+                catch
                 {
-                    //label_Show.Text = "失敗:" + (i.ToString());
                     success = false;
                     break;
                 }
@@ -412,7 +436,13 @@ namespace VE_SD
                 
                 return;
             }
+            
             chart1.Series[0].Points.Clear();
+            if(ysize==1)
+            {
+                //跳出.
+                return;
+            }
             for(int i=0;i< ysize;i++)
             {
                 chart1.Series[0].Points.AddXY(x[i], y[i]);
@@ -438,6 +468,15 @@ namespace VE_SD
             double xdiff = (Xmax - Xmin);
             double ydiff = (Ymax - Ymin);
             double xspace, yspace;
+           
+            if(xdiff==0)
+            {
+                xdiff = 1.0;
+            }
+            if(ydiff==0)
+            {
+                ydiff = 1.0;
+            }
             xspace = xdiff / 4.0;
             yspace = ydiff / 4.0;
             //if(xdiff<=1)
@@ -677,6 +716,9 @@ namespace VE_SD
             }
         }
 
+        private void gp_AddNewName_Enter(object sender, EventArgs e)
+        {
 
+        }
     }
 }

@@ -80,6 +80,7 @@
             // 
             // textBox_NameInput
             // 
+            this.textBox_NameInput.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.textBox_NameInput.Location = new System.Drawing.Point(110, 49);
             this.textBox_NameInput.Name = "textBox_NameInput";
             this.textBox_NameInput.Size = new System.Drawing.Size(375, 30);
@@ -282,6 +283,7 @@
             this.gp_AddNewName.TabIndex = 3;
             this.gp_AddNewName.TabStop = false;
             this.gp_AddNewName.Text = "第一步:形塊名稱";
+            this.gp_AddNewName.Enter += new System.EventHandler(this.gp_AddNewName_Enter);
             // 
             // btn_SetName
             // 

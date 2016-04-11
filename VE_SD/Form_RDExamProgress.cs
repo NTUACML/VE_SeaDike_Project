@@ -1214,7 +1214,22 @@ namespace VE_SD
                 btn_Test.Enabled = false;
 
             }
+            
             BlockCount = listBox_SectSetting.Items.Count;
+            if(BlockCount==0)
+            {
+                //清除非海側的文字.
+                //TextAnnotation TT = new TextAnnotation();
+                for(int i=chart_Plot.Annotations.Count-1;i>=0; i--)
+                {
+                    TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
+                    if(TT.Text!="海側")
+                    {
+                        chart_Plot.Annotations.RemoveAt(i);
+                    }
+                    
+                }
+            }
         }
         private void 調整Chart(Chart INS)
         {
