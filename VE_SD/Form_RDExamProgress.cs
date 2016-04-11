@@ -3699,16 +3699,8 @@ namespace VE_SD
 
         private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isExporting) { return; }
-            //退出.
-            if (!(BlockMainArray.GetLength(0) == 0))
-            {
-                //當有編輯中的專案時(有Block時,才會有警示).
-                if (MessageBox.Show("您確定要關閉?按下確定後目前編輯中的專案檔會遺失所有更動", "關閉", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
-                { return; }
-
-            }
             this.Close();
+
         }
 
         private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -7282,14 +7274,24 @@ namespace VE_SD
 
         private void Form_RDExamProgress_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(isExporting)
+            if (isExporting) { e.Cancel=true; }
+            //退出.
+            if (!(BlockMainArray.GetLength(0) == 0))
             {
-                e.Cancel = true;
-            }
-            else
-            {
+                //當有編輯中的專案時(有Block時,才會有警示).
+                if (MessageBox.Show("您確定要關閉?按下確定後目前編輯中的專案檔會遺失所有更動", "關閉", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                { e.Cancel = false; }
 
             }
+            e.Cancel = false;
+            //if (isExporting)
+            //{
+            //    e.Cancel = true;
+            //}
+            //else
+            //{
+
+            //}
         }
     }
 }
