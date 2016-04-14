@@ -340,7 +340,7 @@ namespace VE_SD
             int ysize = 0;
             double xtest;
             double ytest;
-            bool success = true;
+            bool success = false;
             //string ss;
 
             if(dataGridView1.Rows.Count==0)
@@ -407,17 +407,18 @@ namespace VE_SD
                         y[ysize] = ytest;
                         xsize += 1;
                         ysize += 1;
+                        success = true;
                     }
                     else
                     {
                         //label_Show.Text = "失敗:" + (i.ToString());
-                        success = false;
+                        //success = false;
                         break;
                     }
                 }
                 catch
                 {
-                    success = false;
+                    //success = false;
                     break;
                 }
             }

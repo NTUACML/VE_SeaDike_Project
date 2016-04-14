@@ -1716,15 +1716,22 @@ namespace VE_SD
                 double Ymax =-Ymin;
                 foreach (Series ss in chart_Plot.Series)
                 {
+                    if(!BlockNameToArraySubscript.ContainsKey(ss.Name))
+                    {
+                        continue;
+                    }
                     foreach (DataPoint dp in ss.Points)
                     {
                         //label_Show.Text += (dp.XValue.ToString());
                         //if (dp.XValue > Xmax) { Xmax = dp.XValue; }
                         //if (dp.XValue < Xmin) { Xmin = dp.XValue; }
+                        
                         if (dp.YValues[0] > Ymax) { Ymax = dp.YValues[0]; }
                         if (dp.YValues[0] < Ymin) { Ymin = dp.YValues[0]; }
                     }
                 }
+                MessageBox.Show(BlockNameToArraySubscript.Count.ToString() + ";" + Ymax.ToString() + ";" + Ymin.ToString());
+
 
                 //label_Show.Text = Xmin.ToString() + ":" + Xmax.ToString();
                 //double xdiff = (Xmax - Xmin);
@@ -1735,7 +1742,7 @@ namespace VE_SD
                 }
                 double ydiff = (Ymax - Ymin);
                 double  yspace;
-                yspace = 取得最佳Interval(Ymax, Ymin);//;ydiff / 4.0;
+                yspace = 取得最佳Interval(Ymin, Ymax);//;ydiff / 4.0;
 
                 //if (ydiff <= 1)
                 //{
@@ -1765,7 +1772,7 @@ namespace VE_SD
                 ///MessageBox.Show(Ymax.ToString());
                 //
                 double NewYmin = Math.Floor(Ymin / yspace) * yspace;
-                double NewYmax =Math.Ceiling( Ymax/yspace)*yspace+yspace/2.0;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
+                double NewYmax =Math.Ceiling(Ymax/yspace)*yspace+yspace/2.0;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
 
                 //chart_Plot.Series.Add("ARROW");
                 //chart_Plot.Series["ARROW"].ChartType = SeriesChartType.Line;
@@ -1779,6 +1786,7 @@ namespace VE_SD
                 SeaSidetext.AxisY = chart_Plot.ChartAreas[0].AxisY;
                 SeaSidetext.AnchorX = cmb_seawaveDir.SelectedItem.ToString()=="左"?(chart_Plot.ChartAreas[0].AxisX.Minimum+xspace/3.0):(chart_Plot.ChartAreas[0].AxisX.Maximum-xspace/3.0);
                 SeaSidetext.AnchorY = NewYmax - yspace / 2.0;
+                MessageBox.Show("Ymax = " + NewYmax.ToString() + ", Ax= " + SeaSidetext.AnchorX.ToString() + " ,Ay = " + SeaSidetext.AnchorY.ToString());
                 SeaSidetext.Font = new Font("微軟正黑體", 14, FontStyle.Bold);
                 SeaSidetext.Text = "海側";// (cmb_seawaveDir.SelectedItem.ToString()=="E"?"<":"") + "========="+ (cmb_seawaveDir.SelectedItem.ToString()=="W"?">":"");
                 chart_Plot.Annotations.Add(SeaSidetext);
@@ -3599,6 +3607,7 @@ namespace VE_SD
             {
                 BlockMainArray[i] = BlockMainArrayR[i];
                 BlockNameToListSubScript.Add(BlockMainArray[i].名稱, i);
+                BlockNameToArraySubscript.Add(BlockMainArray[i].名稱, i);
                 BlockListSubScriptToName.Add(i, BlockMainArray[i].名稱);
 
                 chart_Plot.Series.Add(BlockMainArray[i].名稱);
@@ -3619,13 +3628,16 @@ namespace VE_SD
                 //chart_Plot.Series[BlockMainArray[i].名稱].BorderColor = Color.Black;
                 chart_Plot.Series[BlockMainArray[i].名稱].Color = Color.Black;
                 chart_Plot.Series[BlockMainArray[i].名稱].BorderWidth = 2;
+                chart_Plot.Update();
                 //chart_Plot.Series[BlockMainArray[i].名稱].MarkerBorderWidth = 2; //Color.Black;
                 listBox_SectSetting.Items.Add(BlockMainArray[i].名稱 + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[i]));// "(" + BlockMainArray[i].單位體積重量.ToString() + ")");
             }
             if (BlockMainArray.GetLength(0) > 0)
             {
+                //MessageBox.Show("H1" + chart_Plot.Series.Count.ToString());
                 ELDGV1.Enabled = true;
-                調整Chart(chart_Plot);繪上EL();
+                調整Chart(chart_Plot);
+                繪上EL();
             }
 
             //檢核區塊.
