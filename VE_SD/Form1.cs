@@ -262,7 +262,7 @@ namespace VE_SD
             { 
                 Process p = new Process();
                 p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-                p.StartInfo.FileName = "浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                p.StartInfo.FileName = "VESD User Mannual Version 1.0.pdf";// 浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 p.Start();
             }
             catch
