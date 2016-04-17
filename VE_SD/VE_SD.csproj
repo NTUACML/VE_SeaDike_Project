@@ -99,6 +99,12 @@
     <Compile Include="Form_SDM.Designer.cs">
       <DependentUpon>Form_SDM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_UserSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_UserSetting.Designer.cs">
+      <DependentUpon>Form_UserSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Welcome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_SDM.resx">
       <DependentUpon>Form_SDM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_UserSetting.resx">
+      <DependentUpon>Form_UserSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Welcome.resx">
       <DependentUpon>Form_Welcome.cs</DependentUpon>

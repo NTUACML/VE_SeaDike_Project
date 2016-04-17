@@ -54,6 +54,8 @@ namespace VE_SD
 
             if (object.Equals(II,null) || II.座標點數==0)
             {
+                oname = "";
+                nowname = "";
                 //如果II為空白.
                 gp_AddNewName.Enabled = true;
                 gp_AddCoordinate.Enabled = false;
@@ -68,7 +70,7 @@ namespace VE_SD
                 //InitializingListViewXY();
                 dataGridView1.Rows.Clear();
                 btn_SetName.Text = "新增";
-
+                textBox_NameInput.Text = "";
                 toolTip1.SetToolTip(btn_SetName, "新增新的名稱");
                 btn_RemovePoints.Enabled = false;
                 btn_Insert.Enabled = false;
@@ -95,6 +97,7 @@ namespace VE_SD
                 btn_Insert.Enabled = true;
                 btn_RemovePoints.Enabled = true;
                 btn_SetName.Text = "修改";
+                textBox_NameInput.Text = II.名稱;
                 toolTip1.SetToolTip(btn_SetName, "修改為新的名稱");
                 textBox_AddNumber.Text = "3";
                 gp_AddCoordinate.Enabled = true;
@@ -161,6 +164,11 @@ namespace VE_SD
         {
             if(btn_SetName.Text=="修改" && !object.Equals(II, null))
             {
+                if ( oname == textBox_NameInput.Text)
+                {
+                    //等於什麼都沒變.
+                    return;
+                }
                 if(MessageBox.Show("您確定變更您的Block名稱嗎?","變更Block名稱",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)==DialogResult.Cancel)
                 {
                     return;
@@ -169,7 +177,8 @@ namespace VE_SD
             nowname = textBox_NameInput.Text;
             if(nowname=="")
             {
-                MessageBox.Show("無法輸入空白!!!!");
+                MessageBox.Show("不可輸入空白!!!!");
+                nowname = oname;
                 return;
             }
             if (gp_AddCoordinate.Enabled == false)
@@ -268,6 +277,8 @@ namespace VE_SD
                 //Insert from selected row.
                 //MessageBox.Show("Opps");
             }
+            //將焦點放回datagridview1上.
+            dataGridView1.Focus();
             DrawingChart();
         }
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)

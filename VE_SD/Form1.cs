@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Xml;
 
 namespace VE_SD
 {
@@ -25,6 +26,10 @@ namespace VE_SD
         string _LoginInUserName;
         bool _PSKEYCORRECT;
         bool loginsuccess = false;
+        bool _RemoveLogInDataWhenClosing = false;//是否於每次軟體正常關閉時,移除登入使用者資訊,則下次登入時必須重新輸入.
+
+
+        string _SystemReferenceStoreFolder= Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD";
         private string 驗證機碼存放位置 = "C:\\LKK";
         private string Exepath = System.IO.Directory.GetCurrentDirectory();
         private string PORT = "2016";
@@ -36,6 +41,11 @@ namespace VE_SD
             InitializeComponent();
         }
 
+        #region 公用參數取用區
+        public string SystemReferenceStoreFolder
+        {
+            get { return _SystemReferenceStoreFolder; }
+        }
         public string LoginTextSetting
         {
             get { return label_LoginCond.Text; }
@@ -56,8 +66,21 @@ namespace VE_SD
             get { return _PSKEYCORRECT; }
             set { _PSKEYCORRECT = value; }
         }
+        public bool RemoveLoginDataWhenClosing
+        {
+            get { return _RemoveLogInDataWhenClosing; }
+            set { _RemoveLogInDataWhenClosing = value; }
+        }
+        #endregion 
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            if(!Directory.Exists(_SystemReferenceStoreFolder))
+            {
+                Directory.CreateDirectory(_SystemReferenceStoreFolder);
+            }
+            _RemoveLogInDataWhenClosing = false; //預設為不刪除.
             label_LoginCond.Text = "NO";
             TSP_Progressbar.Visible = false;
             TSSTATUS_label.Text = "歡迎使用海堤檢核程式!";
@@ -78,15 +101,81 @@ namespace VE_SD
 
             TSP_ChangeUserBtn.Alignment = ToolStripItemAlignment.Right;
             TSP_ChangeUserBtn.RightToLeft = RightToLeft.No;
+
+            //載入使用者登入設定.
+            LoadingProgramSystemReference();
+
             //更改排列順序.
             //TSP_Progressbar.Alignment = ToolStripItemAlignment.Right;
             //TSP_Progressbar.RightToLeft = RightToLeft.No;
             //TSP_Progressbar.Visible = true;
             //TSP_Progressbar.Style = ProgressBarStyle.Marquee;
         }
+        public void LoadingProgramSystemReference()
+        {
+            //載入設定,若無則直接跳過.
+            string SystemReferenceFileName = _SystemReferenceStoreFolder + "\\System.Info";
+            //以XML格式處理.
+            FileInfo f1 = new FileInfo(SystemReferenceFileName);
+            if(!f1.Exists)
+            {
+                return;
+            }
+            XmlDocument doc = new XmlDocument();
+            doc.Load(SystemReferenceFileName);
+
+            bool 每次關閉軟體後刪除使用者登入資訊 = false;
+            try
+            {
+                //開啟失敗,則跳出.
+                XmlNode RNode = doc.SelectSingleNode("Root/每次關閉軟體後刪除使用者登入資訊");
+                if (object.Equals(RNode, null))
+                {
+                    return;
+                }
+                XmlElement Relement = (XmlElement)RNode;
+                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 每次關閉軟體後刪除使用者登入資訊))
+                {
+                    return;
+                }
+            }
+            catch
+            {
+
+
+            }
+
+            _RemoveLogInDataWhenClosing = 每次關閉軟體後刪除使用者登入資訊;
+
+
+
+
+        }
+        public void SavingProgramSystemReference()
+        {
+            //儲存系統設定.
+            string SystemReferenceFileName = _SystemReferenceStoreFolder + "\\System.Info";
+            if(!Directory.Exists(_SystemReferenceStoreFolder))
+            {
+                Directory.CreateDirectory(_SystemReferenceStoreFolder);
+            }
+            //以XML格式儲存.
+            XmlDocument doc = new XmlDocument();
+            XmlElement Root = doc.CreateElement("Root");
+            doc.AppendChild(Root);
+
+            XmlElement 每次關閉軟體後刪除使用者登入資訊= doc.CreateElement("每次關閉軟體後刪除使用者登入資訊");
+            每次關閉軟體後刪除使用者登入資訊.SetAttribute("Value", _RemoveLogInDataWhenClosing.ToString());
+            Root.AppendChild(每次關閉軟體後刪除使用者登入資訊);
+
+            doc.Save(SystemReferenceFileName);
+
+        }
 
         private void 海堤檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+
             //此功能已取消,目前主表單已直接改為海堤檢核主表單.
             //開啟海堤檢核主表單.
             this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
@@ -102,19 +191,19 @@ namespace VE_SD
 
         private void 海堤檢核給Kavy玩ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string temp1 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp2.docx";
-            string temp2 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp_2.txt";
-            File.Copy("C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Output_Template.docx", temp1, true);
-            File.Copy("C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Test.txt", temp2, true);
-            發送操作指令("TRANSFER:Temp2.docx" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
-            發送檔案給主機(temp1);
-            while(bk_SendFIle.IsBusy)
-            {
-                System.Threading.Thread.Sleep(2000);
-            }
+            //string temp1 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp2.docx";
+            //string temp2 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp_2.txt";
+            //File.Copy("C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Output_Template.docx", temp1, true);
+            //File.Copy("C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Test.txt", temp2, true);
+            //發送操作指令("TRANSFER:Temp2.docx" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+            //發送檔案給主機(temp1);
+            //while(bk_SendFIle.IsBusy)
+            //{
+            //    System.Threading.Thread.Sleep(2000);
+            //}
 
-            發送操作指令("TRANSFER:Temp_2.txt" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
-            發送檔案給主機(temp2);
+            //發送操作指令("TRANSFER:Temp_2.txt" + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+            //發送檔案給主機(temp2);
 
 
             //Wait for ok.
@@ -173,7 +262,7 @@ namespace VE_SD
             { 
                 Process p = new Process();
                 p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-                p.StartInfo.FileName = "EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                p.StartInfo.FileName = "浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 p.Start();
             }
             catch
@@ -1246,20 +1335,20 @@ namespace VE_SD
 
         private void bk_SendFIle_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("Done");
+            //MessageBox.Show("Done");
             FileInfo ftemp = new FileInfo(_傳送檔案暫時名稱);
             string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
             //MessageBox.Show("H");
             //傳送成功.
-            if (!object.Equals(_傳送檔案暫時名稱, null))
-            {
+            //if (!object.Equals(_傳送檔案暫時名稱, null))
+            //{
 
 
                 if (File.Exists(tempFile))
                 {
                     File.Delete(tempFile);
                 }
-            }
+            //}
 
             //若傳送失敗,則考慮再傳送一次.
             if (_傳送成功與否)
@@ -1281,7 +1370,7 @@ namespace VE_SD
             string getPort = null;
             string _TempName = e.Argument.ToString();
             FileInfo ftemp = new FileInfo(_TempName);
-            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
+            //string tempFile = _SystemReferenceStoreFolder + "\\TempOutputingFile" + ftemp.Extension;
             try
             {
                 TcpClient tcpclient = new TcpClient();
@@ -1358,7 +1447,7 @@ namespace VE_SD
                // }
                 //MessageBox.Show("HH");
                 
-                StreamReader sw1 = new StreamReader(tempFile);// 傳送檔案路徑);
+                StreamReader sw1 = new StreamReader(_系統發送暫時檔案名稱);// 傳送檔案路徑);
                 //sw1.Close();
                 tcpclient2.Connect(new IPEndPoint(IPAddress.Parse("140.112.63.207"), int.Parse(getPort)));//"140.112.63.207"), int.Parse("2015")));
                 byte[] buffer = new byte[1500];
@@ -1388,18 +1477,19 @@ namespace VE_SD
         private void bk_AccessServerForDownload_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             FileInfo ftemp = new FileInfo(_傳送檔案暫時名稱);
-            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
+            //string tempFile = _SystemReferenceStoreFolder + "\\TUP_" + DateTime.Now.ToString("yyyyMMddHHmm") + ftemp.Extension;
             //MessageBox.Show("H");
             //傳送成功.
-            if (!object.Equals(_傳送檔案暫時名稱, null))
+            //if (!object.Equals(_傳送檔案暫時名稱, null))
+            //{
+
+
+            if (File.Exists(_系統發送暫時檔案名稱))
             {
-
-
-                if (File.Exists(tempFile))
-                {
-                    File.Delete(tempFile);
-                }
+                File.Delete(_系統發送暫時檔案名稱);
             }
+            //}
+            _系統發送暫時檔案名稱 = null;
             _傳送檔案暫時名稱 = null;
             //MessageBox.Show(e.Result.ToString());
             //bool GoingToDown = false;
@@ -1441,6 +1531,7 @@ namespace VE_SD
             ////_傳送檔案使用Port = ;// getPort;
             //bk_SendFIle.RunWorkerAsync(_傳送檔案暫時名稱);
         }
+        private string _系統發送暫時檔案名稱 = null;
         private bool _傳送成功與否 = false;
         private string _傳送檔案暫時名稱 = null;
         private string _傳送檔案使用Port=null;
@@ -1456,8 +1547,21 @@ namespace VE_SD
                 return;
             }
 
-            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempOutputingFile" + ftemp.Extension;
-            File.Copy(傳送檔案路徑, tempFile, true);
+            //string tempFile = _SystemReferenceStoreFolder + "\\TUP_" + DateTime.Now.ToString("yyyyMMddHHmm") + ftemp.Extension;
+            _系統發送暫時檔案名稱= _SystemReferenceStoreFolder + "\\TUP_" + DateTime.Now.ToString("yyyyMMddHHmm") + ftemp.Extension;
+            if (File.Exists(_系統發送暫時檔案名稱))
+            {
+                try
+                {
+                    File.Delete(_系統發送暫時檔案名稱);
+                }
+                catch
+                {
+                    //表示此檔案無法移動,
+                    return;
+                }
+            }
+            File.Copy(傳送檔案路徑, _系統發送暫時檔案名稱, true);
 
 
             //連接Server的檔案下載端.
@@ -1500,7 +1604,6 @@ namespace VE_SD
 
         }
         #endregion
-
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -1543,6 +1646,38 @@ namespace VE_SD
         private void 關閉此軟體ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //根據設定決定關閉軟體時的動作.
+            if(_RemoveLogInDataWhenClosing)
+            {
+                //刪除使用者登入資訊.
+                if(File.Exists(_SystemReferenceStoreFolder + "\\LoginInUserInfo.txt"))
+                {
+                    try
+                    {
+                        File.Delete(_SystemReferenceStoreFolder + "\\LoginInUserInfo.txt");
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                    
+            }
+
+
+            //儲存新的系統設定.
+            SavingProgramSystemReference();
+        }
+
+        private void 軟體偏好設定ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_UserSetting frm_User = new Form_UserSetting(this);
+            frm_User.ShowDialog();
+
         }
     }
 }

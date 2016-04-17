@@ -137,6 +137,7 @@
             this.tabPage_MaterialAndFirction = new System.Windows.Forms.TabPage();
             this.labelT = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btn_RemoveRowMR = new System.Windows.Forms.Button();
             this.btnAddRow = new System.Windows.Forms.Button();
             this.DGMaterialRough = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -330,6 +331,7 @@
             // 輸出Log檔案ToolStripMenuItem
             // 
             this.輸出Log檔案ToolStripMenuItem.Name = "輸出Log檔案ToolStripMenuItem";
+            this.輸出Log檔案ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this.輸出Log檔案ToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.輸出Log檔案ToolStripMenuItem.Text = "輸出Log檔案";
             this.輸出Log檔案ToolStripMenuItem.Click += new System.EventHandler(this.輸出Log檔案ToolStripMenuItem_Click);
@@ -1235,9 +1237,11 @@
             this.labelT.Size = new System.Drawing.Size(63, 15);
             this.labelT.TabIndex = 3;
             this.labelT.Text = "label28";
+            this.labelT.Visible = false;
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btn_RemoveRowMR);
             this.groupBox4.Controls.Add(this.btnAddRow);
             this.groupBox4.Controls.Add(this.DGMaterialRough);
             this.groupBox4.Location = new System.Drawing.Point(286, 16);
@@ -1247,10 +1251,22 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "材質間摩擦係數設定";
             // 
+            // btn_RemoveRowMR
+            // 
+            this.btn_RemoveRowMR.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_RemoveRowMR.Location = new System.Drawing.Point(742, 24);
+            this.btn_RemoveRowMR.Name = "btn_RemoveRowMR";
+            this.btn_RemoveRowMR.Size = new System.Drawing.Size(21, 26);
+            this.btn_RemoveRowMR.TabIndex = 2;
+            this.btn_RemoveRowMR.Text = "-";
+            this.toolTip1.SetToolTip(this.btn_RemoveRowMR, "刪除一列");
+            this.btn_RemoveRowMR.UseVisualStyleBackColor = true;
+            this.btn_RemoveRowMR.Click += new System.EventHandler(this.btn_RemoveRowMR_Click);
+            // 
             // btnAddRow
             // 
             this.btnAddRow.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRow.Location = new System.Drawing.Point(742, 24);
+            this.btnAddRow.Location = new System.Drawing.Point(723, 24);
             this.btnAddRow.Name = "btnAddRow";
             this.btnAddRow.Size = new System.Drawing.Size(21, 26);
             this.btnAddRow.TabIndex = 1;
@@ -1281,6 +1297,7 @@
             this.DGMaterialRough.Size = new System.Drawing.Size(748, 447);
             this.DGMaterialRough.TabIndex = 0;
             this.DGMaterialRough.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterialRough_CellValueChanged);
+            this.DGMaterialRough.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DGMaterialRough_RowsRemoved);
             this.DGMaterialRough.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterialRough_UserDeletedRow);
             this.DGMaterialRough.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterialRough_UserDeletingRow);
             this.DGMaterialRough.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DGMaterialRough_KeyUp);
@@ -1349,6 +1366,7 @@
             this.DGMaterial.TabIndex = 0;
             this.DGMaterial.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterial_CellValueChanged);
             this.DGMaterial.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGMaterial_RowsAdded);
+            this.DGMaterial.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DGMaterial_RowsRemoved);
             this.DGMaterial.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterial_UserAddedRow);
             this.DGMaterial.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterial_UserDeletedRow);
             this.DGMaterial.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterial_UserDeletingRow);
@@ -1920,5 +1938,6 @@
         private System.Windows.Forms.SaveFileDialog SFD_WordOutput;
         private System.Windows.Forms.Button button2;
         private System.ComponentModel.BackgroundWorker bk_OutputWordReport;
+        private System.Windows.Forms.Button btn_RemoveRowMR;
     }
 }

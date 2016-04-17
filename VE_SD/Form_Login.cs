@@ -15,7 +15,7 @@ namespace VE_SD
 {
     public partial class Form_Login : Form
     {
-        string LoginFileFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD";
+        string LoginFileFolder;// = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD";
         
         string LeastUserLoginInFile = "LoginInUserInfo.txt";
         public Form_Login()
@@ -30,7 +30,7 @@ namespace VE_SD
             //"Exit Then End All"
             //"Exit Then Return"
             mainForm = callingForm as Form1;
-
+            
 
             InitializeComponent();
         }
@@ -39,6 +39,7 @@ namespace VE_SD
             //加入直接顯示上一次最後登入之使用者資訊檔案.
             //MessageBox.Show(LoginFileFolder);
             //MessageBox.Show(Dns.GetHostName());
+            LoginFileFolder = mainForm.SystemReferenceStoreFolder;
             FileInfo fi = new FileInfo(LoginFileFolder + "\\" + LeastUserLoginInFile); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (fi.Exists)
             {

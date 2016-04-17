@@ -104,6 +104,7 @@
             this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
             this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
+            this.軟體偏好設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體偏好設定ToolStripMenuItem_Click);
             // 
             // 軟體機碼設定ToolStripMenuItem
             // 
@@ -351,6 +352,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "浩海工程顧問公司: 海堤檢核程式";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
