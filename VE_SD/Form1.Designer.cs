@@ -96,20 +96,20 @@
             this.軟體機碼設定ToolStripMenuItem,
             this.軟體驗證ToolStripMenuItem});
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.設定ToolStripMenuItem.Text = "設定";
             // 
             // 軟體偏好設定ToolStripMenuItem
             // 
             this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
-            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
             this.軟體偏好設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體偏好設定ToolStripMenuItem_Click);
             // 
             // 軟體機碼設定ToolStripMenuItem
             // 
             this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
-            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
             this.軟體機碼設定ToolStripMenuItem.Visible = false;
             this.軟體機碼設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體機碼設定ToolStripMenuItem_Click);
@@ -117,14 +117,14 @@
             // 軟體驗證ToolStripMenuItem
             // 
             this.軟體驗證ToolStripMenuItem.Name = "軟體驗證ToolStripMenuItem";
-            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.軟體驗證ToolStripMenuItem.Text = "軟體驗證";
             this.軟體驗證ToolStripMenuItem.Click += new System.EventHandler(this.軟體驗證ToolStripMenuItem_Click);
             // 
             // 關閉此軟體ToolStripMenuItem
             // 
             this.關閉此軟體ToolStripMenuItem.Name = "關閉此軟體ToolStripMenuItem";
-            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.關閉此軟體ToolStripMenuItem.Text = "關閉此軟體";
             this.關閉此軟體ToolStripMenuItem.Click += new System.EventHandler(this.關閉此軟體ToolStripMenuItem_Click);
             // 
@@ -248,7 +248,7 @@
             this.groupBox1.Size = new System.Drawing.Size(399, 542);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "海堤檢核項目選擇";
+            this.groupBox1.Text = "檢核項目選擇";
             // 
             // button3
             // 
@@ -283,7 +283,7 @@
             this.btn_StandardRDC.Name = "btn_StandardRDC";
             this.btn_StandardRDC.Size = new System.Drawing.Size(369, 115);
             this.btn_StandardRDC.TabIndex = 0;
-            this.btn_StandardRDC.Text = "標準海堤檢核";
+            this.btn_StandardRDC.Text = "防波堤檢核";
             this.btn_StandardRDC.UseVisualStyleBackColor = true;
             this.btn_StandardRDC.Click += new System.EventHandler(this.btn_StandardRDC_Click);
             this.btn_StandardRDC.MouseEnter += new System.EventHandler(this.btn_StandardRDC_MouseEnter);
@@ -344,14 +344,14 @@
             this.Controls.Add(this.label_LoginCond);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("標楷體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "浩海工程顧問公司: 海堤檢核程式";
+            this.Text = "浩海工程顧問公司檢核程式";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);

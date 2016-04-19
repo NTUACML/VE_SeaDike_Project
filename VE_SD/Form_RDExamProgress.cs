@@ -926,7 +926,7 @@ namespace VE_SD
             }
             string nowname = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex];
 
-            MessageBox.Show(nowname);
+            //MessageBox.Show(nowname);
 
             //chart_Plot.Series[nowname].BorderColor = Color.Red;
             chart_Plot.Series[nowname].BorderWidth = 3;
@@ -1244,11 +1244,11 @@ namespace VE_SD
             }
             if (object.Equals(selectname, null))
             {
-                MessageBox.Show("Selectname is null");
+                //MessageBox.Show("Selectname is null");
             }
             else
             {
-                MessageBox.Show(selectname.ToString());
+                //MessageBox.Show(selectname.ToString());
             }
         }
         private void 調整Chart(Chart INS)
@@ -4330,17 +4330,17 @@ namespace VE_SD
             //檢核前預檢查.
 
             //檢查是否有綁訂機碼.
-            ////string 驗證Msg = "";
-            ////if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
-            ////{
-            ////    //Nothing.
-            ////}
-            ////else
-            ////{
-            ////    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName +  "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-            ////    MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            ////    return;
-            ////}
+            string 驗證Msg = "";
+            if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            {
+                //Nothing.
+            }
+            else
+            {
+                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
             //******************************************************
             string CheckTextBoxString = "";
             if(!CheckTextBoxNoEmpty(ref CheckTextBoxString))
@@ -5828,7 +5828,7 @@ namespace VE_SD
             //MessageBox.Show("H2");
             if(MaterialArray.GetLength(0)==0)
             {
-                MessageBox.Show("Size =0 ");
+                //MessageBox.Show("Size =0 ");
                 return;
             }
             //變更材質名稱時,同步將右側摩擦係數DG與矩陣變更.

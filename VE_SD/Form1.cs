@@ -83,7 +83,7 @@ namespace VE_SD
             _RemoveLogInDataWhenClosing = false; //預設為不刪除.
             label_LoginCond.Text = "NO";
             TSP_Progressbar.Visible = false;
-            TSSTATUS_label.Text = "歡迎使用海堤檢核程式!";
+            TSSTATUS_label.Text = "歡迎使用浩海工程顧問公司檢核程式!";
             Form_Welcome fwel = new Form_Welcome();
             fwel.ShowDialog();
 
@@ -238,7 +238,7 @@ namespace VE_SD
         private void btn_StandardRDC_MouseEnter(object sender, EventArgs e)
         {
             //MessageBox.Show(Exepath);
-            this.textBox_ItemDescp.Text = "此為海堤檢核程式,使用者須輸入計算所需之參數以求得海堤設計是否符合所需之標準";
+            this.textBox_ItemDescp.Text = "此為防波堤檢核程式,使用者須輸入計算所需之參數以求得防波堤設計是否符合所需之標準";
             try
             { 
               this.pictureBox_ItemDescp.Load(Exepath + "\\PIC\\STDVESD.JPG");
