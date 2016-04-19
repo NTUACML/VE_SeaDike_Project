@@ -925,7 +925,8 @@ namespace VE_SD
                 //chart_Plot.Series[selectname].MarkerBorderWidth = 2;
             }
             string nowname = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex];
-            //MessageBox.Show(nowname);
+
+            MessageBox.Show(nowname);
 
             //chart_Plot.Series[nowname].BorderColor = Color.Red;
             chart_Plot.Series[nowname].BorderWidth = 3;
@@ -1200,10 +1201,20 @@ namespace VE_SD
             //更新Position開始之後的Index.
             for (int i=0;i<listBox_SectSetting.Items.Count;i++)
             {
-                BlockArraySubscriptToName[i] = listBox_SectSetting.Items[i].ToString();
-                BlockListSubScriptToName[i] = listBox_SectSetting.Items[i].ToString();
-                BlockNameToArraySubscript[listBox_SectSetting.Items[i].ToString()] = i;
-                BlockNameToListSubScript[listBox_SectSetting.Items[i].ToString()] = i;
+                if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "無")
+                {
+                    BlockArraySubscriptToName[i] = listBox_SectSetting.Items[i].ToString();
+                    BlockListSubScriptToName[i] = listBox_SectSetting.Items[i].ToString();
+                    BlockNameToArraySubscript[listBox_SectSetting.Items[i].ToString()] = i;
+                    BlockNameToListSubScript[listBox_SectSetting.Items[i].ToString()] = i;
+                }
+                else
+                {
+                    BlockArraySubscriptToName[i] = listBox_SectSetting.Items[i].ToString().Split('(')[0];
+                    BlockListSubScriptToName[i] = listBox_SectSetting.Items[i].ToString().Split('(')[0];
+                    BlockNameToArraySubscript[listBox_SectSetting.Items[i].ToString().Split('(')[0]] = i;
+                    BlockNameToListSubScript[listBox_SectSetting.Items[i].ToString().Split('(')[0]] = i;
+                }
             }
             //
             
@@ -1230,6 +1241,14 @@ namespace VE_SD
                 }
 
 
+            }
+            if (object.Equals(selectname, null))
+            {
+                MessageBox.Show("Selectname is null");
+            }
+            else
+            {
+                MessageBox.Show(selectname.ToString());
             }
         }
         private void 調整Chart(Chart INS)
