@@ -6793,7 +6793,7 @@ namespace VE_SD
 
 
                 this.Refresh();
-                System.Threading.Thread.Sleep(5000);//暫停兩秒.
+                //System.Threading.Thread.Sleep(5000);//暫停兩秒.
                 
                 FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
                 this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
