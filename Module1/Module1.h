@@ -5,6 +5,7 @@
 #include "include\Module1_Var.h"
 #include <msclr/marshal_cppstd.h> 
 #include <string>
+# define M_PI 3.14159265358979323846  /* pi */
 using namespace System;
 
 namespace VE_SD {
