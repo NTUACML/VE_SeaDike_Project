@@ -1391,32 +1391,28 @@ namespace VE_SD
                 }
                 //tcpclient.Connect("140.112.63.207", 2017);
                 Stream str = tcpclient.GetStream();
-                ASCIIEncoding asen = new ASCIIEncoding();
-                byte[] ba = asen.GetBytes("TRANSFER:" + ftemp.Name + "\n" + _LoginInUserID + "\n" + _LoginInUserName);
+                //UTF8Encoding asen = new UTF8Encoding();
+                //ASCIIEncoding asen = new ASCIIEncoding();
+                byte[] ba = Encoding.Default.GetBytes("TRANSFER:" +  _LoginInUserID + "\n" + _LoginInUserName + "\n" + ftemp.Name);
                 str.Write(ba, 0, ba.Length);
                 byte[] bb = new byte[100];
+
                 int k = str.Read(bb, 0, 100);//讀取回傳訊息.
-                string news = "";
+                //str.Read(bb, 0, 100);
+                string news="";// = Encoding.Default.GetString(bb);
                 for (int i = 0; i < k; i++)
                 {
                     news = news + Convert.ToChar(bb[i]);
                 }
-                //MessageBox.Show(news);
+                MessageBox.Show(news);
                 if (news != "")
                 {
                     if (news.IndexOf("OK:") != -1)
                     {
-                        string[] ss = news.Replace("OK:", "").Split('\n');
-                        if (ss[0] != ftemp.Name)
-                        {
-                            //失敗.
-                            GoingToDown = false;
-                        }
-                        else
-                        {
-                            getPort = ss[1];
-                            GoingToDown = true;
-                        }
+                        
+                        getPort =news.Replace("OK:","");
+                        GoingToDown = true;
+                        
                     }
                     else
                     {
@@ -1424,6 +1420,13 @@ namespace VE_SD
                     }
                 }
                 tcpclient.Close();
+                if(!GoingToDown)
+                {
+                    MessageBox.Show("Fails to send file");
+                    e.Result = null;
+                    bk_AccessServerForDownload.CancelAsync();
+                    return;
+                }
 
                 //MessageBox.Show(getPort);
                 System.Threading.Thread.Sleep(8000);
@@ -1441,12 +1444,12 @@ namespace VE_SD
                  //   e.Result = null;
                     _傳送成功與否 = false;
 
-                 //   MessageBox.Show("Fail3");
-                    //bk_SendFIle.CancelAsync();
+                //   MessageBox.Show("Fail3");
+                //bk_SendFIle.CancelAsync();
                 //    bk_AccessServerForDownload.CancelAsync();
-               // }
+                // }
                 //MessageBox.Show("HH");
-                
+                //MessageBox.Show(_系統發送暫時檔案名稱);
                 StreamReader sw1 = new StreamReader(_系統發送暫時檔案名稱);// 傳送檔案路徑);
                 //sw1.Close();
                 tcpclient2.Connect(new IPEndPoint(IPAddress.Parse("140.112.63.207"), int.Parse(getPort)));//"140.112.63.207"), int.Parse("2015")));
@@ -1469,8 +1472,8 @@ namespace VE_SD
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message.ToString());//!!!!!!!!
-                //MessageBox.Show(ex.StackTrace.ToString());//!!!!!!!
+                MessageBox.Show(ex.Message.ToString());//!!!!!!!!
+                MessageBox.Show(ex.StackTrace.ToString());//!!!!!!!
                 e.Result = null;
             }
         }
@@ -1489,7 +1492,7 @@ namespace VE_SD
                 File.Delete(_系統發送暫時檔案名稱);
             }
             //}
-            _系統發送暫時檔案名稱 = null;
+            //_系統發送暫時檔案名稱 = null;
             _傳送檔案暫時名稱 = null;
             //MessageBox.Show(e.Result.ToString());
             //bool GoingToDown = false;

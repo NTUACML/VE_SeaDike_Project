@@ -180,6 +180,7 @@
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
+            this.label_XXX = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -1391,6 +1392,7 @@
             // 
             // tabPage_AddBlock
             // 
+            this.tabPage_AddBlock.Controls.Add(this.label_XXX);
             this.tabPage_AddBlock.Controls.Add(this.cmb_ShowOnBlockListChoice);
             this.tabPage_AddBlock.Controls.Add(this.groupBox3);
             this.tabPage_AddBlock.Controls.Add(this.ELDGV1);
@@ -1440,6 +1442,7 @@
             // 
             // ReferencedMaterialCHKL
             // 
+            this.ReferencedMaterialCHKL.CheckOnClick = true;
             this.ReferencedMaterialCHKL.ColumnWidth = 120;
             this.ReferencedMaterialCHKL.FormattingEnabled = true;
             this.ReferencedMaterialCHKL.HorizontalScrollbar = true;
@@ -1740,6 +1743,17 @@
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
+            // label_XXX
+            // 
+            this.label_XXX.AutoSize = true;
+            this.label_XXX.Font = new System.Drawing.Font("標楷體", 9.25F);
+            this.label_XXX.Location = new System.Drawing.Point(962, 469);
+            this.label_XXX.Name = "label_XXX";
+            this.label_XXX.Size = new System.Drawing.Size(56, 13);
+            this.label_XXX.TabIndex = 15;
+            this.label_XXX.Text = "label20";
+            this.label_XXX.Visible = false;
+            // 
             // Form_RDExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1939,5 +1953,6 @@
         private System.Windows.Forms.Button button2;
         private System.ComponentModel.BackgroundWorker bk_OutputWordReport;
         private System.Windows.Forms.Button btn_RemoveRowMR;
+        private System.Windows.Forms.Label label_XXX;
     }
 }

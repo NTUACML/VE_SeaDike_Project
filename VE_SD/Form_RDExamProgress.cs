@@ -80,6 +80,12 @@ namespace VE_SD
             public int Id2;
             public double coef;
         }
+        private struct PointFMY
+        {
+            public double x;
+            public double y;
+            public double z;
+        }
 
         public Form_RDExamProgress()
         {
@@ -285,7 +291,7 @@ namespace VE_SD
             Array.Resize(ref MaterialArray, 3); MaterialCount = 3;
             MaterialArray[0] = "混凝土方塊";
             MaterialArray[1] = "混凝土拋石";
-            MaterialArray[2] = "場注混凝土";
+            MaterialArray[2] = "場鑄混凝土";
             Array.Resize(ref MaterialsCoefArray, 4); MaterialRoughnessArrayCount = 4;
             MaterialsCoefArray[0].coef = 0.5;//混凝土方塊與方塊.
             MaterialsCoefArray[0].Id1 = 0;
@@ -331,7 +337,7 @@ namespace VE_SD
         private void chart_Plot_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.MouseEventArgs ex = (System.Windows.Forms.MouseEventArgs)e;
-
+            //MessageBox.Show(ex.X.ToString() + "," + ex.Y.ToString());
             HitTestResult result = chart_Plot.HitTest(ex.X, ex.Y);
 
             if (result.ChartElementType == ChartElementType.DataPoint)
@@ -444,8 +450,9 @@ namespace VE_SD
                 //建立Polygon矩陣
                 PP[] PolygonCol = new PP[] { };
                 
-                double hitX= chart_Plot.ChartAreas[0].AxisX.PixelPositionToValue(ex.X); ;
-                double hitY = chart_Plot.ChartAreas[0].AxisY.PixelPositionToValue(ex.Y); ;
+                double hitX= chart_Plot.ChartAreas[0].AxisX.PixelPositionToValue(ex.X); 
+                double hitY = chart_Plot.ChartAreas[0].AxisY.PixelPositionToValue(ex.Y); 
+                //MessageBox.Show(hitX.ToString() + "," + hitY.ToString());
                 PP PHit;
                 PHit.h = hitX;
                 PHit.v = hitY;
@@ -922,10 +929,23 @@ namespace VE_SD
                 //chart_Plot.Series[selectname].BorderColor = Color.Black;
                 chart_Plot.Series[selectname].BorderWidth = 2;
                 chart_Plot.Series[selectname].Color = Color.Black;
+
+                label_XXX.Text = "";
                 //chart_Plot.Series[selectname].MarkerBorderWidth = 2;
             }
             string nowname = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex];
+            for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
+            {
+                TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
+                if (TT.Text == nowname)
+                {
+                    //chart_Plot.Annotations.RemoveAt(i);
+                    //label_XXX.Text = "(" + TT.AnchorX.ToString("00.00") + "," + TT.AnchorY.ToString("00.00") + ")";
+                    label_XXX.Text = "(" + TT.AnchorX.ToString("00.00") + "," + TT.AnchorY.ToString("00.00") + ")\n(" + TT.X.ToString("00.00") + "," + TT.Y.ToString("00.00") + ")\n" + TT.AnchorAlignment.ToString();
+                }
 
+
+            }
             //MessageBox.Show(nowname);
 
             //chart_Plot.Series[nowname].BorderColor = Color.Red;
@@ -1226,22 +1246,24 @@ namespace VE_SD
                 btn_Test.Enabled = false;
 
             }
+
             
             BlockCount = listBox_SectSetting.Items.Count;
+            繪上EL();
             //if(BlockCount==0)
             //{
             //清除此區塊之名稱文字.
             //TextAnnotation TT = new TextAnnotation();
-            for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
-            {
-                TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
-                if (TT.Text == oldname)
-                {
-                    chart_Plot.Annotations.RemoveAt(i);
-                }
+            //for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
+            //{
+            //    TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
+            //    if (TT.Text == oldname)
+            //    {
+            //        chart_Plot.Annotations.RemoveAt(i);
+            //    }
 
 
-            }
+            //}
             if (object.Equals(selectname, null))
             {
                 //MessageBox.Show("Selectname is null");
@@ -1250,6 +1272,7 @@ namespace VE_SD
             {
                 //MessageBox.Show(selectname.ToString());
             }
+            
         }
         private void 調整Chart(Chart INS)
         {
@@ -1793,7 +1816,11 @@ namespace VE_SD
                 //
                 double NewYmin = Math.Floor(Ymin / yspace) * yspace;
                 double NewYmax =Math.Ceiling(Ymax/yspace)*yspace+yspace/2.0;// Ymin + Math.Ceiling((Ymax - Ymin) / yspace) * yspace;
-
+                //設定軸的範圍.
+                chart_Plot.ChartAreas[0].AxisY.Minimum = NewYmin;// Ymin - yspace;
+                chart_Plot.ChartAreas[0].AxisY.Maximum = NewYmax;
+                chart_Plot.ChartAreas[0].AxisY.Interval = yspace;
+                chart_Plot.ChartAreas[0].RecalculateAxesScale();
                 //chart_Plot.Series.Add("ARROW");
                 //chart_Plot.Series["ARROW"].ChartType = SeriesChartType.Line;
                 //chart_Plot.Series["ARROW"].XValueType = ChartValueType.Time;
@@ -1823,22 +1850,72 @@ namespace VE_SD
                     double ymini = -ymaxi;
                     double[] gx = BlockMainArray[i].X;
                     double[] gy = BlockMainArray[i].Y;
+                    double aa = 0;
+                    double w = 0;
+                    double cx = 0;
+                    double cy = 0;
                     for(int j=0;j<PointCount;j++)
                     {
-                        xcc += (gx[j]);
-                        ycc += (gy[j]);
+                        
+                        //xcc += (gx[j]);
+                        //ycc += (gy[j]);
                         if (gy[j] > ymaxi) { ymaxi = gy[j]; }
                         if (gy[j] < ymini) { ymini = gy[j]; }
 
                     }
-                    xcc = xcc / (double)PointCount;
-                    ycc = ycc / (double)PointCount;
+                    
+
+                    for (int iii = PointCount - 1,i4=0;i4<PointCount;iii=i4++)
+                    {
+                        PointFMY F1;
+                        F1.x = gx[iii];
+                        F1.y = gy[iii];
+                        F1.z = 0;
+                        PointFMY F2;
+                        F2.x = gx[i4];
+                        F2.y = gy[i4];
+                        F2.z = 0;
+                        PointFMY F3=Cross(F1, F2);
+                        aa = F3.z;
+                        cx += ((F1.x + F2.x) * aa);
+                        cy += ((F1.y + F2.y) * aa);
+                        w += aa;
+                    }
+                    //xcc = xcc / (double)PointCount;
+                    //ycc = ycc / (double)PointCount;
+                    xcc = cx / 3.0 / w;
+                    ycc = cy / 3.0 / w;
+                    TT.Text =BlockListSubScriptToName[i];
+                    TT.AllowMoving = true;
+                    TT.AnchorAlignment = ContentAlignment.MiddleCenter;
+                    TT.Font = new Font("微軟正黑體", 7, FontStyle.Bold);
+                    TT.ForeColor = Color.OrangeRed;
+                    //double hitX = chart_Plot.ChartAreas[0].AxisX.PixelPositionToValue(ex.X);
+                    //double hitY = chart_Plot.ChartAreas[0].AxisY.PixelPositionToValue(ex.Y);
                     TT.AxisX = chart_Plot.ChartAreas[0].AxisX;
                     TT.AxisY = chart_Plot.ChartAreas[0].AxisY;
-                    TT.AnchorX = xcc; //cmb_seawaveDir.SelectedItem.ToString() == "W" ? (chart_Plot.ChartAreas[0].AxisX.Minimum + xspace / 3.0) : (chart_Plot.ChartAreas[0].AxisX.Maximum - xspace / 3.0);
-                    TT.AnchorY = ycc-(ymaxi- ymini)/5.0;// NewYmax - yspace / 2.0;
-                    TT.Font = new Font("微軟正黑體", 10, FontStyle.Bold);
-                    TT.Text = BlockListSubScriptToName[i];
+                    
+                    //MessageBox.Show(chart_Plot.ChartAreas[0].AxisX.ValueToPixelPosition(xcc).ToString());
+                    TT.AnchorX = xcc;//.AnchorX = xcc;//AnchorX = xcc; //cmb_seawaveDir.SelectedItem.ToString() == "W" ? (chart_Plot.ChartAreas[0].AxisX.Minimum + xspace / 3.0) : (chart_Plot.ChartAreas[0].AxisX.Maximum - xspace / 3.0);
+                    TT.AnchorY = ycc; //(ycc + yspace / 2.0);//.AnchorY = ycc;//TT.Y= chart_Plot.ChartAreas[0].AxisY.ValueToPixelPosition(ycc);//AnchorY = ycc;// -(ymaxi- ymini)/10.0;// NewYmax - yspace / 2.0;
+                                      //TT.X = xcc;
+                                      //TT.Y = ycc;
+                                      //string tpname = "TTTTL" + (i + 1).ToString();
+                                      //chart_Plot.Series.Add(tpname);
+                                      //chart_Plot.Series[tpname].ChartType = SeriesChartType.Line;
+                    ///TT.AnchorOffsetX = 10;
+                    //TT.AnchorOffsetY = 10;                                                 
+                    ////加入點資料.
+                    //chart_Plot.Series[tpname].Points.AddXY(xmin,ycc);
+                    //chart_Plot.Series[tpname].Points.AddXY(xmax, ycc);
+
+                    ////設定線段.
+                    //chart_Plot.Series[tpname].Color = Color.Green ;
+                    //chart_Plot.Series[tpname].BorderWidth = 2;
+                    //chart_Plot.Series[tpname].IsVisibleInLegend = false;
+                    //TT.TextStyle = TextStyle.Emboss;
+
+
                     chart_Plot.Annotations.Add(TT);
                 }
                 //chart_Plot.ChartAreas[0].AxisX.CustomLabels.Add((chart_Plot.ChartAreas[0].AxisX.Minimum + chart_Plot.ChartAreas[0].AxisX.Maximum) / 2.0, Ymax - yspace / 2.0, "====>", 1, LabelMarkStyle.LineSideMark);
@@ -1858,17 +1935,22 @@ namespace VE_SD
                 //chart_Plot.Series["ARROW"].ToolTip = "#VALY=>#AXISLABEL";
                 //chart_Plot.Series["ARROW"].IsVisibleInLegend = false;
 
-                //設定軸的範圍.
-                chart_Plot.ChartAreas[0].AxisY.Minimum = NewYmin;// Ymin - yspace;
-                chart_Plot.ChartAreas[0].AxisY.Maximum = NewYmax;
-                chart_Plot.ChartAreas[0].AxisY.Interval = yspace;
-                chart_Plot.ChartAreas[0].RecalculateAxesScale();
+
                 //if(hasELError)
                 //{
                 //    MessageBox.Show(ELErrorMessage, "EL與HWL設定錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //}
             }
 
+        }
+        
+        private PointFMY Cross(PointFMY a , PointFMY b)
+        {
+            PointFMY RR;
+            RR.x = a.y * b.z - b.y * a.z;
+            RR.y=a.z* b.x - a.x * b.z;
+            RR.z=a.x * b.y - a.y * b.x;
+            return RR;
         }
         public static void RemoveAt<T>(ref T[] arr, int index)
         {
@@ -6737,6 +6819,23 @@ namespace VE_SD
                     //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
                     //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
                 }
+                //Recording Old Xmin, Xmax and Xspace.
+                //TT.AxisX = chart_Plot.ChartAreas[0].AxisX;
+                //TT.AxisY = chart_Plot.ChartAreas[0].AxisY;
+                //double oldXmin = chart_Plot.ChartAreas[0].AxisX.Minimum;
+                //double oldXmax = chart_Plot.ChartAreas[0].AxisX.Maximum;
+                //double oldSpace = chart_Plot.ChartAreas[0].AxisX.Interval;
+                for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
+                {
+                    TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
+                    if (TT.Text == "海側")
+                    {
+                        TT.Visible = false;
+                        //chart_Plot.Annotations.RemoveAt(i);
+                    }
+
+
+                }
                 chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
                 for (int i = 0; i < TempName.GetLength(0); i++)
                 {
@@ -6748,6 +6847,17 @@ namespace VE_SD
                     //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 3;
                     chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Red;
                     chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth = 3;
+                }
+                for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
+                {
+                    TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
+                    if (TT.Text == "海側")
+                    {
+                        TT.Visible = true;
+                        //chart_Plot.Annotations.RemoveAt(i);
+                    }
+
+
                 }
 
                 //Runing the backgroundworker.
@@ -6796,7 +6906,7 @@ namespace VE_SD
                 //System.Threading.Thread.Sleep(5000);//暫停兩秒.
                 
                 FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
-                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為'" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                 //輸出專案檔的備份.
                 //儲存XML專案檔(VESDStoredFolderPath, false);
                 //this.mainForm.發送檔案給主機(VESDStoredFolderPath);
@@ -6892,7 +7002,7 @@ namespace VE_SD
                     //海側方向.
                     TableRef.Rows[2].Cells[2].Range.Text = RCOL.海側方向; //cmb_seawaveDir.SelectedItem.ToString();
                     //深海波波高(m).
-                    TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.H0.ToString("0.00");
+                    TableRef.Rows[3].Cells[2].Range.Text = RCOL.深海波波高; ;//Mod.VarBank.H0.ToString("0.00");
                     //深海波週期(sec)
                     TableRef.Rows[4].Cells[2].Range.Text = RCOL.深海波週期;//textBox_T0.Text.ToString();
                     //設計潮位(m)
@@ -7174,8 +7284,15 @@ namespace VE_SD
                     else
                     {
                         TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
-                        TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
-                    }
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
+                }
 
                     //5-1-B. 堤頭部加強: 第十五個表格.
                     TableRef = newDocument.Tables[15];
@@ -7193,7 +7310,15 @@ namespace VE_SD
                     else
                     {
                         TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
-                        TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
+                        
                     }
 
                     //5-1-C. 堤身段(航道側): 第十六個表格.
@@ -7223,7 +7348,14 @@ namespace VE_SD
                     {
                         TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[9]);
                         //TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalDown].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
-                        TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
                     }
 
                     //6-1. 胸牆部安定檢核計算.
@@ -7262,7 +7394,14 @@ namespace VE_SD
                         {
                             TableRef.Rows[2].Delete();
                         }
-                        TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
                     }
 
                     //6-1-B. 傾倒SF:第18個表格
@@ -7283,7 +7422,14 @@ namespace VE_SD
                     else
                     {
                         TableRef.Rows[1].Cells[2].Merge(TableRef.Rows[1].Cells[3]);
-                        TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
                     }
                     newDocument.Save(); // (outputFile);
                     newDocument.Close(false, Type.Missing, Type.Missing);
