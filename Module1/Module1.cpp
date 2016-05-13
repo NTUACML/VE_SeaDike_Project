@@ -105,7 +105,9 @@ bool VE_SD::Module1::WaveDesignInput(int _Direction, double _T0, double _Kr,
 	Var->Ks = _Ks;
 	Var->Kd = _Kd;
 	Var->lamda = _lamda;
-	Var->beta = _beta;
+	// Deg to Rad (beta)
+
+	Var->beta = _beta * (2.0 * M_PI / 180.0);
 	return true;
 }
 
@@ -298,12 +300,19 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	FILE.open(C_str);
 	//- Out Contents
 	FILE << "******背景參數******"<< std::endl;
-	FILE << "坡向: " << Var->Direction << std::endl;
+	FILE << "海側方向: ";
+	if (Var->Direction == 1)
+	{
+		FILE << "右" << std::endl;
+	}
+	else {
+		FILE << "左" << std::endl;
+	}
 	FILE << "波高: " << Var->H0 << std::endl;
 	FILE << "週期: " << Var->T0 << std::endl;
 	FILE << "潮位: " << Var->HWL << std::endl;
 	FILE << "坡度: " << Var->S << std::endl;
-	FILE << "底面線高層: " << Var->Base_Level << std::endl;
+	FILE << "地面線: " << Var->Base_Level << std::endl;
 	FILE << "消波塊高層: " << Var->Breaker_Level << std::endl;
 	FILE << "折射係數: " << Var->Kr << std::endl;
 	FILE << "淺化係數: " << Var->Ks << std::endl;
