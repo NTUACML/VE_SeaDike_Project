@@ -107,7 +107,7 @@ bool VE_SD::Module1::WaveDesignInput(int _Direction, double _T0, double _Kr,
 	Var->lamda = _lamda;
 	// Deg to Rad (beta)
 
-	Var->beta = _beta * (2.0 * M_PI / 180.0);
+	Var->beta = _beta * (M_PI / 180.0);
 	return true;
 }
 

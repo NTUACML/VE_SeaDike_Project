@@ -240,7 +240,7 @@ bool Module1_Internal::WavePressureCal()
 	for (size_t i = 1; i < Var->LevelSection.size(); i++)
 	{
 		Dis_Face = Var->LevelSection[i].Level - Var->LevelSection[i-1].Level;
-		Var->LevelSection[i].FP = Var->LevelSection[i].P * Dis_Face;
+		Var->LevelSection[i].FP = (Var->LevelSection[i].P + Var->LevelSection[i-1].P)  * Dis_Face / 2.0;
 		Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + Dis_Face/2.0;
 		Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
 	}
@@ -356,7 +356,7 @@ bool Module1_Internal::BreakerSafeCheck()
 	double Sr, CotTheta;
 	if (Var->WaveBreakFuncOutside == true) {
 		Sr = Var->DensityOutside / Var->DensitySea;
-		CotTheta = 1.0 / Var->SlopeOutside;
+		CotTheta = 1.0 / std::tan(Var->SlopeOutside * M_PI / 180.0);
 		Var->W1 = (Var->DensityOutside * std::pow(Var->Hs, 3.0)) /
 			(Var->SafeCoefOutside * std::pow(Sr - 1.0, 3.0) * CotTheta);
 		Var->Err_Msg += "消波工程-港外側計算完成! \r\n";
@@ -364,7 +364,7 @@ bool Module1_Internal::BreakerSafeCheck()
 
 	if (Var->WaveBreakFuncUpside == true) {
 		Sr = Var->DensityUpside / Var->DensitySea;
-		CotTheta = 1.0 / Var->SlopeUpside;
+		CotTheta = 1.0 / std::tan(Var->SlopeUpside * M_PI / 180.0);
 		Var->W2 = 1.5 * (Var->DensityUpside * std::pow(Var->Hs, 3.0)) /
 			(Var->SafeCoefUpside * std::pow(Sr - 1.0, 3.0) * CotTheta);
 		Var->Err_Msg += "消波工程-堤頭部加強計算完成! \r\n";
