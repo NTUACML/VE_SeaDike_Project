@@ -149,6 +149,7 @@
             this.序號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.材質名稱 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage_AddBlock = new System.Windows.Forms.TabPage();
+            this.label_XXX = new System.Windows.Forms.Label();
             this.cmb_ShowOnBlockListChoice = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ReferencedMaterialCHKL = new System.Windows.Forms.CheckedListBox();
@@ -180,7 +181,8 @@
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
-            this.label_XXX = new System.Windows.Forms.Label();
+            this.label_BrestCheck_3 = new System.Windows.Forms.Label();
+            this.textBox_ELAbove = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -873,6 +875,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.textBox_ELAbove);
+            this.groupBox2.Controls.Add(this.label_BrestCheck_3);
             this.groupBox2.Controls.Add(this.textBox_BK);
             this.groupBox2.Controls.Add(this.label_BrestCheck_2);
             this.groupBox2.Controls.Add(this.textBox_ConcreteAllowStress);
@@ -881,7 +885,7 @@
             this.groupBox2.Font = new System.Drawing.Font("標楷體", 14F);
             this.groupBox2.Location = new System.Drawing.Point(603, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(466, 104);
+            this.groupBox2.Size = new System.Drawing.Size(466, 144);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "  胸牆部安定檢核計算";
@@ -1415,6 +1419,17 @@
             this.tabPage_AddBlock.Text = "形塊設定";
             this.tabPage_AddBlock.UseVisualStyleBackColor = true;
             // 
+            // label_XXX
+            // 
+            this.label_XXX.AutoSize = true;
+            this.label_XXX.Font = new System.Drawing.Font("標楷體", 9.25F);
+            this.label_XXX.Location = new System.Drawing.Point(962, 469);
+            this.label_XXX.Name = "label_XXX";
+            this.label_XXX.Size = new System.Drawing.Size(56, 13);
+            this.label_XXX.TabIndex = 15;
+            this.label_XXX.Text = "label20";
+            this.label_XXX.Visible = false;
+            // 
             // cmb_ShowOnBlockListChoice
             // 
             this.cmb_ShowOnBlockListChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1743,16 +1758,22 @@
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
-            // label_XXX
+            // label_BrestCheck_3
             // 
-            this.label_XXX.AutoSize = true;
-            this.label_XXX.Font = new System.Drawing.Font("標楷體", 9.25F);
-            this.label_XXX.Location = new System.Drawing.Point(962, 469);
-            this.label_XXX.Name = "label_XXX";
-            this.label_XXX.Size = new System.Drawing.Size(56, 13);
-            this.label_XXX.TabIndex = 15;
-            this.label_XXX.Text = "label20";
-            this.label_XXX.Visible = false;
+            this.label_BrestCheck_3.AutoSize = true;
+            this.label_BrestCheck_3.Location = new System.Drawing.Point(22, 100);
+            this.label_BrestCheck_3.Name = "label_BrestCheck_3";
+            this.label_BrestCheck_3.Size = new System.Drawing.Size(149, 19);
+            this.label_BrestCheck_3.TabIndex = 38;
+            this.label_BrestCheck_3.Text = "胸牆EL值(以上)";
+            // 
+            // textBox_ELAbove
+            // 
+            this.textBox_ELAbove.Location = new System.Drawing.Point(308, 97);
+            this.textBox_ELAbove.Name = "textBox_ELAbove";
+            this.textBox_ELAbove.Size = new System.Drawing.Size(100, 30);
+            this.textBox_ELAbove.TabIndex = 39;
+            this.textBox_ELAbove.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BK_KeyPress_1);
             // 
             // Form_RDExamProgress
             // 
@@ -1954,5 +1975,7 @@
         private System.ComponentModel.BackgroundWorker bk_OutputWordReport;
         private System.Windows.Forms.Button btn_RemoveRowMR;
         private System.Windows.Forms.Label label_XXX;
+        private System.Windows.Forms.TextBox textBox_ELAbove;
+        private System.Windows.Forms.Label label_BrestCheck_3;
     }
 }
