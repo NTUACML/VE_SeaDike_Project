@@ -2260,8 +2260,13 @@ namespace VE_SD
                 XmlElement BK = doc.CreateElement("BK");
                 BK.SetAttribute("Value", textBox_BK.Text);
 
+                XmlElement ELAbove = doc.CreateElement("ELAbove");
+                BK.SetAttribute("Value", textBox_ELAbove.Text);
+
+
                 胸牆部安定檢核啟用.AppendChild(混凝土容許應力);
                 胸牆部安定檢核啟用.AppendChild(BK);
+                胸牆部安定檢核啟用.AppendChild(ELAbove);
             }
             全域參數XML點.AppendChild(力矩計算參考點);
 
@@ -2571,6 +2576,7 @@ namespace VE_SD
             bool 啟用胸牆部安定檢核r;
             double 混凝土容許應力r;
             double BKr;
+            double ELAbover;
             Dictionary<string, int> DDR = new Dictionary<string, int>();
 
 
@@ -3067,11 +3073,24 @@ namespace VE_SD
                     {
                         return "胸牆部安定檢核之BK讀取失敗";
                     }
+
+                    //EL Above.
+                    RNode = 啟用胸牆部檢核.SelectSingleNode("ELAbove");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "胸牆部安定檢核之EL Above讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out ELAbover))
+                    {
+                        return "胸牆部安定檢核之EL Above讀取失敗";
+                    }
                 }
                 else
                 {
                     混凝土容許應力r = 0;
                     BKr = 0;
+                    ELAbover = 0;
                 }
 
                 //力矩計算參考點.
@@ -3625,27 +3644,35 @@ namespace VE_SD
             {
                 textBox_ConcreteAllowStress.ReadOnly = false;
                 textBox_BK.ReadOnly = false;
+                textBox_ELAbove.ReadOnly = false;
                 textBox_ConcreteAllowStress.Enabled = true;
                 textBox_BK.Enabled = true;
+                textBox_ELAbove.Enabled = true;
                 label_BreastCheck_1.Enabled = true;
                 label_BrestCheck_2.Enabled = true;
+                label_BrestCheck_3.Enabled = true;
 
                 chk_HeadBreastCalc.Checked = true;
                 textBox_ConcreteAllowStress.Text = 混凝土容許應力r.ToString();
                 textBox_BK.Text =BKr.ToString();
+                textBox_ELAbove.Text = ELAbover.ToString();
             }
             else
             {
                 textBox_ConcreteAllowStress.ReadOnly = true;
                 textBox_BK.ReadOnly = true;
+                textBox_ELAbove.ReadOnly = true;
                 label_BreastCheck_1.Enabled = false;
                 label_BrestCheck_2.Enabled = false;
+                label_BrestCheck_3.Enabled = false;
                 textBox_ConcreteAllowStress.Enabled=false;
                 textBox_BK.Enabled = false;
+                textBox_ELAbove.Enabled = false;
 
                 chk_HeadBreastCalc.Checked = false;
                 textBox_ConcreteAllowStress.Text = ""; // 混凝土容許應力r.ToString();
                 textBox_BK.Text = ""; // BKr.ToString();
+                textBox_ELAbove.Text = "";
             }
 
             DGMaterial.Rows.Clear();
