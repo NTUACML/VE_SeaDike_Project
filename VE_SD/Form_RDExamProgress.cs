@@ -2261,7 +2261,7 @@ namespace VE_SD
                 BK.SetAttribute("Value", textBox_BK.Text);
 
                 XmlElement ELAbove = doc.CreateElement("ELAbove");
-                BK.SetAttribute("Value", textBox_ELAbove.Text);
+                ELAbove.SetAttribute("Value", textBox_ELAbove.Text);
 
 
                 胸牆部安定檢核啟用.AppendChild(混凝土容許應力);
