@@ -223,7 +223,7 @@ namespace VE_SD
             //}
             //發送檔案給主機(temp2);
 
-            MessageBox.Show("Done");
+            //MessageBox.Show("Done");
             //Form_ForKavyTest  kavytest = new Form_ForKavyTest();
             //kavytest.ShowDialog();
 
@@ -1404,7 +1404,7 @@ namespace VE_SD
                 {
                     news = news + Convert.ToChar(bb[i]);
                 }
-                MessageBox.Show(news);
+                //MessageBox.Show(news);
                 if (news != "")
                 {
                     if (news.IndexOf("OK:") != -1)
@@ -1422,7 +1422,7 @@ namespace VE_SD
                 tcpclient.Close();
                 if(!GoingToDown)
                 {
-                    MessageBox.Show("Fails to send file");
+                    //MessageBox.Show("Fails to send file");
                     e.Result = null;
                     bk_AccessServerForDownload.CancelAsync();
                     return;
@@ -1472,8 +1472,8 @@ namespace VE_SD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());//!!!!!!!!
-                MessageBox.Show(ex.StackTrace.ToString());//!!!!!!!
+                //MessageBox.Show(ex.Message.ToString());//!!!!!!!!
+                //MessageBox.Show(ex.StackTrace.ToString());//!!!!!!!
                 e.Result = null;
             }
         }

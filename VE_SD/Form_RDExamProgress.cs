@@ -4188,6 +4188,13 @@ namespace VE_SD
                     //MessageBox.Show("您「胸牆部安定檢核」的BK'沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     //return false;
                 }
+                if (textBox_ELAbove.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「胸牆部安定檢核」的EL Above沒有選擇!!!" + Environment.NewLine);
+                    okOrNot = false;
+                    //MessageBox.Show("您「胸牆部安定檢核」的BK'沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    //return false;
+                }
             }
             return okOrNot;
         }
@@ -7467,7 +7474,8 @@ namespace VE_SD
                 }
                 catch (Exception ex)
                 {
-                    OutMsg = "ERROR:WORD處理出現錯誤" + Environment.NewLine + ex.Message.ToString();
+
+                    OutMsg = "ERROR:WORD處理出現錯誤" + Environment.NewLine + ex.StackTrace.ToString() + Environment.NewLine + ex.Message.ToString();
 
                 }
 
