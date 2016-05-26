@@ -73,7 +73,7 @@ namespace VE_SD {
 		bool WaveBreakInsideInput(double _Density, double _Coef, double _Slope, double _Kt);
 		bool WaveBreakUpsideInput(double _Density, double _Coef, double _Slope);
 		bool UpperBlockCheckCondition(bool _UpperBlockCheckCondi);
-		bool UpperBlockCheckInput(double _Vc, double _Bk_plun);
+		bool UpperBlockCheckInput(double _Vc, double _Bk_plun, double _Up_EL);
 
 		//- Get Var Function
 		bool Get_DataBank_Data();

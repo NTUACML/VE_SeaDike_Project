@@ -4572,7 +4572,7 @@ namespace VE_SD
             if (chk_HeadBreastCalc.Checked)
             {
                 Mod.UpperBlockCheckCondition(true);
-                Mod.UpperBlockCheckInput(double.Parse(textBox_ConcreteAllowStress.Text), double.Parse(textBox_BK.Text));
+                Mod.UpperBlockCheckInput(double.Parse(textBox_ConcreteAllowStress.Text), double.Parse(textBox_BK.Text), double.Parse(textBox_ELAbove.Text));
             }
             else
             {

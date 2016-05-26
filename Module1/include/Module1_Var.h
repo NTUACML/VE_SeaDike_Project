@@ -53,7 +53,7 @@ public:
 		SlopeOutside, SlopeInside, SlopeUpside, Kt, W1, W2, W3;
 	//- Upper Block Check
 	bool UpperBlockCheckCondi;
-	double Vc, Bk, Bk_plun;
+	double Vc, Bk, Bk_plun, UpBlockEL;
 
 	//- Mesg
 	std::string Err_Msg;

@@ -181,10 +181,11 @@ bool VE_SD::Module1::UpperBlockCheckCondition(bool _UpperBlockCheckCondi)
 	return true;
 }
 
-bool VE_SD::Module1::UpperBlockCheckInput(double _Vc, double _Bk_plun)
+bool VE_SD::Module1::UpperBlockCheckInput(double _Vc, double _Bk_plun, double _Up_EL)
 {
 	Var->Vc = _Vc;
 	Var->Bk_plun = _Bk_plun;
+	Var->UpBlockEL = _Up_EL;
 	return true;
 }
 

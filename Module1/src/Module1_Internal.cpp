@@ -388,69 +388,41 @@ bool Module1_Internal::BreakerSafeCheck()
 bool Module1_Internal::UpperSafeCheck()
 {
 	if (Var->UpperBlockCheckCondi) {
-		size_t UpperEL_Id = Var->LevelSection.size() - 2;
-		std::vector<size_t> Block_ID = Var->LevelSection[UpperEL_Id].BlockId;
+		std::vector<size_t> UpperBlock, UpperLevelSec;
+		double SumFP = 0.0, SumBlockMuTimesWc = 0.0;
 
-		size_t UseBlockId = Block_ID[0];
-		if (Var->Direction == 1) // E direction (Find Maximun X block)
-		{
-			for (size_t i = 0; i < Block_ID.size(); i++)
-			{
-				if (Var->BlockData[Block_ID[i]].WeightC.x >= UseBlockId) {
-					UseBlockId = Block_ID[i];
-				}
-			}
-		}
-		else { // Wdirection (Find Minmun X block)
-			for (size_t i = 0; i < Block_ID.size(); i++)
-			{
-				if (Var->BlockData[Block_ID[i]].WeightC.x <= UseBlockId) {
-					UseBlockId = Block_ID[i];
-				}
-			}
+		// Find Upper Block Id
+		for (size_t i = 0; i < Var->BlockData.size(); ++i) {
+			if (Var->BlockData[i].WeightC.y >= Var->UpBlockEL)
+				UpperBlock.push_back(i);
 		}
 
-		Var->CalUpper_SlideSF = (Var->BlockData[UseBlockId].FrictionC * Var->BlockData[UseBlockId].SelfWeight) / Var->LevelSection[UpperEL_Id].FP;
-
-		double ref_x, ref_y;
-		ref_x = Var->BlockData[UseBlockId].WeightC.x;
-		ref_y = Var->BlockData[UseBlockId].WeightC.y;
-
-		if (Var->Direction == 1) // E direction (Find Maximun X block)
-		{
-			for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
-			{
-				if (Var->BlockData[UseBlockId].Node[i].x <= ref_x) {
-					ref_x = Var->BlockData[UseBlockId].Node[i].x;
-				}
-			}
-		}
-		else { // Wdirection (Find Minmun X block)
-			for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
-			{
-				if (Var->BlockData[UseBlockId].Node[i].x >= ref_x) {
-					ref_x = Var->BlockData[UseBlockId].Node[i].x;
-				}
-			}
+		// Find Upper Level Section
+		for (size_t i = 0; i < Var->LevelSection.size(); ++i) {
+			if (Var->LevelSection[i].Level >= Var->UpBlockEL)
+				UpperLevelSec.push_back(i);
 		}
 
-		for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
-		{
-			if (Var->BlockData[UseBlockId].Node[i].y <= ref_y) {
-				ref_y = Var->BlockData[UseBlockId].Node[i].y;
-			}
+		// Cal Sum Fp
+		for (auto id : UpperLevelSec) {
+			SumFP += Var->LevelSection[id].FP;
 		}
 
-		Var->CalUpper_RotateSF = (Var->BlockData[UseBlockId].SelfWeight * std::abs(Var->BlockData[UseBlockId].WeightC.x - ref_x)) /
-			(Var->LevelSection[UpperEL_Id].FP * std::abs(Var->BlockData[UseBlockId].WeightC.y - ref_y));
+		// Cal Sum Block Mu * Wc
+		for (auto id : UpperBlock) {
+			SumBlockMuTimesWc += Var->BlockData[id].FrictionC * Var->BlockData[id].SelfWeight;
+		}
 
+		// Cal SlideSF
+		Var->CalUpper_SlideSF = SumBlockMuTimesWc / SumFP;
 
+		// Check Slide
 		if (Var->CalUpper_SlideSF >= Var->SlideSF) {
 			Var->Err_Msg += "胸牆部滑動檢核 (成功)! \r\n";
 		}
 		else {
 			Var->Err_Msg += "胸牆部滑動檢核 (失敗) -> 啟動剪力榫計算! \r\n";
-			Var->Bk = ((1.2 * Var->LevelSection[UpperEL_Id].FP - Var->BlockData[UseBlockId].FrictionC * Var->BlockData[UseBlockId].SelfWeight) / Var->Vc) * 100.0;
+			Var->Bk = ((1.2 * SumFP - SumBlockMuTimesWc) / Var->Vc) * 100.0;
 			Var->Err_Msg += "剪力榫計算完成! \r\n";
 
 			if (Var->Bk_plun >= Var->Bk) {
@@ -461,12 +433,115 @@ bool Module1_Internal::UpperSafeCheck()
 			}
 		}
 
+		// Cal Ref Pt
+		double Rf_x = Var->Ref_x, Rf_y = Var->Ref_y;
+		double Upper_Mw = 0.0, Upper_Mp = 0.0;
+		Rf_x = Var->BlockData[*UpperBlock.begin()].WeightC.x;
+		Rf_y = Var->BlockData[*UpperBlock.begin()].WeightC.y;
+		if (Var->Direction == 1) { // E direction (Find Min Node)	
+			for (auto id : UpperBlock) {
+				for (auto node : Var->BlockData[id].Node) {
+					if (node.x <= Rf_x)
+						Rf_x = node.x;
+					if (node.y <= Rf_y)
+						Rf_y = node.y;
+				}
+			}
+		}
+		else{ // W direction (Find Max Node)	
+			for (auto id : UpperBlock) {
+				for (auto node : Var->BlockData[id].Node) {
+					if (node.x >= Rf_x)
+						Rf_x = node.x;
+					if (node.y <= Rf_y)
+						Rf_y = node.y;
+				}
+			}
+		}
+
+		// Cal Upper_Mw
+		for (auto id : UpperBlock) {
+			Upper_Mw += Var->BlockData[id].SelfWeight * std::abs(Var->BlockData[id].WeightC.x - Rf_x);
+		}
+
+		// Cal Upper_Mp
+		double CorrectY_Length = std::abs(Rf_y - Var->LevelSection.begin()->Level);
+		for (auto id : UpperLevelSec) {
+			Upper_Mp += Var->LevelSection[id].FP * std::abs(Var->LevelSection[id].L_Y - CorrectY_Length);
+		}
+
+		// Cal RotateS
+		Var->CalUpper_RotateSF = Upper_Mw / Upper_Mp;
+
+		// Check Rotate
 		if (Var->CalUpper_RotateSF >= Var->RotateSF) {
 			Var->Err_Msg += "胸牆部傾倒檢核 (成功)! \r\n";
 		}
 		else {
 			Var->Err_Msg += "胸牆部傾倒檢核 (失敗)! \r\n";
 		}
+
+
+		//size_t UpperEL_Id = Var->LevelSection.size() - 2;
+		//std::vector<size_t> Block_ID = Var->LevelSection[UpperEL_Id].BlockId;
+
+		//size_t UseBlockId = Block_ID[0];
+		//if (Var->Direction == 1) // E direction (Find Maximun X block)
+		//{
+		//	for (size_t i = 0; i < Block_ID.size(); i++)
+		//	{
+		//		if (Var->BlockData[Block_ID[i]].WeightC.x >= UseBlockId) {
+		//			UseBlockId = Block_ID[i];
+		//		}
+		//	}
+		//}
+		//else { // Wdirection (Find Minmun X block)
+		//	for (size_t i = 0; i < Block_ID.size(); i++)
+		//	{
+		//		if (Var->BlockData[Block_ID[i]].WeightC.x <= UseBlockId) {
+		//			UseBlockId = Block_ID[i];
+		//		}
+		//	}
+		//}
+
+		//Var->CalUpper_SlideSF = (Var->BlockData[UseBlockId].FrictionC * Var->BlockData[UseBlockId].SelfWeight) / Var->LevelSection[UpperEL_Id].FP;
+
+		//double ref_x, ref_y;
+		//ref_x = Var->BlockData[UseBlockId].WeightC.x;
+		//ref_y = Var->BlockData[UseBlockId].WeightC.y;
+
+		//if (Var->Direction == 1) // E direction (Find Maximun X block)
+		//{
+		//	for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
+		//	{
+		//		if (Var->BlockData[UseBlockId].Node[i].x <= ref_x) {
+		//			ref_x = Var->BlockData[UseBlockId].Node[i].x;
+		//		}
+		//	}
+		//}
+		//else { // Wdirection (Find Minmun X block)
+		//	for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
+		//	{
+		//		if (Var->BlockData[UseBlockId].Node[i].x >= ref_x) {
+		//			ref_x = Var->BlockData[UseBlockId].Node[i].x;
+		//		}
+		//	}
+		//}
+
+		//for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
+		//{
+		//	if (Var->BlockData[UseBlockId].Node[i].y <= ref_y) {
+		//		ref_y = Var->BlockData[UseBlockId].Node[i].y;
+		//	}
+		//}
+
+		//Var->CalUpper_RotateSF = (Var->BlockData[UseBlockId].SelfWeight * std::abs(Var->BlockData[UseBlockId].WeightC.x - ref_x)) /
+		//	(Var->LevelSection[UpperEL_Id].FP * std::abs(Var->BlockData[UseBlockId].WeightC.y - ref_y));
+
+
+		
+
+		
 	}
 	
 	return true;
