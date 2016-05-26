@@ -102,6 +102,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage_OtherChkSet = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_ELAbove = new System.Windows.Forms.TextBox();
+            this.label_BrestCheck_3 = new System.Windows.Forms.Label();
             this.textBox_BK = new System.Windows.Forms.TextBox();
             this.label_BrestCheck_2 = new System.Windows.Forms.Label();
             this.textBox_ConcreteAllowStress = new System.Windows.Forms.TextBox();
@@ -181,8 +183,6 @@
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
-            this.label_BrestCheck_3 = new System.Windows.Forms.Label();
-            this.textBox_ELAbove = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -889,6 +889,24 @@
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "  胸牆部安定檢核計算";
+            // 
+            // textBox_ELAbove
+            // 
+            this.textBox_ELAbove.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_ELAbove.Location = new System.Drawing.Point(308, 97);
+            this.textBox_ELAbove.Name = "textBox_ELAbove";
+            this.textBox_ELAbove.Size = new System.Drawing.Size(100, 27);
+            this.textBox_ELAbove.TabIndex = 39;
+            this.textBox_ELAbove.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BK_KeyPress_1);
+            // 
+            // label_BrestCheck_3
+            // 
+            this.label_BrestCheck_3.AutoSize = true;
+            this.label_BrestCheck_3.Location = new System.Drawing.Point(22, 100);
+            this.label_BrestCheck_3.Name = "label_BrestCheck_3";
+            this.label_BrestCheck_3.Size = new System.Drawing.Size(149, 19);
+            this.label_BrestCheck_3.TabIndex = 38;
+            this.label_BrestCheck_3.Text = "胸牆EL值(以上)";
             // 
             // textBox_BK
             // 
@@ -1757,23 +1775,6 @@
             this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
-            // 
-            // label_BrestCheck_3
-            // 
-            this.label_BrestCheck_3.AutoSize = true;
-            this.label_BrestCheck_3.Location = new System.Drawing.Point(22, 100);
-            this.label_BrestCheck_3.Name = "label_BrestCheck_3";
-            this.label_BrestCheck_3.Size = new System.Drawing.Size(149, 19);
-            this.label_BrestCheck_3.TabIndex = 38;
-            this.label_BrestCheck_3.Text = "胸牆EL值(以上)";
-            // 
-            // textBox_ELAbove
-            // 
-            this.textBox_ELAbove.Location = new System.Drawing.Point(308, 97);
-            this.textBox_ELAbove.Name = "textBox_ELAbove";
-            this.textBox_ELAbove.Size = new System.Drawing.Size(100, 30);
-            this.textBox_ELAbove.TabIndex = 39;
-            this.textBox_ELAbove.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BK_KeyPress_1);
             // 
             // Form_RDExamProgress
             // 
