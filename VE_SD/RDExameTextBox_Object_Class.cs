@@ -57,6 +57,7 @@ namespace VE_SD
         bool _胸牆部安定檢核計算 = false;
         string _胸牆部安定檢核計算混凝土容許應力 = "";
         string _胸牆部安定檢核計算BKplun = "";
+        string _胸牆部安定EL值以上 = "";
 
         public string 填表人ID
         {
@@ -237,6 +238,11 @@ namespace VE_SD
         {
             get { return _胸牆部安定檢核計算BKplun; }
             set { _胸牆部安定檢核計算BKplun = value; }
+        }
+        public string 胸牆部安定EL以上
+        {
+            get { return _胸牆部安定EL值以上; }
+            set { _胸牆部安定EL值以上 = value; }
         }
     }
 }

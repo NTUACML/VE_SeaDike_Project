@@ -4688,6 +4688,7 @@ namespace VE_SD
             RCOL.胸牆部安定檢核計算 = chk_HeadBreastCalc.Checked;
             RCOL.胸牆部安定檢核計算混凝土容許應力 = textBox_ConcreteAllowStress.Text.ToString();
             RCOL.胸牆部安定檢核計算BKplun= textBox_BK.Text.ToString();
+            RCOL.胸牆部安定EL以上 = textBox_ELAbove.Text.ToString();
 
             RCOL.填表人ID=mainForm.LoginInUserID;
             RCOL.填表人名稱 = mainForm.LoginInUserName;
@@ -7397,7 +7398,7 @@ namespace VE_SD
                             //大於等於:安全.
                             //若檢核通過
                             TableRef.Rows[1].Cells[2].Range.Text += (">=" + RCOL.滑動安全係數 + "..OK");// textBox_SFSlide.Text.ToString() + "...OK");
-                            for (int i = 2; i <= 4; i++)
+                            for (int i = 2; i <= 5; i++)
                             {
                                 TableRef.Rows[2].Delete();
                             }
@@ -7413,11 +7414,12 @@ namespace VE_SD
                             //BK'
                             TableRef.Rows[4].Cells[2].Range.Text = RCOL.胸牆部安定檢核計算BKplun; //textBox_BK.Text.ToString();
 
+                            TableRef.Rows[5].Cells[2].Range.Text = RCOL.胸牆部安定EL以上 ; //textBox_BK.Text.ToString();
                         }
                     }
                     else
                     {
-                        for (int i = 2; i <= 4; i++)
+                        for (int i = 2; i <= 5; i++)
                         {
                             TableRef.Rows[2].Delete();
                         }
