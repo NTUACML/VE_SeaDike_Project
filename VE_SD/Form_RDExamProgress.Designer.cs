@@ -474,19 +474,19 @@
             this.cmb_DeepWaveActDir.Items.AddRange(new object[] {
             "E",
             "ESE",
-            "ES",
+            "SE",
             "SSE",
             "S",
             "SSW",
-            "WS",
+            "SW",
             "WSW",
             "W",
             "WNW",
-            "WS",
+            "NW",
             "NNW",
             "N",
             "NNE",
-            "EN",
+            "NE",
             "ENE"});
             this.cmb_DeepWaveActDir.Location = new System.Drawing.Point(400, 17);
             this.cmb_DeepWaveActDir.Name = "cmb_DeepWaveActDir";

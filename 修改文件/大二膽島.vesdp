@@ -1,8 +1,8 @@
 <Root>
   <版本 Value="SeaDikeVS_P1" />
   <GlobalParameters>
-    <選擇Tab Value="1" />
-    <深海波波向 Value="ES" />
+    <選擇Tab Value="0" />
+    <深海波波向 Value="SE" />
     <BlockTooltip資訊 Value="單位體積重" />
     <海側方向 Value="右" />
     <深海波波高 Value="7.1" />
@@ -34,10 +34,13 @@
     <胸牆部安定檢核啟用 Value="TRUE">
       <混凝土容許應力 Value="42.02" />
       <BK Value="60" />
-      <ELAbove Value="5" />
+      <ELAbove Value="7.2" />
     </胸牆部安定檢核啟用>
     <力矩計算參考點 xValue="0" yValue="0" />
-    <EL點數 />
+    <EL點數>
+      <EL Value="5" />
+      <EL Value="7.2" />
+    </EL點數>
     <使用材質>
       <UseMaterial Value="混凝土方塊" />
       <UseMaterial Value="混凝土拋石" />
@@ -75,7 +78,7 @@
       <BlockCoordinate xValue="0" yValue="7" />
     </形塊>
     <形塊 名稱="3" 點數="4" 序號="2">
-      <單位體積重量 Value="2.3" />
+      <單位體積重量 Value="1.27" />
       <使用材質 Value="場鑄混凝土" />
       <計算Moment Value="True" />
       <周圍參考材質 Value="混凝土方塊" />
@@ -85,7 +88,7 @@
       <BlockCoordinate xValue="0" yValue="6.63" />
     </形塊>
     <形塊 名稱="4" 點數="4" 序號="3">
-      <單位體積重量 Value="2.3" />
+      <單位體積重量 Value="1.27" />
       <使用材質 Value="混凝土方塊" />
       <計算Moment Value="True" />
       <周圍參考材質 Value="混凝土拋石" />

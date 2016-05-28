@@ -2464,19 +2464,19 @@ namespace VE_SD
             bool r = false;
             //E
             //ESE
-            //ES
+            //SE
             //SSE
             //S
             //SSW
-            //WS
+            //SW
             //WSW
             //W
             //WNW
-            //WN
+            //NW
             //NNW
             //N
             //NNE
-            //EN
+            //NE
             //ENE
             switch(InputS)
             {
@@ -2486,7 +2486,7 @@ namespace VE_SD
                 case "ESE":
                     r = true;
                     break;
-                case "ES":
+                case "SE":
                     r = true;
                     break;
                 case "SSE":
@@ -2498,7 +2498,7 @@ namespace VE_SD
                 case "SSW":
                     r = true;
                     break;
-                case "WS":
+                case "SW":
                     r = true;
                     break;
                 case "WSW":
@@ -2510,7 +2510,7 @@ namespace VE_SD
                 case "WNW":
                     r = true;
                     break;
-                case "WN":
+                case "NW":
                     r = true;
                     break;
                 case "NNW":
@@ -2522,7 +2522,7 @@ namespace VE_SD
                 case "NNE":
                     r = true;
                     break;
-                case "EN":
+                case "NE":
                     r = true;
                     break;
                 case "ENE":
