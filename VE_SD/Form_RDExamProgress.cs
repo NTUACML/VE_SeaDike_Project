@@ -149,6 +149,7 @@ namespace VE_SD
             label_HE_3.Enabled = false;
             label_BreastCheck_1.Enabled = false;
             label_BrestCheck_2.Enabled = false;
+            label_BrestCheck_3.Enabled = false;
             label_BD_1.Enabled = false;
             label_BD_2.Enabled = false;
             label_BD_3.Enabled = false;
@@ -192,6 +193,9 @@ namespace VE_SD
             textBox_BK.Text = "";  
             textBox_BK.ReadOnly = true;
             textBox_BK.Enabled = false;
+            textBox_ELAbove.Text = "";
+            textBox_ELAbove.ReadOnly = true;
+            textBox_ELAbove.Enabled = false;
 
 
             //Tab 2.[材質與摩擦係數增減區塊]初始化.
@@ -6640,19 +6644,25 @@ namespace VE_SD
             {
                 label_BreastCheck_1.Enabled = false;
                 label_BrestCheck_2.Enabled = false;
+                label_BrestCheck_3.Enabled = false;
                 textBox_ConcreteAllowStress.Enabled = false;
                 textBox_ConcreteAllowStress.ReadOnly = true;
                 textBox_BK.ReadOnly = true;
                 textBox_BK.Enabled = false;
+                textBox_ELAbove.Enabled = false;
+                textBox_ELAbove.ReadOnly = true;
             }
             else
             {
                 label_BreastCheck_1.Enabled = true;
                 label_BrestCheck_2.Enabled = true;
+                label_BrestCheck_3.Enabled = true;
                 textBox_ConcreteAllowStress.Enabled = true;
                 textBox_ConcreteAllowStress.ReadOnly = false;
                 textBox_BK.ReadOnly = false;
                 textBox_BK.Enabled = true;
+                textBox_ELAbove.Enabled = true;
+                textBox_ELAbove.ReadOnly = false;
             }
         }
         private void textBox_HO_KDL_KeyPress(object sender, KeyPressEventArgs e)
