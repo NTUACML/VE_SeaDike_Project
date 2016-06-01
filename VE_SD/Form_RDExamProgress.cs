@@ -140,6 +140,7 @@ namespace VE_SD
             chk_BlockWeightCalc_HE.Checked = false;
             chk_BlockWeightCalc_BD.Checked = false;
             chk_HeadBreastCalc.Checked = false;
+            chk_BC.Checked = false;
 
             label_HO_1.Enabled = false;
             label_HO_2.Enabled = false;
@@ -154,6 +155,17 @@ namespace VE_SD
             label_BD_2.Enabled = false;
             label_BD_3.Enabled = false;
             label_BD_4.Enabled = false;
+            label20_BC.Enabled = false;
+            label21_BC.Enabled = false;
+            label22_BC.Enabled = false;
+            label23_BC.Enabled = false;
+            label24_BC.Enabled = false;
+            label25_BC.Enabled = false;
+            label26_BC.Enabled = false;
+            label27_BC.Enabled = false;
+            label28_BC.Enabled = false;
+            
+
 
             textBox_HO_KDL.ReadOnly = true;
             textBox_HO_Gamma.ReadOnly = true;
@@ -197,6 +209,33 @@ namespace VE_SD
             textBox_ELAbove.ReadOnly = true;
             textBox_ELAbove.Enabled = false;
 
+            textbox_Coe.Text = "";
+            textbox_Coe.ReadOnly = true;
+            textbox_Coe.Enabled = false;
+            textBox_thiangle.Text = "";
+            textBox_thiangle.ReadOnly = true;
+            textBox_thiangle.Enabled = false;
+            textBox_NC.Text = "";
+            textBox_NC.ReadOnly = true;
+            textBox_NC.Enabled = false;
+            textBox_Nq.Text = "";
+            textBox_Nq.ReadOnly = true;
+            textBox_Nq.Enabled = false;
+            textBox_Nr.Text = "";
+            textBox_Nr.ReadOnly = true;
+            textBox_Nr.Enabled = false;
+            textBox_StoneR.Text = "";
+            textBox_StoneR.ReadOnly = true;
+            textBox_StoneR.Enabled = false;
+            textBox_InEarthDepthM.Text = "";
+            textBox_InEarthDepthM.ReadOnly = true;
+            textBox_InEarthDepthM.Enabled = false;
+            textBox_StoneThickness.Text = "";
+            textBox_StoneThickness.ReadOnly = true;
+            textBox_StoneThickness.Enabled = false;
+            textBox_BCFS.Text = "";
+            textBox_BCFS.ReadOnly = true;
+            textBox_BCFS.Enabled = false;
 
             //Tab 2.[材質與摩擦係數增減區塊]初始化.
             EscapeDGMaterialCellValueChangedFunction = true;
@@ -772,6 +811,46 @@ namespace VE_SD
         {
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
+        private void chk_BC_CheckedChanged(object sender, EventArgs e)
+        {
+            bool isChecked = chk_BC.Checked;
+            label20_BC.Enabled = isChecked;
+            label21_BC.Enabled = isChecked;
+            label22_BC.Enabled = isChecked;
+            label23_BC.Enabled = isChecked;
+            label24_BC.Enabled = isChecked;
+            label25_BC.Enabled = isChecked;
+            label26_BC.Enabled = isChecked;
+            label27_BC.Enabled = isChecked;
+            label28_BC.Enabled = isChecked;
+            //textbox_Coe.Text = "";
+            textbox_Coe.ReadOnly = !isChecked;
+            textbox_Coe.Enabled = isChecked;
+            //textBox_thiangle.Text = "";
+            textBox_thiangle.ReadOnly = !isChecked;
+            textBox_thiangle.Enabled = isChecked;
+            //textBox_NC.Text = "";
+            textBox_NC.ReadOnly = !isChecked;// true;
+            textBox_NC.Enabled = isChecked;// false;
+            //textBox_Nq.Text = "";
+            textBox_Nq.ReadOnly = !isChecked;// true;
+            textBox_Nq.Enabled = isChecked;// false;
+            //textBox_Nr.Text = "";
+            textBox_Nr.ReadOnly = !isChecked;// true;
+            textBox_Nr.Enabled = isChecked;// false;
+            //textBox_StoneR.Text = "";
+            textBox_StoneR.ReadOnly = !isChecked;// true;
+            textBox_StoneR.Enabled = isChecked;// false;
+            //textBox_InEarthDepthM.Text = "";
+            textBox_InEarthDepthM.ReadOnly = !isChecked;// true;
+            textBox_InEarthDepthM.Enabled = isChecked;// false;
+            //textBox_StoneThickness.Text = "";
+            textBox_StoneThickness.ReadOnly = !isChecked;// true;
+            textBox_StoneThickness.Enabled = isChecked;// false;
+            //textBox_BCFS.Text = "";
+            textBox_BCFS.ReadOnly = !isChecked;// true;
+            textBox_BCFS.Enabled = isChecked;// false;
+        }
         private void textBox_Beta_TextChanged(object sender, EventArgs e)
         {
             //Not handle.
@@ -823,6 +902,51 @@ namespace VE_SD
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
         private void textBox_SeaGamma_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textbox_Coe_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_thiangle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_NC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_Nq_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_Nr_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_StoneR_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_InEarthDepthM_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_StoneThickness_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_BCFS_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
@@ -2173,6 +2297,9 @@ namespace VE_SD
             XmlElement 胸牆部安定檢核啟用 = doc.CreateElement("胸牆部安定檢核啟用");
             胸牆部安定檢核啟用.SetAttribute("Value", chk_HeadBreastCalc.Checked ? "TRUE" : "FALSE");
 
+            XmlElement 地盤反力及承載力檢核啟用 = doc.CreateElement("地盤反力及承載力檢核啟用");
+            地盤反力及承載力檢核啟用.SetAttribute("Value", chk_BC.Checked ? "TRUE" : "FALSE");
+
 
             XmlElement 力矩計算參考點 = doc.CreateElement("力矩計算參考點");
             力矩計算參考點.SetAttribute("xValue", xo.ToString());
@@ -2200,6 +2327,7 @@ namespace VE_SD
             全域參數XML點.AppendChild(海水單位體積重量);
             全域參數XML點.AppendChild(HB計算值);
             全域參數XML點.AppendChild(消波工堤身段港外側重量檢核啟用);
+            全域參數XML點.AppendChild(地盤反力及承載力檢核啟用);
             if(chk_BlockWeightCalc_HO.Checked)
             {
                 XmlElement 消波形塊安定係數 = doc.CreateElement("消波形塊安定係數");
@@ -2271,6 +2399,49 @@ namespace VE_SD
                 胸牆部安定檢核啟用.AppendChild(混凝土容許應力);
                 胸牆部安定檢核啟用.AppendChild(BK);
                 胸牆部安定檢核啟用.AppendChild(ELAbove);
+            }
+            if(chk_BC.Checked)
+            {
+                XmlElement 土壤凝聚力 = doc.CreateElement("土壤凝聚力");
+                土壤凝聚力.SetAttribute("Value", textbox_Coe.Text);
+
+                XmlElement 內摩擦角 = doc.CreateElement("內摩擦角");
+                內摩擦角.SetAttribute("Value", textBox_thiangle.Text);
+
+                XmlElement Nc = doc.CreateElement("Nc");
+                Nc.SetAttribute("Value", textBox_NC.Text);
+
+                XmlElement Nq = doc.CreateElement("Nq");
+                Nq.SetAttribute("Value",textBox_Nq.Text);
+
+                XmlElement Nr = doc.CreateElement("Nr");
+                Nr.SetAttribute("Value", textBox_Nr.Text);
+
+                XmlElement 拋石單位重 = doc.CreateElement("拋石單位重");
+                拋石單位重.SetAttribute("Value", textBox_StoneR.Text);
+
+                XmlElement 入土深度 = doc.CreateElement("入土深度");
+                入土深度.SetAttribute("Value",textBox_InEarthDepthM.Text);
+
+                XmlElement 拋石厚度 = doc.CreateElement("拋石厚度");
+                拋石厚度.SetAttribute("Value", textBox_StoneThickness.Text);
+
+                XmlElement 承載力安全係數 = doc.CreateElement("承載力安全係數");
+                承載力安全係數.SetAttribute("Value", textBox_BCFS.Text);
+
+                //XmlElement 土壤凝聚力 = doc.CreateElement("土壤凝聚力");
+                //土壤凝聚力.SetAttribute("Value", textbox_Coe.Text);
+
+                地盤反力及承載力檢核啟用.AppendChild(土壤凝聚力);
+                地盤反力及承載力檢核啟用.AppendChild(內摩擦角);
+                地盤反力及承載力檢核啟用.AppendChild(Nc);
+                地盤反力及承載力檢核啟用.AppendChild(Nq);
+                地盤反力及承載力檢核啟用.AppendChild(Nr);
+                地盤反力及承載力檢核啟用.AppendChild(拋石單位重);
+                地盤反力及承載力檢核啟用.AppendChild(入土深度);
+                地盤反力及承載力檢核啟用.AppendChild(拋石厚度);
+                地盤反力及承載力檢核啟用.AppendChild(承載力安全係數);
+
             }
             全域參數XML點.AppendChild(力矩計算參考點);
 
@@ -2581,6 +2752,17 @@ namespace VE_SD
             double 混凝土容許應力r;
             double BKr;
             double ELAbover;
+
+            bool 啟用地盤反力與承載力計算r;
+            double 土壤凝聚力r;
+            double 內摩擦角r;
+            double Ncr;
+            double Nqr;
+            double Nrr;
+            double 拋石單位重r;
+            double 入土深度r;
+            double 拋石厚度r;
+            double 承載力安全係數r;
             Dictionary<string, int> DDR = new Dictionary<string, int>();
 
 
@@ -3095,6 +3277,144 @@ namespace VE_SD
                     混凝土容許應力r = 0;
                     BKr = 0;
                     ELAbover = 0;
+                }
+
+
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地盤反力及承載力檢核啟用");
+                if (object.Equals(RNode, null))
+                {
+                    return "地盤反力及承載力檢核啟用讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 啟用地盤反力與承載力計算r))
+                {
+                    return "地盤反力及承載力檢核啟用讀取失敗";
+                }
+                XmlNode 啟用地盤反力及承載力檢核 = RNode;
+                if(啟用地盤反力與承載力計算r)
+                {
+                    //土壤凝聚力.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("土壤凝聚力");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之土壤凝聚力讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 土壤凝聚力r))
+                    {
+                        return "地盤反力及承載力檢核之土壤凝聚力讀取失敗";
+                    }
+
+                    //內摩擦角
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("內摩擦角");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之內摩擦角讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 內摩擦角r))
+                    {
+                        return "地盤反力及承載力檢核之內摩擦角讀取失敗";
+                    }
+
+                    //Nc.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("Nc");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之Nc讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out Ncr))
+                    {
+                        return "地盤反力及承載力檢核之Nc讀取失敗";
+                    }
+
+                    //Nq.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("Nq");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之Nq讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out Nqr))
+                    {
+                        return "地盤反力及承載力檢核之Nq讀取失敗";
+                    }
+
+                    //Nr.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("Nr");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之Nr讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out Nrr))
+                    {
+                        return "地盤反力及承載力檢核之Nr讀取失敗";
+                    }
+
+                    //拋石單位重.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("拋石單位重");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之拋石單位重讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 拋石單位重r))
+                    {
+                        return "地盤反力及承載力檢核之拋石單位重讀取失敗";
+                    }
+
+
+                    //入土深度.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("入土深度");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之入土深度讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 入土深度r))
+                    {
+                        return "地盤反力及承載力檢核之入土深度讀取失敗";
+                    }
+
+                    //拋石厚度.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("拋石厚度");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之拋石厚度讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 拋石厚度r))
+                    {
+                        return "地盤反力及承載力檢核之拋石厚度讀取失敗";
+                    }
+
+                    //承載力安全係數.
+                    RNode = 啟用地盤反力及承載力檢核.SelectSingleNode("承載力安全係數");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "地盤反力及承載力檢核之承載力安全係數讀取失敗";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value").ToString(), out 承載力安全係數r))
+                    {
+                        return "地盤反力及承載力檢核之承載力安全係數讀取失敗";
+                    }
+
+
+                }
+                else
+                {
+                    土壤凝聚力r = 0;
+                    內摩擦角r = 0;
+                    Ncr = 0;
+                    Nqr = 0;
+                    Nrr = 0;
+                    拋石單位重r = 0;
+                    入土深度r = 0;
+                    拋石厚度r = 0;
+                    承載力安全係數r = 0;
                 }
 
                 //力矩計算參考點.
@@ -3679,6 +3999,87 @@ namespace VE_SD
                 textBox_ELAbove.Text = "";
             }
 
+            if(啟用地盤反力與承載力計算r)
+            {
+                chk_BC.Checked = true;
+                label20_BC.Enabled = true;
+                label21_BC.Enabled = true;
+                label22_BC.Enabled = true;
+                label23_BC.Enabled = true;
+                label24_BC.Enabled = true;
+                label25_BC.Enabled = true;
+                label26_BC.Enabled = true;
+                label27_BC.Enabled = true;
+                label28_BC.Enabled = true;
+                textbox_Coe.Text = 土壤凝聚力r.ToString();
+                textbox_Coe.ReadOnly = false;
+                textbox_Coe.Enabled = true;
+                textBox_thiangle.Text = 內摩擦角r.ToString();
+                textBox_thiangle.ReadOnly = false;
+                textBox_thiangle.Enabled = true;
+                textBox_NC.Text = Ncr.ToString();
+                textBox_NC.ReadOnly = false;
+                textBox_NC.Enabled = true;
+                textBox_Nq.Text = Nqr.ToString();
+                textBox_Nq.ReadOnly = false;
+                textBox_Nq.Enabled = true;
+                textBox_Nr.Text = Nrr.ToString();
+                textBox_Nr.ReadOnly = false;
+                textBox_Nr.Enabled = true;
+                textBox_StoneR.Text = 拋石單位重r.ToString();
+                textBox_StoneR.ReadOnly = false;
+                textBox_StoneR.Enabled = true;
+                textBox_InEarthDepthM.Text = 入土深度r.ToString();
+                textBox_InEarthDepthM.ReadOnly = false;
+                textBox_InEarthDepthM.Enabled = true;
+                textBox_StoneThickness.Text = 拋石厚度r.ToString() ;
+                textBox_StoneThickness.ReadOnly = false;
+                textBox_StoneThickness.Enabled = true;
+                textBox_BCFS.Text = 承載力安全係數r.ToString();
+                textBox_BCFS.ReadOnly = false;
+                textBox_BCFS.Enabled = true;
+            }
+            else
+            {
+                chk_BC.Checked = false;
+                label20_BC.Enabled = false;
+                label21_BC.Enabled = false;
+                label22_BC.Enabled = false;
+                label23_BC.Enabled = false;
+                label24_BC.Enabled = false;
+                label25_BC.Enabled = false;
+                label26_BC.Enabled = false;
+                label27_BC.Enabled = false;
+                label28_BC.Enabled = false;
+                textbox_Coe.Text = "";
+                textbox_Coe.ReadOnly = true;
+                textbox_Coe.Enabled = false;
+                textBox_thiangle.Text = "";
+                textBox_thiangle.ReadOnly = true;
+                textBox_thiangle.Enabled = false;
+                textBox_NC.Text = "";
+                textBox_NC.ReadOnly = true;
+                textBox_NC.Enabled = false;
+                textBox_Nq.Text = "";
+                textBox_Nq.ReadOnly = true;
+                textBox_Nq.Enabled = false;
+                textBox_Nr.Text = "";
+                textBox_Nr.ReadOnly = true;
+                textBox_Nr.Enabled = false;
+                textBox_StoneR.Text = "";
+                textBox_StoneR.ReadOnly = true;
+                textBox_StoneR.Enabled = false;
+                textBox_InEarthDepthM.Text = "";
+                textBox_InEarthDepthM.ReadOnly = true;
+                textBox_InEarthDepthM.Enabled = false;
+                textBox_StoneThickness.Text = "";
+                textBox_StoneThickness.ReadOnly = true;
+                textBox_StoneThickness.Enabled = false;
+                textBox_BCFS.Text = "";
+                textBox_BCFS.ReadOnly = true;
+                textBox_BCFS.Enabled = false;
+            }
+
             DGMaterial.Rows.Clear();
             MaterialArray = MaterialR;
             MaterialCount = MaterialCountR;
@@ -4199,6 +4600,46 @@ namespace VE_SD
                     //MessageBox.Show("您「胸牆部安定檢核」的BK'沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     //return false;
                 }
+            }
+            if(chk_BC.Checked)
+            {
+                if(textbox_Coe.Text.ToString()=="")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的土壤凝聚力沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_thiangle.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的內摩擦角沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_NC.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的Nc沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_Nq.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的Nq沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_Nr.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的Nr沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_StoneR.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的拋石單位重沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_InEarthDepthM.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的入土深度沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_StoneThickness.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的拋石厚度沒有選擇!!!" + Environment.NewLine);
+                }
+                if (textBox_BCFS.Text.ToString() == "")
+                {
+                    ErrorMsg += ("您「地盤反力及承載力」的安全係數沒有選擇!!!" + Environment.NewLine);
+                }
+
             }
             return okOrNot;
         }
@@ -7728,7 +8169,6 @@ namespace VE_SD
 
             //}
         }
-
 
     }
 }

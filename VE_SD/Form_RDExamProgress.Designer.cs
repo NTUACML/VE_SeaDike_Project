@@ -183,6 +183,26 @@
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.chk_BC = new System.Windows.Forms.CheckBox();
+            this.label20_BC = new System.Windows.Forms.Label();
+            this.textbox_Coe = new System.Windows.Forms.TextBox();
+            this.textBox_thiangle = new System.Windows.Forms.TextBox();
+            this.label21_BC = new System.Windows.Forms.Label();
+            this.textBox_NC = new System.Windows.Forms.TextBox();
+            this.label22_BC = new System.Windows.Forms.Label();
+            this.textBox_Nq = new System.Windows.Forms.TextBox();
+            this.label23_BC = new System.Windows.Forms.Label();
+            this.textBox_Nr = new System.Windows.Forms.TextBox();
+            this.label24_BC = new System.Windows.Forms.Label();
+            this.textBox_StoneR = new System.Windows.Forms.TextBox();
+            this.label25_BC = new System.Windows.Forms.Label();
+            this.textBox_InEarthDepthM = new System.Windows.Forms.TextBox();
+            this.label26_BC = new System.Windows.Forms.Label();
+            this.textBox_StoneThickness = new System.Windows.Forms.TextBox();
+            this.label27_BC = new System.Windows.Forms.Label();
+            this.textBox_BCFS = new System.Windows.Forms.TextBox();
+            this.label28_BC = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -204,6 +224,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ELDGV1)).BeginInit();
             this.tabPage_RunCheck.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox_SectSetting
@@ -864,6 +885,7 @@
             // 
             // tabPage_OtherChkSet
             // 
+            this.tabPage_OtherChkSet.Controls.Add(this.groupBox7);
             this.tabPage_OtherChkSet.Controls.Add(this.groupBox2);
             this.tabPage_OtherChkSet.Controls.Add(this.groupBox1);
             this.tabPage_OtherChkSet.Location = new System.Drawing.Point(4, 25);
@@ -1765,7 +1787,7 @@
             // 
             // SFD_WordOutput
             // 
-            this.SFD_WordOutput.Filter = "WORD 2013(.docx)|*.docx|Word 2010(.doc)|*.doc";
+            this.SFD_WordOutput.Filter = "WORD 2013|*.docx|Word 2010|*.doc";
             this.SFD_WordOutput.FilterIndex = 0;
             // 
             // bk_OutputWordReport
@@ -1775,6 +1797,207 @@
             this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.textBox_BCFS);
+            this.groupBox7.Controls.Add(this.label28_BC);
+            this.groupBox7.Controls.Add(this.textBox_StoneThickness);
+            this.groupBox7.Controls.Add(this.label27_BC);
+            this.groupBox7.Controls.Add(this.textBox_InEarthDepthM);
+            this.groupBox7.Controls.Add(this.label26_BC);
+            this.groupBox7.Controls.Add(this.textBox_StoneR);
+            this.groupBox7.Controls.Add(this.label25_BC);
+            this.groupBox7.Controls.Add(this.textBox_Nr);
+            this.groupBox7.Controls.Add(this.label24_BC);
+            this.groupBox7.Controls.Add(this.textBox_Nq);
+            this.groupBox7.Controls.Add(this.label23_BC);
+            this.groupBox7.Controls.Add(this.textBox_NC);
+            this.groupBox7.Controls.Add(this.label22_BC);
+            this.groupBox7.Controls.Add(this.textBox_thiangle);
+            this.groupBox7.Controls.Add(this.label21_BC);
+            this.groupBox7.Controls.Add(this.textbox_Coe);
+            this.groupBox7.Controls.Add(this.label20_BC);
+            this.groupBox7.Controls.Add(this.chk_BC);
+            this.groupBox7.Font = new System.Drawing.Font("標楷體", 14F);
+            this.groupBox7.Location = new System.Drawing.Point(604, 156);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(465, 317);
+            this.groupBox7.TabIndex = 30;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "  地盤反力及承載力";
+            // 
+            // chk_BC
+            // 
+            this.chk_BC.AutoSize = true;
+            this.chk_BC.Location = new System.Drawing.Point(16, 2);
+            this.chk_BC.Name = "chk_BC";
+            this.chk_BC.Size = new System.Drawing.Size(15, 14);
+            this.chk_BC.TabIndex = 0;
+            this.chk_BC.UseVisualStyleBackColor = true;
+            this.chk_BC.CheckedChanged += new System.EventHandler(this.chk_BC_CheckedChanged);
+            // 
+            // label20_BC
+            // 
+            this.label20_BC.AutoSize = true;
+            this.label20_BC.Location = new System.Drawing.Point(16, 40);
+            this.label20_BC.Name = "label20_BC";
+            this.label20_BC.Size = new System.Drawing.Size(179, 19);
+            this.label20_BC.TabIndex = 1;
+            this.label20_BC.Text = "土壤凝聚力(t/m^2)";
+            // 
+            // textbox_Coe
+            // 
+            this.textbox_Coe.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textbox_Coe.Location = new System.Drawing.Point(307, 37);
+            this.textbox_Coe.Name = "textbox_Coe";
+            this.textbox_Coe.Size = new System.Drawing.Size(100, 27);
+            this.textbox_Coe.TabIndex = 2;
+            this.textbox_Coe.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textbox_Coe_KeyPress);
+            // 
+            // textBox_thiangle
+            // 
+            this.textBox_thiangle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_thiangle.Location = new System.Drawing.Point(307, 66);
+            this.textBox_thiangle.Name = "textBox_thiangle";
+            this.textBox_thiangle.Size = new System.Drawing.Size(100, 27);
+            this.textBox_thiangle.TabIndex = 4;
+            this.textBox_thiangle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_thiangle_KeyPress);
+            // 
+            // label21_BC
+            // 
+            this.label21_BC.AutoSize = true;
+            this.label21_BC.Location = new System.Drawing.Point(16, 69);
+            this.label21_BC.Name = "label21_BC";
+            this.label21_BC.Size = new System.Drawing.Size(129, 19);
+            this.label21_BC.TabIndex = 3;
+            this.label21_BC.Text = "內摩擦角(度)";
+            // 
+            // textBox_NC
+            // 
+            this.textBox_NC.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_NC.Location = new System.Drawing.Point(307, 95);
+            this.textBox_NC.Name = "textBox_NC";
+            this.textBox_NC.Size = new System.Drawing.Size(100, 27);
+            this.textBox_NC.TabIndex = 6;
+            this.textBox_NC.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_NC_KeyPress);
+            // 
+            // label22_BC
+            // 
+            this.label22_BC.AutoSize = true;
+            this.label22_BC.Location = new System.Drawing.Point(21, 98);
+            this.label22_BC.Name = "label22_BC";
+            this.label22_BC.Size = new System.Drawing.Size(29, 19);
+            this.label22_BC.TabIndex = 5;
+            this.label22_BC.Text = "Nc";
+            // 
+            // textBox_Nq
+            // 
+            this.textBox_Nq.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Nq.Location = new System.Drawing.Point(307, 125);
+            this.textBox_Nq.Name = "textBox_Nq";
+            this.textBox_Nq.Size = new System.Drawing.Size(100, 27);
+            this.textBox_Nq.TabIndex = 8;
+            this.textBox_Nq.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nq_KeyPress);
+            // 
+            // label23_BC
+            // 
+            this.label23_BC.AutoSize = true;
+            this.label23_BC.Location = new System.Drawing.Point(21, 128);
+            this.label23_BC.Name = "label23_BC";
+            this.label23_BC.Size = new System.Drawing.Size(29, 19);
+            this.label23_BC.TabIndex = 7;
+            this.label23_BC.Text = "Nq";
+            // 
+            // textBox_Nr
+            // 
+            this.textBox_Nr.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Nr.Location = new System.Drawing.Point(307, 154);
+            this.textBox_Nr.Name = "textBox_Nr";
+            this.textBox_Nr.Size = new System.Drawing.Size(100, 27);
+            this.textBox_Nr.TabIndex = 10;
+            this.textBox_Nr.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nr_KeyPress);
+            // 
+            // label24_BC
+            // 
+            this.label24_BC.AutoSize = true;
+            this.label24_BC.Location = new System.Drawing.Point(21, 157);
+            this.label24_BC.Name = "label24_BC";
+            this.label24_BC.Size = new System.Drawing.Size(29, 19);
+            this.label24_BC.TabIndex = 9;
+            this.label24_BC.Text = "Nr";
+            // 
+            // textBox_StoneR
+            // 
+            this.textBox_StoneR.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_StoneR.Location = new System.Drawing.Point(307, 184);
+            this.textBox_StoneR.Name = "textBox_StoneR";
+            this.textBox_StoneR.Size = new System.Drawing.Size(100, 27);
+            this.textBox_StoneR.TabIndex = 12;
+            this.textBox_StoneR.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_StoneR_KeyPress);
+            // 
+            // label25_BC
+            // 
+            this.label25_BC.AutoSize = true;
+            this.label25_BC.Location = new System.Drawing.Point(21, 187);
+            this.label25_BC.Name = "label25_BC";
+            this.label25_BC.Size = new System.Drawing.Size(179, 19);
+            this.label25_BC.TabIndex = 11;
+            this.label25_BC.Text = "拋石單位重(t/m^3)";
+            // 
+            // textBox_InEarthDepthM
+            // 
+            this.textBox_InEarthDepthM.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_InEarthDepthM.Location = new System.Drawing.Point(307, 214);
+            this.textBox_InEarthDepthM.Name = "textBox_InEarthDepthM";
+            this.textBox_InEarthDepthM.Size = new System.Drawing.Size(100, 27);
+            this.textBox_InEarthDepthM.TabIndex = 14;
+            this.textBox_InEarthDepthM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_InEarthDepthM_KeyPress);
+            // 
+            // label26_BC
+            // 
+            this.label26_BC.AutoSize = true;
+            this.label26_BC.Location = new System.Drawing.Point(21, 217);
+            this.label26_BC.Name = "label26_BC";
+            this.label26_BC.Size = new System.Drawing.Size(119, 19);
+            this.label26_BC.TabIndex = 13;
+            this.label26_BC.Text = "入土深度(m)";
+            // 
+            // textBox_StoneThickness
+            // 
+            this.textBox_StoneThickness.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_StoneThickness.Location = new System.Drawing.Point(307, 244);
+            this.textBox_StoneThickness.Name = "textBox_StoneThickness";
+            this.textBox_StoneThickness.Size = new System.Drawing.Size(100, 27);
+            this.textBox_StoneThickness.TabIndex = 16;
+            this.textBox_StoneThickness.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_StoneThickness_KeyPress);
+            // 
+            // label27_BC
+            // 
+            this.label27_BC.AutoSize = true;
+            this.label27_BC.Location = new System.Drawing.Point(21, 247);
+            this.label27_BC.Name = "label27_BC";
+            this.label27_BC.Size = new System.Drawing.Size(119, 19);
+            this.label27_BC.TabIndex = 15;
+            this.label27_BC.Text = "拋石厚度(m)";
+            // 
+            // textBox_BCFS
+            // 
+            this.textBox_BCFS.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BCFS.Location = new System.Drawing.Point(307, 274);
+            this.textBox_BCFS.Name = "textBox_BCFS";
+            this.textBox_BCFS.Size = new System.Drawing.Size(100, 27);
+            this.textBox_BCFS.TabIndex = 18;
+            this.textBox_BCFS.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BCFS_KeyPress);
+            // 
+            // label28_BC
+            // 
+            this.label28_BC.AutoSize = true;
+            this.label28_BC.Location = new System.Drawing.Point(21, 277);
+            this.label28_BC.Name = "label28_BC";
+            this.label28_BC.Size = new System.Drawing.Size(129, 19);
+            this.label28_BC.TabIndex = 17;
+            this.label28_BC.Text = "地盤承載力FS";
             // 
             // Form_RDExamProgress
             // 
@@ -1827,6 +2050,8 @@
             this.tabPage_RunCheck.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1978,5 +2203,25 @@
         private System.Windows.Forms.Label label_XXX;
         private System.Windows.Forms.TextBox textBox_ELAbove;
         private System.Windows.Forms.Label label_BrestCheck_3;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.TextBox textBox_BCFS;
+        private System.Windows.Forms.Label label28_BC;
+        private System.Windows.Forms.TextBox textBox_StoneThickness;
+        private System.Windows.Forms.Label label27_BC;
+        private System.Windows.Forms.TextBox textBox_InEarthDepthM;
+        private System.Windows.Forms.Label label26_BC;
+        private System.Windows.Forms.TextBox textBox_StoneR;
+        private System.Windows.Forms.Label label25_BC;
+        private System.Windows.Forms.TextBox textBox_Nr;
+        private System.Windows.Forms.Label label24_BC;
+        private System.Windows.Forms.TextBox textBox_Nq;
+        private System.Windows.Forms.Label label23_BC;
+        private System.Windows.Forms.TextBox textBox_NC;
+        private System.Windows.Forms.Label label22_BC;
+        private System.Windows.Forms.TextBox textBox_thiangle;
+        private System.Windows.Forms.Label label21_BC;
+        private System.Windows.Forms.TextBox textbox_Coe;
+        private System.Windows.Forms.Label label20_BC;
+        private System.Windows.Forms.CheckBox chk_BC;
     }
 }
