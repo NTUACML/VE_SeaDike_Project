@@ -283,6 +283,7 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.R2 = Var->R2;
 	VarBank.Qu = Var->Qu;
 	VarBank.Qa = Var->Qa;
+	VarBank.B = Var->B;
 
 	return true;
 }
