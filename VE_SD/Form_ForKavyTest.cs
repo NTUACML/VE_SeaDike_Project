@@ -44,23 +44,23 @@ namespace VE_SD
             //    MessageBox.Show("已刪除All Block!");
             //}
 
-            // Class Main Run
-            Mod.Run();
+            //// Class Main Run
+            //Mod.Run();
 
-            // Class output test
-            double org = 0.0;
-            Mod.VarOut(ref org);
-            MessageBox.Show(org.ToString());
+            //// Class output test
+            //double org = 0.0;
+            //Mod.VarOut(ref org);
+            //MessageBox.Show(org.ToString());
 
-            //Out Log File
-            String Pos = "C:\\Users\\kavy\\Desktop\\test.log";
-            Mod.OutPutLogFile(Pos);
+            ////Out Log File
+            //String Pos = "C:\\Users\\kavy\\Desktop\\test.log";
+            //Mod.OutPutLogFile(Pos);
 
-            // Class Memory Clear
-            Mod.Dispose();
+            //// Class Memory Clear
+            //Mod.Dispose();
 
-            // Class Mesg output
-            textBox1.Text = Mod.ErrMsg;
+            //// Class Mesg output
+            //textBox1.Text = Mod.ErrMsg;
 
 
 

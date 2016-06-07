@@ -257,6 +257,32 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.CalUpper_SlideSF = Var->CalUpper_SlideSF;
 	VarBank.CalUpper_RotateSF = Var->CalUpper_RotateSF;
 	VarBank.CalBk = Var->Bk;
+	VarBank.C = Var->C;
+	VarBank.CentAngle = Var->CentAngle;
+	VarBank.Nc = Var->Nc;
+	VarBank.Nq = Var->Nq;
+	VarBank.Nr = Var->Nr;
+	VarBank.V = Var->V;
+	VarBank.H = Var->H;
+	VarBank.Mr = Var->Mr;
+	VarBank.Mo = Var->Mo;
+	VarBank.BaseDen = Var->BaseDen;
+	VarBank.U = Var->U;
+	VarBank.D = Var->D;
+	VarBank.BaseFS = Var->BaseFS;
+	VarBank.B_6 = Var->B_6;
+	VarBank.C_x = Var->C_x;
+	VarBank.e_x = Var->e_x;
+	VarBank.B_plum = Var->B_plum;
+	VarBank.Df = Var->Df;
+	VarBank.Base_P1 = Var->Base_P1;
+	VarBank.Base_P2 = Var->Base_P2;
+	VarBank.Base_Theta = Var->Base_Theta;
+	VarBank.B_plum2 = Var->B_plum2;
+	VarBank.R1 = Var->R1;
+	VarBank.R2 = Var->R2;
+	VarBank.Qu = Var->Qu;
+	VarBank.Qa = Var->Qa;
 
 	return true;
 }
@@ -277,6 +303,8 @@ bool VE_SD::Module1::Run()
 		!Internal->BreakerSafeCheck() // Breaker Safe Check
 		||
 		!Internal->UpperSafeCheck() //Upper Block Safe Check
+		||
+		!Internal->BasementSafeCheck() // Basement Safe Check
 		) {
 		MsgAdd();
 		ErrMsg += "*** Module - 1 ­pºâ¥¢±Ñ *** \r\n";
@@ -449,30 +477,26 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 	return true;
 }
 
-void VE_SD::Module1::Test()
-{
-	Internal->TestFileOut("Density.txt", Var->BlockData[0].Density);
-	Internal->TestFileOut("FrictionC.txt", Var->BlockData[0].FrictionC);
-
-	std::ofstream FILE;
-	FILE.open("Coord.txt");
-	for (auto Block : Var->BlockData) {
-		FILE << "Block" << std::endl;
-		for (auto Node : Block.Node) {
-			FILE << Node.x << "\t" << Node.y << std::endl;
-		}
-	}
-
-	FILE.close();
-}
-
-void VE_SD::Module1::VarOut(double % out)
-{
-	out = Var->beta;
-}
-
 void VE_SD::Module1::MsgAdd()
 {
 	ErrMsg += gcnew String(Var->Err_Msg.c_str());
 	Var->Err_Msg.clear();
+}
+
+bool VE_SD::Module1::BasementCheckCondition(bool _BasementCheckCondi) {
+	Var->BasementCheckCondi = _BasementCheckCondi;
+	return true;
+}
+bool VE_SD::Module1::BasementCheckInput(double _C, double _CentAngle, double _Nc, double _Nq, double _Nr,
+	double _BaseDen, double _U, double _D, double _BaseFS) {
+	Var->C = _C;
+	Var->CentAngle = _CentAngle * (M_PI / 180.0); // To Rad
+	Var->Nc = _Nc;
+	Var->Nq = _Nq;
+	Var->Nr = _Nr;
+	Var->BaseDen = _BaseDen;
+	Var->U = _U;
+	Var->D = _D;
+	Var->BaseFS = _BaseFS;
+	return true;
 }

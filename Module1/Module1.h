@@ -25,7 +25,9 @@ namespace VE_SD {
 			beta0, beta1, betaMax, beta0_Star, beta1_Star, betaMax_Star,
 			alpha1, alpha2, alpha3, alpha4, eta_Star, hc_Star, 
 			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF, W, Mw,
-			W1, W2, W3, CalUpper_SlideSF, CalUpper_RotateSF, CalBk;
+			W1, W2, W3, CalUpper_SlideSF, CalUpper_RotateSF, CalBk,
+			C, CentAngle, Nc, Nq, Nr, V, H, Mr, Mo, BaseDen, U, D, BaseFS, B_6, C_x, e_x, B_plum, Df, Base_P1, Base_P2,
+			Base_Theta, B_plum2, R1, R2, Qu, Qa;
 
 		array< EL_SectionResult >^ EL_Out;
 		array< BlockResult >^ Block_Out;
@@ -74,6 +76,9 @@ namespace VE_SD {
 		bool WaveBreakUpsideInput(double _Density, double _Coef, double _Slope);
 		bool UpperBlockCheckCondition(bool _UpperBlockCheckCondi);
 		bool UpperBlockCheckInput(double _Vc, double _Bk_plun, double _Up_EL);
+		bool BasementCheckCondition(bool _BasementCheckCondi);
+		bool BasementCheckInput(double _C, double _CentAngle, double _Nc, double _Nq, double _Nr,
+								double _BaseDen, double _U, double _D, double _BaseFS);
 
 		//- Get Var Function
 		bool Get_DataBank_Data();
@@ -82,11 +87,8 @@ namespace VE_SD {
 		bool Run(); //Run Main Check Processor
 		bool OutPutLogFile(String ^ Pois);
 
-		//- Test
-		void Test();
-		void VarOut(double % out);
-
-		DataBank VarBank; //Test
+		//- Var Output
+		DataBank VarBank; 
 
 	private:
 		//Data

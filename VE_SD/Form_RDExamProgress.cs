@@ -5031,6 +5031,19 @@ namespace VE_SD
                 Mod.UpperBlockCheckCondition(false);
             }
 
+            //5-5. 地盤反力及承載力計算
+            if (chk_BC.Checked)
+            {
+                Mod.BasementCheckCondition(true);
+                Mod.BasementCheckInput(double.Parse(textbox_Coe.Text), double.Parse(textBox_thiangle.Text), double.Parse(textBox_NC.Text), double.Parse(textBox_Nq.Text),
+                    double.Parse(textBox_Nr.Text), double.Parse(textBox_StoneR.Text), double.Parse(textBox_InEarthDepthM.Text), double.Parse(textBox_StoneThickness.Text),
+                    double.Parse(textBox_BCFS.Text));
+            }
+            else
+            {
+                Mod.BasementCheckCondition(false);
+            }
+
             //6. Block給定.
             for (int i=0;i<BlockMainArray.GetLength(0);i++)
             {

@@ -54,6 +54,10 @@ public:
 	//- Upper Block Check
 	bool UpperBlockCheckCondi;
 	double Vc, Bk, Bk_plun, UpBlockEL;
+	//- Basement Check 
+	bool BasementCheckCondi;
+	double C, CentAngle, Nc, Nq, Nr, V, H, Mr, Mo, BaseDen, U, D, BaseFS, B_6, C_x, e_x, B_plum, Df, Base_P1, Base_P2,
+			Base_Theta, B_plum2, R1, R2, Qu, Qa;
 
 	//- Mesg
 	std::string Err_Msg;

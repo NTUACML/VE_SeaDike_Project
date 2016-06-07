@@ -237,11 +237,19 @@ bool Module1_Internal::WavePressureCal()
 	Var->LevelSection.begin()->FP = 0.0;
 	Var->LevelSection.begin()->L_Y = 0.0;
 	Var->LevelSection.begin()->Mp = 0.0;
+
+
+	double F_Sum = 0.0;
 	for (size_t i = 1; i < Var->LevelSection.size(); i++)
 	{
 		Dis_Face = Var->LevelSection[i].Level - Var->LevelSection[i-1].Level;
 		Var->LevelSection[i].FP = (Var->LevelSection[i].P + Var->LevelSection[i-1].P)  * Dis_Face / 2.0;
-		Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + Dis_Face/2.0;
+
+		// Tragngle Used
+		F_Sum = Var->LevelSection[i - 1].P * Dis_Face * (Dis_Face / 2.0) + (Var->LevelSection[i].P - Var->LevelSection[i - 1].P) * (Dis_Face / 2.0) * (2.0 * Dis_Face / 3.0);
+		
+		Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + F_Sum / Var->LevelSection[i].FP;
+
 		Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
 	}
 	Var->LevelSection.end()->FP = 0.0;
@@ -481,69 +489,56 @@ bool Module1_Internal::UpperSafeCheck()
 			Var->Err_Msg += "胸牆部傾倒檢核 (失敗)! \r\n";
 		}
 
-
-		//size_t UpperEL_Id = Var->LevelSection.size() - 2;
-		//std::vector<size_t> Block_ID = Var->LevelSection[UpperEL_Id].BlockId;
-
-		//size_t UseBlockId = Block_ID[0];
-		//if (Var->Direction == 1) // E direction (Find Maximun X block)
-		//{
-		//	for (size_t i = 0; i < Block_ID.size(); i++)
-		//	{
-		//		if (Var->BlockData[Block_ID[i]].WeightC.x >= UseBlockId) {
-		//			UseBlockId = Block_ID[i];
-		//		}
-		//	}
-		//}
-		//else { // Wdirection (Find Minmun X block)
-		//	for (size_t i = 0; i < Block_ID.size(); i++)
-		//	{
-		//		if (Var->BlockData[Block_ID[i]].WeightC.x <= UseBlockId) {
-		//			UseBlockId = Block_ID[i];
-		//		}
-		//	}
-		//}
-
-		//Var->CalUpper_SlideSF = (Var->BlockData[UseBlockId].FrictionC * Var->BlockData[UseBlockId].SelfWeight) / Var->LevelSection[UpperEL_Id].FP;
-
-		//double ref_x, ref_y;
-		//ref_x = Var->BlockData[UseBlockId].WeightC.x;
-		//ref_y = Var->BlockData[UseBlockId].WeightC.y;
-
-		//if (Var->Direction == 1) // E direction (Find Maximun X block)
-		//{
-		//	for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
-		//	{
-		//		if (Var->BlockData[UseBlockId].Node[i].x <= ref_x) {
-		//			ref_x = Var->BlockData[UseBlockId].Node[i].x;
-		//		}
-		//	}
-		//}
-		//else { // Wdirection (Find Minmun X block)
-		//	for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
-		//	{
-		//		if (Var->BlockData[UseBlockId].Node[i].x >= ref_x) {
-		//			ref_x = Var->BlockData[UseBlockId].Node[i].x;
-		//		}
-		//	}
-		//}
-
-		//for (size_t i = 0; i < Var->BlockData[UseBlockId].Node.size(); i++)
-		//{
-		//	if (Var->BlockData[UseBlockId].Node[i].y <= ref_y) {
-		//		ref_y = Var->BlockData[UseBlockId].Node[i].y;
-		//	}
-		//}
-
-		//Var->CalUpper_RotateSF = (Var->BlockData[UseBlockId].SelfWeight * std::abs(Var->BlockData[UseBlockId].WeightC.x - ref_x)) /
-		//	(Var->LevelSection[UpperEL_Id].FP * std::abs(Var->BlockData[UseBlockId].WeightC.y - ref_y));
-
-
-		
-
-		
 	}
 	
+	return true;
+}
+
+bool Module1_Internal::BasementSafeCheck()
+{
+	if (Var->BasementCheckCondi) {
+		// 作用力
+		Var->V = Var->W - Var->Fu;
+		Var->H = Var->Fp;
+		Var->Mr = Var->Mw - Var->Mu;
+		Var->Mo = Var->Mp;
+
+		// 堤底部反力
+		Var->B_6 = Var->B / 6.0;
+		Var->C_x = (Var->Mr - Var->Mo) / Var->V;
+		Var->e_x = (Var->B / 2.0) - Var->C_x;
+		
+		if (Var->e_x <= Var->B_6) {
+			Var->B_plum = Var->B;
+			Var->Base_P1 = (1.0 + (6.0 * Var->e_x) / Var->B) * (Var->V / Var->B);
+			Var->Base_P2 = (1.0 - (6.0 * Var->e_x) / Var->B) * (Var->V / Var->B);
+		}
+		else {
+			Var->B_plum = 3.0 * Var->C_x;
+			Var->Base_P1 = (2.0 * Var->V) / (3.0 * Var->C_x * Var->B);
+			Var->Base_P2 = 0.0;
+		}
+
+		// 基礎拋石底部反力
+		Var->Df = Var->U + Var->D;
+		Var->Base_Theta = atan(Var->H / Var->V); // (Rad)
+		Var->B_plum2 = Var->B_plum + Var->D * (tan(M_PI / 6.0 + Var->Base_Theta) + tan(M_PI / 6.0 - Var->Base_Theta));
+		double DiffB = (Var->B_plum / Var->B_plum2) + Var->BaseDen * Var->D;
+		Var->R1 = Var->P1 * DiffB;
+		Var->R2 = Var->P2 * DiffB;
+
+		// 地盤乘載力
+		Var->Qu = Var->C * Var->Nc + Var->BaseDen * Var->Df * Var->Nq + 0.5 * Var->BaseDen * Var->B_plum2 * Var->Nr;
+		Var->Qa = Var->Qu / Var->BaseFS + Var->BaseDen * Var->Df;
+
+		// Check Rotate
+		if (Var->Qa >= Var->R1) {
+			Var->Err_Msg += "地盤乘載力檢核 (成功)! \r\n";
+		}
+		else {
+			Var->Err_Msg += "地盤乘載力檢核 (失敗)! \r\n";
+		}
+	}
 	return true;
 }
 

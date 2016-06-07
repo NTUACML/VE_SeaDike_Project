@@ -29,6 +29,7 @@ public:
 	bool BodySafeCheck();
 	bool BreakerSafeCheck();
 	bool UpperSafeCheck();
+	bool BasementSafeCheck();
 
 
 	//- Test Out
