@@ -59,6 +59,17 @@ namespace VE_SD
         string _胸牆部安定檢核計算BKplun = "";
         string _胸牆部安定EL值以上 = "";
 
+        bool _地盤反力及承載力檢核計算 = false;
+        string _土壤凝聚力 = "";
+        string _土壤內摩擦角 = "";
+        string _NC = "";
+        string _Nq = "";
+        string _Nr = "";
+        string _拋石單位重 = "";
+        string _入土深度 = "";
+        string _拋石厚度 = "";
+        string _地盤承載力FS = "";
+
         public string 填表人ID
         {
             get { return _填表人ID; }
@@ -179,6 +190,12 @@ namespace VE_SD
             get { return _胸牆部安定檢核計算; }
             set { _胸牆部安定檢核計算 = value; }
         }
+        public bool 地盤反力及承載力檢核計算
+        {
+            get { return _地盤反力及承載力檢核計算; }
+            set { _地盤反力及承載力檢核計算 = value; }
+        }
+
         public string 堤身段港外側消波形塊安定係數
         {
             get { return _堤身段港外側消波形塊安定係數; }
@@ -244,5 +261,62 @@ namespace VE_SD
             get { return _胸牆部安定EL值以上; }
             set { _胸牆部安定EL值以上 = value; }
         }
+
+        public string 土壤凝聚力
+        {
+            get { return _土壤凝聚力; }
+            set { _土壤凝聚力 = value; }
+        }
+        public string 土壤內摩擦角
+        {
+            get { return _土壤內摩擦角; }
+            set { _土壤內摩擦角 = value; }
+        }
+        public string NC
+        {
+            get { return _NC; }
+            set { _NC = value; }
+        }
+
+        public string Nq
+        {
+            get { return _Nq; }
+            set { _Nq = value; }
+        }
+        public string Nr
+        {
+            get { return _Nr; }
+            set { _Nr = value; }
+        }
+        public string 拋石單位重
+        {
+            get { return _拋石單位重; }
+            set { _拋石單位重 = value; }
+        }
+        public string 入土深度
+        {
+            get { return _入土深度; }
+            set { _入土深度 = value; }
+        }
+        public string 拋石厚度
+        {
+            get { return _拋石厚度; }
+            set { _拋石厚度 = value; }
+        }
+        public string 地盤承載力FS
+        {
+            get { return _地盤承載力FS; }
+            set { _地盤承載力FS = value; }
+        }
+
+        //string _土壤凝聚力 = "";
+        //string _土壤內摩擦角 = "";
+        //string _NC = "";
+        //string _Nq = "";
+        //string _Nr = "";
+        //string _拋石單位重 = "";
+        //string _入土深度 = "";
+        //string _拋石厚度 = "";
+        //string _地盤承載力FS = "";
     }
 }

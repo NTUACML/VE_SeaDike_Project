@@ -2714,7 +2714,7 @@ namespace VE_SD
         {
             //若失敗，會回傳失敗訊息.
             //若成功,會回傳空字串.
-            string openMessage = "";
+            //string openMessage = "";
             double xor;// = 0.0; //已取消
             double yor;// = 0.0; //已取消
 
@@ -5155,6 +5155,17 @@ namespace VE_SD
             RCOL.胸牆部安定檢核計算BKplun= textBox_BK.Text.ToString();
             RCOL.胸牆部安定EL以上 = textBox_ELAbove.Text.ToString();
 
+            RCOL.地盤反力及承載力檢核計算 = chk_BC.Checked;
+            RCOL.土壤凝聚力 = textbox_Coe.Text.ToString();
+            RCOL.土壤內摩擦角 = textBox_thiangle.Text.ToString();
+            RCOL.NC = textBox_NC.Text.ToString();
+            RCOL.Nq = textBox_Nq.Text.ToString();
+            RCOL.Nr = textBox_Nr.Text.ToString();
+            RCOL.拋石單位重 = textBox_StoneR.Text.ToString();
+            RCOL.入土深度 = textBox_InEarthDepthM.Text.ToString();
+            RCOL.拋石厚度 = textBox_StoneThickness.Text.ToString();
+            RCOL.地盤承載力FS = textBox_BCFS.Text.ToString();
+
             RCOL.填表人ID=mainForm.LoginInUserID;
             RCOL.填表人名稱 = mainForm.LoginInUserName;
 
@@ -5999,59 +6010,59 @@ namespace VE_SD
 
             //*****************************************************************************************
             //以下為原先Excel輸出部分,已被避開.
-            if(SFD_EXCELReport.ShowDialog()==DialogResult.OK && SFD_EXCELReport.FileName!="")
-            {
-                //輸出.
-                string getpath = SFD_EXCELReport.FileName;
-                if(File.Exists(getpath))
-                {
-                    //規定目前此excel檔案不可被開啟中.
-                    if (IsFileLocked(new FileInfo(getpath)))
-                    {
-                        MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Excel打開中","輸出錯誤",MessageBoxButtons.OK,MessageBoxIcon.Stop);
-                        return;
-                    }
+            //if(SFD_EXCELReport.ShowDialog()==DialogResult.OK && SFD_EXCELReport.FileName!="")
+            //{
+            //    //輸出.
+            //    string getpath = SFD_EXCELReport.FileName;
+            //    if(File.Exists(getpath))
+            //    {
+            //        //規定目前此excel檔案不可被開啟中.
+            //        if (IsFileLocked(new FileInfo(getpath)))
+            //        {
+            //            MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Excel打開中","輸出錯誤",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+            //            return;
+            //        }
 
-                }
-                //執行輸出.
-                tsp_progressbar.Style = ProgressBarStyle.Marquee;
-                tsp_progressbar.Visible = true;
-                tsp_progressbar.MarqueeAnimationSpeed = 10;//0.1 sec.
-                tsp_cond.Text = "輸出Excel檔案中...";
+            //    }
+            //    //執行輸出.
+            //    tsp_progressbar.Style = ProgressBarStyle.Marquee;
+            //    tsp_progressbar.Visible = true;
+            //    tsp_progressbar.MarqueeAnimationSpeed = 10;//0.1 sec.
+            //    tsp_cond.Text = "輸出Excel檔案中...";
 
-                tsp_progressbar.Visible = false;
-                string getMsg = 寫出檢核結果Excel表(getpath);
+            //    tsp_progressbar.Visible = false;
+            //    string getMsg = 寫出檢核結果Excel表(getpath);
 
-                if(getMsg!="OK")
-                {
-                    MessageBox.Show("您的Excel表單輸出出現錯誤!" + Environment.NewLine + getMsg, "EXCEL輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    tsp_cond.Text = "您沒有成功輸出檢核報表";
+            //    if(getMsg!="OK")
+            //    {
+            //        MessageBox.Show("您的Excel表單輸出出現錯誤!" + Environment.NewLine + getMsg, "EXCEL輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        tsp_cond.Text = "您沒有成功輸出檢核報表";
 
 
-                }
-                else
-                {
-                    tsp_cond.Text = "您已輸出完成Excel檔案,謝謝使用";
-                    MessageBox.Show("輸出完成!!", "輸出Excel報表完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (chk_OpenFileAfterOutput.Checked)
-                    {
-                        try
-                        {
-                            Process p = new Process();
-                            p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-                            p.StartInfo.FileName = SFD_EXCELReport.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            p.Start();
-                        }
-                        catch
-                        {
-                            //不做任何事情.
-                        }
+            //    }
+            //    else
+            //    {
+            //        tsp_cond.Text = "您已輸出完成Excel檔案,謝謝使用";
+            //        MessageBox.Show("輸出完成!!", "輸出Excel報表完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        if (chk_OpenFileAfterOutput.Checked)
+            //        {
+            //            try
+            //            {
+            //                Process p = new Process();
+            //                p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            //                p.StartInfo.FileName = SFD_EXCELReport.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //                p.Start();
+            //            }
+            //            catch
+            //            {
+            //                //不做任何事情.
+            //            }
 
-                    }
-                }//有無成功輸出.
-                //bkOutputExcelFile.RunWorkerAsync(getpath);
+            //        }
+            //    }//有無成功輸出.
+            //    //bkOutputExcelFile.RunWorkerAsync(getpath);
                 
-            }
+            //}
         }
         public bool IsFileLocked(FileInfo file)
         {
@@ -7225,7 +7236,7 @@ namespace VE_SD
         }
 
         #endregion
-        Point? prePosition = null;
+        //Point? prePosition = null;
         ToolTip ToolTipChart = new ToolTip();
         private void chart_Plot_MouseHover(object sender, EventArgs e)
         {
@@ -7931,6 +7942,148 @@ namespace VE_SD
                             TableRef.Columns[2].Cells[1].Range.Text = "---";
                         }
                     }
+
+                    //地盤反力及承載力檢核.
+                    //7-1.設計條件,第19個表格.
+                    TableRef = newDocument.Tables[19];
+                    if(RCOL.地盤反力及承載力檢核計算)
+                    {
+                        //填入數值.
+                        //土壤凝聚力
+                        TableRef.Rows[1].Cells[2].Range.Text = RCOL.土壤凝聚力;
+                        //內摩擦角
+                        TableRef.Rows[2].Cells[2].Range.Text = RCOL.土壤內摩擦角;
+                        //Nc.
+                        TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.Nc.ToString("0.00");
+                        //Nq.
+                        TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.Nq.ToString("0.00");
+                        //Nr.
+                        TableRef.Rows[5].Cells[2].Range.Text = Mod.VarBank.Nr.ToString("0.00");
+                        //Summation V.
+                        TableRef.Rows[6].Cells[2].Range.Text = Mod.VarBank.V.ToString("0.00");
+                        //Summation H.
+                        TableRef.Rows[7].Cells[2].Range.Text = Mod.VarBank.H.ToString("0.00");
+                        //Mr.
+                        TableRef.Rows[8].Cells[2].Range.Text = Mod.VarBank.Mr.ToString("0.00");
+                        //Mo.
+                        TableRef.Rows[9].Cells[2].Range.Text = Mod.VarBank.Mo.ToString("0.00");
+                    }
+                    else
+                    {
+                        TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[9]);
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
+                    }
+
+                    //7-2.
+                    //堤體底部反力(單位長度),第20個表格.
+                    TableRef = newDocument.Tables[20];
+                    if(RCOL.地盤反力及承載力檢核計算)
+                    {
+                        //堤寬.
+                        TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.B.ToString("0.00");
+                        //堤寬/6.0
+                        TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.B_6.ToString("0.00");
+                        //作用力合力位置x.
+                        TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.C_x.ToString("0.00");
+                        //偏心矩e.
+                        TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.e_x.ToString("0.00");
+                        //堤底作用力寬b'
+                        TableRef.Rows[5].Cells[2].Range.Text = Mod.VarBank.B_plum.ToString("0.00");
+                        //最大反力P1.
+                        TableRef.Rows[6].Cells[2].Range.Text = Mod.VarBank.Base_P1.ToString("0.00");
+                        //最小反力P2.
+                        TableRef.Rows[7].Cells[2].Range.Text = Mod.VarBank.Base_P2.ToString("0.00");
+                    }
+                    else
+                    {
+                        TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[7]);
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
+                    }
+
+                    //7-3. 基礎拋石底部反力.
+                    //第21個表格.
+                    TableRef = newDocument.Tables[21];
+                    if (RCOL.地盤反力及承載力檢核計算)
+                    {
+                        //拋石單位重.
+                        TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.BaseDen.ToString("0.00");
+                        //入土深度
+                        TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.U.ToString("0.00");
+                        //拋石厚度.
+                        TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.D.ToString("0.00");
+                        //Df.
+                        TableRef.Rows[4].Cells[2].Range.Text = Mod.VarBank.Df.ToString("0.00");
+                        //Theta.
+                        TableRef.Rows[5].Cells[2].Range.Text = Mod.VarBank.Base_Theta.ToString("0.00");
+                        //基礎作用力寬b''.
+                        TableRef.Rows[6].Cells[2].Range.Text = Mod.VarBank.B_plum2.ToString("0.00");
+                        //最大反力R1.
+                        TableRef.Rows[7].Cells[2].Range.Text = Mod.VarBank.R1.ToString("0.00");
+                        //最小反力R2.
+                        TableRef.Rows[8].Cells[2].Range.Text = Mod.VarBank.R2.ToString("0.00");
+                    }
+                    else
+                    {
+                        TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[8]);
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
+                    }
+
+                    //7-4. 地盤承載力.
+                    //第22個表格.
+                    TableRef = newDocument.Tables[22];
+                    if (RCOL.地盤反力及承載力檢核計算)
+                    {
+                        //安全係數FS.
+                        TableRef.Rows[1].Cells[2].Range.Text = Mod.VarBank.BaseFS.ToString("0.00");
+                        //極限承載力.
+                        TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.Qu.ToString("0.00");
+                        //容許承載力.
+                        TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.Qa.ToString("0.00");
+                        //判別.
+                        if(Mod.VarBank.R1<= Mod.VarBank.Qa)
+                        {
+                            TableRef.Rows[4].Cells[2].Range.Text = "OK";// Mod.VarBank.Df.ToString("0.00");
+                                
+                        }
+                        else
+                        {
+                            TableRef.Rows[4].Cells[2].Range.Text = "Fail-";
+                        }
+                    }
+                    else
+                    {
+                        TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[4]);
+                        try
+                        {
+                            TableRef.Columns[2].Borders[WORD.WdBorderType.wdBorderDiagonalUp].LineStyle = WORD.WdLineStyle.wdLineStyleSingle;
+                        }
+                        catch
+                        {
+                            TableRef.Columns[2].Cells[1].Range.Text = "---";
+                        }
+                    }
+
                     newDocument.Save(); // (outputFile);
                     newDocument.Close(false, Type.Missing, Type.Missing);
                     OutMsg = "ok";
@@ -7986,7 +8139,7 @@ namespace VE_SD
                 //wdNary.HideSub = false;
                 //wdNary.HideSup = false;
                 ////Following code will setup value in Nary Function
-                WORD.Selection wdSelection = null; // = wdApplication.Selection;
+                //WORD.Selection wdSelection = null; // = wdApplication.Selection;
                 
                 object unit = WORD.WdUnits.wdCharacter;
                 object lu = WORD.WdUnits.wdLine;
@@ -8182,6 +8335,29 @@ namespace VE_SD
 
             //}
         }
-
+        private void btn_ShowNcNqNr_Click(object sender, EventArgs e)
+        {
+            string picFolder = mainForm.程式運作路徑 + "\\PIC\\NcNqNr.png";
+            if(!IsFileLocked(new FileInfo(picFolder)))
+            {
+                //Call function to open it.
+                try
+                {
+                    Process p = new Process();
+                    p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                    p.StartInfo.FileName = picFolder;// 浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    p.Start();
+                }
+                catch
+                {
+                    MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案","NcNqNr參考檔案",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                //File is locked by other program. Just show message.
+                MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案" + Environment.NewLine +"有其他程式已經打開此檔案", "NcNqNr參考檔案", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }

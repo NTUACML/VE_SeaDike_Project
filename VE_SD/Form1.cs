@@ -25,7 +25,7 @@ namespace VE_SD
         string _LoginInUserID;
         string _LoginInUserName;
         bool _PSKEYCORRECT;
-        bool loginsuccess = false;
+        //bool loginsuccess = false;
         bool _RemoveLogInDataWhenClosing = false;//是否於每次軟體正常關閉時,移除登入使用者資訊,則下次登入時必須重新輸入.
 
 
@@ -33,8 +33,8 @@ namespace VE_SD
         private string 驗證機碼存放位置 = "C:\\LKK";
         private string Exepath = System.IO.Directory.GetCurrentDirectory();
         private string PORT = "2016";
-        UdpClient U;//宣告UDP通訊物件.
-        Thread th;//宣告監聽用執行緒.
+        //UdpClient U;//宣告UDP通訊物件.
+        //Thread th;//宣告監聽用執行緒.
 
         public Form1()
         {
@@ -70,6 +70,10 @@ namespace VE_SD
         {
             get { return _RemoveLogInDataWhenClosing; }
             set { _RemoveLogInDataWhenClosing = value; }
+        }
+        public string 程式運作路徑
+        {
+            get { return Exepath; }
         }
         #endregion 
 
@@ -1325,7 +1329,7 @@ namespace VE_SD
                 
             }
             //catch()
-            catch (Exception ex)
+            catch // (Exception ex)
             {
                 //MessageBox.Show(ex.Message.ToString());
                 //Fail to send file.
@@ -1470,7 +1474,7 @@ namespace VE_SD
                 //MessageBox.Show("There");
 
             }
-            catch (Exception ex)
+            catch // (Exception ex)
             {
                 //MessageBox.Show(ex.Message.ToString());//!!!!!!!!
                 //MessageBox.Show(ex.StackTrace.ToString());//!!!!!!!
