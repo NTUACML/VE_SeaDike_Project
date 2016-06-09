@@ -290,26 +290,34 @@ bool VE_SD::Module1::Get_DataBank_Data()
 
 bool VE_SD::Module1::Run()
 {
-	// Geo Pre-Calculate
-	if (!Internal->GeoPreCal() // Geo Pre-Calculate
-		||
-		!Internal->WaterLevelCal() // Water Level Cal
-		||
-		!Internal->WavePressureCal() // Wave Pressure Moment Cal
-		||
-		!Internal->WeightCal() // Self Weight Moment Cal
-		||
-		!Internal->BodySafeCheck() // Safe Check!!!!!
-		||
-		!Internal->BreakerSafeCheck() // Breaker Safe Check
-		||
-		!Internal->UpperSafeCheck() //Upper Block Safe Check
-		||
-		!Internal->BasementSafeCheck() // Basement Safe Check
-		) {
-		MsgAdd();
-		ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
+	try {
+		// Geo Pre-Calculate
+		if (!Internal->GeoPreCal() // Geo Pre-Calculate
+			||
+			!Internal->WaterLevelCal() // Water Level Cal
+			||
+			!Internal->WavePressureCal() // Wave Pressure Moment Cal
+			||
+			!Internal->WeightCal() // Self Weight Moment Cal
+			||
+			!Internal->BodySafeCheck() // Safe Check!!!!!
+			||
+			!Internal->BreakerSafeCheck() // Breaker Safe Check
+			||
+			!Internal->UpperSafeCheck() //Upper Block Safe Check
+			||
+			!Internal->BasementSafeCheck() // Basement Safe Check
+			) {
+			MsgAdd();
+			ErrMsg += "*** Module - 1 計算失敗 *** \r\n";
+		}
 	}
+	catch (std::exception& e) {	
+		MsgAdd();
+		ErrMsg += "*** Module - 1 程式錯誤，請確認輸入條件 *** \r\n";
+		return false;
+	}
+
 
 	// Mesg Print
 	MsgAdd();
@@ -486,7 +494,6 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 		FILE << "作用力H: " << Var->H << std::endl;
 		FILE << "作用力Mr: " << Var->Mr << std::endl;
 		FILE << "作用力Mo: " << Var->Mo << std::endl;
-		FILE << "作用力Mr: " << Var->Mr << std::endl;
 		FILE << "堤寬: " << Var->B << std::endl;
 		FILE << "作用合力位置: " << Var->C_x << std::endl;
 		FILE << "偏心距: " << Var->e_x << std::endl;
