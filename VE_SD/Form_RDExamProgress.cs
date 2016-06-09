@@ -5031,7 +5031,7 @@ namespace VE_SD
                 Mod.UpperBlockCheckCondition(false);
             }
 
-            //5-5. 地盤反力及承載力計算
+            //5 - 5.地盤反力及承載力計算
             if (chk_BC.Checked)
             {
                 Mod.BasementCheckCondition(true);
@@ -8061,10 +8061,10 @@ namespace VE_SD
                         //容許承載力.
                         TableRef.Rows[3].Cells[2].Range.Text = Mod.VarBank.Qa.ToString("0.00");
                         //判別.
-                        if(Mod.VarBank.R1<= Mod.VarBank.Qa)
+                        if (Mod.VarBank.R1 <= Mod.VarBank.Qa)
                         {
                             TableRef.Rows[4].Cells[2].Range.Text = "OK";// Mod.VarBank.Df.ToString("0.00");
-                                
+
                         }
                         else
                         {
