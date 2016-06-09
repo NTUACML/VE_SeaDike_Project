@@ -538,6 +538,11 @@ bool Module1_Internal::BasementSafeCheck()
 		else {
 			Var->Err_Msg += "¦a½L­¼¸ü¤OÀË®Ö (¥¢±Ñ)! \r\n";
 		}
+
+		// (Rad) -> (degree)
+		Var->Base_Theta *= (180.0 / M_PI);
+		Var->CentAngle *= (180.0 / M_PI);
+		
 	}
 	return true;
 }
