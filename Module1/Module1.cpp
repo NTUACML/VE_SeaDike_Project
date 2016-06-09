@@ -474,6 +474,39 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 		FILE << "睼猟甧砛芭莱: " << Var->Vc << std::endl;
 		FILE << "璸衡BK: " << Var->Bk << std::endl;
 	}
+
+	if (Var->BasementCheckCondi == true) {
+		FILE << "******絃はの更浪浪******" << std::endl;
+		FILE << "腫井籈: " << Var->C << std::endl;
+		FILE << "ず集揽à: " << Var->CentAngle << std::endl;
+		FILE << "更玒计Nc: " << Var->Nc << std::endl;
+		FILE << "更玒计Nq: " << Var->Nq << std::endl;
+		FILE << "更玒计Nr: " << Var->Nr << std::endl;
+		FILE << "ノV: " << Var->V << std::endl;
+		FILE << "ノH: " << Var->H << std::endl;
+		FILE << "ノMr: " << Var->Mr << std::endl;
+		FILE << "ノMo: " << Var->Mo << std::endl;
+		FILE << "ノMr: " << Var->Mr << std::endl;
+		FILE << "出糴: " << Var->B << std::endl;
+		FILE << "ノ竚: " << Var->C_x << std::endl;
+		FILE << "熬み禯: " << Var->e_x << std::endl;
+		FILE << "出┏ノ糴: " << Var->B_plum << std::endl;
+		FILE << "程は: " << Var->Base_P1 << std::endl;
+		FILE << "程は: " << Var->Base_P2 << std::endl;
+		FILE << "┻ホ虫: " << Var->BaseDen << std::endl;
+		FILE << "瞏: " << Var->U << std::endl;
+		FILE << "┻ホ玴: " << Var->D << std::endl;
+		FILE << "Df: " << Var->Df << std::endl;
+		FILE << "はAngle: " << Var->Base_Theta << std::endl;
+		FILE << "膀娄ノ糴: " << Var->B_plum2 << std::endl;
+		FILE << "程は: " << Var->R1 << std::endl;
+		FILE << "程は: " << Var->R2 << std::endl;
+		FILE << "伐更: " << Var->Qu << std::endl;
+		FILE << "甧砛更: " << Var->Qa << std::endl;
+		FILE << "玒计: " << Var->BaseFS << std::endl;
+	}
+
+	//FILE << "代刚: " << Var->Temp << std::endl;
 	FILE.close();
 	return true;
 }

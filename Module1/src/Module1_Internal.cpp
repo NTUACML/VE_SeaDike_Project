@@ -407,7 +407,7 @@ bool Module1_Internal::UpperSafeCheck()
 
 		// Find Upper Level Section
 		for (size_t i = 0; i < Var->LevelSection.size(); ++i) {
-			if (Var->LevelSection[i].Level >= Var->UpBlockEL)
+			if (Var->LevelSection[i].Level > Var->UpBlockEL)
 				UpperLevelSec.push_back(i);
 		}
 
@@ -515,7 +515,7 @@ bool Module1_Internal::BasementSafeCheck()
 		}
 		else {
 			Var->B_plum = 3.0 * Var->C_x;
-			Var->Base_P1 = (2.0 * Var->V) / (3.0 * Var->C_x * Var->B);
+			Var->Base_P1 = (2.0 * Var->V) / (3.0 * Var->C_x);
 			Var->Base_P2 = 0.0;
 		}
 
@@ -523,9 +523,9 @@ bool Module1_Internal::BasementSafeCheck()
 		Var->Df = Var->U + Var->D;
 		Var->Base_Theta = atan(Var->H / Var->V); // (Rad)
 		Var->B_plum2 = Var->B_plum + Var->D * (tan(M_PI / 6.0 + Var->Base_Theta) + tan(M_PI / 6.0 - Var->Base_Theta));
-		double DiffB = (Var->B_plum / Var->B_plum2) + Var->BaseDen * Var->D;
-		Var->R1 = Var->P1 * DiffB;
-		Var->R2 = Var->P2 * DiffB;
+		double DiffB = (Var->B_plum / Var->B_plum2) ;
+		Var->R1 = Var->Base_P1 * DiffB + Var->BaseDen * Var->D;
+		Var->R2 = Var->Base_P2 * DiffB + Var->BaseDen * Var->D;
 
 		// ¦a½L­¼¸ü¤O
 		Var->Qu = Var->C * Var->Nc + Var->BaseDen * Var->Df * Var->Nq + 0.5 * Var->BaseDen * Var->B_plum2 * Var->Nr;
