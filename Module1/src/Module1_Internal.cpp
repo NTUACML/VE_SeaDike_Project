@@ -281,7 +281,7 @@ bool Module1_Internal::WeightCal()
 {
 	double eps = 1e-3;
 	// Find Ref x with different direction
-	double Ref_x = Var->BlockData.begin()->MinX;
+	double Ref_x = Var->Ref_x;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
 		if (Var->Direction == 1) {
@@ -299,10 +299,12 @@ bool Module1_Internal::WeightCal()
 		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
 		if (Var->BlockData[i].CalMoment == false) //Don't cal Moment.
 		{
+			Var->BlockData[i].X = 0.0;
 			Var->BlockData[i].Mw = 0.0; 
 		}
 		else {
-			Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * std::abs( Var->BlockData[i].WeightC.x - Ref_x);
+			Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.x - Ref_x);
+			Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].X;
 		}	
 	}
 	//- Sum Total Weight and Moment
