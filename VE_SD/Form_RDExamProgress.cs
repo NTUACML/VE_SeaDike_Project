@@ -8338,8 +8338,8 @@ namespace VE_SD
         private void btn_ShowNcNqNr_Click(object sender, EventArgs e)
         {
             string picFolder = mainForm.程式運作路徑 + "\\PIC\\NcNqNr.png";
-            if(!IsFileLocked(new FileInfo(picFolder)))
-            {
+            //if(!IsFileLocked(new FileInfo(picFolder)))
+            //{
                 //Call function to open it.
                 try
                 {
@@ -8352,12 +8352,12 @@ namespace VE_SD
                 {
                     MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案","NcNqNr參考檔案",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 }
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 //File is locked by other program. Just show message.
-                MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案" + Environment.NewLine +"有其他程式已經打開此檔案", "NcNqNr參考檔案", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            //    MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案" + Environment.NewLine +"有其他程式已經打開此檔案", "NcNqNr參考檔案", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
     }
 }
