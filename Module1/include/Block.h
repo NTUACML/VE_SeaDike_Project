@@ -27,7 +27,8 @@ public:
 	double MinLevel, MaxLevel, MaxX, MinX; //Min Y, Max X, Min X
 	double SelfWeight; //Weight for each block
 	double Mw; //Block self Moment
-	bool CalMoment;
+	bool CalMoment; //  Cal Moment or not
+	double X; // Arm X
 	//Public Function
 	void Cal_Area(); //Calculate Area
 	void Cal_WeightC();

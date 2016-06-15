@@ -212,7 +212,7 @@ bool VE_SD::Module1::Get_DataBank_Data()
 		VarBank.Block_Out[i].A = Var->BlockData[i].Area;
 		VarBank.Block_Out[i].garma = Var->BlockData[i].Density;
 		VarBank.Block_Out[i].W = Var->BlockData[i].SelfWeight;
-		VarBank.Block_Out[i].X = Var->BlockData[i].WeightC.x;
+		VarBank.Block_Out[i].X = Var->BlockData[i].X;
 		VarBank.Block_Out[i].Mw = Var->BlockData[i].Mw;
 	}
 
@@ -245,6 +245,7 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.P4 = Var->P4;
 	VarBank.Pu = Var->Pu;
 	VarBank.Fu = Var->Fu;
+	VarBank.Fp = Var->Fp;
 	VarBank.Mu = Var->Mu;
 	VarBank.CalBody_SlideSF = Var->CalBody_SlideSF;
 	VarBank.CalBody_RotateSF = Var->CalBody_RotateSF;
@@ -449,7 +450,7 @@ bool VE_SD::Module1::OutPutLogFile(String ^ Pois)
 			FILE << "A: " << Var->BlockData[id].Area << "\t";
 			FILE << "Garma: " << Var->BlockData[id].Density << "\t";
 			FILE << "W: " << Var->BlockData[id].SelfWeight << "\t";
-			FILE << "X: " << Var->BlockData[id].WeightC.x << "\t";
+			FILE << "X: " << Var->BlockData[id].X << "\t";
 			FILE << "Mw: " << Var->BlockData[id].Mw;
 			FILE << std::endl;
 		}
