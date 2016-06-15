@@ -245,6 +245,7 @@ bool VE_SD::Module1::Get_DataBank_Data()
 	VarBank.P4 = Var->P4;
 	VarBank.Pu = Var->Pu;
 	VarBank.Fu = Var->Fu;
+	VarBank.Fp = Var->Fp;
 	VarBank.Mu = Var->Mu;
 	VarBank.CalBody_SlideSF = Var->CalBody_SlideSF;
 	VarBank.CalBody_RotateSF = Var->CalBody_RotateSF;
