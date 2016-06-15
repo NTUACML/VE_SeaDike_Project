@@ -1,7 +1,7 @@
 <Root>
   <版本 Value="SeaDikeVS_P1" />
   <GlobalParameters>
-    <選擇Tab Value="1" />
+    <選擇Tab Value="3" />
     <深海波波向 Value="SW" />
     <BlockTooltip資訊 Value="單位體積重" />
     <海側方向 Value="左" />
@@ -15,7 +15,7 @@
     <淺化係數 Value="0.978" />
     <繞射係數 Value="1" />
     <波力折減係數 Value="0.9" />
-    <入射波與堤體法線垂直交角 Value="38" />
+    <入射波與堤體法線垂直交角 Value="53" />
     <滑動安全係數 Value="1.2" />
     <傾倒安全係數 Value="1.2" />
     <海水單位體積重量 Value="1.03" />
@@ -98,19 +98,20 @@
       <BlockCoordinate xValue="13" yValue="4" />
       <BlockCoordinate xValue="1" yValue="4" />
     </形塊>
-    <形塊 名稱="B2" 點數="4" 序號="3">
+    <形塊 名稱="B2" 點數="5" 序號="3">
       <單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土拋石" />
+      <使用材質 Value="混凝土方塊" />
       <計算Moment Value="True" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="1" yValue="4" />
       <BlockCoordinate xValue="13" yValue="4" />
       <BlockCoordinate xValue="13" yValue="5" />
+      <BlockCoordinate xValue="3.5" yValue="5.2" />
       <BlockCoordinate xValue="1" yValue="5.2" />
     </形塊>
     <形塊 名稱="B1" 點數="4" 序號="4">
       <單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土拋石" />
+      <使用材質 Value="混凝土方塊" />
       <計算Moment Value="True" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="1" yValue="5.2" />
@@ -118,6 +119,6 @@
       <BlockCoordinate xValue="2.5" yValue="7" />
       <BlockCoordinate xValue="1" yValue="7" />
     </形塊>
-    <選取Block序號 Value="3" />
+    <選取Block序號 Value="-1" />
   </Blocks>
 </Root>
