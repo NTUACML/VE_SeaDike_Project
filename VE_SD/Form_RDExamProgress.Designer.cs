@@ -102,6 +102,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage_OtherChkSet = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btn_ShowNcNqNr = new System.Windows.Forms.Button();
             this.textBox_BCFS = new System.Windows.Forms.TextBox();
             this.label28_BC = new System.Windows.Forms.Label();
             this.textBox_StoneThickness = new System.Windows.Forms.TextBox();
@@ -203,7 +204,7 @@
             this.bkOutputExcelFile = new System.ComponentModel.BackgroundWorker();
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
-            this.btn_ShowNcNqNr = new System.Windows.Forms.Button();
+            this.打開過的舊檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
@@ -266,7 +267,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.檔案ToolStripMenuItem,
             this.步驟ToolStripMenuItem,
-            this.說明ToolStripMenuItem});
+            this.說明ToolStripMenuItem,
+            this.打開過的舊檔案ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
@@ -925,6 +927,17 @@
             this.groupBox7.TabIndex = 30;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "  地盤反力及承載力";
+            // 
+            // btn_ShowNcNqNr
+            // 
+            this.btn_ShowNcNqNr.Location = new System.Drawing.Point(25, 299);
+            this.btn_ShowNcNqNr.Name = "btn_ShowNcNqNr";
+            this.btn_ShowNcNqNr.Size = new System.Drawing.Size(154, 29);
+            this.btn_ShowNcNqNr.TabIndex = 19;
+            this.btn_ShowNcNqNr.Text = "顯示參考圖";
+            this.toolTip1.SetToolTip(this.btn_ShowNcNqNr, "顯示Nc Nq Nr");
+            this.btn_ShowNcNqNr.UseVisualStyleBackColor = true;
+            this.btn_ShowNcNqNr.Click += new System.EventHandler(this.btn_ShowNcNqNr_Click);
             // 
             // textBox_BCFS
             // 
@@ -2001,16 +2014,13 @@
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
-            // btn_ShowNcNqNr
+            // 打開過的舊檔案ToolStripMenuItem
             // 
-            this.btn_ShowNcNqNr.Location = new System.Drawing.Point(25, 299);
-            this.btn_ShowNcNqNr.Name = "btn_ShowNcNqNr";
-            this.btn_ShowNcNqNr.Size = new System.Drawing.Size(154, 29);
-            this.btn_ShowNcNqNr.TabIndex = 19;
-            this.btn_ShowNcNqNr.Text = "顯示參考圖";
-            this.toolTip1.SetToolTip(this.btn_ShowNcNqNr, "顯示Nc Nq Nr");
-            this.btn_ShowNcNqNr.UseVisualStyleBackColor = true;
-            this.btn_ShowNcNqNr.Click += new System.EventHandler(this.btn_ShowNcNqNr_Click);
+            this.打開過的舊檔案ToolStripMenuItem.Enabled = false;
+            this.打開過的舊檔案ToolStripMenuItem.Name = "打開過的舊檔案ToolStripMenuItem";
+            this.打開過的舊檔案ToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+            this.打開過的舊檔案ToolStripMenuItem.Text = "打開過的舊檔案";
+            this.打開過的舊檔案ToolStripMenuItem.Visible = false;
             // 
             // Form_RDExamProgress
             // 
@@ -2237,5 +2247,6 @@
         private System.Windows.Forms.Label label20_BC;
         private System.Windows.Forms.CheckBox chk_BC;
         private System.Windows.Forms.Button btn_ShowNcNqNr;
+        private System.Windows.Forms.ToolStripMenuItem 打開過的舊檔案ToolStripMenuItem;
     }
 }

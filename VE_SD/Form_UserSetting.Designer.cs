@@ -35,6 +35,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_OK = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
+            this.chk_ServiceOut = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +53,7 @@
             // tabPage1
             // 
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.chk_ServiceOut);
             this.tabPage1.Controls.Add(this.chk_RemoveUserLog);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
@@ -101,6 +103,16 @@
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
+            // chk_ServiceOut
+            // 
+            this.chk_ServiceOut.AutoSize = true;
+            this.chk_ServiceOut.Location = new System.Drawing.Point(5, 43);
+            this.chk_ServiceOut.Name = "chk_ServiceOut";
+            this.chk_ServiceOut.Size = new System.Drawing.Size(122, 19);
+            this.chk_ServiceOut.TabIndex = 1;
+            this.chk_ServiceOut.Text = "提供服務訊息";
+            this.chk_ServiceOut.UseVisualStyleBackColor = true;
+            // 
             // Form_UserSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -132,5 +144,6 @@
         private System.Windows.Forms.CheckBox chk_RemoveUserLog;
         private System.Windows.Forms.Button btn_OK;
         private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.CheckBox chk_ServiceOut;
     }
 }

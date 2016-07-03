@@ -33,6 +33,7 @@ namespace VE_SD
         private string 驗證機碼存放位置 = "C:\\LKK";
         private string Exepath = System.IO.Directory.GetCurrentDirectory();
         private string PORT = "2016";
+        private bool _提供服務訊息=true;//是否提供服務訊息傳送到主機.
         //UdpClient U;//宣告UDP通訊物件.
         //Thread th;//宣告監聽用執行緒.
 
@@ -71,6 +72,11 @@ namespace VE_SD
             get { return _RemoveLogInDataWhenClosing; }
             set { _RemoveLogInDataWhenClosing = value; }
         }
+        public bool 提供服務訊息
+        {
+            get { return _提供服務訊息; }
+            set { _提供服務訊息 =value; }
+        }
         public string 程式運作路徑
         {
             get { return Exepath; }
@@ -85,6 +91,7 @@ namespace VE_SD
                 Directory.CreateDirectory(_SystemReferenceStoreFolder);
             }
             _RemoveLogInDataWhenClosing = false; //預設為不刪除.
+            _提供服務訊息 = true;
             label_LoginCond.Text = "NO";
             TSP_Progressbar.Visible = false;
             TSSTATUS_label.Text = "歡迎使用浩海工程顧問公司檢核程式!";
@@ -123,11 +130,12 @@ namespace VE_SD
             FileInfo f1 = new FileInfo(SystemReferenceFileName);
             if(!f1.Exists)
             {
+                MessageBox.Show("No File exists");
                 return;
             }
             XmlDocument doc = new XmlDocument();
             doc.Load(SystemReferenceFileName);
-
+            bool 提供服務訊息Inner = true;
             bool 每次關閉軟體後刪除使用者登入資訊 = false;
             try
             {
@@ -135,22 +143,37 @@ namespace VE_SD
                 XmlNode RNode = doc.SelectSingleNode("Root/每次關閉軟體後刪除使用者登入資訊");
                 if (object.Equals(RNode, null))
                 {
+                    MessageBox.Show("H1");
                     return;
                 }
                 XmlElement Relement = (XmlElement)RNode;
                 if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 每次關閉軟體後刪除使用者登入資訊))
                 {
+                    MessageBox.Show("H2");
+                    return;
+                }
+                RNode = doc.SelectSingleNode("Root/提供服務訊息");
+                if (object.Equals(RNode, null))
+                {
+                    MessageBox.Show("H3");
+                    return;
+
+                }
+                Relement = (XmlElement)RNode;
+                if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 提供服務訊息Inner))
+                {
+                    MessageBox.Show("H4");
                     return;
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                MessageBox.Show(ex.StackTrace.ToString());
 
             }
 
             _RemoveLogInDataWhenClosing = 每次關閉軟體後刪除使用者登入資訊;
-
+            _提供服務訊息 = 提供服務訊息Inner;
 
 
 
@@ -170,7 +193,13 @@ namespace VE_SD
 
             XmlElement 每次關閉軟體後刪除使用者登入資訊= doc.CreateElement("每次關閉軟體後刪除使用者登入資訊");
             每次關閉軟體後刪除使用者登入資訊.SetAttribute("Value", _RemoveLogInDataWhenClosing.ToString());
+
+            XmlElement 提供服務訊息Node = doc.CreateElement("提供服務訊息");
+            提供服務訊息Node.SetAttribute("Value", _提供服務訊息.ToString());
+
+
             Root.AppendChild(每次關閉軟體後刪除使用者登入資訊);
+            Root.AppendChild(提供服務訊息Node);
 
             doc.Save(SystemReferenceFileName);
 
@@ -182,7 +211,10 @@ namespace VE_SD
 
             //此功能已取消,目前主表單已直接改為海堤檢核主表單.
             //開啟海堤檢核主表單.
-            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            if (_提供服務訊息)
+            {
+                this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            }
             Form_RDExamProgress frdexam = new Form_RDExamProgress(this);
             frdexam.ShowDialog();
             //return;
@@ -235,7 +267,10 @@ namespace VE_SD
 
         private void btn_StandardRDC_Click(object sender, EventArgs e)
         {
-            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            if (_提供服務訊息)
+            {
+                this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            }
             Form_RDExamProgress frdexam = new Form_RDExamProgress(this);
             frdexam.ShowDialog();
         }
@@ -306,11 +341,14 @@ namespace VE_SD
                 //沒有驗證過.
                 Form_EnterKey fkey = new Form_EnterKey(this, NewKey, "請連絡相關人員來提供您驗證密碼" + Environment.NewLine + F2);
                 fkey.ShowDialog();
-               
-                if(!_PSKEYCORRECT)
+
+                if (!_PSKEYCORRECT)
                 {
                     //失敗.
-                    this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                    if (_提供服務訊息)
+                    {
+                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                    }
                 }
                 else
                 {
@@ -319,9 +357,12 @@ namespace VE_SD
                     sw1.WriteLine(NewKey);
                     sw1.Flush();
                     sw1.Close();
-                    MessageBox.Show("驗證已通過","驗證軟體",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show("驗證已通過", "驗證軟體", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this._PSKEYCORRECT = false;
-                    this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                    if (_提供服務訊息)
+                    {
+                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                    }
                 }
             }
             else
@@ -335,7 +376,10 @@ namespace VE_SD
                     if (!_PSKEYCORRECT)
                     {
                         //失敗.
-                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        if (_提供服務訊息)
+                        {
+                            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        }
                     }
                     else
                     {
@@ -345,7 +389,10 @@ namespace VE_SD
                         sw1.Flush();
                         sw1.Close();
                         this._PSKEYCORRECT = false;
-                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        if (_提供服務訊息)
+                        {
+                            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')已成功完成軟體驗證(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        }
                     }
                 }
                 else
@@ -360,7 +407,11 @@ namespace VE_SD
                     {
                         //失敗.
                         //殺掉檔案,顯示失敗.
-                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證因密碼不符合已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        if (_提供服務訊息)
+                        {
+                            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證因密碼不符合已失敗,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+
+                        }
                         MessageBox.Show("您的驗證已過時,請聯絡相關人員提供最新之驗證", "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         File.Delete(MKeyPostiion);
 
@@ -368,7 +419,10 @@ namespace VE_SD
                     else
                     {
                         //沒事.
-                        this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證通過(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        if (_提供服務訊息)
+                        {
+                            this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')有嘗試驗證軟體之活動且驗證通過(驗證密碼為'" + F2 + "'),員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                        }
                         MessageBox.Show("您的驗證無誤","軟體驗證",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     }
                 }

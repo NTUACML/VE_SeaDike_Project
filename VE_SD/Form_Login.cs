@@ -126,8 +126,11 @@ namespace VE_SD
             sw.Flush();
             sw.Close();
 
-            this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')有登入活動,員工編號為'" + getID + "',員工名稱為'" + getName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-            //設定表單變數.
+            if (mainForm.提供服務訊息)
+            {
+                mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')有登入活動,員工編號為'" + getID + "',員工名稱為'" + getName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+
+            }//設定表單變數.
             //http://stackoverflow.com/questions/4822980/how-to-access-a-form-control-for-another-form
             this.mainForm.LoginTextSetting = "OK"; //*************************
             this.mainForm.LoginInUserID = getID;

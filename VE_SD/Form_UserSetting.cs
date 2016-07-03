@@ -31,7 +31,7 @@ namespace VE_SD
 
             //根據目前使用者偏好設定,顯示相關之控制項狀態.
             chk_RemoveUserLog.Checked = mainForm.RemoveLoginDataWhenClosing;
-
+            chk_ServiceOut.Checked = mainForm.提供服務訊息;
         }
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace VE_SD
             //將勾選之設定傳回form1的變數內.
 
             mainForm.RemoveLoginDataWhenClosing = chk_RemoveUserLog.Checked;
-
+            mainForm.提供服務訊息 = chk_ServiceOut.Checked;
             //完成後關閉表單.
             this.Close();
         }

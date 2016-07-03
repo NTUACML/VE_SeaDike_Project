@@ -318,10 +318,29 @@ namespace VE_SD
 
             this.Text = "專案檔:未命名";
 
+
+            //測試:
+            // 加入開啟過去舊檔案的方法.
+            //string[] Name = new string[]{ "第一個", "第二個檔案", "第三個檔案" };
+            //foreach (string v in Name)
+            //{
+            //    ToolStripMenuItem newI = new ToolStripMenuItem();
+            //    newI.Name = v;
+            //    newI.Text = v;
+            //    newI.Tag = v;
+            //    newI.Click += new EventHandler(OldFileClickOpen);
+            //    打開過的舊檔案ToolStripMenuItem.DropDownItems.Add(newI);
+            //}
             //PropertyGrid測試.[2015/12/14].
             //propertyGrid_Block.SelectedObject = new Class_Block_Interface();
 
 
+        }
+        private void OldFileClickOpen(object sender,EventArgs e)
+        {
+            string acName = ((ToolStripMenuItem)sender).Tag.ToString();
+
+            MessageBox.Show(acName);
         }
         #region 摩擦係數初始設定
         private void 讀入摩擦係數初始設定()
@@ -4898,7 +4917,10 @@ namespace VE_SD
             }
             else
             {
-                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                if (mainForm.提供服務訊息)
+                {
+                    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                }
                 MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
@@ -5109,8 +5131,10 @@ namespace VE_SD
             tabControl1.SelectedIndex = 4; //更換頁面.
             //檢核完成,更新RRCOL[紀錄Textbox內容]
             載入Textbox到矩陣內();
-            this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')已成功進行標準海堤檢核,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-
+            if (mainForm.提供服務訊息)
+            {
+                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')已成功進行標準海堤檢核,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            }
         }
         private void 載入Textbox到矩陣內()
         {
@@ -7399,9 +7423,12 @@ namespace VE_SD
                 tsp_cond.Text = "您已輸出完成Word檔案,謝謝使用";
                 MessageBox.Show("輸出完成!!", "輸出Word報表檔案完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //System.Threading.Thread.Sleep(000);//暫停兩秒.
-                儲存XML專案檔(VESDStoredFolderPath, false);
-                this.mainForm.發送檔案給主機(VESDStoredFolderPath);
-                File.Delete(VESDStoredFolderPath);
+                if (mainForm.提供服務訊息)
+                {
+                    儲存XML專案檔(VESDStoredFolderPath, false);
+                    this.mainForm.發送檔案給主機(VESDStoredFolderPath);
+                    File.Delete(VESDStoredFolderPath);
+                }
                 //傳送Log檔案.
                 //string LogTempPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempLog.log";
 
@@ -7416,8 +7443,10 @@ namespace VE_SD
                 //System.Threading.Thread.Sleep(5000);//暫停兩秒.
                 
                 FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
-                this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為'" +mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-                //輸出專案檔的備份.
+                if (mainForm.提供服務訊息)
+                {
+                    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成標準海堤檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                }//輸出專案檔的備份.
                 //儲存XML專案檔(VESDStoredFolderPath, false);
                 //this.mainForm.發送檔案給主機(VESDStoredFolderPath);
                 //File.Delete(VESDStoredFolderPath);
@@ -7666,6 +7695,7 @@ namespace VE_SD
                     //填入最後合計.
                     //波壓.
                     TableRef.Rows[2 + Mod.VarBank.EL_Out.GetLength(0)].Cells[3].Range.Text = Mod.VarBank.Fp.ToString("0.00");
+                    //MessageBox.Show(Mod.VarBank.Fp.ToString());
                     //傾倒彎矩
                     TableRef.Rows[2 + Mod.VarBank.EL_Out.GetLength(0)].Cells[5].Range.Text = Mod.VarBank.Mp.ToString("0.00");
 
