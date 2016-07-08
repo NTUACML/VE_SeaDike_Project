@@ -96,13 +96,12 @@ bool VE_SD::Module1::WaterDesignInput(double _H0, double _HWL, double _DensitySe
 }
 
 bool VE_SD::Module1::WaveDesignInput(int _Direction, double _T0, double _Kr, 
-									double _Ks, double _Kd, double _lamda,
+									double _Kd, double _lamda,
 									double _beta)
 {
 	Var->Direction = _Direction;
 	Var->T0 = _T0;
 	Var->Kr = _Kr;
-	Var->Ks = _Ks;
 	Var->Kd = _Kd;
 	Var->lamda = _lamda;
 	// Deg to Rad (beta)
@@ -119,9 +118,10 @@ bool VE_SD::Module1::BaseDesignInput(double _S, double _Base_Level, double _Brea
 	return true;
 }
 
-bool VE_SD::Module1::OptionalVarInput(double _hb)
+bool VE_SD::Module1::OptionalVarInput(double _hb, double _Ks)
 {
 	Var->hb = _hb;
+	Var->Ks = _Ks;
 	return true;
 }
 

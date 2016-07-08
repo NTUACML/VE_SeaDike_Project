@@ -63,11 +63,10 @@ namespace VE_SD {
 
 		//- Compute Var Input API
 		bool WaterDesignInput(double _H0, double _HWL, double _DensitySea);
-		bool WaveDesignInput(int _Direction, double _T0, double _Kr,
-							double _Ks, double _Kd, double _lamda, 
-							double _beta);
+		bool WaveDesignInput(int _Direction, double _T0, double _Kr, double _Kd, 
+							double _lamda, double _beta);
 		bool BaseDesignInput(double _S, double _Base_Level, double _Breaker_Level);
-		bool OptionalVarInput(double _hb);
+		bool OptionalVarInput(double _hb, double _Ks);
 		bool SF_CoefInput(double _SlideSF, double _RotateSF);
 		bool WaveBreakOutsideCondition(bool _WaveBreakFuncOutside);
 		bool WaveBreakInsideCondition(bool _WaveBreakFuncInside);
