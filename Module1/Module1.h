@@ -28,7 +28,7 @@ namespace VE_SD {
 			P1, P2, P3, P4, Pu, Fu, Mu, Fp, Mp, CalBody_SlideSF, CalBody_RotateSF, W, Mw,
 			W1, W2, W3, CalUpper_SlideSF, CalUpper_RotateSF, CalBk,
 			C, CentAngle, Nc, Nq, Nr, V, H, Mr, Mo, BaseDen, U, D, BaseFS, B_6, C_x, e_x, B_plum, Df, Base_P1, Base_P2,
-			Base_Theta, B_plum2, R1, R2, Qu, Qa, B;
+			Base_Theta, B_plum2, R1, R2, Qu, Qa, B, Ks;
 
 		array< EL_SectionResult >^ EL_Out;
 		array< BlockResult >^ Block_Out;
