@@ -30,6 +30,7 @@ public:
 	bool BreakerSafeCheck();
 	bool UpperSafeCheck();
 	bool BasementSafeCheck();
+	void CalKs();
 
 
 	//- Test Out

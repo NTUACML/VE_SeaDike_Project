@@ -2281,7 +2281,8 @@ namespace VE_SD
             折射係數.SetAttribute("Value", textBox_Kr.Text);
 
             XmlElement 淺化係數 = doc.CreateElement("淺化係數");
-            淺化係數.SetAttribute("Value", textBox_Ks.Text);
+            淺化係數.SetAttribute("Value", textBox_Ks.Text == "" ? "-9999" : textBox_Ks.Text.ToString());//若空白則寫入-9999.
+            //淺化係數.SetAttribute("Value", textBox_Ks.Text);
 
             XmlElement 繞射係數 = doc.CreateElement("繞射係數");
             繞射係數.SetAttribute("Value", textBox_Kd.Text );
@@ -3853,8 +3854,8 @@ namespace VE_SD
             textBox_SFSlide.Text = SFSlider.ToString();
             textBox_SeaGamma.Text = SeaGammar.ToString();
             textBox_HB.Text = HBr == -9999 ? "" : HBr.ToString();//若為-9999,則視為空白.
-
-            if(啟用消波工堤身段港外側重量計算r)
+            textBox_Ks.Text = Ksr == -9999 ? "":Ksr.ToString();
+            if (啟用消波工堤身段港外側重量計算r)
             {
                 textBox_HO_KDL.ReadOnly = false;
                 textBox_HO_Gamma.ReadOnly = false;
@@ -4458,13 +4459,13 @@ namespace VE_SD
                 //MessageBox.Show("您折射係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //return false;
             }
-            if (textBox_Ks.Text.ToString() == "")
-            {
-                ErrorMsg += ("您淺化係數沒有選擇!!!" + Environment.NewLine);
-                okOrNot = false;
-                //MessageBox.Show("您淺化係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                //return false;
-            }
+            //if (textBox_Ks.Text.ToString() == "")
+            //{
+            //    ErrorMsg += ("您淺化係數沒有選擇!!!" + Environment.NewLine);
+            //    okOrNot = false;
+            //    //MessageBox.Show("您淺化係數沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            //    //return false;
+            //}
             if (textBox_Kd.Text.ToString() == "")
             {
                 ErrorMsg += ("您繞射係數沒有選擇!!!" + Environment.NewLine);
@@ -5005,12 +5006,13 @@ namespace VE_SD
             //1. H0, HWL, 海水r.
             Mod.WaterDesignInput(double.Parse(textBox_H0.Text), double.Parse(textBox_HWL.Text), double.Parse(textBox_SeaGamma.Text));
             //2. 波向, T0, Kr, Ks , Kd, lambda, beta.
-            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "右" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Ks.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_BataFix.Text));
+            Mod.WaveDesignInput(cmb_seawaveDir.SelectedItem.ToString().ToLower() == "右" ? 1 : 0, double.Parse(textBox_T0.Text), double.Parse(textBox_Kr.Text), double.Parse(textBox_Kd.Text), double.Parse(textBox_Lenda.Text), double.Parse(textBox_BataFix.Text));
             //3. S(海床坡度), 底面線, 消波塊高層
             Mod.BaseDesignInput(double.Parse(textBox_Slope.Text), double.Parse(textBox_GroundELE.Text), double.Parse(textBox_ArmorBlockEle.Text));
             //4. 選擇性參數給定
             double HBTest;
-            Mod.OptionalVarInput(double.TryParse(textBox_HB.Text,out HBTest)? HBTest :-9999);
+            double KSTest;
+            Mod.OptionalVarInput(double.TryParse(textBox_HB.Text,out HBTest)? HBTest :-9999, double.TryParse(textBox_Ks.Text, out KSTest) ? KSTest : -9999);
             //5.   其他檢核:
             //5-1. 堤身段(外側)消波工檢核計算.
             if (chk_BlockWeightCalc_HO.Checked )

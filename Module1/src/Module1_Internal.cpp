@@ -134,7 +134,9 @@ bool Module1_Internal::WaterLevelCal()
 		Var->Err_Msg += "- 確保數值精確!程式停止計算! \r\n";
 		return false;
 	}
-	
+
+	// Cal Ks
+	CalKs();
 	
 	Var->beta0 = 0.028 *std::pow(Var->H0_plun / Var->L0, -0.38) * std::exp(20.0 * std::pow(Var->S, 1.5));
 
@@ -547,5 +549,19 @@ bool Module1_Internal::BasementSafeCheck()
 		
 	}
 	return true;
+}
+
+void Module1_Internal::CalKs()
+{
+	if (Var->Ks < -9998) {
+		double Ksi, Coef;
+		Coef = 2.0 * M_PI * Var->h / Var->L;
+		Ksi = std::tanh(Coef) + Coef * (1.0 - std::tanh(Coef) * std::tanh(Coef));
+		Ksi = 1.0 / std::sqrt(Ksi);
+
+		Var->Ks = Ksi + 0.0015 * std::pow(Var->h_D_L0, -2.87) * std::pow(Var->H0_plun / Var->L0, 1.27);
+
+		Var->Err_Msg += "淺化係數ks採用Kweon and Goda方程式計算! \r\n";
+	}
 }
 
