@@ -24,6 +24,12 @@
     <ClInclude Include="resource.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="include\Module2_Internal.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module2_Var.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Module2.cpp">
@@ -33,6 +39,12 @@
       <Filter>原始程式檔</Filter>
     </ClCompile>
     <ClCompile Include="Stdafx.cpp">
+      <Filter>原始程式檔</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Module2_Internal.cpp">
+      <Filter>原始程式檔</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Module2_Var.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
   </ItemGroup>

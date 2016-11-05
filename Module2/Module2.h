@@ -1,6 +1,8 @@
 // Module2.h
 
 #pragma once
+#include "include\Module2_Internal.h"
+#include "include\Module2_Var.h"
 #include <msclr/marshal_cppstd.h> 
 #include <string>
 #include <exception>
@@ -12,16 +14,30 @@ namespace VE_SD {
 
 	public ref class Module2
 	{
-		//Constructor
+	public:
+		// Constructor
 		Module2();
 
-		//Distructor
+		// Distructor
 		~Module2();
 		!Module2();
 
-		//Public Variable
+		// Public Variable
 		String^ ErrMsg;
 
-		//Public Variable// TODO:  在此加入這個類別的方法。
+		// Public Function
+		//- Compute Var Input API
+		void WaterDesignInput(double _HWL, double _LWL);
+		void ForceDesignInput(double _Q, double _Qe, double _Ta);
+		void EarthquakeDesignInput(double _K, double _K_plun);
+		void MaterialDesignInput(double _InnerPhi, double _WallPhi, double _Beta);
+		void BaseDesignInput(double _U, double _D, double _BasePhi, double _C);
+		void MF_DesignInput(double _Nq, double _Nr, double _Nc);
+		void SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF);
+
+	private:
+		//Data
+		Module2_Internal *Internal;
+		Module2_Var *Var;
 	};
 }
