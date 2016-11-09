@@ -102,6 +102,12 @@
     <Compile Include="Form_Login.Designer.cs">
       <DependentUpon>Form_Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_MTExamProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_MTExamProgress.Designer.cs">
+      <DependentUpon>Form_MTExamProgress.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_RDExamProgress.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Login.resx">
       <DependentUpon>Form_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_MTExamProgress.resx">
+      <DependentUpon>Form_MTExamProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_RDExamProgress.resx">
       <DependentUpon>Form_RDExamProgress.cs</DependentUpon>

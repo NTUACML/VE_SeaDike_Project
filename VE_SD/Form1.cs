@@ -143,26 +143,26 @@ namespace VE_SD
                 XmlNode RNode = doc.SelectSingleNode("Root/每次關閉軟體後刪除使用者登入資訊");
                 if (object.Equals(RNode, null))
                 {
-                    MessageBox.Show("H1");
+                    //MessageBox.Show("H1");
                     return;
                 }
                 XmlElement Relement = (XmlElement)RNode;
                 if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 每次關閉軟體後刪除使用者登入資訊))
                 {
-                    MessageBox.Show("H2");
+                    //MessageBox.Show("H2");
                     return;
                 }
                 RNode = doc.SelectSingleNode("Root/提供服務訊息");
                 if (object.Equals(RNode, null))
                 {
-                    MessageBox.Show("H3");
+                    //MessageBox.Show("H3");
                     return;
 
                 }
                 Relement = (XmlElement)RNode;
                 if (!bool.TryParse(Relement.GetAttribute("Value").ToString(), out 提供服務訊息Inner))
                 {
-                    MessageBox.Show("H4");
+                    //MessageBox.Show("H4");
                     return;
                 }
             }
@@ -274,6 +274,18 @@ namespace VE_SD
             Form_RDExamProgress frdexam = new Form_RDExamProgress(this);
             frdexam.ShowDialog();
         }
+        #region 碼頭檢核開啟
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(_提供服務訊息)
+            {
+                this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了碼頭檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+            }
+            Form_MTExamProgress fmtexam = new Form_MTExamProgress(this);
+            fmtexam.ShowDialog();
+        }
+        #endregion
         private void btn_StandardRDC_MouseEnter(object sender, EventArgs e)
         {
             //MessageBox.Show(Exepath);
@@ -1738,6 +1750,25 @@ namespace VE_SD
         {
             Form_UserSetting frm_User = new Form_UserSetting(this);
             frm_User.ShowDialog();
+
+        }
+
+        private void button1_MouseEnter(object sender, EventArgs e)
+        {
+            this.textBox_ItemDescp.Text = "此為碼頭檢核程式,使用者須輸入計算所需之參數以求得碼頭設計是否符合所需之標準";
+            try
+            {
+                //this.pictureBox_ItemDescp.Load(Exepath + "\\PIC\\STDVESD.JPG");
+            }
+            catch
+            {
+                //this.pictureBox_ItemDescp.Image = null;
+            }
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            this.textBox_ItemDescp.Text = "";
 
         }
     }

@@ -274,8 +274,11 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(369, 115);
             this.button1.TabIndex = 1;
-            this.button1.Text = "未開發";
+            this.button1.Text = "碼頭模組";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
+            this.button1.MouseLeave += new System.EventHandler(this.button1_MouseLeave);
             // 
             // btn_StandardRDC
             // 
