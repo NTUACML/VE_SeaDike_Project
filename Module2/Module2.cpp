@@ -71,3 +71,48 @@ void VE_SD::Module2::SF_CoefInput(double _SlideSF, double _RotateSF, double _Bas
 	Var->RotateSF = _RotateSF;
 	Var->BaseSF = _BaseSF;
 }
+
+int VE_SD::Module2::NewBlock(double _Density, double _FrictionC, bool _CalMoment) {
+	Var->BlockData.emplace_back(_Density, _FrictionC, _CalMoment);
+	return int(Var->BlockData.size());
+}
+
+bool VE_SD::Module2::DeleteBlock(int NumOfBlock) {
+	if (Var->BlockData.size() != 0 && NumOfBlock <= int(Var->BlockData.size())) {
+		int Id = NumOfBlock - 1;
+		Var->BlockData.erase(Var->BlockData.begin() + Id);
+		return true;
+	}
+	else {
+		ErrMsg += ("Wrong Delete Block Id !(In Delete Block " + NumOfBlock.ToString() + ") \n");
+		return false;
+	}
+}
+
+bool VE_SD::Module2::SetBlockCoord(int NumOfBlock, double x, double y) {
+	if (Var->BlockData.size() != 0 && NumOfBlock <= int(Var->BlockData.size())) {
+		int Id = NumOfBlock - 1;
+		Var->BlockData[Id].Node.emplace_back(x, y);
+		return true;
+	}
+	else {
+		ErrMsg += "Wrong Delete Block Id (In Set Block Coord)! \n";
+		return false;
+	}
+}
+
+int VE_SD::Module2::GetNumOfBlock()
+{
+	return int(Var->BlockData.size());
+}
+
+bool VE_SD::Module2::DeleteAllBlockData()
+{
+	Var->BlockData.clear();
+	if (GetNumOfBlock() == 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

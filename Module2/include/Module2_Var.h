@@ -1,10 +1,18 @@
 #pragma once
+#include "Block.h"
 class Module2_Var
 {
 public:
+	// Constructor & Distructor
 	Module2_Var();
 	virtual ~Module2_Var();
 
+	// Public Func
+
+	//- Block Data
+	std::vector<Block> BlockData; 
+
+	// Public Var
 	//- Water Var
 	double HWL, LWL, RWL; // 設計潮位, 殘留水位
 	//- Force Var
