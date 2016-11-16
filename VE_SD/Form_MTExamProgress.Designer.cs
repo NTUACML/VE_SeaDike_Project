@@ -41,10 +41,18 @@
             this.btn_Test = new System.Windows.Forms.Button();
             this.btn_LogOutput = new System.Windows.Forms.Button();
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
+            this.data_BlockTempShow = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.型塊周圍參考材質 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.data_BlockTempShow)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -71,6 +79,7 @@
             this.開啟一個新的專案檔ToolStripMenuItem.Name = "開啟一個新的專案檔ToolStripMenuItem";
             this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.開啟一個新的專案檔ToolStripMenuItem.Text = "開啟一個新的專案檔";
+            this.開啟一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟一個新的專案檔ToolStripMenuItem_Click);
             // 
             // 開啟舊的專案檔ToolStripMenuItem
             // 
@@ -104,6 +113,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.data_BlockTempShow);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -165,6 +175,57 @@
             this.OFD_專案.Filter = "檢核檔案|*.vesdp";
             this.OFD_專案.FilterIndex = 0;
             // 
+            // data_BlockTempShow
+            // 
+            this.data_BlockTempShow.AllowUserToAddRows = false;
+            this.data_BlockTempShow.AllowUserToDeleteRows = false;
+            this.data_BlockTempShow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.data_BlockTempShow.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.型塊周圍參考材質,
+            this.Column4});
+            this.data_BlockTempShow.Location = new System.Drawing.Point(114, 18);
+            this.data_BlockTempShow.Name = "data_BlockTempShow";
+            this.data_BlockTempShow.ReadOnly = true;
+            this.data_BlockTempShow.RowTemplate.Height = 24;
+            this.data_BlockTempShow.Size = new System.Drawing.Size(924, 379);
+            this.data_BlockTempShow.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "序號";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "形塊名稱";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "型塊單位體積重量";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 150;
+            // 
+            // 型塊周圍參考材質
+            // 
+            this.型塊周圍參考材質.HeaderText = "型塊周圍參考材質";
+            this.型塊周圍參考材質.Name = "型塊周圍參考材質";
+            this.型塊周圍參考材質.ReadOnly = true;
+            this.型塊周圍參考材質.Width = 200;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "型塊使用材質";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 200;
+            // 
             // Form_MTExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -178,12 +239,15 @@
             this.Name = "Form_MTExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "碼頭檢核";
+            this.Load += new System.EventHandler(this.Form_MTExamProgress_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.data_BlockTempShow)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,5 +268,11 @@
         private System.Windows.Forms.Button btn_Test;
         private System.Windows.Forms.Button btn_LogOutput;
         private System.Windows.Forms.OpenFileDialog OFD_專案;
+        private System.Windows.Forms.DataGridView data_BlockTempShow;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 型塊周圍參考材質;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
     }
 }

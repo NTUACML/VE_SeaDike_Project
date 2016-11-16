@@ -53,7 +53,7 @@ namespace VE_SD
                 int blockSizer = 0;
                 XmlDocument doc = new XmlDocument();
                 doc.Load(OFD_專案.FileName);
-
+                bool 成功與否 = false;
                 try
                 {
                     XmlNodeList blockNodeCollection = doc.SelectNodes("Root/Blocks/形塊");
@@ -206,10 +206,11 @@ namespace VE_SD
 
 
                     //檢核區塊.
+                    成功與否 = true;
                 }
                 catch
                 {
-                    MessageBox.Show("出現錯誤!");
+                    //MessageBox.Show("出現錯誤!");
                 }
 
                 Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
@@ -221,12 +222,42 @@ namespace VE_SD
                         MessageBox.Show("Block" + (i + 1).ToString() + "(從1開始)的座標矩陣錯誤,此Block非凸邊形且座標沒有依照逆時針方向紀錄!!");
                     }
                 }
-
+                BlockMainArray = BlockMainArrayR;
                 //加入行塊資訊.
                 for (int i = 0; i < BlockMainArray.GetLength(0); i++)
                 {
                     BlockMainArray[i] = BlockMainArrayR[i];
                 }
+                toolStripStatusLabel1.Text = "開啟完成,取得" + BlockMainArray.GetLength(0).ToString() + "個區塊";
+
+                //*****
+                //填入資訊.
+                data_BlockTempShow.Rows.Clear();
+                DataGridViewRowCollection rows = data_BlockTempShow.Rows;
+                for(int i=0;i<BlockMainArray.GetLength(0);i++)
+                {
+                    //序號, 形塊名稱, 單位體積重量, 周圍參考材質, 使用材質.
+                    string temp = "";
+                    for(int i2=0;i2<BlockMainArray[i].周圍參考材質.GetLength(0);i2++)
+                    {
+                        temp += (BlockMainArray[i].周圍參考材質[i2]);
+                        if(i2!=(BlockMainArray[i].周圍參考材質.GetUpperBound(0)))
+                        {
+                            temp += ",";
+                        }
+                    }
+                    rows.Add(new object[] { (i + 1).ToString(), BlockMainArray[i].名稱, BlockMainArray[i].單位體積重量, temp, BlockMainArray[i].使用材質 });
+                }
+
+                if(成功與否)
+                {
+                    MessageBox.Show("成功載入");
+                }
+                else
+                {
+                    MessageBox.Show("載入失敗");
+                }
+               //******************
             }
 
         }
@@ -248,7 +279,22 @@ namespace VE_SD
             Mod = new Module1();
             Mod.DeleteAllBlockData();
 
+            MessageBox.Show("可以開始新增計算Code囉");
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
+
+        private void Form_MTExamProgress_Load(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "嗨唷~這裡是碼頭檢核模組";
+            data_BlockTempShow.Rows.Clear();
+
+        }
+        #region 專案控制區
+
+        private void 開啟一個新的專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
