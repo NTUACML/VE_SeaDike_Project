@@ -203,6 +203,10 @@
       <Project>{3168d8c0-f89a-42d2-ac47-e295c3da921f}</Project>
       <Name>Module1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Module2\Module2.vcxproj">
+      <Project>{06a94d76-2f89-46c2-9c29-515a536514d1}</Project>
+      <Name>Module2</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
