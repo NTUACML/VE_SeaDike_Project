@@ -36,6 +36,13 @@ namespace VE_SD {
 		void MF_DesignInput(double _Nq, double _Nr, double _Nc);
 		void SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF);
 
+		//- Block Set
+		int NewBlock(double _Density, double _FrictionC, bool _CalMoment);
+		bool DeleteBlock(int NumOfBlock);
+		bool SetBlockCoord(int NumOfBlock, double x, double y);
+		int GetNumOfBlock();
+		bool DeleteAllBlockData();
+
 	private:
 		//Data
 		Module2_Internal *Internal;
