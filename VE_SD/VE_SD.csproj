@@ -199,16 +199,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Module1\Module1.vcxproj">
-      <Project>{3168d8c0-f89a-42d2-ac47-e295c3da921f}</Project>
-      <Name>Module1</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Module2\Module2.vcxproj">
-      <Project>{06a94d76-2f89-46c2-9c29-515a536514d1}</Project>
-      <Name>Module2</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -257,6 +247,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Module1\Module1.vcxproj">
+      <Project>{3168d8c0-f89a-42d2-ac47-e295c3da921f}</Project>
+      <Name>Module1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Module2\Module2.vcxproj">
+      <Project>{06a94d76-2f89-46c2-9c29-515a536514d1}</Project>
+      <Name>Module2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

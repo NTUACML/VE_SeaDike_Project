@@ -296,5 +296,34 @@ namespace VE_SD
 
         }
         #endregion
+
+        private void btn_LogOutput_Click(object sender, EventArgs e)
+        {
+            //給周大大輸出一點東西出來.
+            if (object.Equals(Mod, null))
+            {
+                //MessageBox.Show("你的計算主體'MOD'為Null!!!!!");
+                MessageBox.Show("您目前沒有完成的檢核結果!請重新檢核,若您無法使用檢核功能,請確認您的軟體已授權,或是聯絡開發商", "Log檔案輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            if (SFD_Log.ShowDialog() == DialogResult.OK && SFD_Log.FileName != "")
+            {
+                string getpath = SFD_Log.FileName;
+                //呼叫.
+                //Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                MessageBox.Show("輸出完成!", "輸出Log File完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                /*
+                if (chk_OpenFileAfterOutput.Checked)
+                {
+                    Process p = new Process();
+                    p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                    p.StartInfo.FileName = SFD_LogFile.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    p.Start();
+                }
+                */
+
+            }
+
+        }
     }
 }
