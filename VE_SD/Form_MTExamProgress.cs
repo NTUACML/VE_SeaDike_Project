@@ -29,7 +29,7 @@ namespace VE_SD
             public double z;
         }
         string selectname = null;  //目前點選到的Block.
-        Module1 Mod = null;
+        Module2 Mod = null;
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Form_MTExamProgress()
@@ -276,7 +276,7 @@ namespace VE_SD
             }
             //***********************************************************************************************************************//
             //帶入計算
-            Mod = new Module1();
+            Mod = new Module2();
             Mod.DeleteAllBlockData();
 
             MessageBox.Show("可以開始新增計算Code囉");
