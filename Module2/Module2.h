@@ -43,6 +43,10 @@ namespace VE_SD {
 		int GetNumOfBlock();
 		bool DeleteAllBlockData();
 
+		//- Run API
+		bool Run(); //Run Main Check Processor
+		bool OutPutLogFile(String ^ Pois);
+
 	private:
 		//Data
 		Module2_Internal *Internal;

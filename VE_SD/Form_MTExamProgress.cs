@@ -279,7 +279,22 @@ namespace VE_SD
             Mod = new Module2();
             Mod.DeleteAllBlockData();
 
-            MessageBox.Show("可以開始新增計算Code囉");
+            // Block給定.
+            for (int i = 0; i < BlockMainArray.GetLength(0); i++)
+            {
+                //- 迴圈塞入Block.
+                // 2016/03/29. 新增是否計算Moment選項.
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].平均摩擦係數, BlockMainArray[i].計算Moment與否);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                double[] getx = BlockMainArray[i].X;
+                double[] gety = BlockMainArray[i].Y;
+                int 座標點數 = BlockMainArray[i].座標點數;
+                for (int i2 = 0; i2 < 座標點數; i2++)
+                {
+                    Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
+                }
+            }
+
+            MessageBox.Show("Finished Run!");
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 
@@ -310,7 +325,7 @@ namespace VE_SD
             {
                 string getpath = SFD_Log.FileName;
                 //呼叫.
-                //Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 MessageBox.Show("輸出完成!", "輸出Log File完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 /*
                 if (chk_OpenFileAfterOutput.Checked)
