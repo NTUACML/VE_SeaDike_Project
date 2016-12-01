@@ -132,6 +132,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	// File Contain
 	FILE << "******­I´º°Ñ¼Æ******" << std::endl;
 	FILE << "TEST" << std::endl;
+	FILE << "ALLEN" << std::endl;
 
 
 	FILE << std::endl;
