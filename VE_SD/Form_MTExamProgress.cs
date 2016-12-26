@@ -286,8 +286,76 @@ namespace VE_SD
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "嗨唷~這裡是碼頭檢核模組";
+
+            this.Text = "專案檔:未命名";
+            textBox_設計潮位高.Text = "1.5";
+            textBox_設計潮位低.Text = "0.07";
+            textBox_殘留水位.Text = "0.55";
+            textBox_平時上載荷重.Text = "1";
+            textBox_地震時上載荷重.Text = "0.5";
+            textBox_船舶牽引力.Text = "2";
+            textBox_陸上設計震度.Text = "0.165";
+            textBox_水中設計震度.Text = "0.33";
+            textBox_背填料內摩擦角.Text = "40";
+            textBox_背填料壁面摩擦繳.Text = "15";
+            textBox_背填料水平傾斜角.Text = "0";
+            textBox_入土深度.Text = "0.5";
+            textBox_拋石厚度.Text = "1.5";
+            textBox_地盤基礎內摩擦角.Text = "31.5";
+            textBox_土壤凝聚力.Text = "0";
+            textBox_Nq.Text = "21.86";
+            textBox_Nc.Text = "34.04";
+            textBox_Nr.Text = "20.22";
+            textBox_平時滑動安全係數.Text = "1.2";
+            textBox_平時傾倒安全係數.Text = "1.2";
+            textBox_平時地盤承載力安全係數.Text = "2.5";
+            textBox_地震時滑動安全係數.Text = "1";
+            textBox_地震時傾倒安全係數.Text = "1.1";
+            textBox_地震時地盤承載力安全係數.Text = "1.5";                
             data_BlockTempShow.Rows.Clear();
 
+        }
+        private bool JudgeTheTextBoxHandle(TextBox tt, KeyPressEventArgs ei)
+        {
+            char key_char = ei.KeyChar;
+            string nowtext = tt.Text;
+            //tsp_cond.Text = textBox_H0.SelectionStart.ToString();
+            if ((int)key_char == 46 && tt.SelectionStart == 0) //textBox_H0.SelectionStart == 0)
+            {
+                //.
+                //e.Handled = true;
+                return true;
+            }
+            else if ((int)key_char == 45 && tt.SelectionStart != 0) //textBox_H0.SelectionStart != 0)
+            {
+                //-
+                //e.Handled = true;
+                return true;
+            }
+            else if ((int)key_char == 43 && tt.SelectionStart != 0) //textBox_H0.SelectionStart != 0)
+            {
+                //+
+                //e.Handled = true;
+                return true;
+            }
+            else if ((int)key_char == 46 && nowtext.IndexOf(".") != -1)
+            {
+                return true;
+            }
+            else if ((int)key_char == 45 && nowtext.IndexOf("-") != -1)
+            {
+                return true;
+            }
+            else if ((int)key_char == 43 && nowtext.IndexOf("+") != -1)
+            {
+                return true;
+            }
+            else if (((int)key_char < 48 | (int)key_char > 58) & (int)key_char != 8 & (int)key_char != 43 && (int)key_char != 45 && (int)key_char != 46)
+            {
+                //e.Handled = true;
+                return true;
+            }
+            else { return false; }
         }
         #region 專案控制區
 
@@ -324,6 +392,157 @@ namespace VE_SD
 
             }
 
+        }
+
+        #region TEXTBOX控制區
+        private void textBox_設計潮位高_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_設計潮位低_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_殘留水位_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_平時上載荷重_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_地震時上載荷重_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_船舶牽引力_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_陸上設計震度_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_水中設計震度_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_背填料內摩擦角_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_背填料壁面摩擦繳_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_背填料水平傾斜角_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_入土深度_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_拋石厚度_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_地盤基礎內摩擦角_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_土壤凝聚力_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_Nq_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void textBox_Nq_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_Nc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_Nr_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_平時滑動安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_平時傾倒安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_平時地盤承載力安全係數_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void textBox_平時地盤承載力安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_地震時滑動安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_地震時傾倒安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_地震時地盤承載力安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        #endregion
+
+        private void btn_ShowNcNqNr_Click(object sender, EventArgs e)
+        {
+            string picFolder = mainForm.程式運作路徑 + "\\PIC\\NcNqNr.png";
+            //if(!IsFileLocked(new FileInfo(picFolder)))
+            //{
+            //Call function to open it.
+            try
+            {
+                Process p = new Process();
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                p.StartInfo.FileName = picFolder;// 浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                p.Start();
+            }
+            catch
+            {
+                MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案", "NcNqNr參考檔案", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
