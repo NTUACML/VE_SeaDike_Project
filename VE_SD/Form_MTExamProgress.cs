@@ -18,7 +18,7 @@ namespace VE_SD
 {
     public partial class Form_MTExamProgress : Form
     {
-
+         
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
         int BlockCount = 0; //Block Array size.
@@ -279,7 +279,7 @@ namespace VE_SD
             Mod = new Module2();
             Mod.DeleteAllBlockData();
 
-            // Block給定.
+            // 1. Block給定.
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
             {
                 //- 迴圈塞入Block.
@@ -293,6 +293,11 @@ namespace VE_SD
                     Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
                 }
             }
+
+            // 2. 背景參數帶入
+            //- 水位設計輸入
+            Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text));
+
 
             MessageBox.Show("Finished Run!");
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

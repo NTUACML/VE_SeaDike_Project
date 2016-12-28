@@ -131,11 +131,12 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 
 	// File Contain
 	FILE << "******背景參數******" << std::endl;
-	FILE << "TEST" << std::endl;
-	FILE << "ALLEN" << std::endl;
+	FILE << "HWL: " << Var->HWL << std::endl;
+	FILE << "LWL: " << Var->LWL << std::endl;
 
 
 	FILE << std::endl;
+	FILE << "******型塊參數******" << std::endl;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
 		FILE << "區塊單元 " << i + 1 << " :" << std::endl;
@@ -147,6 +148,8 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		}
 		FILE << std::endl;
 	}
+
+	//FILE << "LWL: " << Var->LWL << std::endl;
 
 	// File Close
 	FILE.close();

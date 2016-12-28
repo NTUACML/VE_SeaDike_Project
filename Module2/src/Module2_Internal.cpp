@@ -43,7 +43,7 @@ bool Module2_Internal::GeoPreCal()
 	//Get EL Level Up block ID and Arm Y
 	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
 	{
-		size_t max_base_x;
+		double max_base_x;
 		for (size_t j = 0; j < Var->BlockData.size(); j++)
 		{
 			//#AS 新增X座標條件--------------------------------------------
