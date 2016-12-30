@@ -43,21 +43,10 @@ bool Module2_Internal::GeoPreCal()
 	//Get EL Level Up block ID and Arm Y
 	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
 	{
-		double max_base_x;
 		for (size_t j = 0; j < Var->BlockData.size(); j++)
 		{
-			//#AS 新增X座標條件--------------------------------------------
-			size_t cnt = 0;
-			//確認是否為貼近基腳之方塊
-			for (size_t k = 0; k < Var->BlockData[j].Node.size(); k++) {
-				if (Var->BlockData[j].Node[k].x <= 0) cnt++;
-			}
-			//cnt如果>0 則將max_base_x取為其最大之X座標
-			if(cnt>0) max_base_x = Var->BlockData[i].Node[j].x;
-			//新增條件 : 方塊之最大X座標必須小於等於max_base_x
 			if (Var->BlockData[j].WeightC.y >= Var->LevelSection[i].Level &&
-				Var->BlockData[j].WeightC.y < Var->LevelSection[i + 1].Level &&
-				Var->BlockData[j].MaxX <= max_base_x)
+				Var->BlockData[j].WeightC.y < Var->LevelSection[i + 1].Level)
 			{
 				Var->LevelSection[i].BlockId.push_back(j);
 			}
@@ -92,6 +81,7 @@ bool Module2_Internal::GeoPreCal()
 	Var->Err_Msg += "計算幾何前處理完畢! \r\n";
 	return true;
 }
+
 
 bool Module2_Internal::WeightCal()
 {

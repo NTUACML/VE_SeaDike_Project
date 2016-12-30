@@ -71,6 +71,13 @@ void VE_SD::Module2::SF_CoefInput(double _SlideSF, double _RotateSF, double _Bas
 	Var->RotateSF = _RotateSF;
 	Var->BaseSF = _BaseSF;
 }
+//新增地震時安全係數
+void VE_SD::Module2::SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, double _BaseSF_E)
+{
+	Var->SlideSF_E = _SlideSF_E;
+	Var->RotateSF_E = _RotateSF_E;
+	Var->BaseSF_E = _BaseSF_E;
+}
 
 int VE_SD::Module2::NewBlock(double _Density, double _FrictionC, bool _CalMoment) {
 	Var->BlockData.emplace_back(_Density, _FrictionC, _CalMoment);
@@ -146,6 +153,9 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		for (auto & NodeElement : Var->BlockData[i].Node) {
 			FILE << "X: " << NodeElement.x << "\t" << "Y: " << NodeElement.y << std::endl;
 		}
+		FILE << "----方塊自重與力矩----" << std::endl;
+		FILE << "方塊自重:" << Var->BlockData[i].SelfWeight << std::endl;
+		FILE << "力矩大小:" << Var->BlockData[i].Mw << std::endl;
 		FILE << std::endl;
 	}
 

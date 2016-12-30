@@ -35,6 +35,7 @@ namespace VE_SD {
 		void BaseDesignInput(double _U, double _D, double _BasePhi, double _C);
 		void MF_DesignInput(double _Nq, double _Nr, double _Nc);
 		void SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF);
+		void SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, double _BaseSF_E);
 
 		//- Block Set
 		int NewBlock(double _Density, double _FrictionC, bool _CalMoment);
