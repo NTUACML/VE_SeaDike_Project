@@ -1,4 +1,18 @@
 <Root>
+  <版本 Value="SeaDikeVS_P2" />
+  <GlobalParameters>
+    <選擇Tab Value="1" />
+	<EL點數>
+    </EL點數>
+	<使用材質>
+      <UseMaterial Value="混凝土方塊" />
+      <UseMaterial Value="混凝土拋石" />
+    </使用材質>
+	<摩擦係數>
+      <MaterialsFriction Coef="0.5" Material1="混凝土方塊" Material2="混凝土方塊" />
+      <MaterialsFriction Coef="0.6" Material1="混凝土方塊" Material2="混凝土拋石" />
+    </摩擦係數>
+  </GlobalParameters>
   <Blocks>
     <形塊 名稱="B5" 點數="6" 序號="0">
       <單位體積重量 Value="1.09" />
