@@ -116,3 +116,39 @@ bool VE_SD::Module2::DeleteAllBlockData()
 		return false;
 	}
 }
+
+bool VE_SD::Module2::Run()
+{
+	return false;
+}
+
+bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
+{
+	// File Open
+	std::ofstream FILE;
+	std::string C_str = msclr::interop::marshal_as<std::string>(Pois);
+	FILE.open(C_str);
+
+	// File Contain
+	FILE << "******背景參數******" << std::endl;
+	FILE << "TEST" << std::endl;
+	FILE << "ALLEN" << std::endl;
+
+
+	FILE << std::endl;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		FILE << "區塊單元 " << i + 1 << " :" << std::endl;
+		FILE << "區塊密度: " << Var->BlockData[i].Density << std::endl;
+		FILE << "區塊摩擦: " << Var->BlockData[i].FrictionC << std::endl;
+		FILE << "----節點座標----" << std::endl;
+		for (auto & NodeElement : Var->BlockData[i].Node) {
+			FILE << "X: " << NodeElement.x << "\t" << "Y: " << NodeElement.y << std::endl;
+		}
+		FILE << std::endl;
+	}
+
+	// File Close
+	FILE.close();
+	return true;
+}

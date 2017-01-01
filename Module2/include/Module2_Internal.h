@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include "Module2_Var.h"
+
 class Module2_Internal
 {
 public:
