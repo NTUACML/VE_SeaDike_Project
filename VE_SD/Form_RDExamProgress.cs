@@ -6220,7 +6220,7 @@ namespace VE_SD
             if(BlockMainArray.GetLength(0)==0)
             {
                 //刪除.
-                DGMaterial.Rows.RemoveAt(e.Row.Index);// addedrow)
+                ELDGV1.Rows.RemoveAt(e.Row.Index);// addedrow)
                 EscapeELDGV1CellChange = true;
                 return;
             }
