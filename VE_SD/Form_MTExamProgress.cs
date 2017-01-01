@@ -123,7 +123,7 @@ namespace VE_SD
                 FF.Show();
                 //btn_OutputExcel.Enabled = false;
                 //輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
-                btn_LogOutput.Enabled = false;
+                btn_LogOutput.Enabled = true;
                 return;
             }
 
@@ -169,7 +169,7 @@ namespace VE_SD
                         MessageBox.Show("出現程式錯誤!!!!此時應該要排除找不到摩擦係數的問題!!!");
                         //btn_OutputExcel.Enabled = false;
                         //輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
-                        btn_LogOutput.Enabled = false;
+                        btn_LogOutput.Enabled = true;
                         return;
                     }
                     sumv += getv;
@@ -182,7 +182,43 @@ namespace VE_SD
             Mod = new Module2();
             Mod.DeleteAllBlockData();
 
-            MessageBox.Show("可以開始新增計算Code囉");
+            // 1. Block給定.
+            for (int i = 0; i < BlockMainArray.GetLength(0); i++)
+            {
+                //- 迴圈塞入Block.
+                // 2016/03/29. 新增是否計算Moment選項.
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].平均摩擦係數, BlockMainArray[i].計算Moment與否);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                double[] getx = BlockMainArray[i].X;
+                double[] gety = BlockMainArray[i].Y;
+                int 座標點數 = BlockMainArray[i].座標點數;
+                for (int i2 = 0; i2 < 座標點數; i2++)
+                {
+                    Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
+                }
+            }
+
+            // 2. 背景參數帶入
+            //- 水位設計輸入
+            Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text));
+            //- 力量輸入
+            Mod.ForceDesignInput(double.Parse(textBox_平時上載荷重.Text), double.Parse(textBox_地震時上載荷重.Text), double.Parse(textBox_船舶牽引力.Text));
+            //- 設計震度參數輸入
+            Mod.EarthquakeDesignInput(double.Parse(textBox_陸上設計震度.Text), double.Parse(textBox_水中設計震度.Text));
+            //- 背填料參數輸入
+            Mod.MaterialDesignInput(double.Parse(textBox_背填料內摩擦角.Text), double.Parse(textBox_背填料壁面摩擦角.Text), double.Parse(textBox_背填料水平傾斜角.Text));
+            //- 基礎參數輸入
+            Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text));
+            //- Meyerhof's Factor
+            Mod.MF_DesignInput(double.Parse(textBox_Nq.Text), double.Parse(textBox_Nr.Text), double.Parse(textBox_Nc.Text));
+            //- Safety Factor
+            Mod.SF_CoefInput(double.Parse(textBox_平時滑動安全係數.Text), double.Parse(textBox_平時傾倒安全係數.Text), double.Parse(textBox_平時地盤承載力安全係數.Text));
+            //- Safety Factor
+            Mod.SF_CoefInput(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
+
+            // Go Go Go~
+            Mod.Run();
+
+            MessageBox.Show("Finished Run!");
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
@@ -445,9 +481,9 @@ namespace VE_SD
             BlockNameToArraySubscript.Clear();
             BlockNameToListSubScript.Clear();
 
-            開始檢核ToolStripMenuItem.Enabled = false;
-            btn_Test.Enabled = false;
-            btn_LogOutput.Enabled = false;
+            //開始檢核ToolStripMenuItem.Enabled = false;
+            //btn_Test.Enabled = false;
+            btn_LogOutput.Enabled = true;
             //data_BlockTempShow.Rows.Clear();
 
         }
@@ -1057,15 +1093,15 @@ namespace VE_SD
             if (BlockMainArray.GetLength(0) > 0)
             {
                 string Msg = "";
-                開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
-                btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
+                //開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+                //btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
             }
             else
             {
-                開始檢核ToolStripMenuItem.Enabled = false;
-                btn_Test.Enabled = false;
+                //開始檢核ToolStripMenuItem.Enabled = false;
+                //btn_Test.Enabled = false;
             }
-            btn_LogOutput.Enabled = false;
+            btn_LogOutput.Enabled = true;
             tsp_cond.Text = "請設定或編輯您的專案檔";
             if (SelectedTab != -1 && SelectedTab >= 0 && SelectedTab <= tabControl1.TabCount - 1)
             {
@@ -1140,9 +1176,9 @@ namespace VE_SD
             //4. 更新目前選擇的.
             listBox_SectSetting.SetSelected(BlockCount - 1, true); //設定Listbox點選項目.
 
-            string Msg = "";
-            開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// 檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
-            btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
+            //string Msg = "";
+            //開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// 檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+            //btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
 
             //btnRemoveSects.Enabled = true;
             //btn_ModifiedBlock.Enabled = true;
@@ -1980,7 +2016,7 @@ namespace VE_SD
             {
                 string getpath = SFD_Log.FileName;
                 //呼叫.
-                //Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 MessageBox.Show("輸出完成!", "輸出Log File完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 /*
                 if (chk_OpenFileAfterOutput.Checked)

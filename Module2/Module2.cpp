@@ -156,7 +156,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "******璉春把计******" << std::endl;
 	FILE << "HWL: " << Var->HWL << std::endl;
 	FILE << "LWL: " << Var->LWL << std::endl;
-
+	FILE << "代刚" << std::endl;
 
 	FILE << std::endl;
 	FILE << "******遏把计******" << std::endl;
