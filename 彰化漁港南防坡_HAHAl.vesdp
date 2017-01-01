@@ -1,0 +1,15 @@
+<Root>
+  <Blocks>
+    <形塊 名稱="B1" 點數="4" 序號="0">
+      <單位體積重量 Value="2.3" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="0" yValue="3.2" />
+      <BlockCoordinate xValue="0" yValue="1.2" />
+      <BlockCoordinate xValue="2.5" yValue="1.2" />
+      <BlockCoordinate xValue="1.5" yValue="3.2" />
+    </形塊>
+    <選取Block序號 Value="0" />
+  </Blocks>
+</Root>

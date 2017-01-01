@@ -1,5 +1,18 @@
 #pragma once
 #include "Block.h"
+class EL
+{
+public:
+	//Constructor
+	EL(double _EL) :Level(_EL) {};
+	~EL() {};
+	double Level; //Devide Level
+	double P; //density of presure
+	double FP; //Force of pressure
+	double L_Y; //Arm of Y
+	double Mp; //Moment of Pressure
+	std::vector<size_t> BlockId; //In level ID
+};
 class Module2_Var
 {
 public:
@@ -10,9 +23,15 @@ public:
 	// Public Func
 
 	//- Block Data
-	std::vector<Block> BlockData; 
+	std::vector<Block> BlockData;
+	std::vector<EL> LevelSection; //Level
 
 	// Public Var
+
+	//- Ref Coord
+	double Ref_x, Ref_y, B; //
+	//- Total Block
+	double W, Mw, Max_level, Min_level;
 	//- Water Var
 	double HWL, LWL, RWL; // 設計潮位, 殘留水位
 	//- Force Var
@@ -25,10 +44,16 @@ public:
 	double U, D, BasePhi, C; // 入土深度, 拋石厚度, 內摩擦角, 土壤黏滯力
 	//- Meyerhof's Factor
 	double Nq, Nr, Nc;
-	//- SF Coef
+	//- SF Coef 平時
 	double SlideSF, CalSlideSF, // 滑動安全檢核
 		RotateSF, CalRotateSF,  // 傾倒安全檢核
 		BaseSF, CalBaseSF;      // 地盤安全檢核
+    //- SF Coef 地震
+	double SlideSF_E,
+		RotateSF_E,
+		BaseSF_E;
 
+	//- Mesg
+	std::string Err_Msg;
 };
 

@@ -124,10 +124,14 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>..\Module1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -136,6 +140,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Block.h" />
     <ClInclude Include="include\Module2_Internal.h" />
     <ClInclude Include="include\Module2_Var.h" />
     <ClInclude Include="Module2.h" />
@@ -145,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Module2.cpp" />
+    <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\Module2_Internal.cpp" />
     <ClCompile Include="src\Module2_Var.cpp" />
     <ClCompile Include="Stdafx.cpp">

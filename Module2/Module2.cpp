@@ -16,7 +16,8 @@ VE_SD::Module2::Module2():Var(NULL), Internal(NULL)
 
 VE_SD::Module2::~Module2()
 {
-	
+	if (Internal != NULL) delete Internal;
+	if (Var != NULL) delete Var;
 }
 
 VE_SD::Module2::!Module2()
@@ -71,6 +72,13 @@ void VE_SD::Module2::SF_CoefInput(double _SlideSF, double _RotateSF, double _Bas
 	Var->RotateSF = _RotateSF;
 	Var->BaseSF = _BaseSF;
 }
+//新增地震時安全係數
+void VE_SD::Module2::SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, double _BaseSF_E)
+{
+	Var->SlideSF_E = _SlideSF_E;
+	Var->RotateSF_E = _RotateSF_E;
+	Var->BaseSF_E = _BaseSF_E;
+}
 
 int VE_SD::Module2::NewBlock(double _Density, double _FrictionC, bool _CalMoment) {
 	Var->BlockData.emplace_back(_Density, _FrictionC, _CalMoment);
@@ -117,9 +125,24 @@ bool VE_SD::Module2::DeleteAllBlockData()
 	}
 }
 
+int VE_SD::Module2::NewLevel(double _EL)
+{
+	Var->LevelSection.emplace_back(_EL);
+	return int(Var->LevelSection.size());
+}
+
+bool VE_SD::Module2::DeleteAllLevel()
+{
+	Var->LevelSection.clear();
+	return true;
+}
+
 bool VE_SD::Module2::Run()
 {
-	return false;
+	Internal->GeoPreCal();
+	//Internal->WeightCal();
+
+	return true;
 }
 
 bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
@@ -131,22 +154,31 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 
 	// File Contain
 	FILE << "******背景參數******" << std::endl;
-	FILE << "TEST" << std::endl;
-	FILE << "ALLEN" << std::endl;
+	FILE << "HWL: " << Var->HWL << std::endl;
+	FILE << "LWL: " << Var->LWL << std::endl;
 
 
 	FILE << std::endl;
+	FILE << "******型塊參數******" << std::endl;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
+		
 		FILE << "區塊單元 " << i + 1 << " :" << std::endl;
 		FILE << "區塊密度: " << Var->BlockData[i].Density << std::endl;
 		FILE << "區塊摩擦: " << Var->BlockData[i].FrictionC << std::endl;
+		FILE << "方塊面積: " << Var->BlockData[i].Area << std::endl;
 		FILE << "----節點座標----" << std::endl;
 		for (auto & NodeElement : Var->BlockData[i].Node) {
 			FILE << "X: " << NodeElement.x << "\t" << "Y: " << NodeElement.y << std::endl;
 		}
+		/*FILE << std::endl;
+		FILE << "----方塊自重與力矩----" << std::endl;
+		FILE << "方塊自重:" << Var->BlockData[i].MinX << std::endl;
+		FILE << "力矩大小:" << Var->BlockData[i].Mw << std::endl;*/
 		FILE << std::endl;
 	}
+
+	//FILE << "LWL: " << Var->LWL << std::endl;
 
 	// File Close
 	FILE.close();
