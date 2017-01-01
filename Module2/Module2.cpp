@@ -140,7 +140,7 @@ bool VE_SD::Module2::DeleteAllLevel()
 bool VE_SD::Module2::Run()
 {
 	Internal->GeoPreCal();
-	//Internal->WeightCal();
+	Internal->WeightCal();
 
 	return true;
 }
@@ -171,10 +171,10 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		for (auto & NodeElement : Var->BlockData[i].Node) {
 			FILE << "X: " << NodeElement.x << "\t" << "Y: " << NodeElement.y << std::endl;
 		}
-		/*FILE << std::endl;
+		FILE << std::endl;
 		FILE << "----方塊自重與力矩----" << std::endl;
-		FILE << "方塊自重:" << Var->BlockData[i].MinX << std::endl;
-		FILE << "力矩大小:" << Var->BlockData[i].Mw << std::endl;*/
+		FILE << "方塊自重:" << Var->BlockData[i].SelfWeight << std::endl;
+		FILE << "力矩大小:" << Var->BlockData[i].Mw << std::endl;
 		FILE << std::endl;
 	}
 

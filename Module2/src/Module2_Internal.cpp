@@ -30,19 +30,19 @@ bool Module2_Internal::GeoPreCal()
 
 
 	}
-	//Var->Ref_x /= double(Var->BlockData.size());
-	//Var->Ref_y /= double(Var->BlockData.size());
+	Var->Ref_x /= double(Var->BlockData.size());
+	Var->Ref_y /= double(Var->BlockData.size());
 
 	//Get Max and Min level of All Block
-	//Var->Max_level = Var->Ref_y;
-	//Var->Min_level = Var->Ref_y;
-	//for (size_t i = 0; i < Var->BlockData.size(); i++)
-	//{
-	//	if (Var->BlockData[i].MinLevel <= Var->Min_level) Var->Min_level = Var->BlockData[i].MinLevel;
-	//	if (Var->BlockData[i].MaxLevel >= Var->Max_level) Var->Max_level = Var->BlockData[i].MaxLevel;
-	//}
+	Var->Max_level = Var->Ref_y;
+	Var->Min_level = Var->Ref_y;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].MinLevel <= Var->Min_level) Var->Min_level = Var->BlockData[i].MinLevel;
+		if (Var->BlockData[i].MaxLevel >= Var->Max_level) Var->Max_level = Var->BlockData[i].MaxLevel;
+	}
 
-	//Get EL Level Up block ID and Arm Y
+	////Get EL Level Up block ID and Arm Y
 	//for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
 	//{
 	//	for (size_t j = 0; j < Var->BlockData.size(); j++)
@@ -56,29 +56,29 @@ bool Module2_Internal::GeoPreCal()
 	//}
 
 	//Base Block Length
-	//double BaseMin_x, BaseMax_x, Min_weight_y;
-	//BaseMin_x = Var->Ref_x;
-	//BaseMax_x = Var->Ref_x;
-	//Min_weight_y = Var->Ref_y;
+	double BaseMin_x, BaseMax_x, Min_weight_y;
+	BaseMin_x = Var->Ref_x;
+	BaseMax_x = Var->Ref_x;
+	Min_weight_y = Var->Ref_y;
 
 	//- Find Min Weight Y
-	//for (size_t i = 0; i < Var->BlockData.size(); i++)
-	//{
-	//	if (Var->BlockData[i].WeightC.y <= Min_weight_y) Min_weight_y = Var->BlockData[i].WeightC.y;
-	//}
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].WeightC.y <= Min_weight_y) Min_weight_y = Var->BlockData[i].WeightC.y;
+	}
 
 	//- Find Node max_x and min_x lower than Weight Y
-	//for (size_t i = 0; i < Var->BlockData.size(); i++)
-	//{
-	//	if (Var->BlockData[i].MinLevel <= Min_weight_y) {
-	//		for (size_t j = 0; j < Var->BlockData[i].Node.size(); j++) {
-	//			if (Var->BlockData[i].Node[j].x <= BaseMin_x) BaseMin_x = Var->BlockData[i].Node[j].x;
-	//			if (Var->BlockData[i].Node[j].x >= BaseMax_x) BaseMax_x = Var->BlockData[i].Node[j].x;
-	//		}
-	//	}
-	//}
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].MinLevel <= Min_weight_y) {
+			for (size_t j = 0; j < Var->BlockData[i].Node.size(); j++) {
+				if (Var->BlockData[i].Node[j].x <= BaseMin_x) BaseMin_x = Var->BlockData[i].Node[j].x;
+				if (Var->BlockData[i].Node[j].x >= BaseMax_x) BaseMax_x = Var->BlockData[i].Node[j].x;
+			}
+		}
+	}
 
-	//Var->B = std::abs(BaseMax_x - BaseMin_x);
+	Var->B = std::abs(BaseMax_x - BaseMin_x);
 
 	Var->Err_Msg += "計算幾何前處理完畢! \r\n";
 	return true;
@@ -102,8 +102,8 @@ bool Module2_Internal::WeightCal()
 		//	Var->BlockData[i].X = 0.0;
 		//	Var->BlockData[i].Mw = 0.0;
 		//}
-		//else {
-		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.x - Ref_x);
+		//else {- Ref_x
+		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.x );
 		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].X;
 		//}
 	}
