@@ -141,6 +141,7 @@ bool VE_SD::Module2::Run()
 {
 	Internal->GeoPreCal();
 	Internal->WeightCal();
+	Internal->EarthQuakeForceCal();
 
 	return true;
 }
@@ -156,7 +157,6 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "******璉春把计******" << std::endl;
 	FILE << "HWL: " << Var->HWL << std::endl;
 	FILE << "LWL: " << Var->LWL << std::endl;
-	FILE << "代刚" << std::endl;
 
 	FILE << std::endl;
 	FILE << "******遏把计******" << std::endl;
@@ -174,7 +174,8 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << std::endl;
 		FILE << "----よ遏籔痻----" << std::endl;
 		FILE << "よ遏:" << Var->BlockData[i].SelfWeight << std::endl;
-		FILE << "痻:" << Var->BlockData[i].Mw << std::endl;
+		FILE << "痻:" << Var->BlockData[i].X << std::endl;
+		FILE << "羥:" << Var->BlockData[i].Mw << std::endl;
 		FILE << std::endl;
 	}
 

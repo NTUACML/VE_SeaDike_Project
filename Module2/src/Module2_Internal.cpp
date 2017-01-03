@@ -97,15 +97,8 @@ bool Module2_Internal::WeightCal()
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
 	{
 		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
-		//if (Var->BlockData[i].CalMoment == false) //Don't cal Moment.
-		//{
-		//	Var->BlockData[i].X = 0.0;
-		//	Var->BlockData[i].Mw = 0.0;
-		//}
-		//else {- Ref_x
-		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.x );
+		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.x);
 		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].X;
-		//}
 	}
 	//- Sum Total Weight and Moment
 	Var->W = 0.0;
@@ -117,5 +110,43 @@ bool Module2_Internal::WeightCal()
 	}
 
 	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
+	return true;
+}
+
+bool Module2_Internal::EarthQuakeForceCal()
+{
+	double eps = 1e-3;
+	// Find Ref x with different direction
+	double Ref_x = Var->Ref_x;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		Ref_x = Var->BlockData[i].MinX;
+	}
+	
+
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		if (Var->BlockData[i].Density == 2.3 || Var->BlockData[i].Density == 1.27)
+		{
+			Var->BlockData[i].Density = 2.3;
+		}
+		else if (Var->BlockData[i].Density == 1.8 || Var->BlockData[i].Density == 1.0) {
+			Var->BlockData[i].Density = 1.8;
+		}
+		//-此處的Selfweight為地震力Fe Mw為地震的傾倒彎矩
+		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density * Var->K;
+		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.y);
+		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].X;
+	}
+	//- Sum Total Weight and Moment
+	Var->W = 0.0;
+	Var->Mw = 0.0;
+	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	{
+		Var->Fe += Var->BlockData[i].SelfWeight;
+		Var->Me += Var->BlockData[i].Mw;
+	}
+
+	Var->Err_Msg += "塊體地震力計算處理完畢! \r\n";
 	return true;
 }

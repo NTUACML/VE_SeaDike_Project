@@ -32,6 +32,8 @@ public:
 	double Ref_x, Ref_y, B; //
 	//- Total Block
 	double W, Mw, Max_level, Min_level;
+	//- Total Block for EarthQuake
+	double Fe, Me;
 	//- Water Var
 	double HWL, LWL, RWL; // 設計潮位, 殘留水位
 	//- Force Var
