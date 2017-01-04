@@ -182,7 +182,7 @@ namespace VE_SD
             Mod = new Module2();
             Mod.DeleteAllBlockData();
 
-            // 1. Block給定.
+            // 1-1. Block給定.
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
             {
                 //- 迴圈塞入Block.
@@ -196,6 +196,14 @@ namespace VE_SD
                     Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
                 }
             }
+
+            // 1-2. Level給定
+            Mod.NewLevel(1.2);
+            Mod.NewLevel(-0.5);
+            Mod.NewLevel(-2.00);
+            Mod.NewLevel(-3.25);
+            Mod.NewLevel(-4.5);
+
 
             // 2. 背景參數帶入
             //- 水位設計輸入

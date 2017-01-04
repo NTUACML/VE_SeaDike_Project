@@ -179,6 +179,14 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << std::endl;
 	}
 
+	FILE << std::endl;
+	FILE << "******Level°Ñ¼Æ******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL: " << i + 1 << " :" << Var->LevelSection[i].Level<< std::endl;
+
+	}
+
 	//FILE << "LWL: " << Var->LWL << std::endl;
 
 	// File Close

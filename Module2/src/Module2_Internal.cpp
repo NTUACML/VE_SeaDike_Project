@@ -42,18 +42,20 @@ bool Module2_Internal::GeoPreCal()
 		if (Var->BlockData[i].MaxLevel >= Var->Max_level) Var->Max_level = Var->BlockData[i].MaxLevel;
 	}
 
-	////Get EL Level Up block ID and Arm Y
-	//for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
-	//{
-	//	for (size_t j = 0; j < Var->BlockData.size(); j++)
-	//	{
-	//		if (Var->BlockData[j].WeightC.y >= Var->LevelSection[i].Level &&
-	//			Var->BlockData[j].WeightC.y < Var->LevelSection[i + 1].Level)
-	//		{
-	//			Var->LevelSection[i].BlockId.push_back(j);
-	//		}
-	//	}
-	//}
+	//Get EL Level Up block ID and Arm Y
+
+	
+	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
+	{
+		for (size_t j = 0; j < Var->BlockData.size(); j++)
+		{
+			if (Var->BlockData[j].WeightC.y >= Var->LevelSection[i].Level &&
+				Var->BlockData[j].WeightC.y < Var->LevelSection[i + 1].Level)
+			{
+				Var->LevelSection[i].BlockId.push_back(j);
+			}
+		}
+	}
 
 	//Base Block Length
 	double BaseMin_x, BaseMax_x, Min_weight_y;
