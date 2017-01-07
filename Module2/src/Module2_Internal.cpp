@@ -44,15 +44,23 @@ bool Module2_Internal::GeoPreCal()
 
 	//Get EL Level Up block ID and Arm Y
 
-	
-	for (size_t i = 0; i < Var->LevelSection.size() - 1; i++)
+	double maximum_X = 0.0;
+	std::vector<int> tmp_blockid;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
+		
 		for (size_t j = 0; j < Var->BlockData.size(); j++)
 		{
-			if (Var->BlockData[j].WeightC.y >= Var->LevelSection[i].Level &&
-				Var->BlockData[j].WeightC.y < Var->LevelSection[i + 1].Level)
+			if (Var->BlockData[j].MinX <= 0 && Var->BlockData[j].MinLevel >= Var->LevelSection[i].Level)
+			{
+				maximum_X = Var->BlockData[j].MaxX;
+			}
+			if (Var->BlockData[j].MinLevel >= Var->LevelSection[i].Level &&
+				Var->BlockData[j].MaxX <= maximum_X &&
+				std::find(tmp_blockid.begin(), tmp_blockid.end(), j) == tmp_blockid.end())
 			{
 				Var->LevelSection[i].BlockId.push_back(j);
+				tmp_blockid.push_back(j);
 			}
 		}
 	}

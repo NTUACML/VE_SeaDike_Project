@@ -173,9 +173,10 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		}
 		FILE << std::endl;
 		FILE << "----方塊自重與力矩----" << std::endl;
-		FILE << "方塊自重:" << Var->BlockData[i].SelfWeight << std::endl;
-		FILE << "力矩大小:" << Var->BlockData[i].X << std::endl;
-		FILE << "力臂大小:" << Var->BlockData[i].Mw << std::endl;
+		FILE << "MinX:" << Var->BlockData[i].MinX << std::endl;
+		FILE << "MaxX:" << Var->BlockData[i].MaxX << std::endl;
+		FILE << "WeightC_y:" << Var->BlockData[i].WeightC.y << std::endl;
+		FILE << "WeightC_x:" << Var->BlockData[i].WeightC.x << std::endl;
 		FILE << std::endl;
 	}
 
@@ -183,8 +184,12 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "******Level參數******" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
-		FILE << "EL: " << i + 1 << " :" << Var->LevelSection[i].Level<< std::endl;
-
+		FILE << "EL(" << Var->LevelSection[i].Level << ")" << i + 1 << " :";
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			FILE << Var->LevelSection[i].BlockId[j]+1 << " ";
+		}
+		FILE << std::endl;
 	}
 
 	//FILE << "LWL: " << Var->LWL << std::endl;
