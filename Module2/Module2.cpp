@@ -140,7 +140,7 @@ bool VE_SD::Module2::DeleteAllLevel()
 bool VE_SD::Module2::Run()
 {
 	Internal->GeoPreCal();
-	Internal->WeightCal();
+	//Internal->WeightCal();
 	Internal->EarthQuakeForceCal();
 
 	return true;
@@ -173,10 +173,9 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		}
 		FILE << std::endl;
 		FILE << "----方塊自重與力矩----" << std::endl;
-		FILE << "MinX:" << Var->BlockData[i].MinX << std::endl;
-		FILE << "MaxX:" << Var->BlockData[i].MaxX << std::endl;
-		FILE << "WeightC_y:" << Var->BlockData[i].WeightC.y << std::endl;
-		FILE << "WeightC_x:" << Var->BlockData[i].WeightC.x << std::endl;
+		FILE << "SelfWeight:" << Var->BlockData[i].SelfWeight << std::endl;
+		FILE << "X:" << Var->BlockData[i].X << std::endl;
+		FILE << "Mw:" << Var->BlockData[i].Mw << std::endl;
 		FILE << std::endl;
 	}
 
@@ -190,6 +189,41 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 			FILE << Var->LevelSection[i].BlockId[j]+1 << " ";
 		}
 		FILE << std::endl;
+	}
+	//FILE << "******Level參數-後總計******" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	//{
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "壁體自重-計: " << Var->LevelSection[i].Level_sum_W << std::endl;
+	//	FILE << "力臂-計: " << Var->LevelSection[i].Level_total_arm << std::endl;
+	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].Level_sum_Mx << std::endl;
+	//}
+
+	//FILE << "******Level參數-前總計******" << std::endl;
+	//for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	//{
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_W << std::endl;
+	//	FILE << "力臂-計: " << Var->LevelSection[i].pre_total_arm << std::endl;
+	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_Mx << std::endl;
+	//}
+
+	FILE << "******Earthquake Level參數-後總計******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "壁體自重-計: " << Var->LevelSection[i].Level_sum_WE << std::endl;
+		FILE << "力臂-計: " << Var->LevelSection[i].Level_total_armE << std::endl;
+		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].Level_sum_MxE << std::endl;
+	}
+
+	FILE << "******Earthquake Level參數-前總計******" << std::endl;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_WE << std::endl;
+		FILE << "力臂-計: " << Var->LevelSection[i].pre_total_armE << std::endl;
+		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
 	}
 
 	//FILE << "LWL: " << Var->LWL << std::endl;

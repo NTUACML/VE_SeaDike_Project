@@ -45,7 +45,7 @@ bool Module2_Internal::GeoPreCal()
 	//Get EL Level Up block ID and Arm Y
 
 	double maximum_X = 0.0;
-	std::vector<int> tmp_blockid;
+	std::vector<size_t> tmp_blockid;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
 		
@@ -96,28 +96,52 @@ bool Module2_Internal::GeoPreCal()
 
 bool Module2_Internal::WeightCal()
 {
-	double eps = 1e-3;
-	// Find Ref x with different direction
-	double Ref_x = Var->Ref_x;
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	size_t ID;
+	double temp_sum_Mx = 0;
+	double temp_sum_W = 0;
+
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
-		Ref_x = Var->BlockData[i].MinX;
+		ID = Var->LevelSection[i].BlockId[0];
+		double Ref_x = Var->BlockData[ID].MinX;
+
+		for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			ID = Var->LevelSection[i].BlockId[j];
+			if (Var->BlockData[ID].MinX<Ref_x) Ref_x = Var->BlockData[ID].MinX;
+		}
+
+		//- 更新下一個elevation的力臂與抵抗彎矩(但仍需考慮新設一變數已儲存兩個不同elevation之總和)
+		if (i >= 1) {
+			Var->LevelSection[i].pre_sum_W = Var->LevelSection[i - 1].Level_sum_W;
+			Var->LevelSection[i].pre_total_arm = Var->LevelSection[i - 1].Level_total_arm-Ref_x;
+			Var->LevelSection[i].pre_sum_Mx = Var->LevelSection[i].pre_sum_W*Var->LevelSection[i].pre_total_arm;
+			temp_sum_Mx = Var->LevelSection[i].pre_sum_Mx;
+			temp_sum_W = Var->LevelSection[i].pre_sum_W;
+		}
+
+
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			ID = Var->LevelSection[i].BlockId[j];
+			Var->BlockData[ID].SelfWeight = Var->BlockData[ID].Area * Var->BlockData[ID].Density;
+			Var->BlockData[ID].X = std::abs(Var->BlockData[ID].WeightC.x - Ref_x);
+			Var->BlockData[ID].Mw = Var->BlockData[ID].SelfWeight * Var->BlockData[ID].X;
+
+			//- Temperary summation ofevery level
+			temp_sum_W += Var->BlockData[ID].SelfWeight;
+			temp_sum_Mx += Var->BlockData[ID].Mw;
+		}
+
+		Var->LevelSection[i].Level_sum_W = temp_sum_W;
+		Var->LevelSection[i].Level_sum_Mx = temp_sum_Mx;
+
+		Var->LevelSection[i].Level_total_arm = Var->LevelSection[i].Level_sum_Mx / Var->LevelSection[i].Level_sum_W;
+
 	}
 
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density;
-		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.x);
-		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].X;
-	}
-	//- Sum Total Weight and Moment
-	Var->W = 0.0;
-	Var->Mw = 0.0;
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		Var->W += Var->BlockData[i].SelfWeight;
-		Var->Mw += Var->BlockData[i].Mw;
-	}
+	Var->W = temp_sum_W;
+	Var->Mw = temp_sum_Mx;
 
 	Var->Err_Msg += "塊體自重力計算處理完畢! \r\n";
 	return true;
@@ -125,37 +149,64 @@ bool Module2_Internal::WeightCal()
 
 bool Module2_Internal::EarthQuakeForceCal()
 {
-	double eps = 1e-3;
-	// Find Ref x with different direction
-	double Ref_x = Var->Ref_x;
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
+	size_t ID;
+	double temp_sum_Me = 0;
+	double temp_sum_Fe = 0;
+
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
-		Ref_x = Var->BlockData[i].MinX;
+		ID = Var->LevelSection[i].BlockId[0];
+		double old_Ref_y;
+		double Ref_y = Var->BlockData[ID].MinLevel;
+
+		for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			ID = Var->LevelSection[i].BlockId[j];
+			if (Var->BlockData[ID].MinLevel<Ref_y) Ref_y = Var->BlockData[ID].MinLevel;
+		}
+
+		//- 更新下一個elevation的力臂與抵抗彎矩(但仍需考慮新設一變數已儲存兩個不同elevation之總和)
+		if (i >= 1) {
+			Var->LevelSection[i].pre_sum_WE = Var->LevelSection[i - 1].Level_sum_WE;
+			double Arm_len = abs(old_Ref_y - Ref_y);
+			Var->LevelSection[i].pre_total_armE = Var->LevelSection[i - 1].Level_total_armE + Arm_len;
+			Var->LevelSection[i].pre_sum_MxE = Var->LevelSection[i].pre_sum_WE*Var->LevelSection[i].pre_total_armE;
+			temp_sum_Me = Var->LevelSection[i].pre_sum_MxE;
+			temp_sum_Fe = Var->LevelSection[i].pre_sum_WE;
+		}
+
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			ID = Var->LevelSection[i].BlockId[j];
+
+			//-暫時將所有單位體重都換成未浸水
+			if (Var->BlockData[ID].Density == 2.3 || Var->BlockData[ID].Density == 1.27)
+			{
+				Var->BlockData[ID].Density = 2.3;
+			}
+			else if (Var->BlockData[ID].Density == 1.8 || Var->BlockData[ID].Density == 1.0) {
+				Var->BlockData[ID].Density = 1.8;
+			}
+			Var->BlockData[ID].SelfWeight = Var->BlockData[ID].Area * Var->BlockData[ID].Density* Var->K;
+			Var->BlockData[ID].X = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
+			Var->BlockData[ID].Mw = Var->BlockData[ID].SelfWeight * Var->BlockData[ID].X;
+
+			//- Temperary summation ofevery level
+			temp_sum_Fe += Var->BlockData[ID].SelfWeight;
+			temp_sum_Me += Var->BlockData[ID].Mw;
+		}
+
+		Var->LevelSection[i].Level_sum_WE = temp_sum_Fe;
+		Var->LevelSection[i].Level_sum_MxE = temp_sum_Me;
+
+		Var->LevelSection[i].Level_total_armE = Var->LevelSection[i].Level_sum_MxE / Var->LevelSection[i].Level_sum_WE;
+
+		old_Ref_y = Ref_y;
 	}
 	
-
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		if (Var->BlockData[i].Density == 2.3 || Var->BlockData[i].Density == 1.27)
-		{
-			Var->BlockData[i].Density = 2.3;
-		}
-		else if (Var->BlockData[i].Density == 1.8 || Var->BlockData[i].Density == 1.0) {
-			Var->BlockData[i].Density = 1.8;
-		}
-		//-此處的Selfweight為地震力Fe Mw為地震的傾倒彎矩
-		Var->BlockData[i].SelfWeight = Var->BlockData[i].Area * Var->BlockData[i].Density * Var->K;
-		Var->BlockData[i].X = std::abs(Var->BlockData[i].WeightC.y);
-		Var->BlockData[i].Mw = Var->BlockData[i].SelfWeight * Var->BlockData[i].X;
-	}
 	//- Sum Total Weight and Moment
-	Var->W = 0.0;
-	Var->Mw = 0.0;
-	for (size_t i = 0; i < Var->BlockData.size(); i++)
-	{
-		Var->Fe += Var->BlockData[i].SelfWeight;
-		Var->Me += Var->BlockData[i].Mw;
-	}
+	Var->Fe = temp_sum_Me;
+	Var->Me = temp_sum_Fe;
 
 	Var->Err_Msg += "塊體地震力計算處理完畢! \r\n";
 	return true;
