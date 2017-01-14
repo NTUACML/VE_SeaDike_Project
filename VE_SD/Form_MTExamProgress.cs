@@ -95,6 +95,8 @@ namespace VE_SD
 
 
 
+
+
         #region 檢核
         private void 開始檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -393,10 +395,17 @@ namespace VE_SD
         }
         #endregion
 
-            #region 開啟
+        #region 開啟
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
             tsp_cond.Text = "碼頭檢核模組";
+            TSP_DATETIME.Text = "";
+            TSP_DATETIME.Alignment = ToolStripItemAlignment.Right;
+            TSP_DATETIME.RightToLeft = RightToLeft.No;
+            toolStripProgressBar1.Visible = false;
+            tsp_cond.Text = "OK";
+
+
             cmb_seawaveDir.SelectedItem = "右";
             isExporting = false;
             this.Text = "專案檔:未命名";
@@ -717,10 +726,9 @@ namespace VE_SD
                 ff.Show();
                 return;
             }
+            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             儲存XML專案檔(xmlpath);
         }
-
-
         //子程序.
         private string 打開XML專案檔(string path)
         {
@@ -731,6 +739,7 @@ namespace VE_SD
             double[] ELArrayR = new double[] { };
             int ELSizer = 0;
             int SelectedTab = -1;
+            string 最後編輯時間R;
             double 設計潮位高R;
             double 設計潮位低R;
             double 殘留水位R;
@@ -745,7 +754,7 @@ namespace VE_SD
             double 入土深度R;
             double 拋石厚度R;
             string dirr;
-            double 地盤基礎內摩擦角R;
+            double 地盤內基礎內摩擦角R;
             double 土壤凝聚力R;
             double NcR;
             double NqR;
@@ -804,7 +813,16 @@ namespace VE_SD
                 {
                     return "Block Tooltip資訊讀取失敗";
                 }
-                                //海側方向.
+
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/最後編輯時間");
+                if (object.Equals(RNode,null))
+                {
+                    return "最後編輯時間讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                最後編輯時間R = Relement.GetAttribute("Value");
+
+                //海側方向.
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/海側方向");
                 if (object.Equals(RNode, null))
                 {
@@ -817,8 +835,297 @@ namespace VE_SD
                     return "海側方向讀取失敗";
                 }
 
-                    //EL讀取.
-                 XmlNodeList ELCollection = doc.SelectNodes("Root/GlobalParameters/EL點數/EL");
+                //設計潮位高.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/設計潮位高");
+                if (object.Equals(RNode, null))
+                {
+                    return "設計潮位高讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"),out 設計潮位高R))
+                {
+                    return "設計潮位高讀取失敗";
+                }
+
+                //設計潮位低.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/設計潮位低");
+                if (object.Equals(RNode, null))
+                {
+                    return "設計潮位低讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 設計潮位低R))
+                {
+                    return "設計潮位低讀取失敗";
+                }
+
+                //殘留水位.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/殘留水位");
+                if (object.Equals(RNode, null))
+                {
+                    return "殘留水位讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 殘留水位R))
+                {
+                    return "殘留水位讀取失敗";
+                }
+
+                //平時上載荷重.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時上載荷重");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時上載荷重讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時上載荷重R))
+                {
+                    return "平時上載荷重讀取失敗";
+                }
+
+                //地震時上載荷重.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時上載荷重");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時上載荷重讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時上載荷重R))
+                {
+                    return "地震時上載荷重讀取失敗";
+                }
+
+                //船舶牽引力.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/船舶牽引力");
+                if (object.Equals(RNode, null))
+                {
+                    return "船舶牽引力讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 船舶牽引力R))
+                {
+                    return "船舶牽引力讀取失敗";
+                }
+
+                //陸上設計震度
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/陸上設計震度");
+                if (object.Equals(RNode, null))
+                {
+                    return "陸上設計震度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 陸上設計震度R))
+                {
+                    return "陸上設計震度讀取失敗";
+                }
+
+                //水中設計震度.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/水中設計震度");
+                if (object.Equals(RNode, null))
+                {
+                    return "水中設計震度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 水中設計震度R))
+                {
+                    return "水中設計震度讀取失敗";
+                }
+
+                //背填料內摩擦角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/背填料內摩擦角");
+                if (object.Equals(RNode, null))
+                {
+                    return "背填料內摩擦角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 背填料內摩擦角R))
+                {
+                    return "背填料內摩擦角讀取失敗";
+                }
+
+                //背填料壁面摩擦角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/背填料壁面摩擦角");
+                if (object.Equals(RNode, null))
+                {
+                    return "背填料壁面摩擦角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 背填料壁面摩擦角R))
+                {
+                    return "背填料壁面摩擦角讀取失敗";
+                }
+
+                //背填料水平傾斜角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/背填料水平傾斜角");
+                if (object.Equals(RNode, null))
+                {
+                    return "背填料水平傾斜角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 背填料水平傾斜角R))
+                {
+                    return "背填料水平傾斜角讀取失敗";
+                }
+
+                //入土深度.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/入土深度");
+                if (object.Equals(RNode, null))
+                {
+                    return "入土深度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 入土深度R))
+                {
+                    return "入土深度讀取失敗";
+                }
+
+                //拋石厚度
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/拋石厚度");
+                if (object.Equals(RNode, null))
+                {
+                    return "拋石厚度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 拋石厚度R))
+                {
+                    return "拋石厚度讀取失敗";
+                }
+
+                //地盤內基礎內摩擦角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地盤內基礎內摩擦角");
+                if (object.Equals(RNode, null))
+                {
+                    return "地盤內基礎內摩擦角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地盤內基礎內摩擦角R))
+                {
+                    return "地盤內基礎內摩擦角讀取失敗";
+                }
+
+                //土壤凝聚力.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/土壤凝聚力");
+                if (object.Equals(RNode, null))
+                {
+                    return "土壤凝聚力讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 土壤凝聚力R))
+                {
+                    return "土壤凝聚力讀取失敗";
+                }
+
+                //Nq
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/Nq");
+                if (object.Equals(RNode, null))
+                {
+                    return "Nq讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out NqR))
+                {
+                    return "Nq讀取失敗";
+                }
+
+                //Nc
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/Nc");
+                if (object.Equals(RNode, null))
+                {
+                    return "Nc讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out NcR))
+                {
+                    return "Nc讀取失敗";
+                }
+
+                //Nr
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/Nr");
+                if (object.Equals(RNode, null))
+                {
+                    return "Nr讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out NrR))
+                {
+                    return "Nr讀取失敗";
+                }
+
+                //平時滑動安全係數
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時滑動安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時滑動安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時滑動安全係數R))
+                {
+                    return "平時滑動安全係數讀取失敗";
+                }
+
+                //平時傾倒安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時傾倒安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時傾倒安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時傾倒安全係數R))
+                {
+                    return "平時傾倒安全係數讀取失敗";
+                }
+
+                //平時地盤承載力安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時地盤承載力安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時地盤承載力安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時地盤承載力安全係數R))
+                {
+                    return "平時地盤承載力安全係數讀取失敗";
+                }
+
+                //地震時滑動安全係數
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時滑動安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時滑動安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時滑動安全係數R))
+                {
+                    return "地震時滑動安全係數讀取失敗";
+                }
+
+                //地震時傾倒安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時傾倒安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時傾倒安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時傾倒安全係數R))
+                {
+                    return "地震時傾倒安全係數讀取失敗";
+                }
+
+                //地震時地盤承載力安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時地盤承載力安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時地盤承載力安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時地盤承載力安全係數R))
+                {
+                    return "地震時地盤承載力安全係數讀取失敗";
+                }
+
+
+                //EL讀取.
+                XmlNodeList ELCollection = doc.SelectNodes("Root/GlobalParameters/EL點數/EL");
                 foreach (XmlNode ELNode in ELCollection)
                 {
                     double fi;
@@ -1053,6 +1360,35 @@ namespace VE_SD
                 //MessageBox.Show("出現錯誤!");
             }
 
+            TSP_DATETIME.Text = 最後編輯時間R;
+
+            textBox_設計潮位高.Text = 設計潮位高R.ToString();
+            textBox_設計潮位低.Text = 設計潮位低R.ToString();
+            textBox_殘留水位.Text = 殘留水位R.ToString();
+            textBox_平時上載荷重.Text = 平時上載荷重R.ToString();
+            textBox_地震時上載荷重.Text = 地震時上載荷重R.ToString();
+            textBox_船舶牽引力.Text = 船舶牽引力R.ToString();
+            textBox_陸上設計震度.Text = 陸上設計震度R.ToString();
+            textBox_水中設計震度.Text = 水中設計震度R.ToString();
+            textBox_背填料內摩擦角.Text = 背填料內摩擦角R.ToString();
+            textBox_背填料壁面摩擦角.Text = 背填料壁面摩擦角R.ToString();
+            textBox_背填料水平傾斜角.Text = 背填料水平傾斜角R.ToString();
+            textBox_入土深度.Text = 入土深度R.ToString();
+            textBox_拋石厚度.Text = 拋石厚度R.ToString();
+            cmb_seawaveDir.SelectedItem = dirr;
+            textBox_地盤基礎內摩擦角.Text = 地盤內基礎內摩擦角R.ToString();
+            textBox_土壤凝聚力.Text = 土壤凝聚力R.ToString();
+            textBox_Nq.Text = NqR.ToString();
+            textBox_Nc.Text = NcR.ToString();
+            textBox_Nr.Text = NrR.ToString();
+            textBox_平時滑動安全係數.Text = 平時滑動安全係數R.ToString();
+            textBox_平時傾倒安全係數.Text = 平時傾倒安全係數R.ToString();
+            textBox_平時地盤承載力安全係數.Text = 平時地盤承載力安全係數R.ToString();
+            textBox_地震時滑動安全係數.Text = 地震時滑動安全係數R.ToString();
+            textBox_地震時傾倒安全係數.Text = 地震時傾倒安全係數R.ToString();
+            textBox_地震時地盤承載力安全係數.Text = 地震時地盤承載力安全係數R.ToString();
+            
+
             Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
             for (int i = 0; i < BlockMainArrayR.GetLength(0); i++)
             {
@@ -1143,6 +1479,7 @@ namespace VE_SD
             }
 
             selectname = (selectedBlockIndex == -1 ? null : BlockMainArray[selectedBlockIndex].名稱);
+            cmb_ShowOnBlockListChoice.SelectedItem = BlockToolTip資訊選擇;
             if (selectedBlockIndex != -1)
             {
                 listBox_SectSetting.SelectedIndex = selectedBlockIndex;//此函數會觸動顯示Chart與Property Grid的功能.
@@ -1225,6 +1562,8 @@ namespace VE_SD
             XmlElement BlockToolTipinfo = doc.CreateElement("BlockTooltip資訊");
             BlockToolTipinfo.SetAttribute("Value", cmb_ShowOnBlockListChoice.SelectedItem.ToString());
 
+            XmlElement 最後編輯時間 = doc.CreateElement("最後編輯時間");
+            最後編輯時間.SetAttribute("Value", TSP_DATETIME.Text);
 
             XmlElement 地盤基礎內摩擦角 = doc.CreateElement("地盤基礎內摩擦角");
             地盤基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
@@ -1327,6 +1666,7 @@ namespace VE_SD
             
             全域參數XML點.AppendChild(選擇Tab);
             全域參數XML點.AppendChild(BlockToolTipinfo);
+            全域參數XML點.AppendChild(最後編輯時間);
             全域參數XML點.AppendChild(設計潮位高);
             全域參數XML點.AppendChild(設計潮位低);
             全域參數XML點.AppendChild(殘留水位);
@@ -1545,7 +1885,38 @@ namespace VE_SD
              MessageBox.Show("儲存完畢!!!", "專案檔儲存", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //}
         }
+        private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isExporting) { return; }
+            if (BlockMainArray.GetLength(0) == 0)
+            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            string xmlpath;// = workfoldernow + "\\Test.xml";
+            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
+            {
+                xmlpath = SFD_專案.FileName; //路徑.
+            }
+            else
+            { return; }
 
+            string CheckTextBoxNoEmptyString = "";
+            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
+            {
+                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
+                ff.Show();
+                return;
+            }
+
+            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            儲存XML專案檔(xmlpath);
+        }
+
+        private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
         #endregion
         #region 型塊設定區域
         private void btn_AddASect_Click(object sender, EventArgs e)
@@ -3034,28 +3405,6 @@ namespace VE_SD
 
         #endregion
 
-        private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (isExporting) { return; }
-            if (BlockMainArray.GetLength(0) == 0)
-            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            string xmlpath;// = workfoldernow + "\\Test.xml";
-            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
-            {
-                xmlpath = SFD_專案.FileName; //路徑.
-            }
-            else
-            { return; }
 
-            string CheckTextBoxNoEmptyString = "";
-            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
-            {
-                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
-                ff.Show();
-                return;
-            }
-
-            儲存XML專案檔(xmlpath);
-        }
     }
 }
