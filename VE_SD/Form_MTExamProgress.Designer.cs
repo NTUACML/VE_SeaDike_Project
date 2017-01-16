@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟一個新的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +43,7 @@
             this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.步驟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開始檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.測試ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cmb_seawaveDir = new System.Windows.Forms.ComboBox();
@@ -113,11 +114,17 @@
             this.btn_Test = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.TSP_DATETIME = new System.Windows.Forms.ToolStripStatusLabel();
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_Log = new System.Windows.Forms.SaveFileDialog();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.TSP_DATETIME = new System.Windows.Forms.ToolStripStatusLabel();
+            this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -133,7 +140,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.檔案ToolStripMenuItem,
-            this.步驟ToolStripMenuItem});
+            this.步驟ToolStripMenuItem,
+            this.測試ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1247, 24);
@@ -143,6 +151,7 @@
             // 檔案ToolStripMenuItem
             // 
             this.檔案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.開啟最近使用的舊檔ToolStripMenuItem,
             this.開啟一個新的專案檔ToolStripMenuItem,
             this.開啟舊的專案檔ToolStripMenuItem,
             this.儲存此專案檔ToolStripMenuItem,
@@ -155,7 +164,8 @@
             // 開啟一個新的專案檔ToolStripMenuItem
             // 
             this.開啟一個新的專案檔ToolStripMenuItem.Name = "開啟一個新的專案檔ToolStripMenuItem";
-            this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.開啟一個新的專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.開啟一個新的專案檔ToolStripMenuItem.Text = "開啟一個新的專案檔";
             this.開啟一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟一個新的專案檔ToolStripMenuItem_Click);
             // 
@@ -206,6 +216,13 @@
             this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
+            // 
+            // 測試ToolStripMenuItem
+            // 
+            this.測試ToolStripMenuItem.Enabled = false;
+            this.測試ToolStripMenuItem.Name = "測試ToolStripMenuItem";
+            this.測試ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.測試ToolStripMenuItem.Text = "測試";
             // 
             // tabControl1
             // 
@@ -795,8 +812,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -806,8 +823,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle24;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -817,9 +834,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle23;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -864,16 +881,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend2);
+            chartArea8.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend8);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart_Plot.Series.Add(series2);
+            series8.ChartArea = "ChartArea1";
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            this.chart_Plot.Series.Add(series8);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -988,6 +1005,17 @@
             this.tsp_cond.Size = new System.Drawing.Size(128, 21);
             this.tsp_cond.Text = "toolStripStatusLabel1";
             // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(350, 20);
+            // 
+            // TSP_DATETIME
+            // 
+            this.TSP_DATETIME.Name = "TSP_DATETIME";
+            this.TSP_DATETIME.Size = new System.Drawing.Size(128, 21);
+            this.TSP_DATETIME.Text = "toolStripStatusLabel1";
+            // 
             // OFD_專案
             // 
             this.OFD_專案.Filter = "檢核檔案|*.vesdp";
@@ -1003,16 +1031,52 @@
             this.SFD_專案.Filter = "檢核檔案(.vesdp)|*.vesdp";
             this.SFD_專案.FilterIndex = 0;
             // 
-            // toolStripProgressBar1
+            // 開啟最近使用的舊檔ToolStripMenuItem
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(350, 20);
+            this.開啟最近使用的舊檔ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.舊檔案1ToolStripMenuItem,
+            this.舊檔案2ToolStripMenuItem,
+            this.舊檔案3ToolStripMenuItem,
+            this.舊檔案4ToolStripMenuItem,
+            this.舊檔案5ToolStripMenuItem});
+            this.開啟最近使用的舊檔ToolStripMenuItem.Name = "開啟最近使用的舊檔ToolStripMenuItem";
+            this.開啟最近使用的舊檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.開啟最近使用的舊檔ToolStripMenuItem.Text = "開啟最近使用的舊檔";
             // 
-            // TSP_DATETIME
+            // 舊檔案1ToolStripMenuItem
             // 
-            this.TSP_DATETIME.Name = "TSP_DATETIME";
-            this.TSP_DATETIME.Size = new System.Drawing.Size(128, 21);
-            this.TSP_DATETIME.Text = "toolStripStatusLabel1";
+            this.舊檔案1ToolStripMenuItem.Name = "舊檔案1ToolStripMenuItem";
+            this.舊檔案1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.舊檔案1ToolStripMenuItem.Text = "舊檔案1";
+            this.舊檔案1ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案1ToolStripMenuItem_Click);
+            // 
+            // 舊檔案2ToolStripMenuItem
+            // 
+            this.舊檔案2ToolStripMenuItem.Name = "舊檔案2ToolStripMenuItem";
+            this.舊檔案2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.舊檔案2ToolStripMenuItem.Text = "舊檔案2";
+            this.舊檔案2ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案2ToolStripMenuItem_Click);
+            // 
+            // 舊檔案3ToolStripMenuItem
+            // 
+            this.舊檔案3ToolStripMenuItem.Name = "舊檔案3ToolStripMenuItem";
+            this.舊檔案3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.舊檔案3ToolStripMenuItem.Text = "舊檔案3";
+            this.舊檔案3ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案3ToolStripMenuItem_Click);
+            // 
+            // 舊檔案4ToolStripMenuItem
+            // 
+            this.舊檔案4ToolStripMenuItem.Name = "舊檔案4ToolStripMenuItem";
+            this.舊檔案4ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.舊檔案4ToolStripMenuItem.Text = "舊檔案4";
+            this.舊檔案4ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案4ToolStripMenuItem_Click);
+            // 
+            // 舊檔案5ToolStripMenuItem
+            // 
+            this.舊檔案5ToolStripMenuItem.Name = "舊檔案5ToolStripMenuItem";
+            this.舊檔案5ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.舊檔案5ToolStripMenuItem.Text = "舊檔案5";
+            this.舊檔案5ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案5ToolStripMenuItem_Click);
             // 
             // Form_MTExamProgress
             // 
@@ -1131,5 +1195,12 @@
         private System.Windows.Forms.SaveFileDialog SFD_專案;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripStatusLabel TSP_DATETIME;
+        private System.Windows.Forms.ToolStripMenuItem 測試ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 開啟最近使用的舊檔ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案5ToolStripMenuItem;
     }
 }

@@ -12,15 +12,28 @@ using System.Xml;
 using System.Windows.Forms.DataVisualization.Charting;
 using WORD = Microsoft.Office.Interop.Word;
 using System.Diagnostics;
+using System.Collections;
 using System.Net;
+using System.Runtime.InteropServices;//For DLL IMPORT.
 
 namespace VE_SD
 {
     public partial class Form_MTExamProgress : Form
     {
+        //取得短路徑
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern Int32 GetShortPathName(String path, StringBuilder shortPath, Int32 shortPathLength);
+        //
+
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //基本參數區域
+        private string _過去使用檔案;
+        private int _過去使用檔案數量 =5;
+        //Stack<string> MyData = new Stack<string>();
+        string[] 使用檔案紀錄序列=new string[] { };
+        object[] OBB = new object[] { };//儲存MenustripItem的成員.
+
         public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
         int BlockCount = 0; //Block Array size.
         //public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
@@ -396,14 +409,108 @@ namespace VE_SD
         #endregion
 
         #region 開啟
+        static int _tempic = 0;
+        static StreamReader _打開過去舊檔案R = null;
+        private void 開啟過去舊檔案()
+        {
+            舊檔案1ToolStripMenuItem.Visible = false;
+            舊檔案2ToolStripMenuItem.Visible = false;
+            舊檔案3ToolStripMenuItem.Visible = false;
+            舊檔案4ToolStripMenuItem.Visible = false;
+            舊檔案5ToolStripMenuItem.Visible = false;
+
+            舊檔案1ToolStripMenuItem.AutoToolTip = true;
+            舊檔案2ToolStripMenuItem.AutoToolTip = true;
+            舊檔案3ToolStripMenuItem.AutoToolTip = true;
+            舊檔案4ToolStripMenuItem.AutoToolTip = true;
+            舊檔案5ToolStripMenuItem.AutoToolTip = true;
+
+            //若有檔案，則打開之.
+            if (File.Exists(_過去使用檔案))
+            {
+                _tempic = 0;
+                
+                try
+                {
+                    _打開過去舊檔案R = new StreamReader(_過去使用檔案);
+                    while(_打開過去舊檔案R.Peek()>=0)
+                    {
+                        string temps = _打開過去舊檔案R.ReadLine();
+                        Array.Resize(ref 使用檔案紀錄序列, _tempic + 1);
+                        使用檔案紀錄序列[_tempic] = temps;
+                        //MyData.Push(temps);
+                        _tempic += 1;
+                        if(_tempic==5)
+                        {
+                            break;
+                        }
+                    }
+                    _打開過去舊檔案R.Close();
+                    _打開過去舊檔案R = null;
+
+                }
+                catch
+                {
+                    //_打開過去舊檔案R.Close();
+                    _打開過去舊檔案R = null;
+                }
+
+                if(_tempic==0)
+                {
+                    return;
+                }
+
+                
+                //將資料裝載.
+                //for(int i=_tempic;i>=0;i--)
+                //{
+                //   MyData.Push(使用檔案紀錄序列[i]);//檔案內會是最早的在最前面,為配合Stack的Push機制(PUSH到最前面)，因此顛倒.
+                //}
+                
+                //MyData.CopyTo(tempssinner,0);
+
+                for(int i=0;i<_tempic;i++)
+                {
+                    ToolStripMenuItem tsi = (ToolStripMenuItem)OBB[i];
+                    if (i < 使用檔案紀錄序列.GetLength(0))
+                    {
+                        tsi.Tag = 使用檔案紀錄序列[i];
+                        tsi.Text = 取得縮寫(使用檔案紀錄序列[i]);
+                        tsi.ToolTipText = 使用檔案紀錄序列[i];
+                        tsi.Visible = true;
+                    }
+                    else
+                    {
+                        tsi.Tag = null;
+                        tsi.Text =null;
+                        tsi.ToolTipText = null;
+                        tsi.Visible = false;
+                    }
+                }
+            }
+        }
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
-            tsp_cond.Text = "碼頭檢核模組";
+            //決定過去開啟的舊檔案.
+            Array.Resize(ref OBB, 5);
+            OBB[0] = 舊檔案1ToolStripMenuItem;
+            OBB[1] = 舊檔案2ToolStripMenuItem;
+            OBB[2] = 舊檔案3ToolStripMenuItem;
+            OBB[3] = 舊檔案4ToolStripMenuItem;
+            OBB[4] = 舊檔案5ToolStripMenuItem;
+
+            Array.Resize(ref 使用檔案紀錄序列, 0);//, _過去使用檔案數量);//初始化.
+
+            _過去使用檔案 = mainForm.SystemReferenceStoreFolder + "\\VESD_P2_oldfile.txt";
+            開啟過去舊檔案();
+
+
+            tsp_cond.Text = "請設定或編輯您的專案檔";
             TSP_DATETIME.Text = "";
             TSP_DATETIME.Alignment = ToolStripItemAlignment.Right;
             TSP_DATETIME.RightToLeft = RightToLeft.No;
             toolStripProgressBar1.Visible = false;
-            tsp_cond.Text = "OK";
+            //tsp_cond.Text = "OK";
 
 
             cmb_seawaveDir.SelectedItem = "右";
@@ -659,13 +766,145 @@ namespace VE_SD
         static XmlNode RNode;
         static XmlElement Relement;
         static string 打開檔案之訊息 = null;
+        private void 填入一個新的檔案(string 填入新的檔案)
+        {
+            
+            if (使用檔案紀錄序列.GetLength(0)>0 && 使用檔案紀錄序列[0] == 填入新的檔案)
+            {
+                //不做任何事情.
+            }
+            else
+            {
+                string[] tempsinner2 = new string[] { };
+                int ic = 0;
+                Array.Resize(ref tempsinner2, 1);
+                tempsinner2[0] = 填入新的檔案;
+
+                for (int i = 0; i <= 使用檔案紀錄序列.GetUpperBound(0); i++) //.Count;i++)
+                {
+
+                    if (使用檔案紀錄序列[i] == 填入新的檔案)
+                    {
+                        //ic += 1;
+                        continue;
+                    }
+                    Array.Resize(ref tempsinner2, ic + 2);
+                    tempsinner2[ic + 1] = 使用檔案紀錄序列[i];
+                    ic += 1;
+                    if (ic == 4)
+                    {
+                        break;
+                    }
+                }
+
+                使用檔案紀錄序列 = tempsinner2;
+
+                //更新Menustrip Item上顯示的名稱.
+                for(int i=0;i<OBB.GetLength(0);i++)
+                {
+                    ToolStripMenuItem tsi = (ToolStripMenuItem)OBB[i];
+                    if (i < 使用檔案紀錄序列.GetLength(0))
+                    {
+                        tsi.Tag = 使用檔案紀錄序列[i];
+                        tsi.Text = 取得縮寫(使用檔案紀錄序列[i]);
+                        tsi.ToolTipText = 使用檔案紀錄序列[i];
+                        tsi.Visible = true;
+                    }
+                    else
+                    {
+                        tsi.Tag = null;
+                        tsi.Text = null;
+                        tsi.Visible = false;
+                        tsi.ToolTipText = null;
+                    }
+                    
+                }
+                //儲存檔案.
+                StreamWriter swi1 = new StreamWriter(_過去使用檔案);
+                for(int i=0;i<使用檔案紀錄序列.GetLength(0);i++)
+                {
+                    swi1.WriteLine(使用檔案紀錄序列[i]);
+                }
+                swi1.Flush();
+                swi1.Close();
+
+            }
+        }
+        private void 刪除一個不存在的檔案(int 位置)
+        {
+            if(位置>使用檔案紀錄序列.GetUpperBound(0))
+            {
+                return;
+            }
+
+            string[] tempsinner2 = new string[] { };
+            int ic = 0;
+            for(int i=0;i<使用檔案紀錄序列.GetLength(0);i++)
+            {
+                if(i!=位置)
+                {
+                    Array.Resize(ref tempsinner2, ic + 1);
+                    tempsinner2[ic] = 使用檔案紀錄序列[i];
+                    ic += 1;
+                }
+            }
+            使用檔案紀錄序列 = tempsinner2;
+            //更新Menustrip Item上顯示的名稱.
+            for (int i = 0; i < OBB.GetLength(0); i++)
+            {
+                ToolStripMenuItem tsi = (ToolStripMenuItem)OBB[i];
+                if (i < 使用檔案紀錄序列.GetLength(0))
+                {
+                    tsi.Tag = 使用檔案紀錄序列[i];
+                    tsi.Text = 取得縮寫(使用檔案紀錄序列[i]);
+                    tsi.ToolTipText = 使用檔案紀錄序列[i];
+                    tsi.Visible = true;
+                }
+                else
+                {
+                    tsi.Tag = null;
+                    tsi.Text = null;
+                    tsi.Visible = false;
+                    tsi.ToolTipText = null;
+                }
+
+            }
+            //儲存檔案.
+            StreamWriter swi1 = new StreamWriter(_過去使用檔案);
+            for (int i = 0; i < 使用檔案紀錄序列.GetLength(0); i++)
+            {
+                swi1.WriteLine(使用檔案紀錄序列[i]);
+            }
+            swi1.Flush();
+            swi1.Close();
+        }
+        private string 取得縮寫(string 原本路徑)
+        {
+            //http://stackoverflow.com/questions/8403086/long-path-with-ellipsis-in-the-middle
+
+            const int MAX_WIDTH = 50;
+
+            // Specify long file name
+            //string fileName = @"A:\LongPath\CanBe\AnyPathYou\SpecifyHere.txt";
+
+            // Find last '\' character
+            
+            int i = 原本路徑.LastIndexOf('\\');
+
+            string tokenRight = 原本路徑.Substring(i, 原本路徑.Length - i);
+            string tokenCenter = @"\...";
+            string tokenLeft = 原本路徑.Substring(0, MAX_WIDTH - (tokenRight.Length + tokenCenter.Length));
+
+            string shortFileName = tokenLeft + tokenCenter + tokenRight;
+            return shortFileName;
+        }
         private void 開啟一個新的專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isExporting) { return; }
             if (!(BlockMainArray.GetLength(0) == 0))
             {
                 //當有編輯中的專案時(有Block時,才會有警示).
-                if (MessageBox.Show("您確定要開啟新的專案檔?按下確定後目前編輯中的專案檔會遺失所有更動", "開新的專案檔", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                if (MessageBox.Show("您確定要開啟新的專案檔?按下確定後目前編輯中的專案檔會遺失所有更動" + Environment.NewLine + "若否,請先存檔", "開新的專案檔", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 { return; }
 
             }
@@ -688,6 +927,10 @@ namespace VE_SD
                     打開專案檔的名稱 = OFD_專案.FileName;
                     this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
                 }
                 else
                 {
@@ -728,7 +971,207 @@ namespace VE_SD
             }
             TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             儲存XML專案檔(xmlpath);
+            填入一個新的檔案(打開專案檔的名稱);
         }
+        private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isExporting) { return; }
+            if (BlockMainArray.GetLength(0) == 0)
+            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            string xmlpath;// = workfoldernow + "\\Test.xml";
+            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
+            {
+                xmlpath = SFD_專案.FileName; //路徑.
+            }
+            else
+            { return; }
+
+            string CheckTextBoxNoEmptyString = "";
+            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
+            {
+                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
+                ff.Show();
+                return;
+            }
+
+            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            儲存XML專案檔(xmlpath);
+            填入一個新的檔案(打開專案檔的名稱);
+        }
+        private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
+
+        //舊檔案打開按鈕程序.tsp_
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        private void 舊檔案1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案1ToolStripMenuItem.Tag.ToString());
+
+            if(!File.Exists(舊檔案1ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(0);
+            }
+            else
+            {
+                //MessageBox.Show("HH");
+                打開檔案之訊息 = 打開XML專案檔(舊檔案1ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案1ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案2ToolStripMenuItem.Tag.ToString());
+
+            if (!File.Exists(舊檔案2ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(1);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案2ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案2ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案3ToolStripMenuItem.Tag.ToString());
+
+            if (!File.Exists(舊檔案3ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(2);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案3ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案3ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案4ToolStripMenuItem.Tag.ToString());
+
+
+            if (!File.Exists(舊檔案4ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(3);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案4ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案4ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案5ToolStripMenuItem.Tag.ToString());
+
+
+            if (!File.Exists(舊檔案5ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(4);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案5ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案5ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //子程序.
         private string 打開XML專案檔(string path)
         {
@@ -776,7 +1219,7 @@ namespace VE_SD
 
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(OFD_專案.FileName);
+            doc.Load(path);
             bool 成功與否 = false;
             try
             {
@@ -1884,38 +2327,6 @@ namespace VE_SD
             //{
              MessageBox.Show("儲存完畢!!!", "專案檔儲存", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //}
-        }
-        private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (isExporting) { return; }
-            if (BlockMainArray.GetLength(0) == 0)
-            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            string xmlpath;// = workfoldernow + "\\Test.xml";
-            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
-            {
-                xmlpath = SFD_專案.FileName; //路徑.
-            }
-            else
-            { return; }
-
-            string CheckTextBoxNoEmptyString = "";
-            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
-            {
-                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
-                ff.Show();
-                return;
-            }
-
-            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            儲存XML專案檔(xmlpath);
-        }
-
-        private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-            {
-                this.Close();
-            }
         }
         #endregion
         #region 型塊設定區域
@@ -3401,10 +3812,9 @@ namespace VE_SD
 
 
 
-        #endregion
 
         #endregion
 
-
+        #endregion
     }
 }
