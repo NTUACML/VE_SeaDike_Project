@@ -1008,6 +1008,7 @@ namespace VE_SD
 
         //舊檔案打開按鈕程序.tsp_
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #region 打開舊檔案
         private void 舊檔案1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("HH" + 舊檔案1ToolStripMenuItem.Tag.ToString());
@@ -1171,6 +1172,7 @@ namespace VE_SD
                 }
             }
         }
+        #endregion
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //子程序.
         private string 打開XML專案檔(string path)
@@ -1683,6 +1685,19 @@ namespace VE_SD
                         return  "Block讀取單位體積重量失敗!";
                     }
                     BlockMainArrayR[blockSizer].單位體積重量 = ftest;
+
+                    //Block地震時單位體積重量
+                    RNode = BlockNode.SelectSingleNode("地震時單位體積重量");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "Block讀取地震時單位體積重量失敗!";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    {
+                        return "Block讀取地震時單位體積重量失敗!";
+                    }
+                    BlockMainArrayR[blockSizer].地震時單位體積重量 = ftest;
 
                     //計算Moment與否.
                     RNode = BlockNode.SelectSingleNode("計算Moment");
@@ -2253,6 +2268,8 @@ namespace VE_SD
 
                 XmlElement Block單位體積重量 = doc.CreateElement("單位體積重量");
                 Block單位體積重量.SetAttribute("Value", BlockMainArray[i].單位體積重量.ToString());
+                XmlElement Block地震時單位體積重量 = doc.CreateElement("地震時單位體積重量");
+                Block地震時單位體積重量.SetAttribute("Value", BlockMainArray[i].地震時單位體積重量.ToString());
                 XmlElement Block使用材質 = doc.CreateElement("使用材質");
                 Block使用材質.SetAttribute("Value", BlockMainArray[i].使用材質.ToString());
                 XmlElement Block是否計算Moment = doc.CreateElement("計算Moment");
@@ -2270,6 +2287,7 @@ namespace VE_SD
                 //BlockNode.AppendChild(Block砂土水中單位體積重量);
                 //BlockNode.AppendChild(Block海水單位體積重量);
                 BlockNode.AppendChild(Block單位體積重量);
+                BlockNode.AppendChild(Block地震時單位體積重量);
                 BlockNode.AppendChild(Block使用材質);
                 BlockNode.AppendChild(Block是否計算Moment);
 
@@ -3503,9 +3521,9 @@ namespace VE_SD
         }
         private void propertyGrid_Block_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            /*
+            
             updateCurrentBlockPropertyGrid();
-            */
+            
         }
         private void updateCurrentBlockPropertyGrid()
         {
@@ -3530,7 +3548,7 @@ namespace VE_SD
             BlockMainArray[id].單位體積重量 = D.單位體積重量;
             BlockMainArray[id].計算Moment與否 = D.計算Moment與否;
             BlockMainArray[id].使用材質 = D.使用材質;
-
+            BlockMainArray[id].地震時單位體積重量 = D.地震時單位體積重量;
             listBox_SectSetting.Items[listBox_SectSetting.SelectedIndex] = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex] + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[listBox_SectSetting.SelectedIndex]);//; "(" + D.單位體積重量 + ")";
 
         }

@@ -27,6 +27,7 @@ namespace VE_SD
         //private double _砂土水中單位體積重量 = 1.0;
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 2.3;
+        private double _地震時單位體積重量 = 2.3;
         private string _使用材質="";//這個Block的使用材質.
         private bool _計算Moment與否 = true;// = "開啟";
         private string[] _參考材質 = new string[] { };//這個Block使用的周圍參考材質.
@@ -131,6 +132,11 @@ namespace VE_SD
         {
             get { return _單位體積重量; }
             set { _單位體積重量 = value; }
+        }
+        public double 地震時單位體積重量
+        {
+            get { return _地震時單位體積重量; }
+            set { _地震時單位體積重量 = value; }
         }
         public string 使用材質
         {
