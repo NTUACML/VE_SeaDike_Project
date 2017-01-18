@@ -22,6 +22,7 @@ namespace VE_SD
         //private double _砂土水中單位體積重量 = 1.0;
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 2.3;
+        private double _地震時單位體積重量 = 2.3;
         private string _使用材質;
         private bool _計算Moment與否 = true;//="開啟";
         private string[] _可用材質;
@@ -62,7 +63,7 @@ namespace VE_SD
             //_拋石水中單位體積重量 = M.拋石水中單位體積重量;
             //_砂土水中單位體積重量 = M.砂土水中單位體積重量;
             //_海水單位體積重量 = M.海水單位體積重量;
-
+            _地震時單位體積重量 = M.地震時單位體積重量;
             _單位體積重量 = M.單位體積重量;
             _使用材質 = M.使用材質;
             _計算Moment與否 = M.計算Moment與否;
@@ -138,6 +139,11 @@ namespace VE_SD
         {
             get { return _單位體積重量;}
             set { _單位體積重量 = value; }
+        }
+        public double 地震時單位體積重量
+        {
+            get { return _地震時單位體積重量; }
+            set { _地震時單位體積重量 = value; }
         }
         public bool 計算Moment與否
         {
