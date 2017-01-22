@@ -149,65 +149,82 @@ bool Module2_Internal::WeightCal()
 
 bool Module2_Internal::EarthQuakeForceCal()
 {
-	size_t ID;
-	double temp_sum_Me = 0;
-	double temp_sum_Fe = 0;
+	//size_t ID;
+	//double temp_sum_Me = 0;
+	//double temp_sum_Fe = 0;
 
-	for (size_t i = 0; i < Var->LevelSection.size(); i++)
-	{
-		ID = Var->LevelSection[i].BlockId[0];
-		double old_Ref_y;
-		double Ref_y = Var->BlockData[ID].MinLevel;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	//{
+	//	ID = Var->LevelSection[i].BlockId[0];
+	//	double old_Ref_y;
+	//	double Ref_y = Var->BlockData[ID].MinLevel;
 
-		for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
-		{
-			ID = Var->LevelSection[i].BlockId[j];
-			if (Var->BlockData[ID].MinLevel<Ref_y) Ref_y = Var->BlockData[ID].MinLevel;
-		}
+	//	for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
+	//	{
+	//		ID = Var->LevelSection[i].BlockId[j];
+	//		if (Var->BlockData[ID].MinLevel<Ref_y) Ref_y = Var->BlockData[ID].MinLevel;
+	//	}
 
-		//- 更新下一個elevation的力臂與抵抗彎矩(但仍需考慮新設一變數已儲存兩個不同elevation之總和)
-		if (i >= 1) {
-			Var->LevelSection[i].pre_sum_WE = Var->LevelSection[i - 1].Level_sum_WE;
-			double Arm_len = abs(old_Ref_y - Ref_y);
-			Var->LevelSection[i].pre_total_armE = Var->LevelSection[i - 1].Level_total_armE + Arm_len;
-			Var->LevelSection[i].pre_sum_MxE = Var->LevelSection[i].pre_sum_WE*Var->LevelSection[i].pre_total_armE;
-			temp_sum_Me = Var->LevelSection[i].pre_sum_MxE;
-			temp_sum_Fe = Var->LevelSection[i].pre_sum_WE;
-		}
+	//	//- 更新下一個elevation的力臂與抵抗彎矩(但仍需考慮新設一變數已儲存兩個不同elevation之總和)
+	//	if (i >= 1) {
+	//		Var->LevelSection[i].pre_sum_WE = Var->LevelSection[i - 1].Level_sum_WE;
+	//		double Arm_len = abs(old_Ref_y - Ref_y);
+	//		Var->LevelSection[i].pre_total_armE = Var->LevelSection[i - 1].Level_total_armE + Arm_len;
+	//		Var->LevelSection[i].pre_sum_MxE = Var->LevelSection[i].pre_sum_WE*Var->LevelSection[i].pre_total_armE;
+	//		temp_sum_Me = Var->LevelSection[i].pre_sum_MxE;
+	//		temp_sum_Fe = Var->LevelSection[i].pre_sum_WE;
+	//	}
 
-		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
-		{
-			ID = Var->LevelSection[i].BlockId[j];
+	//	for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+	//	{
+	//		ID = Var->LevelSection[i].BlockId[j];
 
-			//-暫時將所有單位體重都換成未浸水
-			if (Var->BlockData[ID].Density == 2.3 || Var->BlockData[ID].Density == 1.27)
-			{
-				Var->BlockData[ID].Density = 2.3;
-			}
-			else if (Var->BlockData[ID].Density == 1.8 || Var->BlockData[ID].Density == 1.0) {
-				Var->BlockData[ID].Density = 1.8;
-			}
-			Var->BlockData[ID].SelfWeight = Var->BlockData[ID].Area * Var->BlockData[ID].Density* Var->K;
-			Var->BlockData[ID].X = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
-			Var->BlockData[ID].Mw = Var->BlockData[ID].SelfWeight * Var->BlockData[ID].X;
+	//		//-暫時將所有單位體重都換成未浸水
+	//		if (Var->BlockData[ID].Density == 2.3 || Var->BlockData[ID].Density == 1.27)
+	//		{
+	//			Var->BlockData[ID].Density = 2.3;
+	//		}
+	//		else if (Var->BlockData[ID].Density == 1.8 || Var->BlockData[ID].Density == 1.0) {
+	//			Var->BlockData[ID].Density = 1.8;
+	//		}
+	//		Var->BlockData[ID].SelfWeight = Var->BlockData[ID].Area * Var->BlockData[ID].Density* Var->K;
+	//		Var->BlockData[ID].X = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
+	//		Var->BlockData[ID].Mw = Var->BlockData[ID].SelfWeight * Var->BlockData[ID].X;
 
-			//- Temperary summation ofevery level
-			temp_sum_Fe += Var->BlockData[ID].SelfWeight;
-			temp_sum_Me += Var->BlockData[ID].Mw;
-		}
+	//		//- Temperary summation ofevery level
+	//		temp_sum_Fe += Var->BlockData[ID].SelfWeight;
+	//		temp_sum_Me += Var->BlockData[ID].Mw;
+	//	}
 
-		Var->LevelSection[i].Level_sum_WE = temp_sum_Fe;
-		Var->LevelSection[i].Level_sum_MxE = temp_sum_Me;
+	//	Var->LevelSection[i].Level_sum_WE = temp_sum_Fe;
+	//	Var->LevelSection[i].Level_sum_MxE = temp_sum_Me;
 
-		Var->LevelSection[i].Level_total_armE = Var->LevelSection[i].Level_sum_MxE / Var->LevelSection[i].Level_sum_WE;
+	//	Var->LevelSection[i].Level_total_armE = Var->LevelSection[i].Level_sum_MxE / Var->LevelSection[i].Level_sum_WE;
 
-		old_Ref_y = Ref_y;
-	}
-	
-	//- Sum Total Weight and Moment
-	Var->Fe = temp_sum_Me;
-	Var->Me = temp_sum_Fe;
+	//	old_Ref_y = Ref_y;
+	//}
+	//
+	////- Sum Total Weight and Moment
+	//Var->Fe = temp_sum_Me;
+	//Var->Me = temp_sum_Fe;
 
 	Var->Err_Msg += "塊體地震力計算處理完畢! \r\n";
 	return true;
 }
+
+
+//double F_Sum = 0.0;
+//for (size_t i = 1; i < Var->LevelSection.size(); i++)
+//{
+//	Dis_Face = Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level;
+//	Var->LevelSection[i].FP = (Var->LevelSection[i].P + Var->LevelSection[i - 1].P)  * Dis_Face / 2.0;
+//
+//	// Tragngle Used
+//	F_Sum = Var->LevelSection[i - 1].P * Dis_Face * (Dis_Face / 2.0) + (Var->LevelSection[i].P - Var->LevelSection[i - 1].P) * (Dis_Face / 2.0) * (2.0 * Dis_Face / 3.0);
+//
+//	Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + F_Sum / Var->LevelSection[i].FP;
+//
+//	Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
+//}
+//Var->LevelSection.end()->FP = 0.0;
+//Var->LevelSection.end()->Mp = 0.0;

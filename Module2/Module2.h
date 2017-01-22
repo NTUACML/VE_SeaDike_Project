@@ -38,7 +38,7 @@ namespace VE_SD {
 		void SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, double _BaseSF_E);
 
 		//- Block Set
-		int NewBlock(double _Density, double _FrictionC, bool _CalMoment);
+		int NewBlock(double _Density, double EQ_Density, double _FrictionC, bool _CalMoment);
 		bool DeleteBlock(int NumOfBlock);
 		bool SetBlockCoord(int NumOfBlock, double x, double y);
 		int GetNumOfBlock();

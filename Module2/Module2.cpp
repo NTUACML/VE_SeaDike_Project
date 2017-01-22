@@ -80,8 +80,8 @@ void VE_SD::Module2::SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, doubl
 	Var->BaseSF_E = _BaseSF_E;
 }
 
-int VE_SD::Module2::NewBlock(double _Density, double _FrictionC, bool _CalMoment) {
-	Var->BlockData.emplace_back(_Density, _FrictionC, _CalMoment);
+int VE_SD::Module2::NewBlock(double _Density, double _EQ_Density, double _FrictionC, bool _CalMoment) {
+	Var->BlockData.emplace_back(_Density, _EQ_Density, _FrictionC, _CalMoment);
 	return int(Var->BlockData.size());
 }
 
@@ -139,9 +139,9 @@ bool VE_SD::Module2::DeleteAllLevel()
 
 bool VE_SD::Module2::Run()
 {
-	Internal->GeoPreCal();
+	//Internal->GeoPreCal();
 	//Internal->WeightCal();
-	Internal->EarthQuakeForceCal();
+	//Internal->EarthQuakeForceCal();
 
 	return true;
 }
