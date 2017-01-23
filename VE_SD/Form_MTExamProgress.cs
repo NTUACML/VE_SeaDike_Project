@@ -25,6 +25,8 @@ namespace VE_SD
         private static extern Int32 GetShortPathName(String path, StringBuilder shortPath, Int32 shortPathLength);
         //
 
+        double OldWidth;
+        double OldHeight;
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //基本參數區域
@@ -413,6 +415,10 @@ namespace VE_SD
         static StreamReader _打開過去舊檔案R = null;
         private void 開啟過去舊檔案()
         {
+            OldHeight = this.Height;
+            OldWidth = this.Width;
+
+
             舊檔案1ToolStripMenuItem.Visible = false;
             舊檔案2ToolStripMenuItem.Visible = false;
             舊檔案3ToolStripMenuItem.Visible = false;
@@ -489,8 +495,19 @@ namespace VE_SD
                 }
             }
         }
+        private void Adjust(Control ParentCtrl)
+        {
+            foreach(Control c in ParentCtrl.Controls)
+            {
+                c.Anchor = (AnchorStyles.Top | AnchorStyles.Left); //(AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Top );
+                Adjust(c);
+            }
+        }
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
+            Adjust(this);
+
+ 
             //決定過去開啟的舊檔案.
             Array.Resize(ref OBB, 5);
             OBB[0] = 舊檔案1ToolStripMenuItem;
@@ -3833,6 +3850,50 @@ namespace VE_SD
 
         #endregion
 
+        #endregion
+
+        private void cmb_seawaveDir_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_seawaveDir.SelectedIndex != -1)
+            {
+                繪上EL();
+            }
+        }
+
+        #region 縮放表單
+        private void Form_MTExamProgress_Resize(object sender, EventArgs e)
+        {
+            //double x = (this.Width / OldWidth);
+            //double y = (this.Height / OldHeight);
+            ////MessageBox.Show("HH: " + x.ToString() + ", " + y.ToString());
+            //foreach(Control ctl in this.Controls)
+            //{
+                
+            //    if (ctl.Name!= "tabControl1")
+            //    {
+            //        continue;
+            //    }
+            //    //Tab Page only
+            //    foreach(Control ctl2 in ctl.Controls)
+            //    {
+            //        //MessageBox.Show(ctl2.Name);
+            //        foreach (Control ctl3 in ctl2.Controls)
+            //        {
+            //            MessageBox.Show(ctl3.Name);
+            //            ctl3.Width = Convert.ToInt32(x * ctl3.Width);
+            //            ctl3.Height = Convert.ToInt32(y * ctl3.Height);
+            //        }
+            //        ctl2.Width = Convert.ToInt32(x * ctl2.Width);
+            //        ctl2.Height = Convert.ToInt32(y * ctl2.Height);
+            //    }
+            //    ctl.Width = Convert.ToInt32(x * ctl.Width);
+            //    ctl.Height = Convert.ToInt32(y * ctl.Height);
+
+
+            //}
+            //OldWidth = this.Width;
+            //OldHeight = this.Height;
+        }
         #endregion
     }
 }
