@@ -80,8 +80,8 @@ void VE_SD::Module2::SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, doubl
 	Var->BaseSF_E = _BaseSF_E;
 }
 
-int VE_SD::Module2::NewBlock(double _Density, double _FrictionC, bool _CalMoment) {
-	Var->BlockData.emplace_back(_Density, _FrictionC, _CalMoment);
+int VE_SD::Module2::NewBlock(double _Density, double _EQ_Density, double _FrictionC, bool _CalMoment) {
+	Var->BlockData.emplace_back(_Density, _EQ_Density, _FrictionC, _CalMoment);
 	return int(Var->BlockData.size());
 }
 
@@ -139,8 +139,9 @@ bool VE_SD::Module2::DeleteAllLevel()
 
 bool VE_SD::Module2::Run()
 {
-	Internal->GeoPreCal();
+	//Internal->GeoPreCal();
 	//Internal->WeightCal();
+	//Internal->EarthQuakeForceCal();
 
 	return true;
 }
@@ -157,7 +158,6 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "HWL: " << Var->HWL << std::endl;
 	FILE << "LWL: " << Var->LWL << std::endl;
 
-
 	FILE << std::endl;
 	FILE << "******遏把计******" << std::endl;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
@@ -171,11 +171,59 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		for (auto & NodeElement : Var->BlockData[i].Node) {
 			FILE << "X: " << NodeElement.x << "\t" << "Y: " << NodeElement.y << std::endl;
 		}
-		/*FILE << std::endl;
-		FILE << "----よ遏籔痻----" << std::endl;
-		FILE << "よ遏:" << Var->BlockData[i].MinX << std::endl;
-		FILE << "痻:" << Var->BlockData[i].Mw << std::endl;*/
 		FILE << std::endl;
+		FILE << "----よ遏籔痻----" << std::endl;
+		FILE << "SelfWeight:" << Var->BlockData[i].SelfWeight << std::endl;
+		FILE << "X:" << Var->BlockData[i].X << std::endl;
+		FILE << "Mw:" << Var->BlockData[i].Mw << std::endl;
+		FILE << std::endl;
+	}
+
+	FILE << std::endl;
+	FILE << "******Level把计******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL(" << Var->LevelSection[i].Level << ")" << i + 1 << " :";
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
+		{
+			FILE << Var->LevelSection[i].BlockId[j]+1 << " ";
+		}
+		FILE << std::endl;
+	}
+	//FILE << "******Level把计-羆璸******" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	//{
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "纠砰-璸: " << Var->LevelSection[i].Level_sum_W << std::endl;
+	//	FILE << "羥-璸: " << Var->LevelSection[i].Level_total_arm << std::endl;
+	//	FILE << "╄к舠痻-璸: " << Var->LevelSection[i].Level_sum_Mx << std::endl;
+	//}
+
+	//FILE << "******Level把计-玡羆璸******" << std::endl;
+	//for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	//{
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "纠砰-璸: " << Var->LevelSection[i].pre_sum_W << std::endl;
+	//	FILE << "羥-璸: " << Var->LevelSection[i].pre_total_arm << std::endl;
+	//	FILE << "╄к舠痻-璸: " << Var->LevelSection[i].pre_sum_Mx << std::endl;
+	//}
+
+	FILE << "******Earthquake Level把计-羆璸******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "纠砰-璸: " << Var->LevelSection[i].Level_sum_WE << std::endl;
+		FILE << "羥-璸: " << Var->LevelSection[i].Level_total_armE << std::endl;
+		FILE << "╄к舠痻-璸: " << Var->LevelSection[i].Level_sum_MxE << std::endl;
+	}
+
+	FILE << "******Earthquake Level把计-玡羆璸******" << std::endl;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "纠砰-璸: " << Var->LevelSection[i].pre_sum_WE << std::endl;
+		FILE << "羥-璸: " << Var->LevelSection[i].pre_total_armE << std::endl;
+		FILE << "╄к舠痻-璸: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
 	}
 
 	//FILE << "LWL: " << Var->LWL << std::endl;

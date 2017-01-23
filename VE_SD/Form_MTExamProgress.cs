@@ -199,10 +199,53 @@ namespace VE_SD
             //***********************************************************************************************************************//
             //帶入計算
             Mod = new Module2();
-            Mod.DeleteAllBlockData();
+            //Mod.DeleteAllBlockData();
 
-            MessageBox.Show("可以開始新增計算Code囉");
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //// 1-1. Block給定.
+            //for (int i = 0; i < BlockMainArray.GetLength(0); i++)
+            //{
+            //    //- 迴圈塞入Block.
+            //    // 2016/03/29. 新增是否計算Moment選項.
+            //    int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量,BlockMainArray[i].地震時單位體積重量, BlockMainArray[i].平均摩擦係數, BlockMainArray[i].計算Moment與否);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //    double[] getx = BlockMainArray[i].X;
+            //    double[] gety = BlockMainArray[i].Y;
+            //    int 座標點數 = BlockMainArray[i].座標點數;
+            //    for (int i2 = 0; i2 < 座標點數; i2++)
+            //    {
+            //        Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
+            //    }
+            //}
+
+            // 1-2. Level給定
+            //Mod.NewLevel(1.2);
+            //Mod.NewLevel(-0.5);
+            //Mod.NewLevel(-2.00);
+            //Mod.NewLevel(-3.25);
+            //Mod.NewLevel(-4.5);
+
+
+            //// 2. 背景參數帶入
+            ////- 水位設計輸入
+            //Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text));
+            ////- 力量輸入
+            //Mod.ForceDesignInput(double.Parse(textBox_平時上載荷重.Text), double.Parse(textBox_地震時上載荷重.Text), double.Parse(textBox_船舶牽引力.Text));
+            ////- 設計震度參數輸入
+            //Mod.EarthquakeDesignInput(double.Parse(textBox_陸上設計震度.Text), double.Parse(textBox_水中設計震度.Text));
+            ////- 背填料參數輸入
+            //Mod.MaterialDesignInput(double.Parse(textBox_背填料內摩擦角.Text), double.Parse(textBox_背填料壁面摩擦角.Text), double.Parse(textBox_背填料水平傾斜角.Text));
+            ////- 基礎參數輸入
+            //Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text));
+            ////- Meyerhof's Factor
+            //Mod.MF_DesignInput(double.Parse(textBox_Nq.Text), double.Parse(textBox_Nr.Text), double.Parse(textBox_Nc.Text));
+            ////- Safety Factor
+            //Mod.SF_CoefInput(double.Parse(textBox_平時滑動安全係數.Text), double.Parse(textBox_平時傾倒安全係數.Text), double.Parse(textBox_平時地盤承載力安全係數.Text));
+            ////- Safety Factor
+            //Mod.SF_CoefInput(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
+
+            //// Go Go Go~
+            //Mod.Run();
+
+            MessageBox.Show("Finished Run!");
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
