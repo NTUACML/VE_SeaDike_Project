@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟一個新的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,6 +112,10 @@
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_Log = new System.Windows.Forms.SaveFileDialog();
+            this.儲存此專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -138,7 +142,10 @@
             // 
             this.檔案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.開啟一個新的專案檔ToolStripMenuItem,
-            this.開啟舊的專案檔ToolStripMenuItem});
+            this.開啟舊的專案檔ToolStripMenuItem,
+            this.儲存此專案檔ToolStripMenuItem,
+            this.另存專案檔ToolStripMenuItem,
+            this.退出此檢核ToolStripMenuItem});
             this.檔案ToolStripMenuItem.Name = "檔案ToolStripMenuItem";
             this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.檔案ToolStripMenuItem.Text = "檔案";
@@ -761,8 +768,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -772,8 +779,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -783,9 +790,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle8;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -830,16 +837,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend3);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart_Plot.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart_Plot.Series.Add(series3);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -961,6 +968,31 @@
             this.SFD_Log.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_Log.FilterIndex = 0;
             // 
+            // 儲存此專案檔ToolStripMenuItem
+            // 
+            this.儲存此專案檔ToolStripMenuItem.Name = "儲存此專案檔ToolStripMenuItem";
+            this.儲存此專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.儲存此專案檔ToolStripMenuItem.Text = "儲存此專案檔";
+            this.儲存此專案檔ToolStripMenuItem.Click += new System.EventHandler(this.儲存此專案檔ToolStripMenuItem_Click);
+            // 
+            // 另存專案檔ToolStripMenuItem
+            // 
+            this.另存專案檔ToolStripMenuItem.Name = "另存專案檔ToolStripMenuItem";
+            this.另存專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.另存專案檔ToolStripMenuItem.Text = "另存專案檔";
+            this.另存專案檔ToolStripMenuItem.Click += new System.EventHandler(this.另存專案檔ToolStripMenuItem_Click);
+            // 
+            // 退出此檢核ToolStripMenuItem
+            // 
+            this.退出此檢核ToolStripMenuItem.Name = "退出此檢核ToolStripMenuItem";
+            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.退出此檢核ToolStripMenuItem.Text = "退出此檢核";
+            // 
+            // SFD_專案
+            // 
+            this.SFD_專案.Filter = "檢核檔案(.vesdp)|*.vesdp";
+            this.SFD_專案.FilterIndex = 0;
+            // 
             // Form_MTExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1072,5 +1104,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn EL;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ComboBox cmb_seawaveDir;
+        private System.Windows.Forms.ToolStripMenuItem 儲存此專案檔ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 另存專案檔ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出此檢核ToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog SFD_專案;
     }
 }
