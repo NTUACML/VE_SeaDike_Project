@@ -14,13 +14,13 @@ class Block
 public:
 	//Constructor
 	Block():Density(1.0),FrictionC(1.0), CalMoment(true){};
-	Block(double _Den, double _Fri, bool _CalM) :Density(_Den), FrictionC(_Fri), CalMoment(_CalM) {};
+	Block(double _Den, double EQ_Den, double _Fri, bool _CalM) :Density(_Den), EQ_Density(EQ_Den), FrictionC(_Fri), CalMoment(_CalM) {};
 	//Distructor
 	~Block(){};
 	//Public data
 	std::vector<Point> Node; // Data coorodinate
 	Point WeightC;
-	double Density; //Block density
+	double Density,EQ_Density; //Block density
 	double FrictionC; //Friction Coefficient
 	double Area; //Block Area
 	bool OnSeaSide; //On Sea Side?

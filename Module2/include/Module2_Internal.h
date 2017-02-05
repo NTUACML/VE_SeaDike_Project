@@ -18,6 +18,7 @@ public:
 	//Cal Function
 	bool GeoPreCal();
 	bool WeightCal();
+	bool EarthQuakeForceCal();
 
 private:
 	Module2_Var *Var;
