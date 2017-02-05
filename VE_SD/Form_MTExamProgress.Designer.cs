@@ -28,18 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.舊檔案5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟一個新的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟舊的專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.儲存此專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.步驟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開始檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.測試ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cmb_seawaveDir = new System.Windows.Forms.ComboBox();
@@ -110,11 +120,10 @@
             this.btn_Test = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.TSP_DATETIME = new System.Windows.Forms.ToolStripStatusLabel();
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_Log = new System.Windows.Forms.SaveFileDialog();
-            this.儲存此專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.另存專案檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -129,9 +138,11 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.檔案ToolStripMenuItem,
-            this.步驟ToolStripMenuItem});
+            this.步驟ToolStripMenuItem,
+            this.測試ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1247, 24);
@@ -141,6 +152,7 @@
             // 檔案ToolStripMenuItem
             // 
             this.檔案ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.開啟最近使用的舊檔ToolStripMenuItem,
             this.開啟一個新的專案檔ToolStripMenuItem,
             this.開啟舊的專案檔ToolStripMenuItem,
             this.儲存此專案檔ToolStripMenuItem,
@@ -150,10 +162,58 @@
             this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.檔案ToolStripMenuItem.Text = "檔案";
             // 
+            // 開啟最近使用的舊檔ToolStripMenuItem
+            // 
+            this.開啟最近使用的舊檔ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.舊檔案1ToolStripMenuItem,
+            this.舊檔案2ToolStripMenuItem,
+            this.舊檔案3ToolStripMenuItem,
+            this.舊檔案4ToolStripMenuItem,
+            this.舊檔案5ToolStripMenuItem});
+            this.開啟最近使用的舊檔ToolStripMenuItem.Name = "開啟最近使用的舊檔ToolStripMenuItem";
+            this.開啟最近使用的舊檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.開啟最近使用的舊檔ToolStripMenuItem.Text = "開啟最近使用的舊檔";
+            // 
+            // 舊檔案1ToolStripMenuItem
+            // 
+            this.舊檔案1ToolStripMenuItem.Name = "舊檔案1ToolStripMenuItem";
+            this.舊檔案1ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.舊檔案1ToolStripMenuItem.Text = "舊檔案1";
+            this.舊檔案1ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案1ToolStripMenuItem_Click);
+            // 
+            // 舊檔案2ToolStripMenuItem
+            // 
+            this.舊檔案2ToolStripMenuItem.Name = "舊檔案2ToolStripMenuItem";
+            this.舊檔案2ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.舊檔案2ToolStripMenuItem.Text = "舊檔案2";
+            this.舊檔案2ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案2ToolStripMenuItem_Click);
+            // 
+            // 舊檔案3ToolStripMenuItem
+            // 
+            this.舊檔案3ToolStripMenuItem.Name = "舊檔案3ToolStripMenuItem";
+            this.舊檔案3ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.舊檔案3ToolStripMenuItem.Text = "舊檔案3";
+            this.舊檔案3ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案3ToolStripMenuItem_Click);
+            // 
+            // 舊檔案4ToolStripMenuItem
+            // 
+            this.舊檔案4ToolStripMenuItem.Name = "舊檔案4ToolStripMenuItem";
+            this.舊檔案4ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.舊檔案4ToolStripMenuItem.Text = "舊檔案4";
+            this.舊檔案4ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案4ToolStripMenuItem_Click);
+            // 
+            // 舊檔案5ToolStripMenuItem
+            // 
+            this.舊檔案5ToolStripMenuItem.Name = "舊檔案5ToolStripMenuItem";
+            this.舊檔案5ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.舊檔案5ToolStripMenuItem.Text = "舊檔案5";
+            this.舊檔案5ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案5ToolStripMenuItem_Click);
+            // 
             // 開啟一個新的專案檔ToolStripMenuItem
             // 
             this.開啟一個新的專案檔ToolStripMenuItem.Name = "開啟一個新的專案檔ToolStripMenuItem";
-            this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.開啟一個新的專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.開啟一個新的專案檔ToolStripMenuItem.Text = "開啟一個新的專案檔";
             this.開啟一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟一個新的專案檔ToolStripMenuItem_Click);
             // 
@@ -161,9 +221,34 @@
             // 
             this.開啟舊的專案檔ToolStripMenuItem.Name = "開啟舊的專案檔ToolStripMenuItem";
             this.開啟舊的專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.開啟舊的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.開啟舊的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.開啟舊的專案檔ToolStripMenuItem.Text = "開啟舊的專案檔";
             this.開啟舊的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟舊的專案檔ToolStripMenuItem_Click);
+            // 
+            // 儲存此專案檔ToolStripMenuItem
+            // 
+            this.儲存此專案檔ToolStripMenuItem.Name = "儲存此專案檔ToolStripMenuItem";
+            this.儲存此專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.儲存此專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.儲存此專案檔ToolStripMenuItem.Text = "儲存此專案檔";
+            this.儲存此專案檔ToolStripMenuItem.Click += new System.EventHandler(this.儲存此專案檔ToolStripMenuItem_Click);
+            // 
+            // 另存專案檔ToolStripMenuItem
+            // 
+            this.另存專案檔ToolStripMenuItem.Name = "另存專案檔ToolStripMenuItem";
+            this.另存專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.另存專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.另存專案檔ToolStripMenuItem.Text = "另存專案檔";
+            this.另存專案檔ToolStripMenuItem.Click += new System.EventHandler(this.另存專案檔ToolStripMenuItem_Click);
+            // 
+            // 退出此檢核ToolStripMenuItem
+            // 
+            this.退出此檢核ToolStripMenuItem.Name = "退出此檢核ToolStripMenuItem";
+            this.退出此檢核ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.退出此檢核ToolStripMenuItem.Text = "退出此檢核";
+            this.退出此檢核ToolStripMenuItem.Click += new System.EventHandler(this.退出此檢核ToolStripMenuItem_Click);
             // 
             // 步驟ToolStripMenuItem
             // 
@@ -180,16 +265,24 @@
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
             // 
+            // 測試ToolStripMenuItem
+            // 
+            this.測試ToolStripMenuItem.Enabled = false;
+            this.測試ToolStripMenuItem.Name = "測試ToolStripMenuItem";
+            this.測試ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.測試ToolStripMenuItem.Text = "測試";
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("標楷體", 11.25F);
-            this.tabControl1.Location = new System.Drawing.Point(0, 27);
+            this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1247, 643);
+            this.tabControl1.Size = new System.Drawing.Size(1247, 671);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -248,7 +341,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1239, 614);
+            this.tabPage1.Size = new System.Drawing.Size(1239, 642);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "設計條件參數";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -266,6 +359,7 @@
             this.cmb_seawaveDir.Name = "cmb_seawaveDir";
             this.cmb_seawaveDir.Size = new System.Drawing.Size(101, 27);
             this.cmb_seawaveDir.TabIndex = 50;
+            this.cmb_seawaveDir.SelectedIndexChanged += new System.EventHandler(this.cmb_seawaveDir_SelectedIndexChanged);
             // 
             // label25
             // 
@@ -480,6 +574,9 @@
             // 
             // textBox_殘留水位
             // 
+            this.textBox_殘留水位.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_殘留水位.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_殘留水位.Location = new System.Drawing.Point(220, 89);
             this.textBox_殘留水位.Name = "textBox_殘留水位";
@@ -489,6 +586,9 @@
             // 
             // textBox_設計潮位低
             // 
+            this.textBox_設計潮位低.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_設計潮位低.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_設計潮位低.Location = new System.Drawing.Point(220, 56);
             this.textBox_設計潮位低.Name = "textBox_設計潮位低";
@@ -498,6 +598,9 @@
             // 
             // textBox_設計潮位高
             // 
+            this.textBox_設計潮位高.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_設計潮位高.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_設計潮位高.Location = new System.Drawing.Point(220, 26);
             this.textBox_設計潮位高.Name = "textBox_設計潮位高";
@@ -627,6 +730,9 @@
             // 
             // label12
             // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("標楷體", 12F);
             this.label12.Location = new System.Drawing.Point(24, 343);
@@ -637,6 +743,9 @@
             // 
             // label11
             // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("標楷體", 12F);
             this.label11.Location = new System.Drawing.Point(24, 317);
@@ -647,6 +756,9 @@
             // 
             // label10
             // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("標楷體", 12F);
             this.label10.Location = new System.Drawing.Point(24, 291);
@@ -657,6 +769,9 @@
             // 
             // label9
             // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("標楷體", 12F);
             this.label9.Location = new System.Drawing.Point(24, 264);
@@ -667,6 +782,9 @@
             // 
             // label8
             // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("標楷體", 12F);
             this.label8.Location = new System.Drawing.Point(24, 237);
@@ -677,6 +795,9 @@
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("標楷體", 12F);
             this.label7.Location = new System.Drawing.Point(24, 211);
@@ -687,6 +808,9 @@
             // 
             // label6
             // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("標楷體", 12F);
             this.label6.Location = new System.Drawing.Point(24, 184);
@@ -697,6 +821,9 @@
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("標楷體", 12F);
             this.label5.Location = new System.Drawing.Point(24, 153);
@@ -707,6 +834,9 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("標楷體", 12F);
             this.label4.Location = new System.Drawing.Point(24, 126);
@@ -717,6 +847,9 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("標楷體", 12F);
             this.label3.Location = new System.Drawing.Point(24, 94);
@@ -727,6 +860,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("標楷體", 12F);
             this.label2.Location = new System.Drawing.Point(24, 61);
@@ -737,6 +873,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("標楷體", 12F);
             this.label1.Location = new System.Drawing.Point(24, 31);
@@ -759,7 +898,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1239, 614);
+            this.tabPage2.Size = new System.Drawing.Size(1239, 642);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "型塊設定";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -768,8 +907,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle28;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -779,8 +918,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -790,9 +929,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle29;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -837,16 +976,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea3.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend3);
+            chartArea10.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea10);
+            legend10.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend10);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart_Plot.Series.Add(series3);
+            series10.ChartArea = "ChartArea1";
+            series10.Legend = "Legend1";
+            series10.Name = "Series1";
+            this.chart_Plot.Series.Add(series10);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -945,18 +1084,32 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsp_cond});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 673);
+            this.tsp_cond,
+            this.toolStripProgressBar1,
+            this.TSP_DATETIME});
+            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 669);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1247, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1247, 26);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tsp_cond
             // 
             this.tsp_cond.Name = "tsp_cond";
-            this.tsp_cond.Size = new System.Drawing.Size(128, 17);
+            this.tsp_cond.Size = new System.Drawing.Size(128, 21);
             this.tsp_cond.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(350, 20);
+            // 
+            // TSP_DATETIME
+            // 
+            this.TSP_DATETIME.Name = "TSP_DATETIME";
+            this.TSP_DATETIME.Size = new System.Drawing.Size(128, 21);
+            this.TSP_DATETIME.Text = "toolStripStatusLabel1";
             // 
             // OFD_專案
             // 
@@ -967,26 +1120,6 @@
             // 
             this.SFD_Log.Filter = "LOG檔案(*.log)|*.log";
             this.SFD_Log.FilterIndex = 0;
-            // 
-            // 儲存此專案檔ToolStripMenuItem
-            // 
-            this.儲存此專案檔ToolStripMenuItem.Name = "儲存此專案檔ToolStripMenuItem";
-            this.儲存此專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.儲存此專案檔ToolStripMenuItem.Text = "儲存此專案檔";
-            this.儲存此專案檔ToolStripMenuItem.Click += new System.EventHandler(this.儲存此專案檔ToolStripMenuItem_Click);
-            // 
-            // 另存專案檔ToolStripMenuItem
-            // 
-            this.另存專案檔ToolStripMenuItem.Name = "另存專案檔ToolStripMenuItem";
-            this.另存專案檔ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.另存專案檔ToolStripMenuItem.Text = "另存專案檔";
-            this.另存專案檔ToolStripMenuItem.Click += new System.EventHandler(this.另存專案檔ToolStripMenuItem_Click);
-            // 
-            // 退出此檢核ToolStripMenuItem
-            // 
-            this.退出此檢核ToolStripMenuItem.Name = "退出此檢核ToolStripMenuItem";
-            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.退出此檢核ToolStripMenuItem.Text = "退出此檢核";
             // 
             // SFD_專案
             // 
@@ -1001,12 +1134,12 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form_MTExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "碼頭檢核";
             this.Load += new System.EventHandler(this.Form_MTExamProgress_Load);
+            this.Resize += new System.EventHandler(this.Form_MTExamProgress_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -1108,5 +1241,14 @@
         private System.Windows.Forms.ToolStripMenuItem 另存專案檔ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出此檢核ToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog SFD_專案;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel TSP_DATETIME;
+        private System.Windows.Forms.ToolStripMenuItem 測試ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 開啟最近使用的舊檔ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 舊檔案5ToolStripMenuItem;
     }
 }

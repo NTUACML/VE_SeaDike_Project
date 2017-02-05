@@ -12,15 +12,30 @@ using System.Xml;
 using System.Windows.Forms.DataVisualization.Charting;
 using WORD = Microsoft.Office.Interop.Word;
 using System.Diagnostics;
+using System.Collections;
 using System.Net;
+using System.Runtime.InteropServices;//For DLL IMPORT.
 
 namespace VE_SD
 {
     public partial class Form_MTExamProgress : Form
     {
+        //取得短路徑
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern Int32 GetShortPathName(String path, StringBuilder shortPath, Int32 shortPathLength);
+        //
+
+        double OldWidth;
+        double OldHeight;
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //基本參數區域
+        private string _過去使用檔案;
+        private int _過去使用檔案數量 =5;
+        //Stack<string> MyData = new Stack<string>();
+        string[] 使用檔案紀錄序列=new string[] { };
+        object[] OBB = new object[] { };//儲存MenustripItem的成員.
+
         public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
         int BlockCount = 0; //Block Array size.
         //public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
@@ -92,6 +107,8 @@ namespace VE_SD
             mainForm = callingForm as Form1;//傳入物件參考.
             InitializeComponent();
         }
+
+
 
 
 
@@ -182,10 +199,54 @@ namespace VE_SD
             //***********************************************************************************************************************//
             //帶入計算
             Mod = new Module2();
-            Mod.DeleteAllBlockData();
+            MessageBox.Show("這是測試");
+            //Mod.DeleteAllBlockData();
 
-            MessageBox.Show("可以開始新增計算Code囉");
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //// 1-1. Block給定.
+            //for (int i = 0; i < BlockMainArray.GetLength(0); i++)
+            //{
+            //    //- 迴圈塞入Block.
+            //    // 2016/03/29. 新增是否計算Moment選項.
+            //    int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量,BlockMainArray[i].地震時單位體積重量, BlockMainArray[i].平均摩擦係數, BlockMainArray[i].計算Moment與否);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //    double[] getx = BlockMainArray[i].X;
+            //    double[] gety = BlockMainArray[i].Y;
+            //    int 座標點數 = BlockMainArray[i].座標點數;
+            //    for (int i2 = 0; i2 < 座標點數; i2++)
+            //    {
+            //        Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
+            //    }
+            //}
+
+            // 1-2. Level給定
+            //Mod.NewLevel(1.2);
+            //Mod.NewLevel(-0.5);
+            //Mod.NewLevel(-2.00);
+            //Mod.NewLevel(-3.25);
+            //Mod.NewLevel(-4.5);
+
+
+            //// 2. 背景參數帶入
+            ////- 水位設計輸入
+            //Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text));
+            ////- 力量輸入
+            //Mod.ForceDesignInput(double.Parse(textBox_平時上載荷重.Text), double.Parse(textBox_地震時上載荷重.Text), double.Parse(textBox_船舶牽引力.Text));
+            ////- 設計震度參數輸入
+            //Mod.EarthquakeDesignInput(double.Parse(textBox_陸上設計震度.Text), double.Parse(textBox_水中設計震度.Text));
+            ////- 背填料參數輸入
+            //Mod.MaterialDesignInput(double.Parse(textBox_背填料內摩擦角.Text), double.Parse(textBox_背填料壁面摩擦角.Text), double.Parse(textBox_背填料水平傾斜角.Text));
+            ////- 基礎參數輸入
+            //Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text));
+            ////- Meyerhof's Factor
+            //Mod.MF_DesignInput(double.Parse(textBox_Nq.Text), double.Parse(textBox_Nr.Text), double.Parse(textBox_Nc.Text));
+            ////- Safety Factor
+            //Mod.SF_CoefInput(double.Parse(textBox_平時滑動安全係數.Text), double.Parse(textBox_平時傾倒安全係數.Text), double.Parse(textBox_平時地盤承載力安全係數.Text));
+            ////- Safety Factor
+            //Mod.SF_CoefInput(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
+
+            //// Go Go Go~
+            //Mod.Run();
+
+            MessageBox.Show("Finished Run!");
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -393,10 +454,126 @@ namespace VE_SD
         }
         #endregion
 
-            #region 開啟
+        #region 開啟
+        static int _tempic = 0;
+        static StreamReader _打開過去舊檔案R = null;
+        private void 開啟過去舊檔案()
+        {
+            OldHeight = this.Height;
+            OldWidth = this.Width;
+
+
+            舊檔案1ToolStripMenuItem.Visible = false;
+            舊檔案2ToolStripMenuItem.Visible = false;
+            舊檔案3ToolStripMenuItem.Visible = false;
+            舊檔案4ToolStripMenuItem.Visible = false;
+            舊檔案5ToolStripMenuItem.Visible = false;
+
+            舊檔案1ToolStripMenuItem.AutoToolTip = true;
+            舊檔案2ToolStripMenuItem.AutoToolTip = true;
+            舊檔案3ToolStripMenuItem.AutoToolTip = true;
+            舊檔案4ToolStripMenuItem.AutoToolTip = true;
+            舊檔案5ToolStripMenuItem.AutoToolTip = true;
+
+            //若有檔案，則打開之.
+            if (File.Exists(_過去使用檔案))
+            {
+                _tempic = 0;
+                
+                try
+                {
+                    _打開過去舊檔案R = new StreamReader(_過去使用檔案);
+                    while(_打開過去舊檔案R.Peek()>=0)
+                    {
+                        string temps = _打開過去舊檔案R.ReadLine();
+                        Array.Resize(ref 使用檔案紀錄序列, _tempic + 1);
+                        使用檔案紀錄序列[_tempic] = temps;
+                        //MyData.Push(temps);
+                        _tempic += 1;
+                        if(_tempic==5)
+                        {
+                            break;
+                        }
+                    }
+                    _打開過去舊檔案R.Close();
+                    _打開過去舊檔案R = null;
+
+                }
+                catch
+                {
+                    //_打開過去舊檔案R.Close();
+                    _打開過去舊檔案R = null;
+                }
+
+                if(_tempic==0)
+                {
+                    return;
+                }
+
+                
+                //將資料裝載.
+                //for(int i=_tempic;i>=0;i--)
+                //{
+                //   MyData.Push(使用檔案紀錄序列[i]);//檔案內會是最早的在最前面,為配合Stack的Push機制(PUSH到最前面)，因此顛倒.
+                //}
+                
+                //MyData.CopyTo(tempssinner,0);
+
+                for(int i=0;i<_tempic;i++)
+                {
+                    ToolStripMenuItem tsi = (ToolStripMenuItem)OBB[i];
+                    if (i < 使用檔案紀錄序列.GetLength(0))
+                    {
+                        tsi.Tag = 使用檔案紀錄序列[i];
+                        tsi.Text = 取得縮寫(使用檔案紀錄序列[i]);
+                        tsi.ToolTipText = 使用檔案紀錄序列[i];
+                        tsi.Visible = true;
+                    }
+                    else
+                    {
+                        tsi.Tag = null;
+                        tsi.Text =null;
+                        tsi.ToolTipText = null;
+                        tsi.Visible = false;
+                    }
+                }
+            }
+        }
+        private void Adjust(Control ParentCtrl)
+        {
+            foreach(Control c in ParentCtrl.Controls)
+            {
+                c.Anchor = (AnchorStyles.Top | AnchorStyles.Left); //(AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Top );
+                Adjust(c);
+            }
+        }
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
-            tsp_cond.Text = "碼頭檢核模組";
+            Adjust(this);
+
+ 
+            //決定過去開啟的舊檔案.
+            Array.Resize(ref OBB, 5);
+            OBB[0] = 舊檔案1ToolStripMenuItem;
+            OBB[1] = 舊檔案2ToolStripMenuItem;
+            OBB[2] = 舊檔案3ToolStripMenuItem;
+            OBB[3] = 舊檔案4ToolStripMenuItem;
+            OBB[4] = 舊檔案5ToolStripMenuItem;
+
+            Array.Resize(ref 使用檔案紀錄序列, 0);//, _過去使用檔案數量);//初始化.
+
+            _過去使用檔案 = mainForm.SystemReferenceStoreFolder + "\\VESD_P2_oldfile.txt";
+            開啟過去舊檔案();
+
+
+            tsp_cond.Text = "請設定或編輯您的專案檔";
+            TSP_DATETIME.Text = "";
+            TSP_DATETIME.Alignment = ToolStripItemAlignment.Right;
+            TSP_DATETIME.RightToLeft = RightToLeft.No;
+            toolStripProgressBar1.Visible = false;
+            //tsp_cond.Text = "OK";
+
+
             cmb_seawaveDir.SelectedItem = "右";
             isExporting = false;
             this.Text = "專案檔:未命名";
@@ -650,13 +827,145 @@ namespace VE_SD
         static XmlNode RNode;
         static XmlElement Relement;
         static string 打開檔案之訊息 = null;
+        private void 填入一個新的檔案(string 填入新的檔案)
+        {
+            
+            if (使用檔案紀錄序列.GetLength(0)>0 && 使用檔案紀錄序列[0] == 填入新的檔案)
+            {
+                //不做任何事情.
+            }
+            else
+            {
+                string[] tempsinner2 = new string[] { };
+                int ic = 0;
+                Array.Resize(ref tempsinner2, 1);
+                tempsinner2[0] = 填入新的檔案;
+
+                for (int i = 0; i <= 使用檔案紀錄序列.GetUpperBound(0); i++) //.Count;i++)
+                {
+
+                    if (使用檔案紀錄序列[i] == 填入新的檔案)
+                    {
+                        //ic += 1;
+                        continue;
+                    }
+                    Array.Resize(ref tempsinner2, ic + 2);
+                    tempsinner2[ic + 1] = 使用檔案紀錄序列[i];
+                    ic += 1;
+                    if (ic == 4)
+                    {
+                        break;
+                    }
+                }
+
+                使用檔案紀錄序列 = tempsinner2;
+
+                //更新Menustrip Item上顯示的名稱.
+                for(int i=0;i<OBB.GetLength(0);i++)
+                {
+                    ToolStripMenuItem tsi = (ToolStripMenuItem)OBB[i];
+                    if (i < 使用檔案紀錄序列.GetLength(0))
+                    {
+                        tsi.Tag = 使用檔案紀錄序列[i];
+                        tsi.Text = 取得縮寫(使用檔案紀錄序列[i]);
+                        tsi.ToolTipText = 使用檔案紀錄序列[i];
+                        tsi.Visible = true;
+                    }
+                    else
+                    {
+                        tsi.Tag = null;
+                        tsi.Text = null;
+                        tsi.Visible = false;
+                        tsi.ToolTipText = null;
+                    }
+                    
+                }
+                //儲存檔案.
+                StreamWriter swi1 = new StreamWriter(_過去使用檔案);
+                for(int i=0;i<使用檔案紀錄序列.GetLength(0);i++)
+                {
+                    swi1.WriteLine(使用檔案紀錄序列[i]);
+                }
+                swi1.Flush();
+                swi1.Close();
+
+            }
+        }
+        private void 刪除一個不存在的檔案(int 位置)
+        {
+            if(位置>使用檔案紀錄序列.GetUpperBound(0))
+            {
+                return;
+            }
+
+            string[] tempsinner2 = new string[] { };
+            int ic = 0;
+            for(int i=0;i<使用檔案紀錄序列.GetLength(0);i++)
+            {
+                if(i!=位置)
+                {
+                    Array.Resize(ref tempsinner2, ic + 1);
+                    tempsinner2[ic] = 使用檔案紀錄序列[i];
+                    ic += 1;
+                }
+            }
+            使用檔案紀錄序列 = tempsinner2;
+            //更新Menustrip Item上顯示的名稱.
+            for (int i = 0; i < OBB.GetLength(0); i++)
+            {
+                ToolStripMenuItem tsi = (ToolStripMenuItem)OBB[i];
+                if (i < 使用檔案紀錄序列.GetLength(0))
+                {
+                    tsi.Tag = 使用檔案紀錄序列[i];
+                    tsi.Text = 取得縮寫(使用檔案紀錄序列[i]);
+                    tsi.ToolTipText = 使用檔案紀錄序列[i];
+                    tsi.Visible = true;
+                }
+                else
+                {
+                    tsi.Tag = null;
+                    tsi.Text = null;
+                    tsi.Visible = false;
+                    tsi.ToolTipText = null;
+                }
+
+            }
+            //儲存檔案.
+            StreamWriter swi1 = new StreamWriter(_過去使用檔案);
+            for (int i = 0; i < 使用檔案紀錄序列.GetLength(0); i++)
+            {
+                swi1.WriteLine(使用檔案紀錄序列[i]);
+            }
+            swi1.Flush();
+            swi1.Close();
+        }
+        private string 取得縮寫(string 原本路徑)
+        {
+            //http://stackoverflow.com/questions/8403086/long-path-with-ellipsis-in-the-middle
+
+            const int MAX_WIDTH = 50;
+
+            // Specify long file name
+            //string fileName = @"A:\LongPath\CanBe\AnyPathYou\SpecifyHere.txt";
+
+            // Find last '\' character
+            
+            int i = 原本路徑.LastIndexOf('\\');
+
+            string tokenRight = 原本路徑.Substring(i, 原本路徑.Length - i);
+            string tokenCenter = @"\...";
+            string tokenLeft = 原本路徑.Substring(0, MAX_WIDTH - (tokenRight.Length + tokenCenter.Length));
+
+            string shortFileName = tokenLeft + tokenCenter + tokenRight;
+            return shortFileName;
+        }
         private void 開啟一個新的專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isExporting) { return; }
             if (!(BlockMainArray.GetLength(0) == 0))
             {
                 //當有編輯中的專案時(有Block時,才會有警示).
-                if (MessageBox.Show("您確定要開啟新的專案檔?按下確定後目前編輯中的專案檔會遺失所有更動", "開新的專案檔", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                if (MessageBox.Show("您確定要開啟新的專案檔?按下確定後目前編輯中的專案檔會遺失所有更動" + Environment.NewLine + "若否,請先存檔", "開新的專案檔", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 { return; }
 
             }
@@ -679,6 +988,10 @@ namespace VE_SD
                     打開專案檔的名稱 = OFD_專案.FileName;
                     this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
                 }
                 else
                 {
@@ -717,10 +1030,211 @@ namespace VE_SD
                 ff.Show();
                 return;
             }
+            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             儲存XML專案檔(xmlpath);
+            填入一個新的檔案(打開專案檔的名稱);
+        }
+        private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isExporting) { return; }
+            if (BlockMainArray.GetLength(0) == 0)
+            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            string xmlpath;// = workfoldernow + "\\Test.xml";
+            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
+            {
+                xmlpath = SFD_專案.FileName; //路徑.
+            }
+            else
+            { return; }
+
+            string CheckTextBoxNoEmptyString = "";
+            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
+            {
+                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
+                ff.Show();
+                return;
+            }
+
+            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            儲存XML專案檔(xmlpath);
+            填入一個新的檔案(打開專案檔的名稱);
+        }
+        private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            {
+                this.Close();
+            }
         }
 
+        //舊檔案打開按鈕程序.tsp_
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #region 打開舊檔案
+        private void 舊檔案1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案1ToolStripMenuItem.Tag.ToString());
 
+            if(!File.Exists(舊檔案1ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(0);
+            }
+            else
+            {
+                //MessageBox.Show("HH");
+                打開檔案之訊息 = 打開XML專案檔(舊檔案1ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案1ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案2ToolStripMenuItem.Tag.ToString());
+
+            if (!File.Exists(舊檔案2ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(1);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案2ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案2ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案3ToolStripMenuItem.Tag.ToString());
+
+            if (!File.Exists(舊檔案3ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(2);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案3ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案3ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案4ToolStripMenuItem.Tag.ToString());
+
+
+            if (!File.Exists(舊檔案4ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(3);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案4ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案4ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        private void 舊檔案5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("HH" + 舊檔案5ToolStripMenuItem.Tag.ToString());
+
+
+            if (!File.Exists(舊檔案5ToolStripMenuItem.Tag.ToString()))
+            {
+                //若檔案不存在,則無法點開.
+                MessageBox.Show("此檔案已經不存在,無法開啟", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //刪除此項目.
+                刪除一個不存在的檔案(4);
+            }
+            else
+            {
+                打開檔案之訊息 = 打開XML專案檔(舊檔案5ToolStripMenuItem.Tag.ToString());
+                if (打開檔案之訊息 == "")
+                {
+                    打開專案檔的名稱 = 舊檔案5ToolStripMenuItem.Tag.ToString();
+                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
+
+                    //將最新的資訊填入.
+                    填入一個新的檔案(打開專案檔的名稱);
+
+                }
+                else
+                {
+                    MessageBox.Show("開啟失敗!錯誤訊息:" + 打開檔案之訊息, "打開專案檔", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+
+                }
+            }
+        }
+        #endregion
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //子程序.
         private string 打開XML專案檔(string path)
         {
@@ -731,6 +1245,7 @@ namespace VE_SD
             double[] ELArrayR = new double[] { };
             int ELSizer = 0;
             int SelectedTab = -1;
+            string 最後編輯時間R;
             double 設計潮位高R;
             double 設計潮位低R;
             double 殘留水位R;
@@ -745,7 +1260,7 @@ namespace VE_SD
             double 入土深度R;
             double 拋石厚度R;
             string dirr;
-            double 地盤基礎內摩擦角R;
+            double 地盤內基礎內摩擦角R;
             double 土壤凝聚力R;
             double NcR;
             double NqR;
@@ -767,7 +1282,7 @@ namespace VE_SD
 
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(OFD_專案.FileName);
+            doc.Load(path);
             bool 成功與否 = false;
             try
             {
@@ -804,7 +1319,16 @@ namespace VE_SD
                 {
                     return "Block Tooltip資訊讀取失敗";
                 }
-                                //海側方向.
+
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/最後編輯時間");
+                if (object.Equals(RNode,null))
+                {
+                    return "最後編輯時間讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                最後編輯時間R = Relement.GetAttribute("Value");
+
+                //海側方向.
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/海側方向");
                 if (object.Equals(RNode, null))
                 {
@@ -817,8 +1341,297 @@ namespace VE_SD
                     return "海側方向讀取失敗";
                 }
 
-                    //EL讀取.
-                 XmlNodeList ELCollection = doc.SelectNodes("Root/GlobalParameters/EL點數/EL");
+                //設計潮位高.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/設計潮位高");
+                if (object.Equals(RNode, null))
+                {
+                    return "設計潮位高讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"),out 設計潮位高R))
+                {
+                    return "設計潮位高讀取失敗";
+                }
+
+                //設計潮位低.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/設計潮位低");
+                if (object.Equals(RNode, null))
+                {
+                    return "設計潮位低讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 設計潮位低R))
+                {
+                    return "設計潮位低讀取失敗";
+                }
+
+                //殘留水位.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/殘留水位");
+                if (object.Equals(RNode, null))
+                {
+                    return "殘留水位讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 殘留水位R))
+                {
+                    return "殘留水位讀取失敗";
+                }
+
+                //平時上載荷重.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時上載荷重");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時上載荷重讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時上載荷重R))
+                {
+                    return "平時上載荷重讀取失敗";
+                }
+
+                //地震時上載荷重.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時上載荷重");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時上載荷重讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時上載荷重R))
+                {
+                    return "地震時上載荷重讀取失敗";
+                }
+
+                //船舶牽引力.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/船舶牽引力");
+                if (object.Equals(RNode, null))
+                {
+                    return "船舶牽引力讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 船舶牽引力R))
+                {
+                    return "船舶牽引力讀取失敗";
+                }
+
+                //陸上設計震度
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/陸上設計震度");
+                if (object.Equals(RNode, null))
+                {
+                    return "陸上設計震度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 陸上設計震度R))
+                {
+                    return "陸上設計震度讀取失敗";
+                }
+
+                //水中設計震度.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/水中設計震度");
+                if (object.Equals(RNode, null))
+                {
+                    return "水中設計震度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 水中設計震度R))
+                {
+                    return "水中設計震度讀取失敗";
+                }
+
+                //背填料內摩擦角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/背填料內摩擦角");
+                if (object.Equals(RNode, null))
+                {
+                    return "背填料內摩擦角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 背填料內摩擦角R))
+                {
+                    return "背填料內摩擦角讀取失敗";
+                }
+
+                //背填料壁面摩擦角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/背填料壁面摩擦角");
+                if (object.Equals(RNode, null))
+                {
+                    return "背填料壁面摩擦角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 背填料壁面摩擦角R))
+                {
+                    return "背填料壁面摩擦角讀取失敗";
+                }
+
+                //背填料水平傾斜角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/背填料水平傾斜角");
+                if (object.Equals(RNode, null))
+                {
+                    return "背填料水平傾斜角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 背填料水平傾斜角R))
+                {
+                    return "背填料水平傾斜角讀取失敗";
+                }
+
+                //入土深度.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/入土深度");
+                if (object.Equals(RNode, null))
+                {
+                    return "入土深度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 入土深度R))
+                {
+                    return "入土深度讀取失敗";
+                }
+
+                //拋石厚度
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/拋石厚度");
+                if (object.Equals(RNode, null))
+                {
+                    return "拋石厚度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 拋石厚度R))
+                {
+                    return "拋石厚度讀取失敗";
+                }
+
+                //地盤內基礎內摩擦角.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地盤內基礎內摩擦角");
+                if (object.Equals(RNode, null))
+                {
+                    return "地盤內基礎內摩擦角讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地盤內基礎內摩擦角R))
+                {
+                    return "地盤內基礎內摩擦角讀取失敗";
+                }
+
+                //土壤凝聚力.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/土壤凝聚力");
+                if (object.Equals(RNode, null))
+                {
+                    return "土壤凝聚力讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 土壤凝聚力R))
+                {
+                    return "土壤凝聚力讀取失敗";
+                }
+
+                //Nq
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/Nq");
+                if (object.Equals(RNode, null))
+                {
+                    return "Nq讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out NqR))
+                {
+                    return "Nq讀取失敗";
+                }
+
+                //Nc
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/Nc");
+                if (object.Equals(RNode, null))
+                {
+                    return "Nc讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out NcR))
+                {
+                    return "Nc讀取失敗";
+                }
+
+                //Nr
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/Nr");
+                if (object.Equals(RNode, null))
+                {
+                    return "Nr讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out NrR))
+                {
+                    return "Nr讀取失敗";
+                }
+
+                //平時滑動安全係數
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時滑動安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時滑動安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時滑動安全係數R))
+                {
+                    return "平時滑動安全係數讀取失敗";
+                }
+
+                //平時傾倒安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時傾倒安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時傾倒安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時傾倒安全係數R))
+                {
+                    return "平時傾倒安全係數讀取失敗";
+                }
+
+                //平時地盤承載力安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時地盤承載力安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時地盤承載力安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時地盤承載力安全係數R))
+                {
+                    return "平時地盤承載力安全係數讀取失敗";
+                }
+
+                //地震時滑動安全係數
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時滑動安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時滑動安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時滑動安全係數R))
+                {
+                    return "地震時滑動安全係數讀取失敗";
+                }
+
+                //地震時傾倒安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時傾倒安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時傾倒安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時傾倒安全係數R))
+                {
+                    return "地震時傾倒安全係數讀取失敗";
+                }
+
+                //地震時地盤承載力安全係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時地盤承載力安全係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時地盤承載力安全係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時地盤承載力安全係數R))
+                {
+                    return "地震時地盤承載力安全係數讀取失敗";
+                }
+
+
+                //EL讀取.
+                XmlNodeList ELCollection = doc.SelectNodes("Root/GlobalParameters/EL點數/EL");
                 foreach (XmlNode ELNode in ELCollection)
                 {
                     double fi;
@@ -933,6 +1746,19 @@ namespace VE_SD
                         return  "Block讀取單位體積重量失敗!";
                     }
                     BlockMainArrayR[blockSizer].單位體積重量 = ftest;
+
+                    //Block地震時單位體積重量
+                    RNode = BlockNode.SelectSingleNode("地震時單位體積重量");
+                    if (object.Equals(RNode, null))
+                    {
+                        return "Block讀取地震時單位體積重量失敗!";
+                    }
+                    Relement = (XmlElement)RNode;
+                    if (!double.TryParse(Relement.GetAttribute("Value"), out ftest))
+                    {
+                        return "Block讀取地震時單位體積重量失敗!";
+                    }
+                    BlockMainArrayR[blockSizer].地震時單位體積重量 = ftest;
 
                     //計算Moment與否.
                     RNode = BlockNode.SelectSingleNode("計算Moment");
@@ -1053,6 +1879,35 @@ namespace VE_SD
                 //MessageBox.Show("出現錯誤!");
             }
 
+            TSP_DATETIME.Text = 最後編輯時間R;
+
+            textBox_設計潮位高.Text = 設計潮位高R.ToString();
+            textBox_設計潮位低.Text = 設計潮位低R.ToString();
+            textBox_殘留水位.Text = 殘留水位R.ToString();
+            textBox_平時上載荷重.Text = 平時上載荷重R.ToString();
+            textBox_地震時上載荷重.Text = 地震時上載荷重R.ToString();
+            textBox_船舶牽引力.Text = 船舶牽引力R.ToString();
+            textBox_陸上設計震度.Text = 陸上設計震度R.ToString();
+            textBox_水中設計震度.Text = 水中設計震度R.ToString();
+            textBox_背填料內摩擦角.Text = 背填料內摩擦角R.ToString();
+            textBox_背填料壁面摩擦角.Text = 背填料壁面摩擦角R.ToString();
+            textBox_背填料水平傾斜角.Text = 背填料水平傾斜角R.ToString();
+            textBox_入土深度.Text = 入土深度R.ToString();
+            textBox_拋石厚度.Text = 拋石厚度R.ToString();
+            cmb_seawaveDir.SelectedItem = dirr;
+            textBox_地盤基礎內摩擦角.Text = 地盤內基礎內摩擦角R.ToString();
+            textBox_土壤凝聚力.Text = 土壤凝聚力R.ToString();
+            textBox_Nq.Text = NqR.ToString();
+            textBox_Nc.Text = NcR.ToString();
+            textBox_Nr.Text = NrR.ToString();
+            textBox_平時滑動安全係數.Text = 平時滑動安全係數R.ToString();
+            textBox_平時傾倒安全係數.Text = 平時傾倒安全係數R.ToString();
+            textBox_平時地盤承載力安全係數.Text = 平時地盤承載力安全係數R.ToString();
+            textBox_地震時滑動安全係數.Text = 地震時滑動安全係數R.ToString();
+            textBox_地震時傾倒安全係數.Text = 地震時傾倒安全係數R.ToString();
+            textBox_地震時地盤承載力安全係數.Text = 地震時地盤承載力安全係數R.ToString();
+            
+
             Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
             for (int i = 0; i < BlockMainArrayR.GetLength(0); i++)
             {
@@ -1143,6 +1998,7 @@ namespace VE_SD
             }
 
             selectname = (selectedBlockIndex == -1 ? null : BlockMainArray[selectedBlockIndex].名稱);
+            cmb_ShowOnBlockListChoice.SelectedItem = BlockToolTip資訊選擇;
             if (selectedBlockIndex != -1)
             {
                 listBox_SectSetting.SelectedIndex = selectedBlockIndex;//此函數會觸動顯示Chart與Property Grid的功能.
@@ -1225,6 +2081,8 @@ namespace VE_SD
             XmlElement BlockToolTipinfo = doc.CreateElement("BlockTooltip資訊");
             BlockToolTipinfo.SetAttribute("Value", cmb_ShowOnBlockListChoice.SelectedItem.ToString());
 
+            XmlElement 最後編輯時間 = doc.CreateElement("最後編輯時間");
+            最後編輯時間.SetAttribute("Value", TSP_DATETIME.Text);
 
             XmlElement 地盤基礎內摩擦角 = doc.CreateElement("地盤基礎內摩擦角");
             地盤基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
@@ -1327,6 +2185,7 @@ namespace VE_SD
             
             全域參數XML點.AppendChild(選擇Tab);
             全域參數XML點.AppendChild(BlockToolTipinfo);
+            全域參數XML點.AppendChild(最後編輯時間);
             全域參數XML點.AppendChild(設計潮位高);
             全域參數XML點.AppendChild(設計潮位低);
             全域參數XML點.AppendChild(殘留水位);
@@ -1470,6 +2329,8 @@ namespace VE_SD
 
                 XmlElement Block單位體積重量 = doc.CreateElement("單位體積重量");
                 Block單位體積重量.SetAttribute("Value", BlockMainArray[i].單位體積重量.ToString());
+                XmlElement Block地震時單位體積重量 = doc.CreateElement("地震時單位體積重量");
+                Block地震時單位體積重量.SetAttribute("Value", BlockMainArray[i].地震時單位體積重量.ToString());
                 XmlElement Block使用材質 = doc.CreateElement("使用材質");
                 Block使用材質.SetAttribute("Value", BlockMainArray[i].使用材質.ToString());
                 XmlElement Block是否計算Moment = doc.CreateElement("計算Moment");
@@ -1487,6 +2348,7 @@ namespace VE_SD
                 //BlockNode.AppendChild(Block砂土水中單位體積重量);
                 //BlockNode.AppendChild(Block海水單位體積重量);
                 BlockNode.AppendChild(Block單位體積重量);
+                BlockNode.AppendChild(Block地震時單位體積重量);
                 BlockNode.AppendChild(Block使用材質);
                 BlockNode.AppendChild(Block是否計算Moment);
 
@@ -1545,7 +2407,6 @@ namespace VE_SD
              MessageBox.Show("儲存完畢!!!", "專案檔儲存", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //}
         }
-
         #endregion
         #region 型塊設定區域
         private void btn_AddASect_Click(object sender, EventArgs e)
@@ -2721,9 +3582,9 @@ namespace VE_SD
         }
         private void propertyGrid_Block_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            /*
+            
             updateCurrentBlockPropertyGrid();
-            */
+            
         }
         private void updateCurrentBlockPropertyGrid()
         {
@@ -2748,7 +3609,7 @@ namespace VE_SD
             BlockMainArray[id].單位體積重量 = D.單位體積重量;
             BlockMainArray[id].計算Moment與否 = D.計算Moment與否;
             BlockMainArray[id].使用材質 = D.使用材質;
-
+            BlockMainArray[id].地震時單位體積重量 = D.地震時單位體積重量;
             listBox_SectSetting.Items[listBox_SectSetting.SelectedIndex] = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex] + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[listBox_SectSetting.SelectedIndex]);//; "(" + D.單位體積重量 + ")";
 
         }
@@ -3030,32 +3891,53 @@ namespace VE_SD
 
 
 
-        #endregion
 
         #endregion
 
-        private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
+        #endregion
+
+        private void cmb_seawaveDir_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (isExporting) { return; }
-            if (BlockMainArray.GetLength(0) == 0)
-            { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            string xmlpath;// = workfoldernow + "\\Test.xml";
-            if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
+            if (cmb_seawaveDir.SelectedIndex != -1)
             {
-                xmlpath = SFD_專案.FileName; //路徑.
+                繪上EL();
             }
-            else
-            { return; }
-
-            string CheckTextBoxNoEmptyString = "";
-            if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
-            {
-                FrmShowMsg ff = new FrmShowMsg(CheckTextBoxNoEmptyString, "您有資料未正確填完");
-                ff.Show();
-                return;
-            }
-
-            儲存XML專案檔(xmlpath);
         }
+
+        #region 縮放表單
+        private void Form_MTExamProgress_Resize(object sender, EventArgs e)
+        {
+            //double x = (this.Width / OldWidth);
+            //double y = (this.Height / OldHeight);
+            ////MessageBox.Show("HH: " + x.ToString() + ", " + y.ToString());
+            //foreach(Control ctl in this.Controls)
+            //{
+                
+            //    if (ctl.Name!= "tabControl1")
+            //    {
+            //        continue;
+            //    }
+            //    //Tab Page only
+            //    foreach(Control ctl2 in ctl.Controls)
+            //    {
+            //        //MessageBox.Show(ctl2.Name);
+            //        foreach (Control ctl3 in ctl2.Controls)
+            //        {
+            //            MessageBox.Show(ctl3.Name);
+            //            ctl3.Width = Convert.ToInt32(x * ctl3.Width);
+            //            ctl3.Height = Convert.ToInt32(y * ctl3.Height);
+            //        }
+            //        ctl2.Width = Convert.ToInt32(x * ctl2.Width);
+            //        ctl2.Height = Convert.ToInt32(y * ctl2.Height);
+            //    }
+            //    ctl.Width = Convert.ToInt32(x * ctl.Width);
+            //    ctl.Height = Convert.ToInt32(y * ctl.Height);
+
+
+            //}
+            //OldWidth = this.Width;
+            //OldHeight = this.Height;
+        }
+        #endregion
     }
 }

@@ -4284,7 +4284,10 @@ namespace VE_SD
 
         private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            {
+                this.Close();
+            }
 
         }
 

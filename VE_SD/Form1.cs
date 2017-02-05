@@ -267,6 +267,19 @@ namespace VE_SD
 
         private void btn_StandardRDC_Click(object sender, EventArgs e)
         {
+            string 驗證Msg = "";
+            if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            {
+                //Nothing.
+            }
+            else
+            {
+                //沒有驗證資訊,提示無法進行檢核計算.
+                if (MessageBox.Show("您目前沒有通過此軟體之驗證,您將無法使用檢核功能" + Environment.NewLine + "確定繼續進行?", "沒有軟體驗證", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
             if (_提供服務訊息)
             {
                 this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了標準海堤檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
@@ -278,7 +291,20 @@ namespace VE_SD
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(_提供服務訊息)
+            string 驗證Msg = "";
+            if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            {
+                //Nothing.
+            }
+            else
+            {
+                //沒有驗證資訊,提示無法進行檢核計算.
+                if(MessageBox.Show("您目前沒有通過此軟體之驗證,您將無法使用檢核功能" + Environment.NewLine + "確定繼續進行?","沒有軟體驗證",MessageBoxButtons.OKCancel,MessageBoxIcon.Warning)==DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            if (_提供服務訊息)
             {
                 this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了碼頭檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
             }
