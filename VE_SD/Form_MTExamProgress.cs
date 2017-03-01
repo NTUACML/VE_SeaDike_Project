@@ -316,6 +316,21 @@ namespace VE_SD
                 //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //return false;
             }
+            if (textBox_rw.Text == "")
+            {
+                ErrorMsg += ("您水單位重沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+            }
+            if (textBox_BoatColumnHeight.Text == "")
+            {
+                ErrorMsg += ("您繫船柱突出高度沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+            }
+
             if (textBox_背填料內摩擦角.Text == "")
             {
                 ErrorMsg += ("您背填料內摩擦角沒有選擇!!!" + Environment.NewLine);
@@ -426,6 +441,46 @@ namespace VE_SD
             if (textBox_地震時地盤承載力安全係數.Text == "")
             {
                 ErrorMsg += ("您地震時地盤承載力安全係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+
+            }
+            if (textBox_SoilR_Earth.Text == "")
+            {
+                ErrorMsg += ("您土壤重(陸上)沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+
+            }
+            if (textBox_SoilR_Water.Text == "")
+            {
+                ErrorMsg += ("您土壤重(水中)沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+
+            }
+            if (textBox_KaStage1.Text == "")
+            {
+                ErrorMsg += ("您平時設計震度土壓係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+
+            }
+            if (textBox_KaStage2.Text == "")
+            {
+                ErrorMsg += ("您地震時設計震度(K=0.17)土壓係數沒有選擇!!!" + Environment.NewLine);
+                okOrNot = false;
+                //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                //return false;
+
+            }
+            if (textBox_KaStage3.Text == "")
+            {
+                ErrorMsg += ("您地震時設計震度(K=0.33)土壓係數沒有選擇!!!" + Environment.NewLine);
                 okOrNot = false;
                 //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //return false;
@@ -601,6 +656,16 @@ namespace VE_SD
             textBox_地震時滑動安全係數.Text = "1";
             textBox_地震時傾倒安全係數.Text = "1.1";
             textBox_地震時地盤承載力安全係數.Text = "1.5";
+            textBox_rw.Text = "1.03";
+            textBox_BoatColumnHeight.Text = "0.25";
+            textBox_SoilR_Earth.Text = "1.8";
+            textBox_SoilR_Water.Text = "1.0";
+
+            textBox_KaStage1.Text = "0.201";
+            textBox_KaStage2.Text = "0.293";
+            textBox_KaStage3.Text = "0.423";
+
+
 
             chart_Plot.Series.Clear();
             cmb_ShowOnBlockListChoice.SelectedItem = "單位體積重";
@@ -800,6 +865,40 @@ namespace VE_SD
         }
 
         private void textBox_地震時地盤承載力安全係數_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+        private void textBox_rw_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_BoatColumnHeight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_SoilR_Earth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_SoilR_Water_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_KaStage1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_KaStage2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
+        }
+
+        private void textBox_KaStage3_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = JudgeTheTextBoxHandle((TextBox)sender, e);
         }
@@ -1254,6 +1353,8 @@ namespace VE_SD
             double 船舶牽引力R;
             double 陸上設計震度R;
             double 水中設計震度R;
+            double 水單位重R;
+            double 繫船柱突出高度R;
             double 背填料內摩擦角R;
             double 背填料壁面摩擦角R;
             double 背填料水平傾斜角R;
@@ -1271,6 +1372,12 @@ namespace VE_SD
             double 地震時滑動安全係數R;
             double 地震時傾倒安全係數R;
             double 地震時地盤承載力安全係數R;
+            double 土壤重陸上R;
+            double 土壤重水中R;
+            double 平時設計震度土壓係數R;
+            double 地震時K017設計震度土壓係數R;
+            double 地震時K033設計震度土壓係數R;
+
             string BlockToolTip資訊選擇;
 
 
@@ -1435,6 +1542,30 @@ namespace VE_SD
                 if (!double.TryParse(Relement.GetAttribute("Value"), out 水中設計震度R))
                 {
                     return "水中設計震度讀取失敗";
+                }
+
+                //水單位重.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/水單位重");
+                if (object.Equals(RNode, null))
+                {
+                    return "水單位重讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 水單位重R))
+                {
+                    return "水單位重讀取失敗";
+                }
+
+                //繫船柱突出高度.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/繫船柱突出高度");
+                if (object.Equals(RNode, null))
+                {
+                    return "繫船柱突出高度讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 繫船柱突出高度R))
+                {
+                    return "繫船柱突出高度讀取失敗";
                 }
 
                 //背填料內摩擦角.
@@ -1627,6 +1758,66 @@ namespace VE_SD
                 if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時地盤承載力安全係數R))
                 {
                     return "地震時地盤承載力安全係數讀取失敗";
+                }
+
+                //土壤重陸上.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/土壤重陸上");
+                if (object.Equals(RNode, null))
+                {
+                    return "土壤重陸上讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 土壤重陸上R))
+                {
+                    return "土壤重陸上讀取失敗";
+                }
+
+                //土壤重水中.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/土壤重水中");
+                if (object.Equals(RNode, null))
+                {
+                    return "土壤重水中讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 土壤重水中R))
+                {
+                    return "土壤重水中讀取失敗";
+                }
+
+                //平時設計震度土壓係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/平時設計震度土壓係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "平時設計震度土壓係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 平時設計震度土壓係數R))
+                {
+                    return "平時設計震度土壓係數讀取失敗";
+                }
+
+                //地震時K017設計震度土壓係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時K017設計震度土壓係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時(設計震度K=0.17)土壓係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時K017設計震度土壓係數R))
+                {
+                    return "地震時(設計震度K=0.17)土壓係數讀取失敗";
+                }
+
+                //地震時K033設計震度土壓係數.
+                RNode = doc.SelectSingleNode("Root/GlobalParameters/地震時K033設計震度土壓係數");
+                if (object.Equals(RNode, null))
+                {
+                    return "地震時(設計震度K=0.33)土壓係數讀取失敗";
+                }
+                Relement = (XmlElement)RNode;
+                if (!double.TryParse(Relement.GetAttribute("Value"), out 地震時K033設計震度土壓係數R))
+                {
+                    return "地震時(設計震度K=0.33)土壓係數讀取失敗";
                 }
 
 
@@ -1889,6 +2080,8 @@ namespace VE_SD
             textBox_船舶牽引力.Text = 船舶牽引力R.ToString();
             textBox_陸上設計震度.Text = 陸上設計震度R.ToString();
             textBox_水中設計震度.Text = 水中設計震度R.ToString();
+            textBox_rw.Text = 水單位重R.ToString();
+            textBox_BoatColumnHeight.Text = 繫船柱突出高度R.ToString();
             textBox_背填料內摩擦角.Text = 背填料內摩擦角R.ToString();
             textBox_背填料壁面摩擦角.Text = 背填料壁面摩擦角R.ToString();
             textBox_背填料水平傾斜角.Text = 背填料水平傾斜角R.ToString();
@@ -1906,7 +2099,13 @@ namespace VE_SD
             textBox_地震時滑動安全係數.Text = 地震時滑動安全係數R.ToString();
             textBox_地震時傾倒安全係數.Text = 地震時傾倒安全係數R.ToString();
             textBox_地震時地盤承載力安全係數.Text = 地震時地盤承載力安全係數R.ToString();
-            
+            textBox_SoilR_Earth.Text = 土壤重陸上R.ToString();
+            textBox_SoilR_Water.Text = 土壤重水中R.ToString();
+            textBox_KaStage1.Text = 平時設計震度土壓係數R.ToString();
+            textBox_KaStage2.Text = 地震時K017設計震度土壓係數R.ToString();
+            textBox_KaStage3.Text = 地震時K033設計震度土壓係數R.ToString();
+
+
 
             Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
             for (int i = 0; i < BlockMainArrayR.GetLength(0); i++)
@@ -2111,6 +2310,13 @@ namespace VE_SD
             XmlElement 水中設計震度 = doc.CreateElement("水中設計震度");
             水中設計震度.SetAttribute("Value", textBox_水中設計震度.Text);
 
+            XmlElement 水單位重 = doc.CreateElement("水單位重");
+            水單位重.SetAttribute("Value", textBox_rw.Text);
+
+            XmlElement 繫船柱突出高度 = doc.CreateElement("繫船柱突出高度");
+            繫船柱突出高度.SetAttribute("Value", textBox_BoatColumnHeight.Text);
+
+
             XmlElement 背填料內摩擦角 = doc.CreateElement("背填料內摩擦角");
             背填料內摩擦角.SetAttribute("Value", textBox_背填料內摩擦角.Text);
 
@@ -2164,6 +2370,22 @@ namespace VE_SD
             XmlElement 地震時地盤承載力安全係數 = doc.CreateElement("地震時地盤承載力安全係數");
             地震時地盤承載力安全係數.SetAttribute("Value", textBox_地震時地盤承載力安全係數.Text);
 
+            XmlElement 土壤重陸上 = doc.CreateElement("土壤重陸上");
+            土壤重陸上.SetAttribute("Value", textBox_SoilR_Earth.Text);
+
+            XmlElement 土壤重水中 = doc.CreateElement("土壤重水中");
+            土壤重水中.SetAttribute("Value", textBox_SoilR_Water.Text);
+
+            XmlElement 平時設計震度土壓係數 = doc.CreateElement("平時設計震度土壓係數");
+            平時設計震度土壓係數.SetAttribute("Value", textBox_KaStage1.Text);
+
+            XmlElement 地震時K017設計震度土壓係數 = doc.CreateElement("地震時K017設計震度土壓係數");
+            地震時K017設計震度土壓係數.SetAttribute("Value", textBox_KaStage2.Text);
+
+            XmlElement 地震時K033設計震度土壓係數 = doc.CreateElement("地震時K033設計震度土壓係數");
+            地震時K033設計震度土壓係數.SetAttribute("Value", textBox_KaStage3.Text);
+
+
             /*
             XmlElement 內摩擦角 = doc.CreateElement("內摩擦角");
             內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
@@ -2182,7 +2404,7 @@ namespace VE_SD
             XmlElement 內摩擦角 = doc.CreateElement("內摩擦角");
             內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
             */
-            
+
             全域參數XML點.AppendChild(選擇Tab);
             全域參數XML點.AppendChild(BlockToolTipinfo);
             全域參數XML點.AppendChild(最後編輯時間);
@@ -2194,6 +2416,8 @@ namespace VE_SD
             全域參數XML點.AppendChild(船舶牽引力);
             全域參數XML點.AppendChild(陸上設計震度);
             全域參數XML點.AppendChild(水中設計震度);
+            全域參數XML點.AppendChild(水單位重);
+            全域參數XML點.AppendChild(繫船柱突出高度);
             全域參數XML點.AppendChild(背填料內摩擦角);
             全域參數XML點.AppendChild(背填料壁面摩擦角);
             全域參數XML點.AppendChild(背填料水平傾斜角);
@@ -2211,6 +2435,12 @@ namespace VE_SD
             全域參數XML點.AppendChild(地震時滑動安全係數);
             全域參數XML點.AppendChild(地震時傾倒安全係數);
             全域參數XML點.AppendChild(地震時地盤承載力安全係數);
+            全域參數XML點.AppendChild(土壤重陸上);
+            全域參數XML點.AppendChild(土壤重水中);
+            全域參數XML點.AppendChild(平時設計震度土壓係數);
+            全域參數XML點.AppendChild(地震時K017設計震度土壓係數);
+            全域參數XML點.AppendChild(地震時K033設計震度土壓係數);
+
             //全域參數XML點.AppendChild();
             //全域參數XML點.AppendChild();
             //全域參數XML點.AppendChild();
@@ -3895,7 +4125,6 @@ namespace VE_SD
         #endregion
 
         #endregion
-
         private void cmb_seawaveDir_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_seawaveDir.SelectedIndex != -1)
@@ -3939,5 +4168,7 @@ namespace VE_SD
             //OldHeight = this.Height;
         }
         #endregion
+
+
     }
 }
