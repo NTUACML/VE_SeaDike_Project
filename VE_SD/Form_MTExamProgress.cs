@@ -199,7 +199,7 @@ namespace VE_SD
             //***********************************************************************************************************************//
             //帶入計算
             Mod = new Module2();
-            MessageBox.Show("這是測試");
+            //MessageBox.Show("這是測試");
             Mod.DeleteAllBlockData();
 
             // 1-1. Block給定.
@@ -218,7 +218,7 @@ namespace VE_SD
             }
 
             // 1-2. Level給定
-            Mod.NewLevel(3.2);
+            //Mod.NewLevel(3.2);
             Mod.NewLevel(1.2);
             Mod.NewLevel(-0.5);
             Mod.NewLevel(-2.00);
@@ -236,16 +236,17 @@ namespace VE_SD
             //- 背填料參數輸入
             Mod.MaterialDesignInput(double.Parse(textBox_背填料內摩擦角.Text), double.Parse(textBox_背填料壁面摩擦角.Text), double.Parse(textBox_背填料水平傾斜角.Text));
             //- 基礎參數輸入
-            Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text));
+            Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text), double.Parse(textBox_SoilR_Earth.Text), double.Parse(textBox_SoilR_Water.Text));
             //- Meyerhof's Factor
             Mod.MF_DesignInput(double.Parse(textBox_Nq.Text), double.Parse(textBox_Nr.Text), double.Parse(textBox_Nc.Text));
             //- Safety Factor
             Mod.SF_CoefInput(double.Parse(textBox_平時滑動安全係數.Text), double.Parse(textBox_平時傾倒安全係數.Text), double.Parse(textBox_平時地盤承載力安全係數.Text));
             //- Safety Factor
             Mod.SF_CoefInput(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
-
-            //// Go Go Go~
-            //Mod.Run();
+            //- 土壓係數輸入
+            Mod.KaInput(double.Parse(textBox_KaStage1.Text), double.Parse(textBox_KaStage2.Text), double.Parse(textBox_KaStage3.Text));
+            // Go Go Go~
+            Mod.Run();
 
             MessageBox.Show("Finished Run!");
         }

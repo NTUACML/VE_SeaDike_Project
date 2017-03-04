@@ -82,9 +82,9 @@
     </形塊>
     <形塊 名稱="B4" 點數="4" 序號="3">
       <單位體積重量 Value="1.8" />
-	  <地震時單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土方塊" />
-      <計算Moment Value="True" />
+	  <地震時單位體積重量 Value="1.8" />
+      <使用材質 Value="混凝土拋石" />
+      <計算Moment Value="False" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="1.5" yValue="3.2" />
       <BlockCoordinate xValue="2.5" yValue="1.2" />
@@ -104,9 +104,9 @@
     </形塊>
     <形塊 名稱="B6" 點數="4" 序號="5">
       <單位體積重量 Value="1.8" />
-	  <地震時單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土方塊" />
-      <計算Moment Value="True" />
+	  <地震時單位體積重量 Value="1.8" />
+      <使用材質 Value="混凝土拋石" />
+      <計算Moment Value="False" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="3.5" yValue="3.2" />
       <BlockCoordinate xValue="3.5" yValue="0.55" />
@@ -115,9 +115,9 @@
     </形塊>
     <形塊 名稱="B7" 點數="4" 序號="6">
       <單位體積重量 Value="1" />
-	  <地震時單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土方塊" />
-      <計算Moment Value="True" />
+	  <地震時單位體積重量 Value="1.8" />
+      <使用材質 Value="混凝土拋石" />
+      <計算Moment Value="False" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="3.5" yValue="0.55" />
       <BlockCoordinate xValue="3.5" yValue="-0.5" />
@@ -137,9 +137,9 @@
     </形塊>
     <形塊 名稱="B9" 點數="4" 序號="8">
       <單位體積重量 Value="1.8" />
-	  <地震時單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土方塊" />
-      <計算Moment Value="True" />
+	  <地震時單位體積重量 Value="1.8" />
+      <使用材質 Value="混凝土拋石" />
+      <計算Moment Value="False" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="5" yValue="3.2" />
       <BlockCoordinate xValue="5" yValue="0.55" />
@@ -148,9 +148,9 @@
     </形塊>
     <形塊 名稱="B10" 點數="4" 序號="9">
       <單位體積重量 Value="1" />
-	  <地震時單位體積重量 Value="2.3" />
-      <使用材質 Value="混凝土方塊" />
-      <計算Moment Value="True" />
+	  <地震時單位體積重量 Value="1.8" />
+      <使用材質 Value="混凝土拋石" />
+      <計算Moment Value="False" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="5" yValue="0.55" />
       <BlockCoordinate xValue="5" yValue="-2" />

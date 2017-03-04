@@ -13,7 +13,7 @@ class Block
 {
 public:
 	//Constructor
-	Block():Density(1.0),FrictionC(1.0), CalMoment(true){};
+	Block():Density(1.0),EQ_Density(1.0),FrictionC(1.0), CalMoment(true){};
 	Block(double _Den, double EQ_Den, double _Fri, bool _CalM) :Density(_Den), EQ_Density(EQ_Den), FrictionC(_Fri), CalMoment(_CalM) {};
 	//Distructor
 	~Block(){};

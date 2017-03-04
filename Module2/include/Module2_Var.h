@@ -56,6 +56,7 @@ public:
 	double InnerPhi, WallPhi, Beta; // 內摩擦角, 壁面摩擦角, 水平傾斜角
 	//- Base Var
 	double U, D, BasePhi, C; // 入土深度, 拋石厚度, 內摩擦角, 土壤黏滯力
+	double soilR_Earth, soilR_Water; // 土壤重 水上及水下
 	//- Meyerhof's Factor
 	double Nq, Nr, Nc;
 	//- SF Coef 平時
@@ -66,6 +67,11 @@ public:
 	double SlideSF_E,
 		RotateSF_E,
 		BaseSF_E;
+	//- 不同震度土壓係數
+	double ka, ka_17, ka_33;
+	//- 確認是否為混凝土塊
+	bool concretecheck;
+	
 
 	//- Mesg
 	std::string Err_Msg;
