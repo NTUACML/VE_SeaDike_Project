@@ -25,10 +25,11 @@ VE_SD::Module2::!Module2()
 	this->~Module2(); 
 }
 
-void VE_SD::Module2::WaterDesignInput(double _HWL, double _LWL)
+void VE_SD::Module2::WaterDesignInput(double _HWL, double _LWL, double _RWL)
 {
 	Var->HWL = _HWL;
 	Var->LWL = _LWL;
+	Var->RWL = _RWL;
 }
 
 void VE_SD::Module2::ForceDesignInput(double _Q, double _Qe, double _Ta)
@@ -58,7 +59,7 @@ void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, doub
 	Var->BasePhi = _BasePhi;
 	Var->C = _C;
 	Var->soilR_Earth = _soilR_Earth;
-	Var->soilR_Earth = _soilR_Water;
+	Var->soilR_Water = _soilR_Water;
 }
 
 void VE_SD::Module2::MF_DesignInput(double _Nq, double _Nr, double _Nc)
@@ -151,7 +152,8 @@ bool VE_SD::Module2::Run()
 	Internal->GeoPreCal();
 	Internal->WeightCal();
 	//Internal->EarthQuakeForceCal();
-	//Internal->HorizontalSoilForceCal();
+	Internal->HorizontalSoilForceCal();
+	Internal->VertivalSoilForceCal();
 
 	return true;
 }
@@ -189,7 +191,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "SelfWeight:" << Var->BlockData[i].SelfWeight << std::endl;
 		FILE << "X:" << Var->BlockData[i].X << std::endl;
 		FILE << "Mw:" << Var->BlockData[i].Mw << std::endl;
-		//FILE << "Calmoment:" << Var->BlockData[i].CalMoment << std::endl;
+		FILE << "minix:" << Var->BlockData[i].MinX << std::endl;
 		FILE << std::endl;
 	}
 
@@ -240,7 +242,21 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
 	}*/
 
-	//FILE << "LWL: " << Var->LWL << std::endl;
+	//- 表格四
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "水平分力: " << Var->LevelSection[i].Fh << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].Fh_y << std::endl;
+		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh << std::endl;
+	}
+	FILE << std::endl;
+	//- 表格五
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "垂直分力: " << Var->LevelSection[i].Fv_sum << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].Fv_x << std::endl;
+		FILE << "抵抗彎矩: " << Var->LevelSection[i].Fv_Mv_sum << std::endl;
+	}
 
 	// File Close
 	FILE.close();

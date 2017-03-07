@@ -28,7 +28,7 @@ namespace VE_SD {
 
 		// Public Function
 		//- Compute Var Input API
-		void WaterDesignInput(double _HWL, double _LWL);
+		void WaterDesignInput(double _HWL, double _LWL, double _RWL);
 		void ForceDesignInput(double _Q, double _Qe, double _Ta);
 		void EarthquakeDesignInput(double _K, double _K_plun);
 		void MaterialDesignInput(double _InnerPhi, double _WallPhi, double _Beta);

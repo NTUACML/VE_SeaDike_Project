@@ -22,6 +22,7 @@ public:
 	bool WeightCal();
 	bool EarthQuakeForceCal();
 	bool HorizontalSoilForceCal();
+	bool VertivalSoilForceCal();
 
 private:
 	Module2_Var *Var;

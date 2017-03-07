@@ -228,7 +228,7 @@ namespace VE_SD
 
             // 2. 背景參數帶入
             //- 水位設計輸入
-            Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text));
+            Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text), double.Parse(textBox_殘留水位.Text));
             //- 力量輸入
             Mod.ForceDesignInput(double.Parse(textBox_平時上載荷重.Text), double.Parse(textBox_地震時上載荷重.Text), double.Parse(textBox_船舶牽引力.Text));
             //- 設計震度參數輸入
@@ -4169,8 +4169,12 @@ namespace VE_SD
             //OldWidth = this.Width;
             //OldHeight = this.Height;
         }
+
         #endregion
 
+        private void textBox_SoilR_Earth_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

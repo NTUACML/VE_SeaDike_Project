@@ -163,6 +163,7 @@ bool Module2_Internal::EarthQuakeForceCal()
 		double old_Ref_y;
 		double Ref_y = Var->BlockData[ID].MinLevel;
 
+		// need to be sure about j starting number-------------
 		for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
 		{
 			ID = Var->LevelSection[i].BlockId[j];
@@ -218,14 +219,113 @@ bool Module2_Internal::EarthQuakeForceCal()
 
 bool Module2_Internal::HorizontalSoilForceCal() {
 
-	double pi_up, pi_down;
+	double pi_up, pi_down, length, temp_u, temp_d, lower_fhi;
+	//setting up the max level
+	double upper_level = Var->Max_level;
 	double rh = 0;
 	pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		if (Var->LevelSection[i].Level > Var->RWL) {
+			pi_up = pi_down;
+			length = upper_level - Var->LevelSection[i].Level;
+			rh += length*Var->soilR_Earth;
+			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			Var->LevelSection[i].Fh = 0.5*(pi_up + pi_down)*length;
 
+			//refresh the upper level
+			upper_level = Var->LevelSection[i].Level;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
+		}
+		else if (upper_level > Var->RWL && Var->RWL > Var->LevelSection[i].Level) {
+			//upper layer
+			pi_up = pi_down;
+			length = upper_level - Var->RWL;
+			rh += length*Var->soilR_Earth;
+			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			Var->LevelSection[i].Fh = 0.5*(pi_up + pi_down)*length;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
+			//------------------------------------------------------------------------------
+			//lower layer
+			pi_up = pi_down;
+			length = Var->RWL - Var->LevelSection[i].Level;
+			rh += length*Var->soilR_Water;
+			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			lower_fhi = 0.5*(pi_up + pi_down)*length;;
+			Var->LevelSection[i].Fh += lower_fhi;
+
+			//refresh the upper level
+			upper_level = Var->LevelSection[i].Level;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh += lower_fhi*Var->LevelSection[i].Fh_y;
+			Var->LevelSection[i].Fh_y = Var->LevelSection[i].Fh_Mh / Var->LevelSection[i].Fh;
+		}
+		else {
+			pi_up = pi_down;
+			length = upper_level - Var->LevelSection[i].Level;
+			rh += length*Var->soilR_Water;
+			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			Var->LevelSection[i].Fh = 0.5*(pi_up + pi_down)*length;
+
+			//refresh the upper level
+			upper_level = Var->LevelSection[i].Level;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
+		}
+
+	}
 
 	Var->Err_Msg += "土壓水平力及傾倒彎矩計算處理完畢! \r\n";
 	return true;
 }
+
+bool Module2_Internal::VertivalSoilForceCal() {
+	
+	size_t ID;
+	double fv_temp_sum=0;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		double width,max_width = 0.0;
+		fv_temp_sum += Var->LevelSection[i].Fh*(tan(15 * M_PI / 180));
+		Var->LevelSection[i].Fv_sum = fv_temp_sum;
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
+			ID = Var->LevelSection[i].BlockId[j];
+			width = Var->BlockData[ID].MaxX - Var->BlockData[ID].MinX;
+			if (Var->BlockData[ID].CalMoment == true && width > max_width) {
+				max_width = width;
+			}
+		}
+		Var->LevelSection[i].Fv_x = max_width;
+
+		Var->LevelSection[i].Fv_Mv_sum = Var->LevelSection[i].Fv_sum*Var->LevelSection[i].Fv_x;
+	}
+	Var->Err_Msg += "土壓垂直力及抵抗彎矩計算處理完畢! \r\n";
+	return true;
+}
+
+
 //double F_Sum = 0.0;
 //for (size_t i = 1; i < Var->LevelSection.size(); i++)
 //{

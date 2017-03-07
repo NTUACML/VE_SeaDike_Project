@@ -23,6 +23,8 @@ public:
 	double FP; //Force of pressure
 	double L_Y; //Arm of Y
 	double Mp; //Moment of Pressure
+	double Fh, Fh_y, Fh_Mh; //Horizontal soil force
+	double Fv_sum, Fv_x, Fv_Mv_sum; //Vertical soil force
 	std::vector<size_t> BlockId; //In level ID
 };
 class Module2_Var
