@@ -52,7 +52,7 @@ void VE_SD::Module2::MaterialDesignInput(double _InnerPhi, double _WallPhi, doub
 	Var->Beta = _Beta;
 }
 
-void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, double _C, double _soilR_Earth, double _soilR_Water)
+void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, double _C, double _soilR_Earth, double _soilR_Water, double _rw)
 {
 	Var->U = _U;
 	Var->D = _D;
@@ -60,6 +60,7 @@ void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, doub
 	Var->C = _C;
 	Var->soilR_Earth = _soilR_Earth;
 	Var->soilR_Water = _soilR_Water;
+	Var->rw = _rw;
 }
 
 void VE_SD::Module2::MF_DesignInput(double _Nq, double _Nr, double _Nc)
@@ -154,6 +155,7 @@ bool VE_SD::Module2::Run()
 	//Internal->EarthQuakeForceCal();
 	Internal->HorizontalSoilForceCal();
 	Internal->VertivalSoilForceCal();
+	Internal->ResidualWaterForceCal();
 
 	return true;
 }
@@ -256,6 +258,14 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "垂直分力: " << Var->LevelSection[i].Fv_sum << std::endl;
 		FILE << "力矩: " << Var->LevelSection[i].Fv_x << std::endl;
 		FILE << "抵抗彎矩: " << Var->LevelSection[i].Fv_Mv_sum << std::endl;
+	}
+
+	//- 表格六
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "殘留水壓: " << Var->LevelSection[i].Fw << std::endl;
+		/*FILE << "力矩: " << Var->LevelSection[i].Fv_x << std::endl;
+		FILE << "抵抗彎矩: " << Var->LevelSection[i].Fv_Mv_sum << std::endl;*/
 	}
 
 	// File Close

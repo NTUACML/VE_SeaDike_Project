@@ -325,19 +325,44 @@ bool Module2_Internal::VertivalSoilForceCal() {
 	return true;
 }
 
+bool Module2_Internal::ResidualWaterForceCal() {
+	double Pw;
+	Pw = Var->rw*(Var->RWL - Var->LWL);
+	double top_level = Var->Max_level;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
 
-//double F_Sum = 0.0;
-//for (size_t i = 1; i < Var->LevelSection.size(); i++)
-//{
-//	Dis_Face = Var->LevelSection[i].Level - Var->LevelSection[i - 1].Level;
-//	Var->LevelSection[i].FP = (Var->LevelSection[i].P + Var->LevelSection[i - 1].P)  * Dis_Face / 2.0;
-//
-//	// Tragngle Used
-//	F_Sum = Var->LevelSection[i - 1].P * Dis_Face * (Dis_Face / 2.0) + (Var->LevelSection[i].P - Var->LevelSection[i - 1].P) * (Dis_Face / 2.0) * (2.0 * Dis_Face / 3.0);
-//
-//	Var->LevelSection[i].L_Y = (Var->LevelSection[i - 1].Level - Var->LevelSection.begin()->Level) + F_Sum / Var->LevelSection[i].FP;
-//
-//	Var->LevelSection[i].Mp = Var->LevelSection[i].FP * Var->LevelSection[i].L_Y;
-//}
-//Var->LevelSection.end()->FP = 0.0;
-//Var->LevelSection.end()->Mp = 0.0;
+		if (Var->LevelSection[i].Level < Var->RWL) 
+		{
+			if (top_level > Var->RWL) {
+				top_level = Var->RWL;
+				if (top_level > Var->LWL) {
+					Var->LevelSection[i].Fw = (top_level - Var->LWL)*0.5*Pw;
+					Var->LevelSection[i].Fw += (Var->LWL - Var->LevelSection[i].Level)*Pw;
+				}
+				else {
+					Var->LevelSection[i].Fw = (top_level - Var->LevelSection[i].Level)*Pw;
+				}
+			}
+			else {
+				if (top_level > Var->LWL) {
+					Var->LevelSection[i].Fw = (top_level - Var->LWL)*0.5*Pw;
+					Var->LevelSection[i].Fw += (Var->LWL - Var->LevelSection[i].Level)*Pw;
+				}
+				else {
+					Var->LevelSection[i].Fw = (top_level - Var->LevelSection[i].Level)*Pw;
+				}
+			}
+		}
+		else {
+			Var->LevelSection[i].Fw = 0;
+		}
+
+		top_level = Var->LevelSection[i].Level;
+	}
+
+	Var->Err_Msg += "殘留水壓及傾倒彎矩計算處理完畢! \r\n";
+	return true;
+}
+
+

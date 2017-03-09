@@ -23,6 +23,7 @@ public:
 	bool EarthQuakeForceCal();
 	bool HorizontalSoilForceCal();
 	bool VertivalSoilForceCal();
+	bool ResidualWaterForceCal();
 
 private:
 	Module2_Var *Var;

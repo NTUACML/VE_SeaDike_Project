@@ -236,7 +236,7 @@ namespace VE_SD
             //- 背填料參數輸入
             Mod.MaterialDesignInput(double.Parse(textBox_背填料內摩擦角.Text), double.Parse(textBox_背填料壁面摩擦角.Text), double.Parse(textBox_背填料水平傾斜角.Text));
             //- 基礎參數輸入
-            Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text), double.Parse(textBox_SoilR_Earth.Text), double.Parse(textBox_SoilR_Water.Text));
+            Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text), double.Parse(textBox_SoilR_Earth.Text), double.Parse(textBox_SoilR_Water.Text), double.Parse(textBox_rw.Text));
             //- Meyerhof's Factor
             Mod.MF_DesignInput(double.Parse(textBox_Nq.Text), double.Parse(textBox_Nr.Text), double.Parse(textBox_Nc.Text));
             //- Safety Factor

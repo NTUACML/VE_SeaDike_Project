@@ -32,7 +32,7 @@ namespace VE_SD {
 		void ForceDesignInput(double _Q, double _Qe, double _Ta);
 		void EarthquakeDesignInput(double _K, double _K_plun);
 		void MaterialDesignInput(double _InnerPhi, double _WallPhi, double _Beta);
-		void BaseDesignInput(double _U, double _D, double _BasePhi, double _C, double _soilR_Earth, double _soilR_Water);
+		void BaseDesignInput(double _U, double _D, double _BasePhi, double _C, double _soilR_Earth, double _soilR_Water, double _rw);
 		void MF_DesignInput(double _Nq, double _Nr, double _Nc);
 		void SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF);
 		void SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, double _BaseSF_E);

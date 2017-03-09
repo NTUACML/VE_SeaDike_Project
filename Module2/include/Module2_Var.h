@@ -25,6 +25,7 @@ public:
 	double Mp; //Moment of Pressure
 	double Fh, Fh_y, Fh_Mh; //Horizontal soil force
 	double Fv_sum, Fv_x, Fv_Mv_sum; //Vertical soil force
+	double Fw, Fw_y, Fw_Mw; //Residual water force
 	std::vector<size_t> BlockId; //In level ID
 };
 class Module2_Var
@@ -59,6 +60,7 @@ public:
 	//- Base Var
 	double U, D, BasePhi, C; // 入土深度, 拋石厚度, 內摩擦角, 土壤黏滯力
 	double soilR_Earth, soilR_Water; // 土壤重 水上及水下
+	double rw; // 水單位重
 	//- Meyerhof's Factor
 	double Nq, Nr, Nc;
 	//- SF Coef 平時

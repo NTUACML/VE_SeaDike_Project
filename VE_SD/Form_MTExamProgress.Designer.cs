@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,8 +160,7 @@
             this.測試ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(13, 4, 0, 4);
-            this.menuStrip1.Size = new System.Drawing.Size(2702, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(884, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -175,7 +174,7 @@
             this.另存專案檔ToolStripMenuItem,
             this.退出此檢核ToolStripMenuItem});
             this.檔案ToolStripMenuItem.Name = "檔案ToolStripMenuItem";
-            this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(73, 34);
+            this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.檔案ToolStripMenuItem.Text = "檔案";
             // 
             // 開啟最近使用的舊檔ToolStripMenuItem
@@ -187,41 +186,41 @@
             this.舊檔案4ToolStripMenuItem,
             this.舊檔案5ToolStripMenuItem});
             this.開啟最近使用的舊檔ToolStripMenuItem.Name = "開啟最近使用的舊檔ToolStripMenuItem";
-            this.開啟最近使用的舊檔ToolStripMenuItem.Size = new System.Drawing.Size(417, 38);
+            this.開啟最近使用的舊檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.開啟最近使用的舊檔ToolStripMenuItem.Text = "開啟最近使用的舊檔";
             // 
             // 舊檔案1ToolStripMenuItem
             // 
             this.舊檔案1ToolStripMenuItem.Name = "舊檔案1ToolStripMenuItem";
-            this.舊檔案1ToolStripMenuItem.Size = new System.Drawing.Size(197, 38);
+            this.舊檔案1ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.舊檔案1ToolStripMenuItem.Text = "舊檔案1";
             this.舊檔案1ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案1ToolStripMenuItem_Click);
             // 
             // 舊檔案2ToolStripMenuItem
             // 
             this.舊檔案2ToolStripMenuItem.Name = "舊檔案2ToolStripMenuItem";
-            this.舊檔案2ToolStripMenuItem.Size = new System.Drawing.Size(197, 38);
+            this.舊檔案2ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.舊檔案2ToolStripMenuItem.Text = "舊檔案2";
             this.舊檔案2ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案2ToolStripMenuItem_Click);
             // 
             // 舊檔案3ToolStripMenuItem
             // 
             this.舊檔案3ToolStripMenuItem.Name = "舊檔案3ToolStripMenuItem";
-            this.舊檔案3ToolStripMenuItem.Size = new System.Drawing.Size(197, 38);
+            this.舊檔案3ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.舊檔案3ToolStripMenuItem.Text = "舊檔案3";
             this.舊檔案3ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案3ToolStripMenuItem_Click);
             // 
             // 舊檔案4ToolStripMenuItem
             // 
             this.舊檔案4ToolStripMenuItem.Name = "舊檔案4ToolStripMenuItem";
-            this.舊檔案4ToolStripMenuItem.Size = new System.Drawing.Size(197, 38);
+            this.舊檔案4ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.舊檔案4ToolStripMenuItem.Text = "舊檔案4";
             this.舊檔案4ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案4ToolStripMenuItem_Click);
             // 
             // 舊檔案5ToolStripMenuItem
             // 
             this.舊檔案5ToolStripMenuItem.Name = "舊檔案5ToolStripMenuItem";
-            this.舊檔案5ToolStripMenuItem.Size = new System.Drawing.Size(197, 38);
+            this.舊檔案5ToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.舊檔案5ToolStripMenuItem.Text = "舊檔案5";
             this.舊檔案5ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案5ToolStripMenuItem_Click);
             // 
@@ -229,7 +228,7 @@
             // 
             this.開啟一個新的專案檔ToolStripMenuItem.Name = "開啟一個新的專案檔ToolStripMenuItem";
             this.開啟一個新的專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(417, 38);
+            this.開啟一個新的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.開啟一個新的專案檔ToolStripMenuItem.Text = "開啟一個新的專案檔";
             this.開啟一個新的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟一個新的專案檔ToolStripMenuItem_Click);
             // 
@@ -237,7 +236,7 @@
             // 
             this.開啟舊的專案檔ToolStripMenuItem.Name = "開啟舊的專案檔ToolStripMenuItem";
             this.開啟舊的專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.開啟舊的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(417, 38);
+            this.開啟舊的專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.開啟舊的專案檔ToolStripMenuItem.Text = "開啟舊的專案檔";
             this.開啟舊的專案檔ToolStripMenuItem.Click += new System.EventHandler(this.開啟舊的專案檔ToolStripMenuItem_Click);
             // 
@@ -245,7 +244,7 @@
             // 
             this.儲存此專案檔ToolStripMenuItem.Name = "儲存此專案檔ToolStripMenuItem";
             this.儲存此專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.儲存此專案檔ToolStripMenuItem.Size = new System.Drawing.Size(417, 38);
+            this.儲存此專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.儲存此專案檔ToolStripMenuItem.Text = "儲存此專案檔";
             this.儲存此專案檔ToolStripMenuItem.Click += new System.EventHandler(this.儲存此專案檔ToolStripMenuItem_Click);
             // 
@@ -254,7 +253,7 @@
             this.另存專案檔ToolStripMenuItem.Name = "另存專案檔ToolStripMenuItem";
             this.另存專案檔ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.另存專案檔ToolStripMenuItem.Size = new System.Drawing.Size(417, 38);
+            this.另存專案檔ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.另存專案檔ToolStripMenuItem.Text = "另存專案檔";
             this.另存專案檔ToolStripMenuItem.Click += new System.EventHandler(this.另存專案檔ToolStripMenuItem_Click);
             // 
@@ -262,7 +261,7 @@
             // 
             this.退出此檢核ToolStripMenuItem.Name = "退出此檢核ToolStripMenuItem";
             this.退出此檢核ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(417, 38);
+            this.退出此檢核ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.退出此檢核ToolStripMenuItem.Text = "退出此檢核";
             this.退出此檢核ToolStripMenuItem.Click += new System.EventHandler(this.退出此檢核ToolStripMenuItem_Click);
             // 
@@ -271,13 +270,13 @@
             this.步驟ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.開始檢核ToolStripMenuItem});
             this.步驟ToolStripMenuItem.Name = "步驟ToolStripMenuItem";
-            this.步驟ToolStripMenuItem.Size = new System.Drawing.Size(73, 34);
+            this.步驟ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.步驟ToolStripMenuItem.Text = "步驟";
             // 
             // 開始檢核ToolStripMenuItem
             // 
             this.開始檢核ToolStripMenuItem.Name = "開始檢核ToolStripMenuItem";
-            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(207, 38);
+            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
             // 
@@ -285,7 +284,7 @@
             // 
             this.測試ToolStripMenuItem.Enabled = false;
             this.測試ToolStripMenuItem.Name = "測試ToolStripMenuItem";
-            this.測試ToolStripMenuItem.Size = new System.Drawing.Size(73, 34);
+            this.測試ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.測試ToolStripMenuItem.Text = "測試";
             // 
             // tabControl1
@@ -295,11 +294,10 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("標楷體", 11.25F);
-            this.tabControl1.Location = new System.Drawing.Point(0, 42);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2702, 1348);
+            this.tabControl1.Size = new System.Drawing.Size(884, 502);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -369,11 +367,10 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(8, 45);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage1.Size = new System.Drawing.Size(2686, 1295);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Size = new System.Drawing.Size(876, 473);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "設計條件參數";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -381,70 +378,63 @@
             // textBox_BoatColumnHeight
             // 
             this.textBox_BoatColumnHeight.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_BoatColumnHeight.Location = new System.Drawing.Point(477, 578);
-            this.textBox_BoatColumnHeight.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_BoatColumnHeight.Location = new System.Drawing.Point(220, 289);
             this.textBox_BoatColumnHeight.Name = "textBox_BoatColumnHeight";
-            this.textBox_BoatColumnHeight.Size = new System.Drawing.Size(212, 47);
+            this.textBox_BoatColumnHeight.Size = new System.Drawing.Size(100, 27);
             this.textBox_BoatColumnHeight.TabIndex = 64;
             this.textBox_BoatColumnHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_BoatColumnHeight_KeyPress);
             // 
             // textBox_rw
             // 
             this.textBox_rw.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_rw.Location = new System.Drawing.Point(477, 524);
-            this.textBox_rw.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_rw.Location = new System.Drawing.Point(220, 262);
             this.textBox_rw.Name = "textBox_rw";
-            this.textBox_rw.Size = new System.Drawing.Size(212, 47);
+            this.textBox_rw.Size = new System.Drawing.Size(100, 27);
             this.textBox_rw.TabIndex = 63;
             this.textBox_rw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_rw_KeyPress);
             // 
             // textBox_KaStage3
             // 
             this.textBox_KaStage3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_KaStage3.Location = new System.Drawing.Point(1408, 920);
-            this.textBox_KaStage3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_KaStage3.Location = new System.Drawing.Point(650, 460);
             this.textBox_KaStage3.Name = "textBox_KaStage3";
-            this.textBox_KaStage3.Size = new System.Drawing.Size(212, 47);
+            this.textBox_KaStage3.Size = new System.Drawing.Size(100, 27);
             this.textBox_KaStage3.TabIndex = 62;
             this.textBox_KaStage3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KaStage3_KeyPress);
             // 
             // textBox_KaStage2
             // 
             this.textBox_KaStage2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_KaStage2.Location = new System.Drawing.Point(1408, 864);
-            this.textBox_KaStage2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_KaStage2.Location = new System.Drawing.Point(650, 432);
             this.textBox_KaStage2.Name = "textBox_KaStage2";
-            this.textBox_KaStage2.Size = new System.Drawing.Size(212, 47);
+            this.textBox_KaStage2.Size = new System.Drawing.Size(100, 27);
             this.textBox_KaStage2.TabIndex = 61;
             this.textBox_KaStage2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KaStage2_KeyPress);
             // 
             // textBox_KaStage1
             // 
             this.textBox_KaStage1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_KaStage1.Location = new System.Drawing.Point(1408, 810);
-            this.textBox_KaStage1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_KaStage1.Location = new System.Drawing.Point(650, 405);
             this.textBox_KaStage1.Name = "textBox_KaStage1";
-            this.textBox_KaStage1.Size = new System.Drawing.Size(212, 47);
+            this.textBox_KaStage1.Size = new System.Drawing.Size(100, 27);
             this.textBox_KaStage1.TabIndex = 60;
             this.textBox_KaStage1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KaStage1_KeyPress);
             // 
             // textBox_SoilR_Water
             // 
             this.textBox_SoilR_Water.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SoilR_Water.Location = new System.Drawing.Point(1408, 734);
-            this.textBox_SoilR_Water.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_SoilR_Water.Location = new System.Drawing.Point(650, 367);
             this.textBox_SoilR_Water.Name = "textBox_SoilR_Water";
-            this.textBox_SoilR_Water.Size = new System.Drawing.Size(212, 47);
+            this.textBox_SoilR_Water.Size = new System.Drawing.Size(100, 27);
             this.textBox_SoilR_Water.TabIndex = 59;
             this.textBox_SoilR_Water.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SoilR_Water_KeyPress);
             // 
             // textBox_SoilR_Earth
             // 
             this.textBox_SoilR_Earth.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_SoilR_Earth.Location = new System.Drawing.Point(1408, 686);
-            this.textBox_SoilR_Earth.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_SoilR_Earth.Location = new System.Drawing.Point(650, 343);
             this.textBox_SoilR_Earth.Name = "textBox_SoilR_Earth";
-            this.textBox_SoilR_Earth.Size = new System.Drawing.Size(212, 47);
+            this.textBox_SoilR_Earth.Size = new System.Drawing.Size(100, 27);
             this.textBox_SoilR_Earth.TabIndex = 58;
             this.textBox_SoilR_Earth.TextChanged += new System.EventHandler(this.textBox_SoilR_Earth_TextChanged);
             this.textBox_SoilR_Earth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SoilR_Earth_KeyPress);
@@ -453,10 +443,9 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label32.Location = new System.Drawing.Point(819, 738);
-            this.label32.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label32.Location = new System.Drawing.Point(378, 369);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(207, 32);
+            this.label32.Size = new System.Drawing.Size(104, 16);
             this.label32.TabIndex = 57;
             this.label32.Text = "土壤重(水中)";
             // 
@@ -464,10 +453,9 @@
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label31.Location = new System.Drawing.Point(819, 690);
-            this.label31.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label31.Location = new System.Drawing.Point(378, 345);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(207, 32);
+            this.label31.Size = new System.Drawing.Size(104, 16);
             this.label31.TabIndex = 56;
             this.label31.Text = "土壤重(陸上)";
             // 
@@ -475,10 +463,9 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label30.Location = new System.Drawing.Point(52, 582);
-            this.label30.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label30.Location = new System.Drawing.Point(24, 291);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(287, 32);
+            this.label30.Size = new System.Drawing.Size(144, 16);
             this.label30.TabIndex = 55;
             this.label30.Text = "繫船柱突出高度(m)";
             // 
@@ -486,10 +473,9 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label29.Location = new System.Drawing.Point(52, 528);
-            this.label29.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label29.Location = new System.Drawing.Point(24, 264);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(255, 32);
+            this.label29.Size = new System.Drawing.Size(128, 16);
             this.label29.TabIndex = 54;
             this.label29.Text = "水單位重(t/m^3)";
             // 
@@ -497,10 +483,9 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label28.Location = new System.Drawing.Point(826, 926);
-            this.label28.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label28.Location = new System.Drawing.Point(381, 463);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(527, 32);
+            this.label28.Size = new System.Drawing.Size(264, 16);
             this.label28.TabIndex = 53;
             this.label28.Text = "地震時(設計震度K=0.33)土壓係數Ka";
             // 
@@ -508,10 +493,9 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label27.Location = new System.Drawing.Point(819, 870);
-            this.label27.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label27.Location = new System.Drawing.Point(378, 435);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(527, 32);
+            this.label27.Size = new System.Drawing.Size(264, 16);
             this.label27.TabIndex = 52;
             this.label27.Text = "地震時(設計震度K=0.17)土壓係數Ka";
             // 
@@ -519,10 +503,9 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label26.Location = new System.Drawing.Point(819, 816);
-            this.label26.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label26.Location = new System.Drawing.Point(378, 408);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(479, 32);
+            this.label26.Size = new System.Drawing.Size(240, 16);
             this.label26.TabIndex = 51;
             this.label26.Text = "平時(無設計震度k=0)土壓係數Ka";
             // 
@@ -535,10 +518,9 @@
             this.cmb_seawaveDir.Items.AddRange(new object[] {
             "左",
             "右"});
-            this.cmb_seawaveDir.Location = new System.Drawing.Point(477, 894);
-            this.cmb_seawaveDir.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.cmb_seawaveDir.Location = new System.Drawing.Point(220, 447);
             this.cmb_seawaveDir.Name = "cmb_seawaveDir";
-            this.cmb_seawaveDir.Size = new System.Drawing.Size(214, 47);
+            this.cmb_seawaveDir.Size = new System.Drawing.Size(101, 27);
             this.cmb_seawaveDir.TabIndex = 50;
             this.cmb_seawaveDir.SelectedIndexChanged += new System.EventHandler(this.cmb_seawaveDir_SelectedIndexChanged);
             // 
@@ -546,19 +528,17 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label25.Location = new System.Drawing.Point(50, 904);
-            this.label25.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label25.Location = new System.Drawing.Point(23, 452);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(143, 32);
+            this.label25.Size = new System.Drawing.Size(72, 16);
             this.label25.TabIndex = 49;
             this.label25.Text = "海側方向";
             // 
             // btn_ShowNcNqNr
             // 
-            this.btn_ShowNcNqNr.Location = new System.Drawing.Point(1803, 110);
-            this.btn_ShowNcNqNr.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btn_ShowNcNqNr.Location = new System.Drawing.Point(832, 55);
             this.btn_ShowNcNqNr.Name = "btn_ShowNcNqNr";
-            this.btn_ShowNcNqNr.Size = new System.Drawing.Size(334, 58);
+            this.btn_ShowNcNqNr.Size = new System.Drawing.Size(154, 29);
             this.btn_ShowNcNqNr.TabIndex = 48;
             this.btn_ShowNcNqNr.Text = "顯示參考圖";
             this.btn_ShowNcNqNr.UseVisualStyleBackColor = true;
@@ -567,40 +547,36 @@
             // textBox_地震時地盤承載力安全係數
             // 
             this.textBox_地震時地盤承載力安全係數.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_地震時地盤承載力安全係數.Location = new System.Drawing.Point(1408, 624);
-            this.textBox_地震時地盤承載力安全係數.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_地震時地盤承載力安全係數.Location = new System.Drawing.Point(650, 312);
             this.textBox_地震時地盤承載力安全係數.Name = "textBox_地震時地盤承載力安全係數";
-            this.textBox_地震時地盤承載力安全係數.Size = new System.Drawing.Size(212, 47);
+            this.textBox_地震時地盤承載力安全係數.Size = new System.Drawing.Size(100, 27);
             this.textBox_地震時地盤承載力安全係數.TabIndex = 47;
             this.textBox_地震時地盤承載力安全係數.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_地震時地盤承載力安全係數_KeyPress);
             // 
             // textBox_地震時傾倒安全係數
             // 
             this.textBox_地震時傾倒安全係數.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_地震時傾倒安全係數.Location = new System.Drawing.Point(1408, 572);
-            this.textBox_地震時傾倒安全係數.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_地震時傾倒安全係數.Location = new System.Drawing.Point(650, 286);
             this.textBox_地震時傾倒安全係數.Name = "textBox_地震時傾倒安全係數";
-            this.textBox_地震時傾倒安全係數.Size = new System.Drawing.Size(212, 47);
+            this.textBox_地震時傾倒安全係數.Size = new System.Drawing.Size(100, 27);
             this.textBox_地震時傾倒安全係數.TabIndex = 46;
             this.textBox_地震時傾倒安全係數.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_地震時傾倒安全係數_KeyPress);
             // 
             // textBox_地震時滑動安全係數
             // 
             this.textBox_地震時滑動安全係數.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_地震時滑動安全係數.Location = new System.Drawing.Point(1408, 518);
-            this.textBox_地震時滑動安全係數.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_地震時滑動安全係數.Location = new System.Drawing.Point(650, 259);
             this.textBox_地震時滑動安全係數.Name = "textBox_地震時滑動安全係數";
-            this.textBox_地震時滑動安全係數.Size = new System.Drawing.Size(212, 47);
+            this.textBox_地震時滑動安全係數.Size = new System.Drawing.Size(100, 27);
             this.textBox_地震時滑動安全係數.TabIndex = 45;
             this.textBox_地震時滑動安全係數.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_地震時滑動安全係數_KeyPress);
             // 
             // textBox_平時地盤承載力安全係數
             // 
             this.textBox_平時地盤承載力安全係數.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_平時地盤承載力安全係數.Location = new System.Drawing.Point(1408, 464);
-            this.textBox_平時地盤承載力安全係數.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_平時地盤承載力安全係數.Location = new System.Drawing.Point(650, 232);
             this.textBox_平時地盤承載力安全係數.Name = "textBox_平時地盤承載力安全係數";
-            this.textBox_平時地盤承載力安全係數.Size = new System.Drawing.Size(212, 47);
+            this.textBox_平時地盤承載力安全係數.Size = new System.Drawing.Size(100, 27);
             this.textBox_平時地盤承載力安全係數.TabIndex = 44;
             this.textBox_平時地盤承載力安全係數.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_平時地盤承載力安全係數_KeyPress);
             this.textBox_平時地盤承載力安全係數.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_平時地盤承載力安全係數_KeyUp);
@@ -608,50 +584,45 @@
             // textBox_平時傾倒安全係數
             // 
             this.textBox_平時傾倒安全係數.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_平時傾倒安全係數.Location = new System.Drawing.Point(1408, 412);
-            this.textBox_平時傾倒安全係數.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_平時傾倒安全係數.Location = new System.Drawing.Point(650, 206);
             this.textBox_平時傾倒安全係數.Name = "textBox_平時傾倒安全係數";
-            this.textBox_平時傾倒安全係數.Size = new System.Drawing.Size(212, 47);
+            this.textBox_平時傾倒安全係數.Size = new System.Drawing.Size(100, 27);
             this.textBox_平時傾倒安全係數.TabIndex = 43;
             this.textBox_平時傾倒安全係數.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_平時傾倒安全係數_KeyPress);
             // 
             // textBox_平時滑動安全係數
             // 
             this.textBox_平時滑動安全係數.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_平時滑動安全係數.Location = new System.Drawing.Point(1408, 358);
-            this.textBox_平時滑動安全係數.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_平時滑動安全係數.Location = new System.Drawing.Point(650, 179);
             this.textBox_平時滑動安全係數.Name = "textBox_平時滑動安全係數";
-            this.textBox_平時滑動安全係數.Size = new System.Drawing.Size(212, 47);
+            this.textBox_平時滑動安全係數.Size = new System.Drawing.Size(100, 27);
             this.textBox_平時滑動安全係數.TabIndex = 42;
             this.textBox_平時滑動安全係數.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_平時滑動安全係數_KeyPress);
             // 
             // textBox_Nr
             // 
             this.textBox_Nr.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Nr.Location = new System.Drawing.Point(1408, 296);
-            this.textBox_Nr.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_Nr.Location = new System.Drawing.Point(650, 148);
             this.textBox_Nr.Name = "textBox_Nr";
-            this.textBox_Nr.Size = new System.Drawing.Size(212, 47);
+            this.textBox_Nr.Size = new System.Drawing.Size(100, 27);
             this.textBox_Nr.TabIndex = 41;
             this.textBox_Nr.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nr_KeyPress);
             // 
             // textBox_Nc
             // 
             this.textBox_Nc.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Nc.Location = new System.Drawing.Point(1408, 242);
-            this.textBox_Nc.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_Nc.Location = new System.Drawing.Point(650, 121);
             this.textBox_Nc.Name = "textBox_Nc";
-            this.textBox_Nc.Size = new System.Drawing.Size(212, 47);
+            this.textBox_Nc.Size = new System.Drawing.Size(100, 27);
             this.textBox_Nc.TabIndex = 40;
             this.textBox_Nc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nc_KeyPress);
             // 
             // textBox_Nq
             // 
             this.textBox_Nq.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Nq.Location = new System.Drawing.Point(1408, 178);
-            this.textBox_Nq.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_Nq.Location = new System.Drawing.Point(650, 89);
             this.textBox_Nq.Name = "textBox_Nq";
-            this.textBox_Nq.Size = new System.Drawing.Size(212, 47);
+            this.textBox_Nq.Size = new System.Drawing.Size(100, 27);
             this.textBox_Nq.TabIndex = 39;
             this.textBox_Nq.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nq_KeyPress);
             this.textBox_Nq.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_Nq_KeyUp);
@@ -659,120 +630,108 @@
             // textBox_土壤凝聚力
             // 
             this.textBox_土壤凝聚力.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_土壤凝聚力.Location = new System.Drawing.Point(1408, 118);
-            this.textBox_土壤凝聚力.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_土壤凝聚力.Location = new System.Drawing.Point(650, 59);
             this.textBox_土壤凝聚力.Name = "textBox_土壤凝聚力";
-            this.textBox_土壤凝聚力.Size = new System.Drawing.Size(212, 47);
+            this.textBox_土壤凝聚力.Size = new System.Drawing.Size(100, 27);
             this.textBox_土壤凝聚力.TabIndex = 38;
             this.textBox_土壤凝聚力.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_土壤凝聚力_KeyPress);
             // 
             // textBox_地盤基礎內摩擦角
             // 
             this.textBox_地盤基礎內摩擦角.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_地盤基礎內摩擦角.Location = new System.Drawing.Point(1408, 52);
-            this.textBox_地盤基礎內摩擦角.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_地盤基礎內摩擦角.Location = new System.Drawing.Point(650, 26);
             this.textBox_地盤基礎內摩擦角.Name = "textBox_地盤基礎內摩擦角";
-            this.textBox_地盤基礎內摩擦角.Size = new System.Drawing.Size(212, 47);
+            this.textBox_地盤基礎內摩擦角.Size = new System.Drawing.Size(100, 27);
             this.textBox_地盤基礎內摩擦角.TabIndex = 37;
             this.textBox_地盤基礎內摩擦角.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_地盤基礎內摩擦角_KeyPress);
             // 
             // textBox_拋石厚度
             // 
             this.textBox_拋石厚度.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_拋石厚度.Location = new System.Drawing.Point(477, 844);
-            this.textBox_拋石厚度.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_拋石厚度.Location = new System.Drawing.Point(220, 422);
             this.textBox_拋石厚度.Name = "textBox_拋石厚度";
-            this.textBox_拋石厚度.Size = new System.Drawing.Size(212, 47);
+            this.textBox_拋石厚度.Size = new System.Drawing.Size(100, 27);
             this.textBox_拋石厚度.TabIndex = 36;
             this.textBox_拋石厚度.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_拋石厚度_KeyPress);
             // 
             // textBox_入土深度
             // 
             this.textBox_入土深度.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_入土深度.Location = new System.Drawing.Point(477, 794);
-            this.textBox_入土深度.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_入土深度.Location = new System.Drawing.Point(220, 397);
             this.textBox_入土深度.Name = "textBox_入土深度";
-            this.textBox_入土深度.Size = new System.Drawing.Size(212, 47);
+            this.textBox_入土深度.Size = new System.Drawing.Size(100, 27);
             this.textBox_入土深度.TabIndex = 35;
             this.textBox_入土深度.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_入土深度_KeyPress);
             // 
             // textBox_背填料水平傾斜角
             // 
             this.textBox_背填料水平傾斜角.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_背填料水平傾斜角.Location = new System.Drawing.Point(477, 742);
-            this.textBox_背填料水平傾斜角.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_背填料水平傾斜角.Location = new System.Drawing.Point(220, 371);
             this.textBox_背填料水平傾斜角.Name = "textBox_背填料水平傾斜角";
-            this.textBox_背填料水平傾斜角.Size = new System.Drawing.Size(212, 47);
+            this.textBox_背填料水平傾斜角.Size = new System.Drawing.Size(100, 27);
             this.textBox_背填料水平傾斜角.TabIndex = 34;
             this.textBox_背填料水平傾斜角.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_背填料水平傾斜角_KeyPress);
             // 
             // textBox_背填料壁面摩擦角
             // 
             this.textBox_背填料壁面摩擦角.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_背填料壁面摩擦角.Location = new System.Drawing.Point(477, 690);
-            this.textBox_背填料壁面摩擦角.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_背填料壁面摩擦角.Location = new System.Drawing.Point(220, 345);
             this.textBox_背填料壁面摩擦角.Name = "textBox_背填料壁面摩擦角";
-            this.textBox_背填料壁面摩擦角.Size = new System.Drawing.Size(212, 47);
+            this.textBox_背填料壁面摩擦角.Size = new System.Drawing.Size(100, 27);
             this.textBox_背填料壁面摩擦角.TabIndex = 33;
             this.textBox_背填料壁面摩擦角.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_背填料壁面摩擦繳_KeyPress);
             // 
             // textBox_背填料內摩擦角
             // 
             this.textBox_背填料內摩擦角.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_背填料內摩擦角.Location = new System.Drawing.Point(477, 636);
-            this.textBox_背填料內摩擦角.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_背填料內摩擦角.Location = new System.Drawing.Point(220, 318);
             this.textBox_背填料內摩擦角.Name = "textBox_背填料內摩擦角";
-            this.textBox_背填料內摩擦角.Size = new System.Drawing.Size(212, 47);
+            this.textBox_背填料內摩擦角.Size = new System.Drawing.Size(100, 27);
             this.textBox_背填料內摩擦角.TabIndex = 32;
             this.textBox_背填料內摩擦角.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_背填料內摩擦角_KeyPress);
             // 
             // textBox_水中設計震度
             // 
             this.textBox_水中設計震度.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_水中設計震度.Location = new System.Drawing.Point(477, 464);
-            this.textBox_水中設計震度.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_水中設計震度.Location = new System.Drawing.Point(220, 232);
             this.textBox_水中設計震度.Name = "textBox_水中設計震度";
-            this.textBox_水中設計震度.Size = new System.Drawing.Size(212, 47);
+            this.textBox_水中設計震度.Size = new System.Drawing.Size(100, 27);
             this.textBox_水中設計震度.TabIndex = 31;
             this.textBox_水中設計震度.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_水中設計震度_KeyPress);
             // 
             // textBox_陸上設計震度
             // 
             this.textBox_陸上設計震度.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_陸上設計震度.Location = new System.Drawing.Point(477, 412);
-            this.textBox_陸上設計震度.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_陸上設計震度.Location = new System.Drawing.Point(220, 206);
             this.textBox_陸上設計震度.Name = "textBox_陸上設計震度";
-            this.textBox_陸上設計震度.Size = new System.Drawing.Size(212, 47);
+            this.textBox_陸上設計震度.Size = new System.Drawing.Size(100, 27);
             this.textBox_陸上設計震度.TabIndex = 30;
             this.textBox_陸上設計震度.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_陸上設計震度_KeyPress);
             // 
             // textBox_船舶牽引力
             // 
             this.textBox_船舶牽引力.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_船舶牽引力.Location = new System.Drawing.Point(477, 358);
-            this.textBox_船舶牽引力.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_船舶牽引力.Location = new System.Drawing.Point(220, 179);
             this.textBox_船舶牽引力.Name = "textBox_船舶牽引力";
-            this.textBox_船舶牽引力.Size = new System.Drawing.Size(212, 47);
+            this.textBox_船舶牽引力.Size = new System.Drawing.Size(100, 27);
             this.textBox_船舶牽引力.TabIndex = 29;
             this.textBox_船舶牽引力.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_船舶牽引力_KeyPress);
             // 
             // textBox_地震時上載荷重
             // 
             this.textBox_地震時上載荷重.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_地震時上載荷重.Location = new System.Drawing.Point(477, 296);
-            this.textBox_地震時上載荷重.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_地震時上載荷重.Location = new System.Drawing.Point(220, 148);
             this.textBox_地震時上載荷重.Name = "textBox_地震時上載荷重";
-            this.textBox_地震時上載荷重.Size = new System.Drawing.Size(212, 47);
+            this.textBox_地震時上載荷重.Size = new System.Drawing.Size(100, 27);
             this.textBox_地震時上載荷重.TabIndex = 28;
             this.textBox_地震時上載荷重.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_地震時上載荷重_KeyPress);
             // 
             // textBox_平時上載荷重
             // 
             this.textBox_平時上載荷重.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_平時上載荷重.Location = new System.Drawing.Point(477, 242);
-            this.textBox_平時上載荷重.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_平時上載荷重.Location = new System.Drawing.Point(220, 121);
             this.textBox_平時上載荷重.Name = "textBox_平時上載荷重";
-            this.textBox_平時上載荷重.Size = new System.Drawing.Size(212, 47);
+            this.textBox_平時上載荷重.Size = new System.Drawing.Size(100, 27);
             this.textBox_平時上載荷重.TabIndex = 27;
             this.textBox_平時上載荷重.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_平時上載荷重_KeyPress);
             // 
@@ -782,10 +741,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_殘留水位.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_殘留水位.Location = new System.Drawing.Point(477, 178);
-            this.textBox_殘留水位.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_殘留水位.Location = new System.Drawing.Point(220, 89);
             this.textBox_殘留水位.Name = "textBox_殘留水位";
-            this.textBox_殘留水位.Size = new System.Drawing.Size(212, 47);
+            this.textBox_殘留水位.Size = new System.Drawing.Size(0, 27);
             this.textBox_殘留水位.TabIndex = 26;
             this.textBox_殘留水位.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_殘留水位_KeyPress);
             // 
@@ -795,10 +753,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_設計潮位低.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_設計潮位低.Location = new System.Drawing.Point(477, 112);
-            this.textBox_設計潮位低.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_設計潮位低.Location = new System.Drawing.Point(220, 56);
             this.textBox_設計潮位低.Name = "textBox_設計潮位低";
-            this.textBox_設計潮位低.Size = new System.Drawing.Size(212, 47);
+            this.textBox_設計潮位低.Size = new System.Drawing.Size(0, 27);
             this.textBox_設計潮位低.TabIndex = 25;
             this.textBox_設計潮位低.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_設計潮位低_KeyPress);
             // 
@@ -808,10 +765,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_設計潮位高.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_設計潮位高.Location = new System.Drawing.Point(477, 52);
-            this.textBox_設計潮位高.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox_設計潮位高.Location = new System.Drawing.Point(220, 26);
             this.textBox_設計潮位高.Name = "textBox_設計潮位高";
-            this.textBox_設計潮位高.Size = new System.Drawing.Size(212, 47);
+            this.textBox_設計潮位高.Size = new System.Drawing.Size(0, 27);
             this.textBox_設計潮位高.TabIndex = 24;
             this.textBox_設計潮位高.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_設計潮位高_KeyPress);
             // 
@@ -819,10 +775,9 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label24.Location = new System.Drawing.Point(817, 634);
-            this.label24.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label24.Location = new System.Drawing.Point(377, 317);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(399, 32);
+            this.label24.Size = new System.Drawing.Size(200, 16);
             this.label24.TabIndex = 23;
             this.label24.Text = "地震時地盤承載力安全係數";
             // 
@@ -830,10 +785,9 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label23.Location = new System.Drawing.Point(817, 582);
-            this.label23.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label23.Location = new System.Drawing.Point(377, 291);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(303, 32);
+            this.label23.Size = new System.Drawing.Size(152, 16);
             this.label23.TabIndex = 22;
             this.label23.Text = "地震時傾倒安全係數";
             // 
@@ -841,10 +795,9 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label22.Location = new System.Drawing.Point(817, 528);
-            this.label22.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label22.Location = new System.Drawing.Point(377, 264);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(303, 32);
+            this.label22.Size = new System.Drawing.Size(152, 16);
             this.label22.TabIndex = 21;
             this.label22.Text = "地震時滑動安全係數";
             // 
@@ -852,10 +805,9 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label21.Location = new System.Drawing.Point(817, 474);
-            this.label21.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label21.Location = new System.Drawing.Point(377, 237);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(367, 32);
+            this.label21.Size = new System.Drawing.Size(184, 16);
             this.label21.TabIndex = 20;
             this.label21.Text = "平時地盤承載力安全係數";
             // 
@@ -863,10 +815,9 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label20.Location = new System.Drawing.Point(817, 422);
-            this.label20.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label20.Location = new System.Drawing.Point(377, 211);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(271, 32);
+            this.label20.Size = new System.Drawing.Size(136, 16);
             this.label20.TabIndex = 19;
             this.label20.Text = "平時傾倒安全係數";
             // 
@@ -874,10 +825,9 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label19.Location = new System.Drawing.Point(817, 368);
-            this.label19.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label19.Location = new System.Drawing.Point(377, 184);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(271, 32);
+            this.label19.Size = new System.Drawing.Size(136, 16);
             this.label19.TabIndex = 18;
             this.label19.Text = "平時滑動安全係數";
             // 
@@ -885,10 +835,9 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label18.Location = new System.Drawing.Point(817, 306);
-            this.label18.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label18.Location = new System.Drawing.Point(377, 153);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(207, 32);
+            this.label18.Size = new System.Drawing.Size(104, 16);
             this.label18.TabIndex = 17;
             this.label18.Text = "土壤承載力Nr";
             // 
@@ -896,10 +845,9 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label17.Location = new System.Drawing.Point(817, 252);
-            this.label17.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label17.Location = new System.Drawing.Point(377, 126);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(207, 32);
+            this.label17.Size = new System.Drawing.Size(104, 16);
             this.label17.TabIndex = 16;
             this.label17.Text = "土壤承載力Nc";
             // 
@@ -907,10 +855,9 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label16.Location = new System.Drawing.Point(817, 188);
-            this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label16.Location = new System.Drawing.Point(377, 94);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(207, 32);
+            this.label16.Size = new System.Drawing.Size(104, 16);
             this.label16.TabIndex = 15;
             this.label16.Text = "土壤承載力Nq";
             // 
@@ -918,10 +865,9 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label15.Location = new System.Drawing.Point(817, 122);
-            this.label15.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label15.Location = new System.Drawing.Point(377, 61);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(223, 32);
+            this.label15.Size = new System.Drawing.Size(112, 16);
             this.label15.TabIndex = 14;
             this.label15.Text = "土壤凝聚力(C)";
             // 
@@ -929,10 +875,9 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label14.Location = new System.Drawing.Point(817, 62);
-            this.label14.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label14.Location = new System.Drawing.Point(377, 31);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(303, 32);
+            this.label14.Size = new System.Drawing.Size(152, 16);
             this.label14.TabIndex = 13;
             this.label14.Text = "地盤基礎內摩擦角()";
             // 
@@ -940,10 +885,9 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label13.Location = new System.Drawing.Point(52, 854);
-            this.label13.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label13.Location = new System.Drawing.Point(24, 427);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(191, 32);
+            this.label13.Size = new System.Drawing.Size(96, 16);
             this.label13.TabIndex = 12;
             this.label13.Text = "拋石厚度(D)";
             // 
@@ -954,10 +898,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label12.Location = new System.Drawing.Point(52, 804);
-            this.label12.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label12.Location = new System.Drawing.Point(24, 402);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(191, 32);
+            this.label12.Size = new System.Drawing.Size(96, 16);
             this.label12.TabIndex = 11;
             this.label12.Text = "入土深度(U)";
             // 
@@ -968,10 +911,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label11.Location = new System.Drawing.Point(52, 752);
-            this.label11.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label11.Location = new System.Drawing.Point(24, 376);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(303, 32);
+            this.label11.Size = new System.Drawing.Size(152, 16);
             this.label11.TabIndex = 10;
             this.label11.Text = "背填料水平傾斜角()";
             // 
@@ -982,10 +924,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label10.Location = new System.Drawing.Point(52, 700);
-            this.label10.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label10.Location = new System.Drawing.Point(24, 350);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(303, 32);
+            this.label10.Size = new System.Drawing.Size(152, 16);
             this.label10.TabIndex = 9;
             this.label10.Text = "背填料壁面摩擦角()";
             // 
@@ -996,10 +937,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label9.Location = new System.Drawing.Point(52, 646);
-            this.label9.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label9.Location = new System.Drawing.Point(24, 323);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(271, 32);
+            this.label9.Size = new System.Drawing.Size(136, 16);
             this.label9.TabIndex = 8;
             this.label9.Text = "背填料內摩擦角()";
             // 
@@ -1010,10 +950,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label8.Location = new System.Drawing.Point(52, 474);
-            this.label8.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label8.Location = new System.Drawing.Point(24, 237);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(271, 32);
+            this.label8.Size = new System.Drawing.Size(136, 16);
             this.label8.TabIndex = 7;
             this.label8.Text = "水中設計震度(K\')";
             // 
@@ -1024,10 +963,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label7.Location = new System.Drawing.Point(52, 422);
-            this.label7.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label7.Location = new System.Drawing.Point(24, 211);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(255, 32);
+            this.label7.Size = new System.Drawing.Size(128, 16);
             this.label7.TabIndex = 6;
             this.label7.Text = "陸上設計震度(K)";
             // 
@@ -1038,10 +976,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label6.Location = new System.Drawing.Point(52, 368);
-            this.label6.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label6.Location = new System.Drawing.Point(24, 184);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(239, 32);
+            this.label6.Size = new System.Drawing.Size(120, 16);
             this.label6.TabIndex = 5;
             this.label6.Text = "船舶牽引力(Ta)";
             // 
@@ -1052,10 +989,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label5.Location = new System.Drawing.Point(52, 306);
-            this.label5.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label5.Location = new System.Drawing.Point(24, 153);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(303, 32);
+            this.label5.Size = new System.Drawing.Size(152, 16);
             this.label5.TabIndex = 4;
             this.label5.Text = "地震時上載荷重(Qe)";
             // 
@@ -1066,10 +1002,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label4.Location = new System.Drawing.Point(52, 252);
-            this.label4.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label4.Location = new System.Drawing.Point(24, 126);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(255, 32);
+            this.label4.Size = new System.Drawing.Size(128, 16);
             this.label4.TabIndex = 3;
             this.label4.Text = "平時上載荷重(Q)";
             // 
@@ -1080,10 +1015,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label3.Location = new System.Drawing.Point(52, 188);
-            this.label3.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label3.Location = new System.Drawing.Point(24, 94);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(223, 32);
+            this.label3.Size = new System.Drawing.Size(112, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "殘留水位(RWL)";
             // 
@@ -1094,10 +1028,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label2.Location = new System.Drawing.Point(52, 122);
-            this.label2.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label2.Location = new System.Drawing.Point(24, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(255, 32);
+            this.label2.Size = new System.Drawing.Size(128, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "設計潮位低(LWL)";
             // 
@@ -1108,10 +1041,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("標楷體", 12F);
-            this.label1.Location = new System.Drawing.Point(52, 62);
-            this.label1.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label1.Location = new System.Drawing.Point(24, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(255, 32);
+            this.label1.Size = new System.Drawing.Size(128, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "設計潮位高(HWL)";
             // 
@@ -1126,11 +1058,10 @@
             this.tabPage2.Controls.Add(this.btn_ModifiedBlock);
             this.tabPage2.Controls.Add(this.btnRemoveSects);
             this.tabPage2.Controls.Add(this.btn_AddASect);
-            this.tabPage2.Location = new System.Drawing.Point(8, 45);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage2.Size = new System.Drawing.Size(2686, 1289);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Size = new System.Drawing.Size(1239, 645);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "型塊設定";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1139,22 +1070,21 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.EL});
             this.ELDGV1.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.ELDGV1.Location = new System.Drawing.Point(2442, 12);
-            this.ELDGV1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.ELDGV1.Location = new System.Drawing.Point(1127, 6);
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.ELDGV1.RowTemplate.Height = 24;
-            this.ELDGV1.Size = new System.Drawing.Size(225, 870);
+            this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
             this.ELDGV1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ELDGV1_CellValueChanged);
             this.ELDGV1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.ELDGV1_UserAddedRow);
@@ -1162,9 +1092,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle2;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1172,11 +1102,9 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.ReferencedMaterialCHKL);
-            this.groupBox3.Location = new System.Drawing.Point(1638, 894);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox3.Location = new System.Drawing.Point(756, 447);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox3.Size = new System.Drawing.Size(1029, 304);
+            this.groupBox3.Size = new System.Drawing.Size(475, 152);
             this.groupBox3.TabIndex = 19;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "周圍參考材質設定";
@@ -1188,11 +1116,10 @@
             this.ReferencedMaterialCHKL.FormattingEnabled = true;
             this.ReferencedMaterialCHKL.HorizontalScrollbar = true;
             this.ReferencedMaterialCHKL.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.ReferencedMaterialCHKL.Location = new System.Drawing.Point(28, 42);
-            this.ReferencedMaterialCHKL.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.ReferencedMaterialCHKL.Location = new System.Drawing.Point(13, 21);
             this.ReferencedMaterialCHKL.MultiColumn = true;
             this.ReferencedMaterialCHKL.Name = "ReferencedMaterialCHKL";
-            this.ReferencedMaterialCHKL.Size = new System.Drawing.Size(983, 232);
+            this.ReferencedMaterialCHKL.Size = new System.Drawing.Size(456, 104);
             this.ReferencedMaterialCHKL.TabIndex = 0;
             this.ReferencedMaterialCHKL.SelectedIndexChanged += new System.EventHandler(this.ReferencedMaterialCHKL_SelectedIndexChanged);
             // 
@@ -1200,10 +1127,9 @@
             // 
             this.propertyGrid_Block.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.propertyGrid_Block.HelpVisible = false;
-            this.propertyGrid_Block.Location = new System.Drawing.Point(329, 922);
-            this.propertyGrid_Block.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.propertyGrid_Block.Location = new System.Drawing.Point(152, 461);
             this.propertyGrid_Block.Name = "propertyGrid_Block";
-            this.propertyGrid_Block.Size = new System.Drawing.Size(1296, 262);
+            this.propertyGrid_Block.Size = new System.Drawing.Size(598, 131);
             this.propertyGrid_Block.TabIndex = 18;
             this.propertyGrid_Block.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_Block_PropertyValueChanged);
             this.propertyGrid_Block.Click += new System.EventHandler(this.propertyGrid_Block_Click);
@@ -1213,18 +1139,17 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend2);
-            this.chart_Plot.Location = new System.Drawing.Point(299, 14);
-            this.chart_Plot.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            chartArea1.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend1);
+            this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart_Plot.Series.Add(series2);
-            this.chart_Plot.Size = new System.Drawing.Size(2130, 896);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart_Plot.Series.Add(series1);
+            this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
             this.chart_Plot.Click += new System.EventHandler(this.chart_Plot_Click);
@@ -1233,11 +1158,10 @@
             // 
             this.listBox_SectSetting.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox_SectSetting.FormattingEnabled = true;
-            this.listBox_SectSetting.ItemHeight = 39;
-            this.listBox_SectSetting.Location = new System.Drawing.Point(13, 124);
-            this.listBox_SectSetting.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.listBox_SectSetting.ItemHeight = 19;
+            this.listBox_SectSetting.Location = new System.Drawing.Point(6, 62);
             this.listBox_SectSetting.Name = "listBox_SectSetting";
-            this.listBox_SectSetting.Size = new System.Drawing.Size(268, 1057);
+            this.listBox_SectSetting.Size = new System.Drawing.Size(126, 517);
             this.listBox_SectSetting.TabIndex = 16;
             this.listBox_SectSetting.SelectedIndexChanged += new System.EventHandler(this.listBox_SectSetting_SelectedIndexChanged);
             // 
@@ -1250,20 +1174,18 @@
             "單位體積重",
             "Moment計算",
             "材質"});
-            this.cmb_ShowOnBlockListChoice.Location = new System.Drawing.Point(13, 64);
-            this.cmb_ShowOnBlockListChoice.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.cmb_ShowOnBlockListChoice.Location = new System.Drawing.Point(6, 32);
             this.cmb_ShowOnBlockListChoice.Name = "cmb_ShowOnBlockListChoice";
-            this.cmb_ShowOnBlockListChoice.Size = new System.Drawing.Size(268, 38);
+            this.cmb_ShowOnBlockListChoice.Size = new System.Drawing.Size(126, 23);
             this.cmb_ShowOnBlockListChoice.TabIndex = 15;
             this.cmb_ShowOnBlockListChoice.SelectedIndexChanged += new System.EventHandler(this.cmb_ShowOnBlockListChoice_SelectedIndexChanged);
             // 
             // btn_ModifiedBlock
             // 
             this.btn_ModifiedBlock.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ModifiedBlock.Location = new System.Drawing.Point(182, 8);
-            this.btn_ModifiedBlock.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btn_ModifiedBlock.Location = new System.Drawing.Point(84, 4);
             this.btn_ModifiedBlock.Name = "btn_ModifiedBlock";
-            this.btn_ModifiedBlock.Size = new System.Drawing.Size(104, 48);
+            this.btn_ModifiedBlock.Size = new System.Drawing.Size(48, 24);
             this.btn_ModifiedBlock.TabIndex = 13;
             this.btn_ModifiedBlock.Text = "Edit";
             this.btn_ModifiedBlock.UseVisualStyleBackColor = true;
@@ -1271,10 +1193,9 @@
             // 
             // btnRemoveSects
             // 
-            this.btnRemoveSects.Location = new System.Drawing.Point(72, 14);
-            this.btnRemoveSects.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btnRemoveSects.Location = new System.Drawing.Point(33, 7);
             this.btnRemoveSects.Name = "btnRemoveSects";
-            this.btnRemoveSects.Size = new System.Drawing.Size(46, 38);
+            this.btnRemoveSects.Size = new System.Drawing.Size(21, 19);
             this.btnRemoveSects.TabIndex = 7;
             this.btnRemoveSects.Text = "-";
             this.btnRemoveSects.UseVisualStyleBackColor = true;
@@ -1282,10 +1203,9 @@
             // 
             // btn_AddASect
             // 
-            this.btn_AddASect.Location = new System.Drawing.Point(13, 12);
-            this.btn_AddASect.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btn_AddASect.Location = new System.Drawing.Point(6, 6);
             this.btn_AddASect.Name = "btn_AddASect";
-            this.btn_AddASect.Size = new System.Drawing.Size(46, 40);
+            this.btn_AddASect.Size = new System.Drawing.Size(21, 20);
             this.btn_AddASect.TabIndex = 6;
             this.btn_AddASect.Text = "+";
             this.btn_AddASect.UseVisualStyleBackColor = true;
@@ -1295,10 +1215,9 @@
             // 
             this.tabPage3.Controls.Add(this.btn_LogOutput);
             this.tabPage3.Controls.Add(this.btn_Test);
-            this.tabPage3.Location = new System.Drawing.Point(8, 45);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(2686, 1289);
+            this.tabPage3.Size = new System.Drawing.Size(876, 473);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "檢核";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1306,10 +1225,9 @@
             // btn_LogOutput
             // 
             this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_LogOutput.Location = new System.Drawing.Point(546, 228);
-            this.btn_LogOutput.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btn_LogOutput.Location = new System.Drawing.Point(252, 114);
             this.btn_LogOutput.Name = "btn_LogOutput";
-            this.btn_LogOutput.Size = new System.Drawing.Size(397, 64);
+            this.btn_LogOutput.Size = new System.Drawing.Size(183, 32);
             this.btn_LogOutput.TabIndex = 1;
             this.btn_LogOutput.Text = "輸出LOG檔案";
             this.btn_LogOutput.UseVisualStyleBackColor = true;
@@ -1318,10 +1236,9 @@
             // btn_Test
             // 
             this.btn_Test.Font = new System.Drawing.Font("標楷體", 15.75F);
-            this.btn_Test.Location = new System.Drawing.Point(546, 72);
-            this.btn_Test.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btn_Test.Location = new System.Drawing.Point(252, 36);
             this.btn_Test.Name = "btn_Test";
-            this.btn_Test.Size = new System.Drawing.Size(397, 78);
+            this.btn_Test.Size = new System.Drawing.Size(183, 39);
             this.btn_Test.TabIndex = 0;
             this.btn_Test.Text = "進行檢核";
             this.btn_Test.UseVisualStyleBackColor = true;
@@ -1335,28 +1252,27 @@
             this.toolStripProgressBar1,
             this.TSP_DATETIME});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1344);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 500);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 30, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(2702, 46);
+            this.statusStrip1.Size = new System.Drawing.Size(884, 26);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tsp_cond
             // 
             this.tsp_cond.Name = "tsp_cond";
-            this.tsp_cond.Size = new System.Drawing.Size(256, 41);
+            this.tsp_cond.Size = new System.Drawing.Size(128, 21);
             this.tsp_cond.Text = "toolStripStatusLabel1";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(758, 40);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(350, 20);
             // 
             // TSP_DATETIME
             // 
             this.TSP_DATETIME.Name = "TSP_DATETIME";
-            this.TSP_DATETIME.Size = new System.Drawing.Size(256, 41);
+            this.TSP_DATETIME.Size = new System.Drawing.Size(128, 21);
             this.TSP_DATETIME.Text = "toolStripStatusLabel1";
             // 
             // OFD_專案
@@ -1376,14 +1292,13 @@
             // 
             // Form_MTExamProgress
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2702, 1390);
+            this.ClientSize = new System.Drawing.Size(884, 526);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "Form_MTExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "碼頭檢核";
