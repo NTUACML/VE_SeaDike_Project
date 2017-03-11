@@ -25,7 +25,8 @@ public:
 	double Mp; //Moment of Pressure
 	double Fh, Fh_y, Fh_Mh; //Horizontal soil force
 	double Fv_sum, Fv_x, Fv_Mv_sum; //Vertical soil force
-	double Fw, Fw_y, Fw_Mw; //Residual water force
+	double Fw_sum, Fw_y, Fw_Mw_sum; //Residual water force
+	double Ft_y, Ft_Mt; //Ship traction force
 	std::vector<size_t> BlockId; //In level ID
 };
 class Module2_Var
@@ -56,7 +57,7 @@ public:
 	//- Earthquake Var
 	double K, K_plun; // 路上震度, 水中震度
 	//- Material Var
-	double InnerPhi, WallPhi, Beta; // 內摩擦角, 壁面摩擦角, 水平傾斜角
+	double InnerPhi, WallPhi, Beta, hd; // 內摩擦角, 壁面摩擦角, 水平傾斜角, 繫船柱突出高度
 	//- Base Var
 	double U, D, BasePhi, C; // 入土深度, 拋石厚度, 內摩擦角, 土壤黏滯力
 	double soilR_Earth, soilR_Water; // 土壤重 水上及水下

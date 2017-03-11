@@ -329,6 +329,7 @@ bool Module2_Internal::ResidualWaterForceCal() {
 	double Pw;
 	Pw = Var->rw*(Var->RWL - Var->LWL);
 	double top_level = Var->Max_level;
+	double arm_temp,Fw_temp;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
 
@@ -337,25 +338,59 @@ bool Module2_Internal::ResidualWaterForceCal() {
 			if (top_level > Var->RWL) {
 				top_level = Var->RWL;
 				if (top_level > Var->LWL) {
-					Var->LevelSection[i].Fw = (top_level - Var->LWL)*0.5*Pw;
-					Var->LevelSection[i].Fw += (Var->LWL - Var->LevelSection[i].Level)*Pw;
+					Var->LevelSection[i].Fw_sum = (top_level - Var->LWL)*0.5*Pw;
+
+					arm_temp = (top_level - Var->LevelSection[i].Level) - ((top_level - Var->LWL) * 2 / 3);
+					Var->LevelSection[i].Fw_Mw_sum = Var->LevelSection[i].Fw_sum*arm_temp;
+
+					Fw_temp = (Var->LWL - Var->LevelSection[i].Level)*Pw;
+					Var->LevelSection[i].Fw_sum += Fw_temp;
+
+					arm_temp = (Var->LWL - Var->LevelSection[i].Level)/2;
+					Var->LevelSection[i].Fw_Mw_sum += Fw_temp*arm_temp;
+
+					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
+					
 				}
 				else {
-					Var->LevelSection[i].Fw = (top_level - Var->LevelSection[i].Level)*Pw;
+					Var->LevelSection[i].Fw_sum = (top_level - Var->LevelSection[i].Level)*Pw;
+
+					arm_temp = (top_level - Var->LevelSection[i].Level) / 2;
+					Var->LevelSection[i].Fw_Mw_sum = Var->LevelSection[i].Fw_sum*arm_temp;
+
+					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
+
 				}
 			}
 			else {
 				if (top_level > Var->LWL) {
-					Var->LevelSection[i].Fw = (top_level - Var->LWL)*0.5*Pw;
-					Var->LevelSection[i].Fw += (Var->LWL - Var->LevelSection[i].Level)*Pw;
+					Var->LevelSection[i].Fw_sum = (top_level - Var->LWL)*0.5*Pw;
+
+					arm_temp = (top_level - Var->LevelSection[i].Level) - ((top_level - Var->LWL) * 2 / 3);
+					Var->LevelSection[i].Fw_Mw_sum = Var->LevelSection[i].Fw_sum*arm_temp;
+
+					Var->LevelSection[i].Fw_sum += (Var->LWL - Var->LevelSection[i].Level)*Pw;
+
+					arm_temp = (Var->LWL - Var->LevelSection[i].Level) / 2;
+					Var->LevelSection[i].Fw_Mw_sum += Var->LevelSection[i].Fw_sum*arm_temp;
+
+					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
+
 				}
 				else {
-					Var->LevelSection[i].Fw = (top_level - Var->LevelSection[i].Level)*Pw;
+					Var->LevelSection[i].Fw_sum = (top_level - Var->LevelSection[i].Level)*Pw;
+
+					arm_temp = (top_level - Var->LevelSection[i].Level) / 2;
+					Var->LevelSection[i].Fw_Mw_sum = Var->LevelSection[i].Fw_sum*arm_temp;
+
+					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
 				}
 			}
 		}
 		else {
-			Var->LevelSection[i].Fw = 0;
+			Var->LevelSection[i].Fw_sum = 0;
+			Var->LevelSection[i].Fw_Mw_sum = 0;
+			Var->LevelSection[i].Fw_y = 0;
 		}
 
 		top_level = Var->LevelSection[i].Level;
@@ -366,3 +401,19 @@ bool Module2_Internal::ResidualWaterForceCal() {
 }
 
 
+bool Module2_Internal::ShipTractionForceCal() {
+
+	double top_level = Var->Max_level;
+	
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		Var->LevelSection[i].Ft_y = (top_level - Var->LevelSection[i].Level) + Var->hd;
+
+		Var->LevelSection[i].Ft_Mt = Var->Ta*Var->LevelSection[i].Ft_y;
+		//top_level = Var->LevelSection[i].Level;
+	}
+
+
+	Var->Err_Msg += "船舶牽引力及傾倒彎矩計算處理完畢! \r\n";
+	return true;
+}

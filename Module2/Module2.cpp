@@ -45,11 +45,12 @@ void VE_SD::Module2::EarthquakeDesignInput(double _K, double _K_plun)
 	Var->K_plun = _K_plun;
 }
 
-void VE_SD::Module2::MaterialDesignInput(double _InnerPhi, double _WallPhi, double _Beta)
+void VE_SD::Module2::MaterialDesignInput(double _InnerPhi, double _WallPhi, double _Beta, double _hd)
 {
 	Var->InnerPhi = _InnerPhi;
 	Var->WallPhi = _WallPhi;
 	Var->Beta = _Beta;
+	Var->hd = _hd;
 }
 
 void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, double _C, double _soilR_Earth, double _soilR_Water, double _rw)
@@ -156,6 +157,7 @@ bool VE_SD::Module2::Run()
 	Internal->HorizontalSoilForceCal();
 	Internal->VertivalSoilForceCal();
 	Internal->ResidualWaterForceCal();
+	Internal->ShipTractionForceCal();
 
 	return true;
 }
@@ -263,11 +265,19 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//- ªí®æ¤»
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "´Ý¯d¤ôÀ£: " << Var->LevelSection[i].Fw << std::endl;
-		/*FILE << "¤O¯x: " << Var->LevelSection[i].Fv_x << std::endl;
-		FILE << "©è§ÜÅs¯x: " << Var->LevelSection[i].Fv_Mv_sum << std::endl;*/
+		FILE << "´Ý¯d¤ôÀ£: " << Var->LevelSection[i].Fw_sum << std::endl;
+		FILE << "¤O¯x: " << Var->LevelSection[i].Fw_y << std::endl;
+		FILE << "¶É­ËÅs¯x: " << Var->LevelSection[i].Fw_Mw_sum << std::endl;
 	}
 
+	//- ªí®æ¤C
+	FILE << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "²î²í²o¤Þ¤O: " << Var->Ta << std::endl;
+		FILE << "¤O¯x: " << Var->LevelSection[i].Ft_y << std::endl;
+		FILE << "¶É­ËÅs¯x: " << Var->LevelSection[i].Ft_Mt << std::endl;
+	}
 	// File Close
 	FILE.close();
 	return true;
