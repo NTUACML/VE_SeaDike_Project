@@ -184,13 +184,13 @@ bool Module2_Internal::EarthQuakeForceCal()
 		{
 			ID = Var->LevelSection[i].BlockId[j];
 
-			Var->BlockData[ID].SelfWeight = Var->BlockData[ID].Area * Var->BlockData[ID].EQ_Density* Var->K;
-			Var->BlockData[ID].X = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
-			Var->BlockData[ID].Mw = Var->BlockData[ID].SelfWeight * Var->BlockData[ID].X;
+			Var->BlockData[ID].SelfWeight_E = Var->BlockData[ID].Area * Var->BlockData[ID].EQ_Density* Var->K;
+			Var->BlockData[ID].X_E = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
+			Var->BlockData[ID].Mw_E = Var->BlockData[ID].SelfWeight_E * Var->BlockData[ID].X;
 
 			//- Temperary summation ofevery level
-			temp_sum_Fe += Var->BlockData[ID].SelfWeight;
-			temp_sum_Me += Var->BlockData[ID].Mw;
+			temp_sum_Fe += Var->BlockData[ID].SelfWeight_E;
+			temp_sum_Me += Var->BlockData[ID].Mw_E;
 		}
 
 		Var->LevelSection[i].Level_sum_WE = temp_sum_Fe;

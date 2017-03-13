@@ -11,6 +11,34 @@
 using namespace System;
 
 namespace VE_SD {
+	public value struct EL_SectionResult {
+		double EL;
+		double Level_sum_W, Level_sum_Mx, Level_total_arm;
+		double pre_sum_W, pre_sum_Mx, pre_total_arm;
+		double Level_sum_WE, Level_sum_MxE, Level_total_armE;
+		double pre_sum_WE, pre_sum_MxE, pre_total_armE;
+		double Fh, Fh_y, Fh_Mh;
+		double Fh_E, Fh_y_E, Fh_Mh_E;
+		double Fv_sum, Fv_x, Fv_Mv_sum; 
+		double Fw_sum, Fw_y, Fw_Mw_sum; 
+		double Ft_y, Ft_Mt;
+		array<Int32>^ BlockId;
+	};
+
+	public value struct BlockResult2 {
+		double A, Density, Selfweight, X, Mw;
+		double EQ_Density, Selfweight_E, X_E, Mw_E;
+	};
+
+	public value struct DataBank
+		// This struct only output!!!!
+	{
+		
+
+		array< EL_SectionResult >^ EL_Out;
+		array< BlockResult2 >^ Block_Out;
+
+	};
 
 	public ref class Module2
 	{

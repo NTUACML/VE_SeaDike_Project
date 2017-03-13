@@ -19,10 +19,7 @@ public:
 	double pre_sum_WE; //Previous Devide Level self weight summation for Earthquake
 	double pre_sum_MxE; //Previous Devide Level self moment for Earthquake
 	double pre_total_armE; //Previous Devide Level Arm for Earthquake
-	double P; //density of presure
-	double FP; //Force of pressure
-	double L_Y; //Arm of Y
-	double Mp; //Moment of Pressure
+
 	double Fh, Fh_y, Fh_Mh; //Horizontal soil force
 	double Fh_E, Fh_y_E, Fh_Mh_E; //Horizontal soil force earthquake
 	double Fv_sum, Fv_x, Fv_Mv_sum; //Vertical soil force
