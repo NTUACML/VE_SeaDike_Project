@@ -153,7 +153,7 @@ bool VE_SD::Module2::Run()
 {
 	Internal->GeoPreCal();
 	Internal->WeightCal();
-	//Internal->EarthQuakeForceCal();
+	Internal->EarthQuakeForceCal();
 	Internal->HorizontalSoilForceCal();
 	Internal->VertivalSoilForceCal();
 	Internal->ResidualWaterForceCal();
@@ -228,7 +228,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_Mx << std::endl;
 	//}
 
-	/*FILE << "******Earthquake Level參數-後總計******" << std::endl;
+	FILE << "******Earthquake Level參數-後總計******" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
 		FILE << "EL" << i + 1 << " :" << std::endl;
@@ -244,17 +244,26 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_WE << std::endl;
 		FILE << "力臂-計: " << Var->LevelSection[i].pre_total_armE << std::endl;
 		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
-	}*/
+	}
 
 	//- 表格四
+	FILE << std::endl << "表格四-1" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
 		FILE << "水平分力: " << Var->LevelSection[i].Fh << std::endl;
 		FILE << "力矩: " << Var->LevelSection[i].Fh_y << std::endl;
 		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh << std::endl;
 	}
-	FILE << std::endl;
+	FILE << std::endl << "表格四-2" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "水平分力: " << Var->LevelSection[i].Fh_E << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].Fh_y_E << std::endl;
+		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh_E << std::endl;
+	}
+	
 	//- 表格五
+	FILE << std::endl << "表格五" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
 		FILE << "垂直分力: " << Var->LevelSection[i].Fv_sum << std::endl;
@@ -263,6 +272,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	}
 
 	//- 表格六
+	FILE << std::endl << "表格六" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
 		FILE << "殘留水壓: " << Var->LevelSection[i].Fw_sum << std::endl;
@@ -271,7 +281,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	}
 
 	//- 表格七
-	FILE << std::endl;
+	FILE << std::endl << "表格七" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
 		FILE << "船舶牽引力: " << Var->Ta << std::endl;

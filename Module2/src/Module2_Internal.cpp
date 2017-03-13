@@ -184,14 +184,6 @@ bool Module2_Internal::EarthQuakeForceCal()
 		{
 			ID = Var->LevelSection[i].BlockId[j];
 
-			//-暫時將所有單位體重都換成未浸水
-			/*if (Var->BlockData[ID].Density == 2.3 || Var->BlockData[ID].Density == 1.27)
-			{
-				Var->BlockData[ID].Density = 2.3;
-			}
-			else if (Var->BlockData[ID].Density == 1.8 || Var->BlockData[ID].Density == 1.0) {
-				Var->BlockData[ID].Density = 1.8;
-			}*/
 			Var->BlockData[ID].SelfWeight = Var->BlockData[ID].Area * Var->BlockData[ID].EQ_Density* Var->K;
 			Var->BlockData[ID].X = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
 			Var->BlockData[ID].Mw = Var->BlockData[ID].SelfWeight * Var->BlockData[ID].X;
@@ -224,8 +216,10 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 	double upper_level = Var->Max_level;
 	double rh = 0;
 	pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+	//- USUAL SITUATION
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
+
 		if (Var->LevelSection[i].Level > Var->RWL) {
 			pi_up = pi_down;
 			length = upper_level - Var->LevelSection[i].Level;
@@ -254,7 +248,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			//finding the arm
 			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
 			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
-			Var->LevelSection[i].Fh_y = temp_u / temp_d;
+			Var->LevelSection[i].Fh_y = (temp_u / temp_d)+(Var->RWL-Var->LevelSection[i].Level);
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
 			//------------------------------------------------------------------------------
@@ -293,6 +287,84 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			Var->LevelSection[i].Fh_y = temp_u / temp_d;
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
+		}
+
+	}
+
+	upper_level = Var->Max_level;
+	double rh_E = 0;
+	pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+	//- Earthquake situation
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+
+		if (Var->LevelSection[i].Level > Var->RWL) {
+			pi_up = pi_down;
+			length = upper_level - Var->LevelSection[i].Level;
+			rh_E += length*Var->soilR_Earth;
+			pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+			Var->LevelSection[i].Fh_E = 0.5*(pi_up + pi_down)*length;
+
+			//refresh the upper level
+			upper_level = Var->LevelSection[i].Level;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y_E = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh_E = Var->LevelSection[i].Fh_E*Var->LevelSection[i].Fh_y_E;
+		}
+		else if (upper_level > Var->RWL && Var->RWL > Var->LevelSection[i].Level) {
+			//upper layer
+			pi_up = pi_down;
+			length = upper_level - Var->RWL;
+			rh_E += length*Var->soilR_Earth;
+			pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+			Var->LevelSection[i].Fh_E = 0.5*(pi_up + pi_down)*length;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y_E = (temp_u / temp_d) + (Var->RWL - Var->LevelSection[i].Level);
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh_E = Var->LevelSection[i].Fh_E*Var->LevelSection[i].Fh_y_E;
+			//------------------------------------------------------------------------------
+			//lower layer
+			pi_up = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			length = Var->RWL - Var->LevelSection[i].Level;
+			rh_E += length*Var->soilR_Water;
+			pi_down = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			lower_fhi = 0.5*(pi_up + pi_down)*length;;
+			Var->LevelSection[i].Fh_E += lower_fhi;
+
+			//refresh the upper level
+			upper_level = Var->LevelSection[i].Level;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y_E = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh_E += lower_fhi*Var->LevelSection[i].Fh_y_E;
+			Var->LevelSection[i].Fh_y_E = Var->LevelSection[i].Fh_Mh_E / Var->LevelSection[i].Fh_E;
+		}
+		else {
+			pi_up = pi_down;
+			length = upper_level - Var->LevelSection[i].Level;
+			rh_E += length*Var->soilR_Water;
+			pi_down = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			Var->LevelSection[i].Fh_E = 0.5*(pi_up + pi_down)*length;
+
+			//refresh the upper level
+			upper_level = Var->LevelSection[i].Level;
+
+			//finding the arm
+			temp_u = (pi_up*length)*length*0.5 + (pi_down - pi_up)*length*0.5*length / 3;
+			temp_d = pi_up*length + (pi_down - pi_up)*length*0.5;
+			Var->LevelSection[i].Fh_y_E = temp_u / temp_d;
+			//finding the Mh
+			Var->LevelSection[i].Fh_Mh_E = Var->LevelSection[i].Fh_E*Var->LevelSection[i].Fh_y_E;
 		}
 
 	}

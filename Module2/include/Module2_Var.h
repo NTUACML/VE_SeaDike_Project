@@ -24,6 +24,7 @@ public:
 	double L_Y; //Arm of Y
 	double Mp; //Moment of Pressure
 	double Fh, Fh_y, Fh_Mh; //Horizontal soil force
+	double Fh_E, Fh_y_E, Fh_Mh_E; //Horizontal soil force earthquake
 	double Fv_sum, Fv_x, Fv_Mv_sum; //Vertical soil force
 	double Fw_sum, Fw_y, Fw_Mw_sum; //Residual water force
 	double Ft_y, Ft_Mt; //Ship traction force
