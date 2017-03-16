@@ -77,9 +77,15 @@ namespace VE_SD {
 		int NewLevel(double _EL);
 		bool DeleteAllLevel();
 
+		//- Get Var Function
+		bool Get_DataBank_Data();
+
 		//- Run API
 		bool Run(); //Run Main Check Processor
 		bool OutPutLogFile(String ^ Pois);
+
+		//- Var Output
+		DataBank VarBank;
 
 	private:
 		//Data

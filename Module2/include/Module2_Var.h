@@ -21,7 +21,11 @@ public:
 	double pre_total_armE; //Previous Devide Level Arm for Earthquake
 
 	double Fh, Fh_y, Fh_Mh; //Horizontal soil force
+	double Level_sum_Fh, Level_total_Fhy, Level_sum_FhMh; //Devide Level summation
+	double pre_sum_Fh, pre_total_Fhy, pre_sum_FhMh; //Previous Devide Level summation
 	double Fh_E, Fh_y_E, Fh_Mh_E; //Horizontal soil force earthquake
+	double Level_sum_Fh_E, Level_total_Fhy_E, Level_sum_FhMh_E; //Devide Level summation
+	double pre_sum_Fh_E, pre_total_Fhy_E, pre_sum_FhMh_E; //Previous Devide Level summation
 	double Fv_sum, Fv_x, Fv_Mv_sum; //Vertical soil force
 	double Fw_sum, Fw_y, Fw_Mw_sum; //Residual water force
 	double Ft_y, Ft_Mt; //Ship traction force

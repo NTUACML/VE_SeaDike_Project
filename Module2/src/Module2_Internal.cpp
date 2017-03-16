@@ -216,9 +216,21 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 	double upper_level = Var->Max_level;
 	double rh = 0;
 	pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+	double temp_sum_Fh = 0;
+	double temp_sum_FhMh = 0;
+
 	//- USUAL SITUATION
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
+
+		if (i >= 1) {
+			Var->LevelSection[i].pre_sum_Fh = Var->LevelSection[i - 1].Level_sum_Fh;
+			double Arm_len = upper_level - Var->LevelSection[i].Level;
+			Var->LevelSection[i].pre_total_Fhy = Var->LevelSection[i - 1].Level_total_Fhy + Arm_len;
+			Var->LevelSection[i].pre_sum_FhMh = Var->LevelSection[i].pre_sum_Fh*Var->LevelSection[i].pre_total_Fhy;
+			temp_sum_Fh = Var->LevelSection[i].pre_sum_Fh;
+			temp_sum_FhMh = Var->LevelSection[i].pre_sum_FhMh;
+		}
 
 		if (Var->LevelSection[i].Level > Var->RWL) {
 			pi_up = pi_down;
@@ -236,6 +248,10 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			Var->LevelSection[i].Fh_y = temp_u / temp_d;
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
+
+			//summation
+			temp_sum_Fh += Var->LevelSection[i].Fh;
+			temp_sum_FhMh += Var->LevelSection[i].Fh_Mh;
 		}
 		else if (upper_level > Var->RWL && Var->RWL > Var->LevelSection[i].Level) {
 			//upper layer
@@ -270,6 +286,10 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh += lower_fhi*Var->LevelSection[i].Fh_y;
 			Var->LevelSection[i].Fh_y = Var->LevelSection[i].Fh_Mh / Var->LevelSection[i].Fh;
+
+			//summation
+			temp_sum_Fh += Var->LevelSection[i].Fh;
+			temp_sum_FhMh += Var->LevelSection[i].Fh_Mh;
 		}
 		else {
 			pi_up = pi_down;
@@ -287,16 +307,35 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			Var->LevelSection[i].Fh_y = temp_u / temp_d;
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh = Var->LevelSection[i].Fh*Var->LevelSection[i].Fh_y;
+
+			//summation
+			temp_sum_Fh += Var->LevelSection[i].Fh;
+			temp_sum_FhMh += Var->LevelSection[i].Fh_Mh;
 		}
+		Var->LevelSection[i].Level_sum_Fh = temp_sum_Fh;
+		Var->LevelSection[i].Level_sum_FhMh = temp_sum_FhMh;
+
+		Var->LevelSection[i].Level_total_Fhy = Var->LevelSection[i].Level_sum_FhMh / Var->LevelSection[i].Level_sum_Fh;
 
 	}
 
 	upper_level = Var->Max_level;
 	double rh_E = 0;
 	pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+	double temp_sum_Fh_E = 0;
+	double temp_sum_FhMh_E = 0;
 	//- Earthquake situation
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
+
+		if (i >= 1) {
+			Var->LevelSection[i].pre_sum_Fh_E = Var->LevelSection[i - 1].Level_sum_Fh_E;
+			double Arm_len = upper_level - Var->LevelSection[i].Level;
+			Var->LevelSection[i].pre_total_Fhy_E = Var->LevelSection[i - 1].Level_total_Fhy_E + Arm_len;
+			Var->LevelSection[i].pre_sum_FhMh_E = Var->LevelSection[i].pre_sum_Fh_E*Var->LevelSection[i].pre_total_Fhy_E;
+			temp_sum_Fh_E = Var->LevelSection[i].pre_sum_Fh_E;
+			temp_sum_FhMh_E = Var->LevelSection[i].pre_sum_FhMh_E;
+		}
 
 		if (Var->LevelSection[i].Level > Var->RWL) {
 			pi_up = pi_down;
@@ -314,6 +353,10 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			Var->LevelSection[i].Fh_y_E = temp_u / temp_d;
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh_E = Var->LevelSection[i].Fh_E*Var->LevelSection[i].Fh_y_E;
+
+			//summation
+			temp_sum_Fh_E += Var->LevelSection[i].Fh_E;
+			temp_sum_FhMh_E += Var->LevelSection[i].Fh_Mh_E;
 		}
 		else if (upper_level > Var->RWL && Var->RWL > Var->LevelSection[i].Level) {
 			//upper layer
@@ -348,6 +391,10 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh_E += lower_fhi*Var->LevelSection[i].Fh_y_E;
 			Var->LevelSection[i].Fh_y_E = Var->LevelSection[i].Fh_Mh_E / Var->LevelSection[i].Fh_E;
+
+			//summation
+			temp_sum_Fh_E += Var->LevelSection[i].Fh_E;
+			temp_sum_FhMh_E += Var->LevelSection[i].Fh_Mh_E;
 		}
 		else {
 			pi_up = pi_down;
@@ -365,7 +412,16 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			Var->LevelSection[i].Fh_y_E = temp_u / temp_d;
 			//finding the Mh
 			Var->LevelSection[i].Fh_Mh_E = Var->LevelSection[i].Fh_E*Var->LevelSection[i].Fh_y_E;
+
+			//summation
+			temp_sum_Fh_E += Var->LevelSection[i].Fh_E;
+			temp_sum_FhMh_E += Var->LevelSection[i].Fh_Mh_E;
 		}
+
+		Var->LevelSection[i].Level_sum_Fh_E = temp_sum_Fh_E;
+		Var->LevelSection[i].Level_sum_FhMh_E = temp_sum_FhMh_E;
+
+		Var->LevelSection[i].Level_total_Fhy_E = Var->LevelSection[i].Level_sum_FhMh_E / Var->LevelSection[i].Level_sum_Fh_E;
 
 	}
 

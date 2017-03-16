@@ -149,6 +149,11 @@ bool VE_SD::Module2::DeleteAllLevel()
 	return true;
 }
 
+bool VE_SD::Module2::Get_DataBank_Data(){
+
+	return true;
+}
+
 bool VE_SD::Module2::Run()
 {
 	Internal->GeoPreCal();
@@ -228,38 +233,55 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_Mx << std::endl;
 	//}
 
-	FILE << "******Earthquake Level參數-後總計******" << std::endl;
-	for (size_t i = 0; i < Var->LevelSection.size(); i++)
-	{
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "壁體自重-計: " << Var->LevelSection[i].Level_sum_WE << std::endl;
-		FILE << "力臂-計: " << Var->LevelSection[i].Level_total_armE << std::endl;
-		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].Level_sum_MxE << std::endl;
-	}
+	//FILE << "******Earthquake Level參數-後總計******" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	//{
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "壁體自重-計: " << Var->LevelSection[i].Level_sum_WE << std::endl;
+	//	FILE << "力臂-計: " << Var->LevelSection[i].Level_total_armE << std::endl;
+	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].Level_sum_MxE << std::endl;
+	//}
 
-	FILE << "******Earthquake Level參數-前總計******" << std::endl;
-	for (size_t i = 1; i < Var->LevelSection.size(); i++)
-	{
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_WE << std::endl;
-		FILE << "力臂-計: " << Var->LevelSection[i].pre_total_armE << std::endl;
-		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
-	}
+	//FILE << "******Earthquake Level參數-前總計******" << std::endl;
+	//for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	//{
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_WE << std::endl;
+	//	FILE << "力臂-計: " << Var->LevelSection[i].pre_total_armE << std::endl;
+	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
+	//}
 
 	//- 表格四
-	FILE << std::endl << "表格四-1" << std::endl;
-	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "水平分力: " << Var->LevelSection[i].Fh << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Fh_y << std::endl;
-		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh << std::endl;
-	}
-	FILE << std::endl << "表格四-2" << std::endl;
+	//FILE << std::endl << "表格四-1" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "水平分力: " << Var->LevelSection[i].Fh << std::endl;
+	//	FILE << "力矩: " << Var->LevelSection[i].Fh_y << std::endl;
+	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh << std::endl;
+	//}
+
+	//FILE << std::endl << "表格四-2" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
 		FILE << "水平分力: " << Var->LevelSection[i].Fh_E << std::endl;
 		FILE << "力矩: " << Var->LevelSection[i].Fh_y_E << std::endl;
 		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh_E << std::endl;
+	}
+
+	FILE << std::endl << "表格四-2---後總計" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "水平分力: " << Var->LevelSection[i].Level_sum_Fh_E << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].Level_total_Fhy_E << std::endl;
+		FILE << "傾倒彎矩: " << Var->LevelSection[i].Level_sum_FhMh_E << std::endl;
+	}
+
+	FILE << std::endl << "表格四-2---前總計" << std::endl;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "水平分力: " << Var->LevelSection[i].pre_sum_Fh_E << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].pre_total_Fhy_E << std::endl;
+		FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FhMh_E << std::endl;
 	}
 	
 	//- 表格五
