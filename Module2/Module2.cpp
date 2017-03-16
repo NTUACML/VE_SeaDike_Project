@@ -261,45 +261,59 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//}
 
 	//FILE << std::endl << "表格四-2" << std::endl;
-	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "水平分力: " << Var->LevelSection[i].Fh_E << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Fh_y_E << std::endl;
-		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh_E << std::endl;
-	}
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "水平分力: " << Var->LevelSection[i].Fh_E << std::endl;
+	//	FILE << "力矩: " << Var->LevelSection[i].Fh_y_E << std::endl;
+	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].Fh_Mh_E << std::endl;
+	//}
 
-	FILE << std::endl << "表格四-2---後總計" << std::endl;
-	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "水平分力: " << Var->LevelSection[i].Level_sum_Fh_E << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Level_total_Fhy_E << std::endl;
-		FILE << "傾倒彎矩: " << Var->LevelSection[i].Level_sum_FhMh_E << std::endl;
-	}
+	//FILE << std::endl << "表格四-2---後總計" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "水平分力: " << Var->LevelSection[i].Level_sum_Fh_E << std::endl;
+	//	FILE << "力矩: " << Var->LevelSection[i].Level_total_Fhy_E << std::endl;
+	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].Level_sum_FhMh_E << std::endl;
+	//}
 
-	FILE << std::endl << "表格四-2---前總計" << std::endl;
-	for (size_t i = 1; i < Var->LevelSection.size(); i++) {
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "水平分力: " << Var->LevelSection[i].pre_sum_Fh_E << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].pre_total_Fhy_E << std::endl;
-		FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FhMh_E << std::endl;
-	}
+	//FILE << std::endl << "表格四-2---前總計" << std::endl;
+	//for (size_t i = 1; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "水平分力: " << Var->LevelSection[i].pre_sum_Fh_E << std::endl;
+	//	FILE << "力矩: " << Var->LevelSection[i].pre_total_Fhy_E << std::endl;
+	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FhMh_E << std::endl;
+	//}
 	
 	//- 表格五
 	FILE << std::endl << "表格五" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "垂直分力: " << Var->LevelSection[i].Fv_sum << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Fv_x << std::endl;
-		FILE << "抵抗彎矩: " << Var->LevelSection[i].Fv_Mv_sum << std::endl;
+		FILE << "垂直分力: " << Var->LevelSection[i].Level_Fv_sum << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].Level_Fv_x << std::endl;
+		FILE << "抵抗彎矩: " << Var->LevelSection[i].Level_Fv_Mv_sum << std::endl;
 	}
 
 	//- 表格六
-	FILE << std::endl << "表格六" << std::endl;
+	FILE << std::endl << "表格六-後總計" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "殘留水壓: " << Var->LevelSection[i].Fw_sum << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Fw_y << std::endl;
-		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fw_Mw_sum << std::endl;
+		if (Var->LevelSection[i].Level_sum_Fw > 10e-5)
+		{
+			FILE << "EL" << i + 1 << " :" << std::endl;
+			FILE << "殘留水壓: " << Var->LevelSection[i].Level_sum_Fw << std::endl;
+			FILE << "力矩: " << Var->LevelSection[i].Level_total_Fwy << std::endl;
+			FILE << "傾倒彎矩: " << Var->LevelSection[i].Level_sum_FwMw << std::endl;
+		}
+	}
+
+	FILE << std::endl << "表格六-前總計" << std::endl;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++) {
+		if (Var->LevelSection[i].pre_sum_Fw > 10e-5)
+		{
+			FILE << "EL" << i + 1 << " :" << std::endl;
+			FILE << "殘留水壓: " << Var->LevelSection[i].pre_sum_Fw << std::endl;
+			FILE << "力矩: " << Var->LevelSection[i].pre_total_Fwy << std::endl;
+			FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FwMw << std::endl;
+		}
 	}
 
 	//- 表格七

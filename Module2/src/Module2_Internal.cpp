@@ -436,8 +436,8 @@ bool Module2_Internal::VertivalSoilForceCal() {
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
 		double width,max_width = 0.0;
-		fv_temp_sum += Var->LevelSection[i].Fh*(tan(15 * M_PI / 180));
-		Var->LevelSection[i].Fv_sum = fv_temp_sum;
+		fv_temp_sum = Var->LevelSection[i].Level_sum_Fh*(tan(15 * M_PI / 180));
+		Var->LevelSection[i].Level_Fv_sum = fv_temp_sum;
 		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
 			ID = Var->LevelSection[i].BlockId[j];
 			width = Var->BlockData[ID].MaxX - Var->BlockData[ID].MinX;
@@ -445,9 +445,9 @@ bool Module2_Internal::VertivalSoilForceCal() {
 				max_width = width;
 			}
 		}
-		Var->LevelSection[i].Fv_x = max_width;
+		Var->LevelSection[i].Level_Fv_x = max_width;
 
-		Var->LevelSection[i].Fv_Mv_sum = Var->LevelSection[i].Fv_sum*Var->LevelSection[i].Fv_x;
+		Var->LevelSection[i].Level_Fv_Mv_sum = Var->LevelSection[i].Level_Fv_sum*Var->LevelSection[i].Level_Fv_x;
 	}
 	Var->Err_Msg += "土壓垂直力及抵抗彎矩計算處理完畢! \r\n";
 	return true;
@@ -458,11 +458,25 @@ bool Module2_Internal::ResidualWaterForceCal() {
 	Pw = Var->rw*(Var->RWL - Var->LWL);
 	double top_level = Var->Max_level;
 	double arm_temp,Fw_temp;
+	double temp_sum_Fw = 0;
+	double temp_sum_FwMw = 0;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
+		
 
 		if (Var->LevelSection[i].Level < Var->RWL) 
 		{
+			if (i >= 1 && temp_sum_Fw > 0) {
+				Var->LevelSection[i].pre_sum_Fw = Var->LevelSection[i - 1].Level_sum_Fw;
+				double Arm_len = top_level - Var->LevelSection[i].Level;
+				Var->LevelSection[i].pre_total_Fwy = Var->LevelSection[i - 1].Level_total_Fwy + Arm_len;
+				Var->LevelSection[i].pre_sum_FwMw = Var->LevelSection[i].pre_sum_Fw*Var->LevelSection[i].pre_total_Fwy;
+				if (Var->LevelSection[i].pre_sum_Fw > 0) {
+					temp_sum_Fw = Var->LevelSection[i].pre_sum_Fw;
+					temp_sum_FwMw = Var->LevelSection[i].pre_sum_FwMw;
+				}
+			}
+
 			if (top_level > Var->RWL) {
 				top_level = Var->RWL;
 				if (top_level > Var->LWL) {
@@ -479,6 +493,9 @@ bool Module2_Internal::ResidualWaterForceCal() {
 
 					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
 					
+					//summation
+					temp_sum_Fw += Var->LevelSection[i].Fw_sum;
+					temp_sum_FwMw += Var->LevelSection[i].Fw_Mw_sum;
 				}
 				else {
 					Var->LevelSection[i].Fw_sum = (top_level - Var->LevelSection[i].Level)*Pw;
@@ -488,6 +505,9 @@ bool Module2_Internal::ResidualWaterForceCal() {
 
 					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
 
+					//summation
+					temp_sum_Fw += Var->LevelSection[i].Fw_sum;
+					temp_sum_FwMw += Var->LevelSection[i].Fw_Mw_sum;
 				}
 			}
 			else {
@@ -504,6 +524,9 @@ bool Module2_Internal::ResidualWaterForceCal() {
 
 					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
 
+					//summation
+					temp_sum_Fw += Var->LevelSection[i].Fw_sum;
+					temp_sum_FwMw += Var->LevelSection[i].Fw_Mw_sum;
 				}
 				else {
 					Var->LevelSection[i].Fw_sum = (top_level - Var->LevelSection[i].Level)*Pw;
@@ -512,6 +535,10 @@ bool Module2_Internal::ResidualWaterForceCal() {
 					Var->LevelSection[i].Fw_Mw_sum = Var->LevelSection[i].Fw_sum*arm_temp;
 
 					Var->LevelSection[i].Fw_y = Var->LevelSection[i].Fw_Mw_sum / Var->LevelSection[i].Fw_sum;
+					
+					//summation
+					temp_sum_Fw += Var->LevelSection[i].Fw_sum;
+					temp_sum_FwMw += Var->LevelSection[i].Fw_Mw_sum;
 				}
 			}
 		}
@@ -519,9 +546,19 @@ bool Module2_Internal::ResidualWaterForceCal() {
 			Var->LevelSection[i].Fw_sum = 0;
 			Var->LevelSection[i].Fw_Mw_sum = 0;
 			Var->LevelSection[i].Fw_y = 0;
+
+			//summation
+			temp_sum_Fw += Var->LevelSection[i].Fw_sum;
+			temp_sum_FwMw += Var->LevelSection[i].Fw_Mw_sum;
 		}
 
 		top_level = Var->LevelSection[i].Level;
+
+		Var->LevelSection[i].Level_sum_Fw = temp_sum_Fw;
+		Var->LevelSection[i].Level_sum_FwMw = temp_sum_FwMw;
+
+		Var->LevelSection[i].Level_total_Fwy = Var->LevelSection[i].Level_sum_FwMw / Var->LevelSection[i].Level_sum_Fw;
+
 	}
 
 	Var->Err_Msg += "殘留水壓及傾倒彎矩計算處理完畢! \r\n";
