@@ -151,6 +151,35 @@ bool VE_SD::Module2::DeleteAllLevel()
 
 bool VE_SD::Module2::Get_DataBank_Data(){
 
+	VarBank.EL_Out = gcnew array< EL_SectionResult >(int(Var->LevelSection.size()));
+	for (int i = 0; i < Var->LevelSection.size(); ++i) {
+		VarBank.EL_Out[i].EL = Var->LevelSection[i].Level;
+		VarBank.EL_Out[i].Level_sum_W = Var->LevelSection[i].Level_sum_W;
+		VarBank.EL_Out[i].Level_sum_Mx = Var->LevelSection[i].Level_sum_Mx;
+		VarBank.EL_Out[i].Level_total_arm = Var->LevelSection[i].Level_total_arm;
+		VarBank.EL_Out[i].pre_sum_W = Var->LevelSection[i].pre_sum_W;
+		VarBank.EL_Out[i].pre_sum_Mx = Var->LevelSection[i].pre_sum_Mx;
+		VarBank.EL_Out[i].pre_total_arm = Var->LevelSection[i].pre_total_arm;
+
+		VarBank.EL_Out[i].BlockId = gcnew array< Int32 >(int(Var->LevelSection[i].BlockId.size()));
+		for (int j = 0; j < Var->LevelSection[i].BlockId.size(); ++j) {
+			VarBank.EL_Out[i].BlockId[j] = int(Var->LevelSection[i].BlockId[j]+1);
+		}
+	}
+
+	VarBank.Block_Out = gcnew array< BlockResult >(int(Var->BlockData.size()));
+	for (int i = 0; i < Var->BlockData.size(); ++i) {
+		VarBank.Block_Out[i].A = Var->BlockData[i].Area;
+		VarBank.Block_Out[i].Density = Var->BlockData[i].Density;
+		VarBank.Block_Out[i].Selfweight = Var->BlockData[i].SelfWeight;
+		VarBank.Block_Out[i].X = Var->BlockData[i].X;
+		VarBank.Block_Out[i].Mw = Var->BlockData[i].Mw;
+
+		VarBank.Block_Out[i].EQ_Density = Var->BlockData[i].EQ_Density;
+		VarBank.Block_Out[i].Selfweight_E = Var->BlockData[i].SelfWeight_E;
+		VarBank.Block_Out[i].X_E = Var->BlockData[i].X_E;
+		VarBank.Block_Out[i].Mw_E = Var->BlockData[i].Mw_E;
+	}
 	return true;
 }
 

@@ -34,6 +34,9 @@ public:
 	double pre_sum_Fw, pre_total_Fwy, pre_sum_FwMw; //Previous Devide Level
 
 	double Ft_y, Ft_Mt; //Ship traction force
+
+	double VForceSum, VMomentsum; //Vertical force and moment summation
+	double VForceSum_E, VMomentsum_E; //Vertical force and moment summation(Earthquake)
 	std::vector<size_t> BlockId; //In level ID
 };
 class Module2_Var

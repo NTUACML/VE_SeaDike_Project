@@ -25,7 +25,7 @@ namespace VE_SD {
 		array<Int32>^ BlockId;
 	};
 
-	public value struct BlockResult2 {
+	public value struct BlockResult {
 		double A, Density, Selfweight, X, Mw;
 		double EQ_Density, Selfweight_E, X_E, Mw_E;
 	};
@@ -36,7 +36,7 @@ namespace VE_SD {
 		
 
 		array< EL_SectionResult >^ EL_Out;
-		array< BlockResult2 >^ Block_Out;
+		array< BlockResult >^ Block_Out;
 
 	};
 

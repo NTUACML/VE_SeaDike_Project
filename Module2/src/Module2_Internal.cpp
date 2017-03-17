@@ -582,3 +582,16 @@ bool Module2_Internal::ShipTractionForceCal() {
 	Var->Err_Msg += "船舶牽引力及傾倒彎矩計算處理完畢! \r\n";
 	return true;
 }
+
+bool Module2_Internal::VerticalForceSum() {
+	for (size_t i = 0; i < Var->LevelSection.size(); i++){
+
+		Var->LevelSection[i].VForceSum = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum;
+		Var->LevelSection[i].VMomentsum = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_Fv_Mv_sum;
+
+		Var->LevelSection[i].VForceSum_E = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum;
+	}
+
+	Var->Err_Msg += "垂直力及抵抗彎矩總合表計算處理完畢! \r\n";
+	return true;
+}
