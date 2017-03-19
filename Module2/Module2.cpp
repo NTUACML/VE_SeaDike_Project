@@ -167,7 +167,7 @@ bool VE_SD::Module2::Get_DataBank_Data(){
 		}
 	}
 
-	VarBank.Block_Out = gcnew array< BlockResult >(int(Var->BlockData.size()));
+	VarBank.Block_Out = gcnew array< BlockResult2 >(int(Var->BlockData.size()));
 	for (int i = 0; i < Var->BlockData.size(); ++i) {
 		VarBank.Block_Out[i].A = Var->BlockData[i].Area;
 		VarBank.Block_Out[i].Density = Var->BlockData[i].Density;
@@ -192,7 +192,9 @@ bool VE_SD::Module2::Run()
 	Internal->VertivalSoilForceCal();
 	Internal->ResidualWaterForceCal();
 	Internal->ShipTractionForceCal();
-
+	Internal->VerticalForceSum();
+	Internal->HorizontalForceSum();
+	Internal->SafetyFactorCheck();
 	return true;
 }
 
@@ -229,7 +231,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "SelfWeight:" << Var->BlockData[i].SelfWeight << std::endl;
 		FILE << "X:" << Var->BlockData[i].X << std::endl;
 		FILE << "Mw:" << Var->BlockData[i].Mw << std::endl;
-		FILE << "minix:" << Var->BlockData[i].MinX << std::endl;
+		FILE << "FrictionC:" << Var->BlockData[i].FrictionC << std::endl;
 		FILE << std::endl;
 	}
 
@@ -262,23 +264,23 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_Mx << std::endl;
 	//}
 
-	//FILE << "******Earthquake Level參數-後總計******" << std::endl;
-	//for (size_t i = 0; i < Var->LevelSection.size(); i++)
-	//{
-	//	FILE << "EL" << i + 1 << " :" << std::endl;
-	//	FILE << "壁體自重-計: " << Var->LevelSection[i].Level_sum_WE << std::endl;
-	//	FILE << "力臂-計: " << Var->LevelSection[i].Level_total_armE << std::endl;
-	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].Level_sum_MxE << std::endl;
-	//}
+	FILE << "******Earthquake Level參數-後總計******" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "壁體自重-計: " << Var->LevelSection[i].Level_sum_WE << std::endl;
+		FILE << "力臂-計: " << Var->LevelSection[i].Level_total_armE << std::endl;
+		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].Level_sum_MxE << std::endl;
+	}
 
-	//FILE << "******Earthquake Level參數-前總計******" << std::endl;
-	//for (size_t i = 1; i < Var->LevelSection.size(); i++)
-	//{
-	//	FILE << "EL" << i + 1 << " :" << std::endl;
-	//	FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_WE << std::endl;
-	//	FILE << "力臂-計: " << Var->LevelSection[i].pre_total_armE << std::endl;
-	//	FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
-	//}
+	FILE << "******Earthquake Level參數-前總計******" << std::endl;
+	for (size_t i = 1; i < Var->LevelSection.size(); i++)
+	{
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "壁體自重-計: " << Var->LevelSection[i].pre_sum_WE << std::endl;
+		FILE << "力臂-計: " << Var->LevelSection[i].pre_total_armE << std::endl;
+		FILE << "抵抗彎矩-計: " << Var->LevelSection[i].pre_sum_MxE << std::endl;
+	}
 
 	//- 表格四
 	//FILE << std::endl << "表格四-1" << std::endl;
@@ -313,46 +315,67 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FhMh_E << std::endl;
 	//}
 	
-	//- 表格五
-	FILE << std::endl << "表格五" << std::endl;
+	////- 表格五
+	//FILE << std::endl << "表格五" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "垂直分力: " << Var->LevelSection[i].Level_Fv_sum << std::endl;
+	//	FILE << "力矩: " << Var->LevelSection[i].Level_Fv_x << std::endl;
+	//	FILE << "抵抗彎矩: " << Var->LevelSection[i].Level_Fv_Mv_sum << std::endl;
+	//}
+
+	////- 表格六
+	//FILE << std::endl << "表格六-後總計" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	if (Var->LevelSection[i].Level_sum_Fw > 10e-5)
+	//	{
+	//		FILE << "EL" << i + 1 << " :" << std::endl;
+	//		FILE << "殘留水壓: " << Var->LevelSection[i].Level_sum_Fw << std::endl;
+	//		FILE << "力矩: " << Var->LevelSection[i].Level_total_Fwy << std::endl;
+	//		FILE << "傾倒彎矩: " << Var->LevelSection[i].Level_sum_FwMw << std::endl;
+	//	}
+	//}
+
+	//FILE << std::endl << "表格六-前總計" << std::endl;
+	//for (size_t i = 1; i < Var->LevelSection.size(); i++) {
+	//	if (Var->LevelSection[i].pre_sum_Fw > 10e-5)
+	//	{
+	//		FILE << "EL" << i + 1 << " :" << std::endl;
+	//		FILE << "殘留水壓: " << Var->LevelSection[i].pre_sum_Fw << std::endl;
+	//		FILE << "力矩: " << Var->LevelSection[i].pre_total_Fwy << std::endl;
+	//		FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FwMw << std::endl;
+	//	}
+	//}
+
+	////- 表格七
+	//FILE << std::endl << "表格七" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "船舶牽引力: " << Var->Ta << std::endl;
+	//	FILE << "力矩: " << Var->LevelSection[i].Ft_y << std::endl;
+	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].Ft_Mt << std::endl;
+	//}
+	
+	//- 表格八
+	FILE << std::endl << "表格八" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "垂直分力: " << Var->LevelSection[i].Level_Fv_sum << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Level_Fv_x << std::endl;
-		FILE << "抵抗彎矩: " << Var->LevelSection[i].Level_Fv_Mv_sum << std::endl;
+		FILE << "平時垂直力總計: " << Var->LevelSection[i].VForcesum << std::endl;
+		FILE << "平時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum << std::endl;
+		FILE << "地震時垂直力總計: " << Var->LevelSection[i].VForcesum_E << std::endl;
+		FILE << "地震時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum_E << std::endl;
 	}
 
-	//- 表格六
-	FILE << std::endl << "表格六-後總計" << std::endl;
-	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		if (Var->LevelSection[i].Level_sum_Fw > 10e-5)
-		{
-			FILE << "EL" << i + 1 << " :" << std::endl;
-			FILE << "殘留水壓: " << Var->LevelSection[i].Level_sum_Fw << std::endl;
-			FILE << "力矩: " << Var->LevelSection[i].Level_total_Fwy << std::endl;
-			FILE << "傾倒彎矩: " << Var->LevelSection[i].Level_sum_FwMw << std::endl;
-		}
-	}
-
-	FILE << std::endl << "表格六-前總計" << std::endl;
-	for (size_t i = 1; i < Var->LevelSection.size(); i++) {
-		if (Var->LevelSection[i].pre_sum_Fw > 10e-5)
-		{
-			FILE << "EL" << i + 1 << " :" << std::endl;
-			FILE << "殘留水壓: " << Var->LevelSection[i].pre_sum_Fw << std::endl;
-			FILE << "力矩: " << Var->LevelSection[i].pre_total_Fwy << std::endl;
-			FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FwMw << std::endl;
-		}
-	}
-
-	//- 表格七
-	FILE << std::endl << "表格七" << std::endl;
+	//- 表格九
+	FILE << std::endl << "表格九" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "船舶牽引力: " << Var->Ta << std::endl;
-		FILE << "力矩: " << Var->LevelSection[i].Ft_y << std::endl;
-		FILE << "傾倒彎矩: " << Var->LevelSection[i].Ft_Mt << std::endl;
+		FILE << "平時水平力總計: " << Var->LevelSection[i].HForcesum << std::endl;
+		FILE << "平時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum << std::endl;
+		FILE << "地震時水平力總計: " << Var->LevelSection[i].HForcesum_E << std::endl;
+		FILE << "地震時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum_E << std::endl;
 	}
+
 	// File Close
 	FILE.close();
 	return true;

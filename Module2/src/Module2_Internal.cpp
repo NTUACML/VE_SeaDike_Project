@@ -164,7 +164,7 @@ bool Module2_Internal::EarthQuakeForceCal()
 		double Ref_y = Var->BlockData[ID].MinLevel;
 
 		// need to be sure about j starting number-------------
-		for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++)
 		{
 			ID = Var->LevelSection[i].BlockId[j];
 			if (Var->BlockData[ID].MinLevel<Ref_y) Ref_y = Var->BlockData[ID].MinLevel;
@@ -186,7 +186,7 @@ bool Module2_Internal::EarthQuakeForceCal()
 
 			Var->BlockData[ID].SelfWeight_E = Var->BlockData[ID].Area * Var->BlockData[ID].EQ_Density* Var->K;
 			Var->BlockData[ID].X_E = std::abs(Var->BlockData[ID].WeightC.y - Ref_y);
-			Var->BlockData[ID].Mw_E = Var->BlockData[ID].SelfWeight_E * Var->BlockData[ID].X;
+			Var->BlockData[ID].Mw_E = Var->BlockData[ID].SelfWeight_E * Var->BlockData[ID].X_E;
 
 			//- Temperary summation ofevery level
 			temp_sum_Fe += Var->BlockData[ID].SelfWeight_E;
@@ -432,12 +432,14 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 bool Module2_Internal::VertivalSoilForceCal() {
 	
 	size_t ID;
-	double fv_temp_sum=0;
+	double fv_temp_sum = 0, fv_temp_sum_E = 0;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
 		double width,max_width = 0.0;
 		fv_temp_sum = Var->LevelSection[i].Level_sum_Fh*(tan(15 * M_PI / 180));
+		fv_temp_sum_E = Var->LevelSection[i].Level_sum_Fh_E*(tan(15 * M_PI / 180));
 		Var->LevelSection[i].Level_Fv_sum = fv_temp_sum;
+		Var->LevelSection[i].Level_Fv_sum_E = fv_temp_sum_E;
 		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
 			ID = Var->LevelSection[i].BlockId[j];
 			width = Var->BlockData[ID].MaxX - Var->BlockData[ID].MinX;
@@ -446,8 +448,9 @@ bool Module2_Internal::VertivalSoilForceCal() {
 			}
 		}
 		Var->LevelSection[i].Level_Fv_x = max_width;
-
+		Var->LevelSection[i].Level_Fv_x_E = max_width;
 		Var->LevelSection[i].Level_Fv_Mv_sum = Var->LevelSection[i].Level_Fv_sum*Var->LevelSection[i].Level_Fv_x;
+		Var->LevelSection[i].Level_Fv_Mv_sum_E = Var->LevelSection[i].Level_Fv_sum_E*Var->LevelSection[i].Level_Fv_x_E;
 	}
 	Var->Err_Msg += "土壓垂直力及抵抗彎矩計算處理完畢! \r\n";
 	return true;
@@ -586,12 +589,38 @@ bool Module2_Internal::ShipTractionForceCal() {
 bool Module2_Internal::VerticalForceSum() {
 	for (size_t i = 0; i < Var->LevelSection.size(); i++){
 
-		Var->LevelSection[i].VForceSum = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum;
+		Var->LevelSection[i].VForcesum = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum;
 		Var->LevelSection[i].VMomentsum = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_Fv_Mv_sum;
 
-		Var->LevelSection[i].VForceSum_E = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum;
+		Var->LevelSection[i].VForcesum_E = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum_E;
+		Var->LevelSection[i].VMomentsum_E = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_Fv_Mv_sum_E;
 	}
 
 	Var->Err_Msg += "垂直力及抵抗彎矩總合表計算處理完畢! \r\n";
+	return true;
+}
+
+bool Module2_Internal::HorizontalForceSum() {
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+
+		Var->LevelSection[i].HForcesum = Var->LevelSection[i].Level_sum_Fh + Var->Ta + Var->LevelSection[i].Level_sum_Fw;
+		Var->LevelSection[i].HMomentsum = Var->LevelSection[i].Level_sum_FhMh + Var->LevelSection[i].Ft_Mt + Var->LevelSection[i].Level_sum_FwMw;
+
+		Var->LevelSection[i].HForcesum_E = Var->LevelSection[i].Level_sum_Fh_E + Var->LevelSection[i].Level_sum_WE + Var->LevelSection[i].Level_sum_Fw;
+		Var->LevelSection[i].HMomentsum_E = Var->LevelSection[i].Level_sum_FhMh_E + Var->LevelSection[i].Level_sum_MxE + Var->LevelSection[i].Level_sum_FwMw;
+	}
+
+	Var->Err_Msg += "水平力及傾倒彎矩總合表計算處理完畢! \r\n";
+	return true;
+}
+
+bool Module2_Internal::SafetyFactorCheck() {
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		Var->LevelSection[i].SF_slide = (Var->LevelSection[i].VForcesum / Var->LevelSection[i].HForcesum);
+		Var->LevelSection[i].SF_slide_E = Var->LevelSection[i].VMomentsum / Var->LevelSection[i].HMomentsum;
+		Var->LevelSection[i].SF_overturning = (Var->LevelSection[i].VForcesum_E / Var->LevelSection[i].HForcesum_E);
+		Var->LevelSection[i].SF_overturning_E = Var->LevelSection[i].VMomentsum_E / Var->LevelSection[i].HMomentsum_E;
+	}
+	Var->Err_Msg += "壁體安全檢核計算處理完畢! \r\n";
 	return true;
 }

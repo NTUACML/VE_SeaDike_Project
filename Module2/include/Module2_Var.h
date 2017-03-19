@@ -28,15 +28,21 @@ public:
 	double pre_sum_Fh_E, pre_total_Fhy_E, pre_sum_FhMh_E; //Previous Devide Level summation
 	
 	double Level_Fv_sum, Level_Fv_x, Level_Fv_Mv_sum; //Vertical soil force
-	
+	double Level_Fv_sum_E, Level_Fv_x_E, Level_Fv_Mv_sum_E; //Vertical soil force
+
 	double Fw_sum, Fw_y, Fw_Mw_sum; //Residual water force
 	double Level_sum_Fw, Level_total_Fwy, Level_sum_FwMw; //Devide Level summation
 	double pre_sum_Fw, pre_total_Fwy, pre_sum_FwMw; //Previous Devide Level
 
 	double Ft_y, Ft_Mt; //Ship traction force
 
-	double VForceSum, VMomentsum; //Vertical force and moment summation
-	double VForceSum_E, VMomentsum_E; //Vertical force and moment summation(Earthquake)
+	double VForcesum, VMomentsum; //Vertical force and moment summation
+	double VForcesum_E, VMomentsum_E; //Vertical force and moment summation(Earthquake)
+
+	double HForcesum, HMomentsum; //Horizontal force and moment summation
+	double HForcesum_E, HMomentsum_E; //Horizontal force and moment summation(Earthquake)
+	
+	double SF_slide, SF_slide_E, SF_overturning, SF_overturning_E; //safety factor per level
 	std::vector<size_t> BlockId; //In level ID
 };
 class Module2_Var

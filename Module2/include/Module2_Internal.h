@@ -26,6 +26,8 @@ public:
 	bool ResidualWaterForceCal();
 	bool ShipTractionForceCal();
 	bool VerticalForceSum();
+	bool HorizontalForceSum();
+	bool SafetyFactorCheck();
 private:
 	Module2_Var *Var;
 
