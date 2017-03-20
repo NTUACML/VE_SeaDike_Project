@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,11 +135,19 @@
             this.btn_Test = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsp_progressbar = new System.Windows.Forms.ToolStripProgressBar();
             this.TSP_DATETIME = new System.Windows.Forms.ToolStripStatusLabel();
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_Log = new System.Windows.Forms.SaveFileDialog();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
+            this.label33 = new System.Windows.Forms.Label();
+            this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
+            this.gp_OutputControl = new System.Windows.Forms.GroupBox();
+            this.btn_OutputWord = new System.Windows.Forms.Button();
+            this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
+            this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -148,19 +157,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.gp_OutputControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.檔案ToolStripMenuItem,
             this.步驟ToolStripMenuItem,
             this.測試ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(884, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1247, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -276,7 +285,7 @@
             // 開始檢核ToolStripMenuItem
             // 
             this.開始檢核ToolStripMenuItem.Name = "開始檢核ToolStripMenuItem";
-            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
             // 
@@ -297,7 +306,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(884, 502);
+            this.tabControl1.Size = new System.Drawing.Size(1247, 671);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -369,8 +378,8 @@
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage1.Size = new System.Drawing.Size(876, 473);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1239, 642);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "設計條件參數";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -436,7 +445,6 @@
             this.textBox_SoilR_Earth.Name = "textBox_SoilR_Earth";
             this.textBox_SoilR_Earth.Size = new System.Drawing.Size(100, 27);
             this.textBox_SoilR_Earth.TabIndex = 58;
-            this.textBox_SoilR_Earth.TextChanged += new System.EventHandler(this.textBox_SoilR_Earth_TextChanged);
             this.textBox_SoilR_Earth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SoilR_Earth_KeyPress);
             // 
             // label32
@@ -743,7 +751,7 @@
             this.textBox_殘留水位.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_殘留水位.Location = new System.Drawing.Point(220, 89);
             this.textBox_殘留水位.Name = "textBox_殘留水位";
-            this.textBox_殘留水位.Size = new System.Drawing.Size(0, 27);
+            this.textBox_殘留水位.Size = new System.Drawing.Size(100, 27);
             this.textBox_殘留水位.TabIndex = 26;
             this.textBox_殘留水位.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_殘留水位_KeyPress);
             // 
@@ -755,7 +763,7 @@
             this.textBox_設計潮位低.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_設計潮位低.Location = new System.Drawing.Point(220, 56);
             this.textBox_設計潮位低.Name = "textBox_設計潮位低";
-            this.textBox_設計潮位低.Size = new System.Drawing.Size(0, 27);
+            this.textBox_設計潮位低.Size = new System.Drawing.Size(100, 27);
             this.textBox_設計潮位低.TabIndex = 25;
             this.textBox_設計潮位低.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_設計潮位低_KeyPress);
             // 
@@ -767,7 +775,7 @@
             this.textBox_設計潮位高.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_設計潮位高.Location = new System.Drawing.Point(220, 26);
             this.textBox_設計潮位高.Name = "textBox_設計潮位高";
-            this.textBox_設計潮位高.Size = new System.Drawing.Size(0, 27);
+            this.textBox_設計潮位高.Size = new System.Drawing.Size(100, 27);
             this.textBox_設計潮位高.TabIndex = 24;
             this.textBox_設計潮位高.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_設計潮位高_KeyPress);
             // 
@@ -1060,8 +1068,8 @@
             this.tabPage2.Controls.Add(this.btn_AddASect);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage2.Size = new System.Drawing.Size(1239, 645);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1239, 642);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "型塊設定";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1070,8 +1078,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1081,8 +1089,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -1092,9 +1100,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1119,7 +1127,7 @@
             this.ReferencedMaterialCHKL.Location = new System.Drawing.Point(13, 21);
             this.ReferencedMaterialCHKL.MultiColumn = true;
             this.ReferencedMaterialCHKL.Name = "ReferencedMaterialCHKL";
-            this.ReferencedMaterialCHKL.Size = new System.Drawing.Size(456, 104);
+            this.ReferencedMaterialCHKL.Size = new System.Drawing.Size(456, 124);
             this.ReferencedMaterialCHKL.TabIndex = 0;
             this.ReferencedMaterialCHKL.SelectedIndexChanged += new System.EventHandler(this.ReferencedMaterialCHKL_SelectedIndexChanged);
             // 
@@ -1139,16 +1147,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend2);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart_Plot.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart_Plot.Series.Add(series2);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -1161,7 +1169,7 @@
             this.listBox_SectSetting.ItemHeight = 19;
             this.listBox_SectSetting.Location = new System.Drawing.Point(6, 62);
             this.listBox_SectSetting.Name = "listBox_SectSetting";
-            this.listBox_SectSetting.Size = new System.Drawing.Size(126, 517);
+            this.listBox_SectSetting.Size = new System.Drawing.Size(126, 536);
             this.listBox_SectSetting.TabIndex = 16;
             this.listBox_SectSetting.SelectedIndexChanged += new System.EventHandler(this.listBox_SectSetting_SelectedIndexChanged);
             // 
@@ -1213,11 +1221,13 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.btn_LogOutput);
+            this.tabPage3.Controls.Add(this.gp_OutputControl);
+            this.tabPage3.Controls.Add(this.textBox_CheckMessageShow);
+            this.tabPage3.Controls.Add(this.label33);
             this.tabPage3.Controls.Add(this.btn_Test);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(876, 473);
+            this.tabPage3.Size = new System.Drawing.Size(1239, 642);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "檢核";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1225,18 +1235,19 @@
             // btn_LogOutput
             // 
             this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_LogOutput.Location = new System.Drawing.Point(252, 114);
+            this.btn_LogOutput.Location = new System.Drawing.Point(29, 37);
             this.btn_LogOutput.Name = "btn_LogOutput";
             this.btn_LogOutput.Size = new System.Drawing.Size(183, 32);
             this.btn_LogOutput.TabIndex = 1;
             this.btn_LogOutput.Text = "輸出LOG檔案";
+            this.toolTip1.SetToolTip(this.btn_LogOutput, "輸出LOG檔案");
             this.btn_LogOutput.UseVisualStyleBackColor = true;
             this.btn_LogOutput.Click += new System.EventHandler(this.btn_LogOutput_Click);
             // 
             // btn_Test
             // 
             this.btn_Test.Font = new System.Drawing.Font("標楷體", 15.75F);
-            this.btn_Test.Location = new System.Drawing.Point(252, 36);
+            this.btn_Test.Location = new System.Drawing.Point(521, 46);
             this.btn_Test.Name = "btn_Test";
             this.btn_Test.Size = new System.Drawing.Size(183, 39);
             this.btn_Test.TabIndex = 0;
@@ -1246,15 +1257,14 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsp_cond,
-            this.toolStripProgressBar1,
+            this.tsp_progressbar,
             this.TSP_DATETIME});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 500);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 669);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(884, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1247, 26);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1264,10 +1274,10 @@
             this.tsp_cond.Size = new System.Drawing.Size(128, 21);
             this.tsp_cond.Text = "toolStripStatusLabel1";
             // 
-            // toolStripProgressBar1
+            // tsp_progressbar
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(350, 20);
+            this.tsp_progressbar.Name = "tsp_progressbar";
+            this.tsp_progressbar.Size = new System.Drawing.Size(350, 20);
             // 
             // TSP_DATETIME
             // 
@@ -1290,11 +1300,82 @@
             this.SFD_專案.Filter = "檢核檔案(.vesdp)|*.vesdp";
             this.SFD_專案.FilterIndex = 0;
             // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label33.Location = new System.Drawing.Point(23, 24);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(129, 19);
+            this.label33.TabIndex = 2;
+            this.label33.Text = "檢核計算訊息";
+            // 
+            // textBox_CheckMessageShow
+            // 
+            this.textBox_CheckMessageShow.Location = new System.Drawing.Point(18, 46);
+            this.textBox_CheckMessageShow.Multiline = true;
+            this.textBox_CheckMessageShow.Name = "textBox_CheckMessageShow";
+            this.textBox_CheckMessageShow.ReadOnly = true;
+            this.textBox_CheckMessageShow.Size = new System.Drawing.Size(485, 539);
+            this.textBox_CheckMessageShow.TabIndex = 3;
+            this.textBox_CheckMessageShow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_CheckMessageShow_KeyDown);
+            this.textBox_CheckMessageShow.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_CheckMessageShow_KeyPress);
+            // 
+            // gp_OutputControl
+            // 
+            this.gp_OutputControl.Controls.Add(this.chk_OpenFileAfterOutput);
+            this.gp_OutputControl.Controls.Add(this.btn_OutputWord);
+            this.gp_OutputControl.Controls.Add(this.btn_LogOutput);
+            this.gp_OutputControl.Font = new System.Drawing.Font("標楷體", 12F);
+            this.gp_OutputControl.Location = new System.Drawing.Point(521, 109);
+            this.gp_OutputControl.Name = "gp_OutputControl";
+            this.gp_OutputControl.Size = new System.Drawing.Size(303, 476);
+            this.gp_OutputControl.TabIndex = 4;
+            this.gp_OutputControl.TabStop = false;
+            this.gp_OutputControl.Text = "輸出檢核結果";
+            // 
+            // btn_OutputWord
+            // 
+            this.btn_OutputWord.Font = new System.Drawing.Font("標楷體", 14F);
+            this.btn_OutputWord.Location = new System.Drawing.Point(29, 87);
+            this.btn_OutputWord.Name = "btn_OutputWord";
+            this.btn_OutputWord.Size = new System.Drawing.Size(183, 36);
+            this.btn_OutputWord.TabIndex = 2;
+            this.btn_OutputWord.Text = "輸出檢核WORD檔案";
+            this.toolTip1.SetToolTip(this.btn_OutputWord, "輸出檢核結果之WORD檔案");
+            this.btn_OutputWord.UseVisualStyleBackColor = true;
+            this.btn_OutputWord.Click += new System.EventHandler(this.btn_OutputWord_Click);
+            // 
+            // chk_OpenFileAfterOutput
+            // 
+            this.chk_OpenFileAfterOutput.AutoSize = true;
+            this.chk_OpenFileAfterOutput.Font = new System.Drawing.Font("標楷體", 13F);
+            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(29, 146);
+            this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
+            this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 22);
+            this.chk_OpenFileAfterOutput.TabIndex = 3;
+            this.chk_OpenFileAfterOutput.Text = "輸出後自動開啟檔案";
+            this.toolTip1.SetToolTip(this.chk_OpenFileAfterOutput, "輸出後自動開啟檔案");
+            this.chk_OpenFileAfterOutput.UseVisualStyleBackColor = true;
+            // 
+            // SFD_WordOutput
+            // 
+            this.SFD_WordOutput.Filter = "WORD 2013|*.docx|Word 2010|*.doc";
+            this.SFD_WordOutput.FilterIndex = 0;
+            // 
+            // bk_OutputWordReport
+            // 
+            this.bk_OutputWordReport.WorkerReportsProgress = true;
+            this.bk_OutputWordReport.WorkerSupportsCancellation = true;
+            this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
+            this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
+            this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
+            // 
             // Form_MTExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 526);
+            this.ClientSize = new System.Drawing.Size(1247, 695);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
@@ -1314,8 +1395,11 @@
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.gp_OutputControl.ResumeLayout(false);
+            this.gp_OutputControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1405,7 +1489,7 @@
         private System.Windows.Forms.ToolStripMenuItem 另存專案檔ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出此檢核ToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog SFD_專案;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripProgressBar tsp_progressbar;
         private System.Windows.Forms.ToolStripStatusLabel TSP_DATETIME;
         private System.Windows.Forms.ToolStripMenuItem 測試ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 開啟最近使用的舊檔ToolStripMenuItem;
@@ -1428,5 +1512,13 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TextBox textBox_CheckMessageShow;
+        private System.Windows.Forms.GroupBox gp_OutputControl;
+        private System.Windows.Forms.Button btn_OutputWord;
+        private System.Windows.Forms.CheckBox chk_OpenFileAfterOutput;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.SaveFileDialog SFD_WordOutput;
+        private System.ComponentModel.BackgroundWorker bk_OutputWordReport;
     }
 }

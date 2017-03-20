@@ -30,9 +30,6 @@ namespace VE_SD
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //基本參數區域
-        MTExameTextBox_Object_Class  RCOL = new MTExameTextBox_Object_Class();
-
-
         private string _過去使用檔案;
         private int _過去使用檔案數量 =5;
         //Stack<string> MyData = new Stack<string>();
@@ -71,7 +68,7 @@ namespace VE_SD
         Module2 Mod = null;
         private Form1 mainForm = null;
         private string 打開專案檔的名稱 = null;
-        //RDExameTextBox_Object_Class RCOL = new RDExameTextBox_Object_Class();
+        RDExameTextBox_Object_Class RCOL = new RDExameTextBox_Object_Class();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -112,8 +109,9 @@ namespace VE_SD
         }
 
 
-        string PNGStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
-        string VESDStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP_Project.vesdp";
+
+
+
         #region 檢核
         private void 開始檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -121,8 +119,6 @@ namespace VE_SD
         }
         private void btn_Test_Click(object sender, EventArgs e)
         {
-            if (isExporting)
-            { return; }
             /*
             string 驗證Msg = "";
             if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
@@ -514,6 +510,7 @@ namespace VE_SD
 
         }
         #endregion
+
         #region 開啟
         static int _tempic = 0;
         static StreamReader _打開過去舊檔案R = null;
@@ -630,7 +627,7 @@ namespace VE_SD
             TSP_DATETIME.Text = "";
             TSP_DATETIME.Alignment = ToolStripItemAlignment.Right;
             TSP_DATETIME.RightToLeft = RightToLeft.No;
-            tsp_progressbar.Visible = false;
+            toolStripProgressBar1.Visible = false;
             //tsp_cond.Text = "OK";
 
 
@@ -693,9 +690,6 @@ namespace VE_SD
             BlockListSubScriptToName.Clear();
             BlockNameToArraySubscript.Clear();
             BlockNameToListSubScript.Clear();
-
-
-            textBox_CheckMessageShow.Text = "";
 
             //開始檢核ToolStripMenuItem.Enabled = false;
             //btn_Test.Enabled = false;
@@ -2255,7 +2249,7 @@ namespace VE_SD
             return "";
             //******************
         }
-        private void 儲存XML專案檔(string xmlfullpath, bool showDia = true)
+        private void 儲存XML專案檔(string xmlfullpath)
         {
             string CheckTextBoxNoEmptyString = "";
             if (!CheckTextBoxNoEmpty(ref CheckTextBoxNoEmptyString))
@@ -2640,10 +2634,10 @@ namespace VE_SD
             //*************************************************************************************
 
             doc.Save(xmlfullpath);//儲存此XML文件
-            if (showDia)
-            {
+            //if (showDia)
+            //{
              MessageBox.Show("儲存完畢!!!", "專案檔儲存", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            //}
         }
         #endregion
         #region 型塊設定區域
@@ -3514,9 +3508,6 @@ namespace VE_SD
         #region 輸出區域
         private void btn_LogOutput_Click(object sender, EventArgs e)
         {
-            if(isExporting)
-            { return; }
-
             //給周大大輸出一點東西出來.
             if (object.Equals(Mod, null))
             {
@@ -3528,7 +3519,7 @@ namespace VE_SD
             {
                 string getpath = SFD_Log.FileName;
                 //呼叫.
-                //Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 MessageBox.Show("輸出完成!", "輸出Log File完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 /*
                 if (chk_OpenFileAfterOutput.Checked)
@@ -3543,523 +3534,7 @@ namespace VE_SD
             }
 
         }
-        private string WordOutputMsg = "";
-        private void btn_OutputWord_Click(object sender, EventArgs e)
-        {
-            if (isExporting)
-            { return; }
 
-            if (object.Equals(Mod, null))
-            {
-                //MessageBox.Show("你的計算主體'MOD'為Null!!!!!");
-                MessageBox.Show("您目前沒有完成的檢核結果!請重新檢核,若您無法使用檢核功能,請確認您的軟體已授權,或是聯絡開發商", "Word檔案輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return;
-            }
-            string tempplateFile = "Output_Template_MT.docx";
-            if (!File.Exists(tempplateFile))
-            {
-                //錯誤.
-                MessageBox.Show("您輸出Word報表的功能出現嚴重錯誤!找不到Template!", "Word報表輸出功能受損", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-
-            //蒐集資料.
-            載入Textbox到矩陣內();
-
-            //進行輸出.
-            if (SFD_WordOutput.ShowDialog() == DialogResult.OK && SFD_WordOutput.FileName != "")
-            {
-                string getpathword = SFD_WordOutput.FileName;
-                if (File.Exists(getpathword))
-                {
-                    //規定目前此excel檔案不可被開啟中.
-                    if (IsFileLocked(new FileInfo(getpathword)))
-                    {
-                        MessageBox.Show("您所預儲存的檔案已經存在且已被鎖定!!!" + Environment.NewLine + "處理中止，此檔案可能被其他檔案編輯中或是目前正被Word打開中", "輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        return;
-                    }
-                }
-                tsp_progressbar.Style = ProgressBarStyle.Marquee;
-                tsp_progressbar.MarqueeAnimationSpeed = 10;
-                tsp_progressbar.Visible = true;
-                tsp_cond.Text = "輸出Word檔案報表中";
-
-                //先將圖片輸出.
-                string[] TempName = new string[] { };
-                for (int i = 0; i < chart_Plot.Series.Count; i++)
-                {
-                    if (chart_Plot.Series[i].IsVisibleInLegend)
-                    {
-                        Array.Resize(ref TempName, TempName.GetLength(0) + 1);
-                        TempName[TempName.GetUpperBound(0)] = chart_Plot.Series[i].Name;
-                        chart_Plot.Series[i].IsVisibleInLegend = false;
-                    }
-                }
-                //chart_Plot.Legends.
-                if (listBox_SectSetting.SelectedIndex != -1)
-                {
-                    //MessageBox.Show(BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]);
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Black;
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth = 2;
-                    //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Black;
-                    //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 2;
-                }
-                //Recording Old Xmin, Xmax and Xspace.
-                //TT.AxisX = chart_Plot.ChartAreas[0].AxisX;
-                //TT.AxisY = chart_Plot.ChartAreas[0].AxisY;
-                //double oldXmin = chart_Plot.ChartAreas[0].AxisX.Minimum;
-                //double oldXmax = chart_Plot.ChartAreas[0].AxisX.Maximum;
-                //double oldSpace = chart_Plot.ChartAreas[0].AxisX.Interval;
-                for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
-                {
-                    TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
-                    if (TT.Text == "海側")
-                    {
-                        TT.Visible = false;
-                        //chart_Plot.Annotations.RemoveAt(i);
-                    }
-
-
-                }
-                chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
-                for (int i = 0; i < TempName.GetLength(0); i++)
-                {
-                    chart_Plot.Series[TempName[i]].IsVisibleInLegend = false;
-                }
-                if (listBox_SectSetting.SelectedIndex != -1)
-                {
-                    //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderColor = Color.Red;
-                    //chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].MarkerBorderWidth = 3;
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].Color = Color.Red;
-                    chart_Plot.Series[BlockListSubScriptToName[listBox_SectSetting.SelectedIndex]].BorderWidth = 3;
-                }
-                for (int i = chart_Plot.Annotations.Count - 1; i >= 0; i--)
-                {
-                    TextAnnotation TT = (TextAnnotation)chart_Plot.Annotations[i];
-                    if (TT.Text == "海側")
-                    {
-                        TT.Visible = true;
-                        //chart_Plot.Annotations.RemoveAt(i);
-                    }
-
-
-                }
-
-                //Runing the backgroundworker.
-                WordOutputMsg = "ERROR";
-                isExporting = true;
-                bk_OutputWordReport.RunWorkerAsync(SFD_WordOutput.FileName);
-
-
-                //string getMsg = 輸出Word報表(SFD_WordOutput.FileName);
-            }
-
-        }
-        private void 載入Textbox到矩陣內()
-        {
-            RCOL = new MTExameTextBox_Object_Class();
-            RCOL.填表人ID= mainForm.LoginInUserID;
-            RCOL.填表人名稱= mainForm.LoginInUserName;
-            RCOL.設計潮位高= textBox_設計潮位高.Text;
-            RCOL.設計潮位低 = textBox_設計潮位低.Text;
-            RCOL.殘留水位= textBox_殘留水位.Text;
-            RCOL.平時上載荷重= textBox_平時上載荷重.Text;
-            RCOL.地震時上載荷重= textBox_地震時上載荷重.Text;
-            RCOL.船舶牽引力= textBox_船舶牽引力.Text;
-            RCOL.陸上設計震度= textBox_陸上設計震度.Text;
-            RCOL.水中設計震度= textBox_水中設計震度.Text;
-            RCOL.水單位重 = textBox_rw.Text;//水單位重.
-            RCOL.繫船柱突出高度= textBox_BoatColumnHeight.Text;//繫船柱突出高度.
-            RCOL.背填料內摩擦角=textBox_背填料內摩擦角.Text;
-            RCOL.背填料壁面摩擦角=textBox_背填料壁面摩擦角.Text;
-            RCOL.背填料水平傾斜角=textBox_背填料水平傾斜角.Text;
-            RCOL.入土深度=textBox_入土深度.Text;
-            RCOL.拋石厚度=textBox_拋石厚度.Text;
-            RCOL.海側方向= cmb_seawaveDir.SelectedItem.ToString();
-            RCOL.地盤基礎內摩擦角=textBox_地盤基礎內摩擦角.Text;
-            RCOL.土壤凝聚力=textBox_土壤凝聚力.Text;
-            RCOL.Nq=textBox_Nq.Text;
-            RCOL.Nc = textBox_Nc.Text;
-            RCOL.Nr = textBox_Nr.Text;
-            RCOL.平時滑動安全係數=textBox_平時滑動安全係數.Text;
-            RCOL.平時傾倒安全係數=textBox_平時傾倒安全係數.Text;
-            RCOL.平時地盤承載力安全係數=textBox_平時地盤承載力安全係數.Text;
-            RCOL.地震時滑動安全係數=textBox_地震時滑動安全係數.Text;
-            RCOL.地震時傾倒安全係數=textBox_地震時傾倒安全係數.Text;
-            RCOL.地震時地盤承載力安全係數=textBox_地震時地盤承載力安全係數.Text;
-            RCOL.陸上土壤重=textBox_SoilR_Earth.Text;//土壤重(陸上)
-            RCOL.水中土壤重=textBox_SoilR_Water.Text;//土壤重(水中)
-            RCOL.平時無設計震度土壓係數Ka=textBox_KaStage1.Text;//平時無設計震度土壓係數Ka
-            RCOL.地震時設計震度K017土壓係數Ka=textBox_KaStage2.Text;//地震時(設計震度K=0.17)土壓係數Ka
-            RCOL.地震時設計震度K033土壓係數Ka=textBox_KaStage3.Text;//地震時(設計震度K=0.33)土壓係數Ka
-        }
-        public bool IsFileLocked(FileInfo file)
-        {
-            if (!file.Exists)
-            {
-                return false;
-            }
-            FileStream stream = null;
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            }
-            catch (IOException)
-            {
-                //The file is unvaliable:
-                //1. Opened by other programs.
-                //2. still being written.
-                //3. doesn't exist.
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                }
-            }
-            return false;//File is not locked.
-        }
-        private void bk_OutputWordReport_DoWork(object sender, DoWorkEventArgs e)
-        {
-            WordOutputMsg = 輸出Word報表(e.Argument.ToString());
-        }
-        private void bk_OutputWordReport_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-
-        }
-        private void bk_OutputWordReport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            tsp_progressbar.Visible = false;
-            this.Refresh();
-            isExporting = false;
-            if (WordOutputMsg == "ok")
-            {
-                tsp_cond.Text = "您已輸出完成Word檔案,謝謝使用";
-                MessageBox.Show("輸出完成!!", "輸出Word報表檔案完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //System.Threading.Thread.Sleep(000);//暫停兩秒.
-                if (mainForm.提供服務訊息)
-                {
-                    儲存XML專案檔(VESDStoredFolderPath, false);
-                    this.mainForm.發送檔案給主機(VESDStoredFolderPath);
-                    File.Delete(VESDStoredFolderPath);
-                }
-                //傳送Log檔案.
-                //string LogTempPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TempLog.log";
-
-                //Mod.OutPutLogFile(LogTempPath);
-                //this.mainForm.發送操作指令("TRANSFER:檢核Record.Log"   + "\n" + mainForm.LoginInUserID + "\n" + mainForm.LoginInUserName);
-                //this.mainForm.發送檔案給主機(LogTempPath);
-                //File.Delete(LogTempPath);
-                //System.Threading.Thread.Sleep(5000);//暫停兩秒.
-
-
-                this.Refresh();
-                //System.Threading.Thread.Sleep(5000);//暫停兩秒.
-
-                FileInfo f1 = new FileInfo(SFD_WordOutput.FileName);
-                if (mainForm.提供服務訊息)
-                {
-                    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')完成碼頭檢核並輸出報表(檔案名稱為'" + f1.Name + "'),員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-                }//輸出專案檔的備份.
-                //儲存XML專案檔(VESDStoredFolderPath, false);
-                //this.mainForm.發送檔案給主機(VESDStoredFolderPath);
-                //File.Delete(VESDStoredFolderPath);
-                //this.mainForm.發送操作指令("TRANSFER:" + f1.Name + "\n" + mainForm.LoginInUserID + "\n" + mainForm.LoginInUserName);
-                //this.mainForm.發送檔案給主機(SFD_WordOutput.FileName);
-                if (chk_OpenFileAfterOutput.Checked)
-                {
-                    try
-                    {
-                        Process p = new Process();
-                        p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-                        p.StartInfo.FileName = SFD_WordOutput.FileName;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        p.Start();
-                    }
-                    catch
-                    {
-                        //不做任何事情.
-                    }
-
-                }
-            }
-            else
-            {
-                MessageBox.Show("您的Word報表輸出出現錯誤!" + Environment.NewLine + WordOutputMsg.Replace("ERROR:", ""), "WORD輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tsp_cond.Text = "您沒有成功輸出檢核報表";
-            }
-            if (File.Exists(PNGStoredFolderPath))
-            {
-                File.Delete(PNGStoredFolderPath);
-            }
-        }
-        private string 輸出Word報表(string getPath)
-        {
-            string OutMsg = "ok";
-            if (object.Equals(Mod, null))
-            {
-                //沒有作檢核.
-                //MessageBox.Show("您必須要先進行檢核才可輸出Word檔案!");
-                OutMsg = "ERROR:您必須要先進行檢核才可輸出Word檔案";
-                return OutMsg;
-            }
-            string tempplateFile = "Output_Template_MT.docx";// C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\x64\\Release\\Output_Template.docx";//!!!!!!!!!!!!!!!!!!!!!!
-            string outputFile;// = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\x64\\Release\\TestWord.docx";//!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            outputFile = getPath;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            FileInfo f1 = new FileInfo(outputFile);
-            if (IsFileLocked(f1))
-            {
-                //無法輸出
-                //MessageBox.Show("您所欲輸出的檔案目前開啟或是被鎖定中,請檢視此檔案是否可被編輯,並且關閉任何開啟此檔案中的程式","輸出Word檔案錯誤",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                OutMsg = "ERROR:WORD檔案仍被鎖定中:" + getPath;
-                return OutMsg;
-
-            }
-            File.Copy(tempplateFile, outputFile, true);
-
-
-            Mod.Get_DataBank_Data(); //Loading Running Result data.
-            
-
-
-            WORD.Application wdApplication = null;
-            wdApplication = new WORD.Application();
-            wdApplication.Visible = true;
-            if (wdApplication != null)
-            {
-                try
-                {
-                    WORD.Document newDocument = wdApplication.Documents.Open(outputFile);
-
-                    WORD.Range wdrange = null;
-                    WORD.Table TableRef = null;
-                    object unit = WORD.WdUnits.wdCharacter;
-                    object lu = WORD.WdUnits.wdLine;
-                    //object story = WORD.WdUnits.wdLine;
-                    object count = 1;
-                    object dcount = 2;
-                    object tcount = 3;
-
-
-                    //實際輸出區域.
-                    //取得第一個Table:
-                    //1. 填表資訊.
-                    TableRef = newDocument.Tables[1];
-                    //填表人員工編號.
-                    TableRef.Rows[1].Cells[2].Range.Text = RCOL.填表人ID; //mainForm.LoginInUserID.ToString();
-                                                                       //填表人名稱.
-                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.填表人名稱;//mainForm.LoginInUserName.ToString();
-                    //時間.
-                    TableRef.Rows[3].Cells[2].Range.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-
-
-                    //取得第二個Table:
-                    //2.設計條件.
-                    TableRef = newDocument.Tables[2];
-                    TableRef.Rows[1].Cells[2].Range.Text = RCOL.設計潮位高;
-                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.設計潮位低;
-                    TableRef.Rows[3].Cells[2].Range.Text = RCOL.殘留水位;
-                    TableRef.Rows[4].Cells[2].Range.Text = RCOL.平時上載荷重;
-                    TableRef.Rows[5].Cells[2].Range.Text = RCOL.地震時上載荷重;
-                    TableRef.Rows[6].Cells[2].Range.Text = RCOL.船舶牽引力;
-                    TableRef.Rows[7].Cells[2].Range.Text = RCOL.陸上設計震度;
-                    TableRef.Rows[8].Cells[2].Range.Text = RCOL.水中設計震度;
-                    TableRef.Rows[9].Cells[2].Range.Text = RCOL.水單位重;
-                    TableRef.Rows[10].Cells[2].Range.Text = RCOL.繫船柱突出高度;
-                    TableRef.Rows[11].Cells[2].Range.Text = RCOL.背填料內摩擦角;
-                    TableRef.Rows[12].Cells[2].Range.Text = RCOL.背填料壁面摩擦角;
-                    TableRef.Rows[13].Cells[2].Range.Text = RCOL.背填料水平傾斜角;
-                    TableRef.Rows[14].Cells[2].Range.Text = RCOL.入土深度;
-                    TableRef.Rows[15].Cells[2].Range.Text = RCOL.拋石厚度;
-                    TableRef.Rows[16].Cells[2].Range.Text = RCOL.海側方向;
-                    TableRef.Rows[17].Cells[2].Range.Text = RCOL.地盤基礎內摩擦角;
-                    TableRef.Rows[18].Cells[2].Range.Text = RCOL.土壤凝聚力;
-                    TableRef.Rows[19].Cells[2].Range.Text = RCOL.Nq;
-                    TableRef.Rows[20].Cells[2].Range.Text = RCOL.Nc;
-                    TableRef.Rows[21].Cells[2].Range.Text = RCOL.Nr;
-                    TableRef.Rows[22].Cells[2].Range.Text = RCOL.平時滑動安全係數;
-                    TableRef.Rows[23].Cells[2].Range.Text = RCOL.平時傾倒安全係數;
-                    TableRef.Rows[24].Cells[2].Range.Text = RCOL.平時地盤承載力安全係數;
-                    TableRef.Rows[25].Cells[2].Range.Text = RCOL.地震時滑動安全係數;
-                    TableRef.Rows[26].Cells[2].Range.Text = RCOL.地震時傾倒安全係數;
-                    TableRef.Rows[27].Cells[2].Range.Text = RCOL.地震時地盤承載力安全係數;
-                    TableRef.Rows[28].Cells[2].Range.Text = RCOL.陸上土壤重;
-                    TableRef.Rows[29].Cells[2].Range.Text = RCOL.水中土壤重;
-                    TableRef.Rows[30].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
-                    TableRef.Rows[31].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
-                    TableRef.Rows[32].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
-                    //TableRef.Rows[33].Cells[2].Range.Text =;
-
-                    //取得第三個表格.
-                    //3, 壁體自重及抵抗彎矩.
-                    //
-                    MessageBox.Show(newDocument.Tables.Count.ToString());
-                    TableRef = newDocument.Tables[3];
-                    /*for(int i=0;i<Mod;i++)
-                    {
-                        //啥都沒有...
-
-                    }*/
-                    
-
-
-
-                    //取得第四個表格.
-                    //4. 地震力及傾倒彎矩
-                    TableRef = newDocument.Tables[4];
-
-
-                    //取得第五個表格.
-                    //5. 土壓力水平分力及傾倒彎矩.
-                    //  土壓強度(平時).
-                    TableRef = newDocument.Tables[5];
-
-
-                    //第六個表格.
-                    //  土壓強度(地震時 陸上)
-                    // 
-
-                    TableRef = newDocument.Tables[6];
-
-                    //第七個表格.
-                    //  土壓強度(地震時 水中)
-                    TableRef = newDocument.Tables[7];
-
-                    //第八個表格.
-                    //土壓水平力及傾倒彎矩.
-                    //公式表.
-
-
-                    //第九個表格.
-                    //   整理表.
-                    TableRef = newDocument.Tables[9];
-
-
-
-
-                    //第十個表格.
-                    //6. 土壓垂直分力及抵抗彎矩.
-                    //  表投(垂直分力)
-                    TableRef = newDocument.Tables[10];
-
-                    //第十一個表格.
-                    //  整理表.
-                    TableRef = newDocument.Tables[11];
-
-
-                    //第十二個表格.
-                    //7. 殘留水壓及傾倒彎矩.
-                    //  表頭.
-                    TableRef = newDocument.Tables[12];
-
-
-                    //第十三個表格.
-                    //  整理表.
-                    TableRef = newDocument.Tables[13];
-
-                    //第十四個表格.
-                    //8. 船舶牽引力及傾倒彎矩.
-                    TableRef = newDocument.Tables[14];
-
-                    //第十六個表格.
-                    //  整理表.
-                    TableRef = newDocument.Tables[15];
-
-                    //第十七個表格.
-                    //9. 垂直力及抵抗彎矩 總和表
-                    //    9-1. 平時 整理表
-                    TableRef = newDocument.Tables[16];
-
-
-                    //第十七個表格.
-                    //    9-2.地震時 整理表.
-                    TableRef = newDocument.Tables[17];
-
-                    //第十八個表格.
-                    //  10. 水平力及傾倒彎矩 總和表.
-                    //   10-1. 平時.
-                    TableRef = newDocument.Tables[18];
-
-                    //第十九個表格.
-                    //   10-2. 地震時.
-                    TableRef = newDocument.Tables[19];
-
-
-                    //第二十個表格.
-                    //11. 壁體安全檢查.
-                    //    11-1. 滑動及傾倒安定檢核.
-                    //       11-1-1. 安全係數表.
-                    TableRef = newDocument.Tables[20];
-
-                    //第二十一個表格.
-                    //       11-1-2. 總表.
-                    TableRef = newDocument.Tables[21];
-
-                    //第二十二個表格.
-                    //    11-2. 地盤承載力檢核.
-                    //       11-2-1. 壁體底部反力計算.
-                    TableRef = newDocument.Tables[22];
-
-                    //第二十三個表格.
-                    //       11-2-2. 基礎拋石底面容許承載力計算.
-                    TableRef = newDocument.Tables[23];
-
-                    newDocument.Save(); // (outputFile);
-                    newDocument.Close(false, Type.Missing, Type.Missing);
-                    OutMsg = "ok";
-                    //return OutMsg;
-                }
-                catch(Exception ex)
-                {
-
-                    OutMsg = "ERROR:WORD處理出現錯誤" + Environment.NewLine + ex.StackTrace.ToString() + Environment.NewLine + ex.Message.ToString();
-                }
-            }
-            else
-            {
-                OutMsg = "ERROR:WORD APP無法成功開啟";
-            }
-            wdApplication.Quit();
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(wdApplication);
-
-            return OutMsg;
-        }
-        #endregion
-        #region 輸出控制區域
-            bool hh = false;
-        private void textBox_CheckMessageShow_KeyDown(object sender, KeyEventArgs e)
-        {
-            //檢核頁面顯示計算訊息的textbox,限制只能按下Ctrl+C[複製],Ctrl+A[全選]. 
-            //
-            //MessageBox.Show(e.KeyCode.ToString());
-            if (e.Control && e.KeyCode == Keys.A)
-            {
-                //MessageBox.Show("Yes");
-                ((TextBox)sender).SelectAll();
-                e.Handled = true;
-                hh = true;
-            }
-            else if (e.Control && e.KeyCode == Keys.C)
-            {
-                e.Handled = true;
-                hh = true;
-            }
-            else
-            {
-                //MessageBox.Show("Handle event");
-                e.Handled = true;
-                hh = true;
-            }
-        }
-
-        private void textBox_CheckMessageShow_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = true;
-        }
-        #endregion
-        #region Chart互動區
         //刪除BLOCK.
         private void btnRemoveSects_Click(object sender, EventArgs e)
         {
@@ -4396,7 +3871,10 @@ namespace VE_SD
             }
             BlockMainArray[id].周圍參考材質 = UseReferencedBlock;//更新.
         }
-        
+
+
+
+        #region Chart互動區
         private void chart_Plot_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.MouseEventArgs ex = (System.Windows.Forms.MouseEventArgs)e;
@@ -4642,6 +4120,13 @@ namespace VE_SD
             }
             return dtheata;
         }
+
+
+
+
+        #endregion
+
+        #endregion
         private void cmb_seawaveDir_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_seawaveDir.SelectedIndex != -1)
@@ -4649,7 +4134,7 @@ namespace VE_SD
                 繪上EL();
             }
         }
-        #endregion
+
         #region 縮放表單
         private void Form_MTExamProgress_Resize(object sender, EventArgs e)
         {
@@ -4685,10 +4170,11 @@ namespace VE_SD
             //OldHeight = this.Height;
         }
 
-
-
         #endregion
 
+        private void textBox_SoilR_Earth_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
