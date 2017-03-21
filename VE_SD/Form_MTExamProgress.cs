@@ -252,7 +252,8 @@ namespace VE_SD
             // Go Go Go~
             Mod.Run();
 
-            MessageBox.Show("Finished Run!");
+            MessageBox.Show("完成檢核!!","完成檢核",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            tabControl1.SelectedIndex = 2;
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -3826,7 +3827,7 @@ namespace VE_SD
 
             WORD.Application wdApplication = null;
             wdApplication = new WORD.Application();
-            wdApplication.Visible = true;
+            wdApplication.Visible = false;// true;
             if (wdApplication != null)
             {
                 try
@@ -3895,20 +3896,190 @@ namespace VE_SD
                     //取得第三個表格.
                     //3, 壁體自重及抵抗彎矩.
                     //
-                    MessageBox.Show(newDocument.Tables.Count.ToString());
+                    //MessageBox.Show(newDocument.Tables.Count.ToString());
                     TableRef = newDocument.Tables[3];
-                    /*for(int i=0;i<Mod;i++)
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++) // Mod.EL_SectionResult; i++)
                     {
-                        //啥都沒有...
+                        int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
+                        int needsize = BlockID.GetLength(0);
+                        if (i != 0)
+                        { needsize += 2; }
+                        for (int i2 = 0; i2 < needsize; i2++)
+                        {
+                            TableRef.Rows.Add(TableRef.Rows[2]);
+                        }
+                    }
 
-                    }*/
-                    
+                    int rowstart = 2;
+                    int rowend = 2;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0);i++)
+                    {
+                        int[] BlocKID = Mod.VarBank.EL_Out[i].BlockId;
+                        rowend = rowstart + BlocKID.GetLength(0) - 1;
+                        if (i == 0) { rowend = rowend + 1; }
+                        else { rowend = rowend + 2; }
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        if(i!=0)
+                        {
+                            //前統計.
+                            //壁體自重.
+                            TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_W.ToString("0.00");
+                            //力矩.
+                            TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].pre_total_arm.ToString("0.00");
+                            //抵抗彎矩
+                            TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Mx.ToString("0.00");
+                            rowstart = rowstart + 1;
+                        }
+                        for (int ii = 0; ii <= BlocKID.GetUpperBound(0); ii++)
+                        {
+                            //各個Block的結果.
+                            int blockidGet = BlocKID[ii]-1;
+                            TableRef.Rows[rowstart + ii].Cells[2].Range.Text = BlockListSubScriptToName[blockidGet];
+                            
+                            //面積
+                            TableRef.Rows[rowstart + ii].Cells[3].Range.Text = Mod.VarBank .Block_Out [blockidGet].A.ToString("0.00");
 
+                            //單位體重
+                            TableRef.Rows[rowstart + ii].Cells[4].Range.Text = Mod.VarBank.Block_Out[blockidGet].Density.ToString("0.00");
+
+                            //壁體自重
+                            //Selfweight
+                            TableRef.Rows[rowstart + ii].Cells[5].Range.Text = Mod.VarBank.Block_Out[blockidGet].Selfweight.ToString("0.00");
+
+                            //力矩
+                            //X
+                            TableRef.Rows[rowstart + ii].Cells[6].Range.Text = Mod.VarBank.Block_Out[blockidGet].X.ToString("0.00");
+
+
+                            //抵抗彎矩
+                            //Mw
+                            TableRef.Rows[rowstart + ii].Cells[7].Range.Text = Mod.VarBank.Block_Out[blockidGet].Mw.ToString("0.00");
+                        }
+                        //後統計.
+                        TableRef.Rows[rowend].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_W.ToString("0.00");
+                        //力矩.
+                        TableRef.Rows[rowend].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_arm.ToString("0.00");
+                        //抵抗彎矩
+                        TableRef.Rows[rowend].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Mx.ToString("0.00");
+
+                        rowstart = rowend + 1;
+                    }
+
+
+                    //忽略整體統計資訊.
+                    //壁體自重.
+                    //TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.W.ToString("0.00");
+
+                    rowstart = 2;
+                    rowend = 2;
+                    int minuscount = 0;
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
+                    {
+                        int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
+                        rowend = rowstart + BlockID.GetLength(0) - 1;
+                        if (i == 0) { rowend = rowend + 1; }
+                        else { rowend = rowend + 2; }
+
+                        TableRef.Columns[1].Cells[rowstart-minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
+                        minuscount += (rowend-rowstart+1 - 1);
+                        rowstart = rowend + 1;
+                    }
+
+                    wdrange = TableRef.Columns[1].Cells[rowstart - minuscount].Range;
+                    wdrange.Select();
+                    wdApplication.Selection.MoveDown(ref lu, 1, Type.Missing);
+                    //插入圖.
+                    wdApplication.Selection.InlineShapes.AddPicture(PNGStoredFolderPath);
 
 
                     //取得第四個表格.
                     //4. 地震力及傾倒彎矩
                     TableRef = newDocument.Tables[4];
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++) // Mod.EL_SectionResult; i++)
+                    {
+                        int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
+                        int needsize = BlockID.GetLength(0);
+                        if (i != 0)
+                        { needsize += 2; }
+                        for (int i2 = 0; i2 < needsize; i2++)
+                        {
+                            TableRef.Rows.Add(TableRef.Rows[2]);
+                        }
+                    }
+
+                    rowstart = 2;
+                    rowend = 2;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        int[] BlocKID = Mod.VarBank.EL_Out[i].BlockId;
+                        rowend = rowstart + BlocKID.GetLength(0) - 1;
+                        if (i == 0) { rowend = rowend + 1; }
+                        else { rowend = rowend + 2; }
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        if (i != 0)
+                        {
+                            //前統計.
+                            //地震力.
+                            TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_WE.ToString("0.00");
+                            //力矩.
+                            TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].pre_total_armE.ToString("0.00");
+                            //抵抗彎矩
+                            TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_MxE.ToString("0.00");
+                            rowstart = rowstart + 1;
+                        }
+                        for (int ii = 0; ii <= BlocKID.GetUpperBound(0); ii++)
+                        {
+                            //各個Block的結果.
+                            int blockidGet = BlocKID[ii] - 1;
+                            TableRef.Rows[rowstart + ii].Cells[2].Range.Text = BlockListSubScriptToName[blockidGet];
+
+                            //面積
+                            TableRef.Rows[rowstart + ii].Cells[3].Range.Text = Mod.VarBank.Block_Out[blockidGet].A.ToString("0.00");
+
+                            //單位體重
+                            TableRef.Rows[rowstart + ii].Cells[4].Range.Text = Mod.VarBank.Block_Out[blockidGet].EQ_Density.ToString("0.00");
+
+                            //地震力
+                            TableRef.Rows[rowstart + ii].Cells[5].Range.Text = Mod.VarBank.Block_Out[blockidGet].Selfweight_E.ToString("0.00");
+
+                            //力矩
+                            //Y
+                            TableRef.Rows[rowstart + ii].Cells[6].Range.Text = Mod.VarBank.Block_Out[blockidGet].X_E.ToString("0.00");
+
+
+                            //傾倒彎矩
+                            //Mw
+                            TableRef.Rows[rowstart + ii].Cells[7].Range.Text = Mod.VarBank.Block_Out[blockidGet].Mw_E.ToString("0.00");
+                        }
+                        //後統計.
+                        TableRef.Rows[rowend].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");
+                        //力矩.
+                        TableRef.Rows[rowend].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_armE.ToString("0.00");
+                        //抵抗彎矩
+                        TableRef.Rows[rowend].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_MxE.ToString("0.00");
+
+                        rowstart = rowend + 1;
+                    }
+
+
+                    //忽略整體統計資訊.
+                    //壁體自重.
+                    //TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.W.ToString("0.00");
+
+                    rowstart = 2;
+                    rowend = 2;
+                    minuscount = 0;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
+                        rowend = rowstart + BlockID.GetLength(0) - 1;
+                        if (i == 0) { rowend = rowend + 1; }
+                        else { rowend = rowend + 2; }
+
+                        TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
+                        minuscount += (rowend - rowstart + 1 - 1);
+                        rowstart = rowend + 1;
+                    }
 
 
                     //取得第五個表格.

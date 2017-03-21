@@ -7767,7 +7767,7 @@ namespace VE_SD
                     {
                         int[] BlocKID = Mod.VarBank.EL_Out[i].BlockNum;
                         rowend = rowstart + BlocKID.GetLength(0) - 1;
-                        if (BlocKID.GetLength(0) > 2)
+                        if (BlocKID.GetLength(0) >= 2)
                         {
                             TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
                             minuscount += BlocKID.GetLength(0) - 1;
