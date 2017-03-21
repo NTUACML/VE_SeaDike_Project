@@ -27,8 +27,8 @@ public:
 	double Level_sum_Fh_E, Level_total_Fhy_E, Level_sum_FhMh_E; //Devide Level summation
 	double pre_sum_Fh_E, pre_total_Fhy_E, pre_sum_FhMh_E; //Previous Devide Level summation
 	
-	double Level_Fv_sum, Level_Fv_x, Level_Fv_Mv_sum; //Vertical soil force
-	double Level_Fv_sum_E, Level_Fv_x_E, Level_Fv_Mv_sum_E; //Vertical soil force
+	double Level_sum_Fv, Level_total_Fvx, Level_sum_FvMv; //Vertical soil force
+	double Level_sum_Fv_E, Level_total_Fvx_E, Level_sum_FvMv_E; //Vertical soil force
 
 	double Fw_sum, Fw_y, Fw_Mw_sum; //Residual water force
 	double Level_sum_Fw, Level_total_Fwy, Level_sum_FwMw; //Devide Level summation
@@ -92,6 +92,16 @@ public:
 	double ka, ka_17, ka_33;
 	//- 確認是否為混凝土塊
 	bool concretecheck;
+	//- summations of all force
+	double V_sum, Mr_sum, V_sum_E, Mr_sum_E, H_sum, Mo_sum, H_sum_E, Mo_sum_E; // 合力及彎矩總和
+	//- base force parameter
+	double X, X_E; //合力作用點
+	double e, e_E; //偏心量
+	double P1, P2, P1_E, P2_E, bplum, bplum_E; //最大最小反力, 壁體底部反力分布寬
+	double sita, sita_E; //偏心傾斜荷重傾斜角
+	double b_2plum, b_2plum_E; //基礎拋石底面反力分布寬
+	double R1, R1_E, R2, R2_E; //基礎拋石底面反力
+	double qa, qa_E; //基礎地盤之容許承載力
 	
 
 	//- Mesg

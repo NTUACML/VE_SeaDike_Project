@@ -28,6 +28,7 @@ public:
 	bool VerticalForceSum();
 	bool HorizontalForceSum();
 	bool SafetyFactorCheck();
+	bool BaseForceCheck();
 private:
 	Module2_Var *Var;
 

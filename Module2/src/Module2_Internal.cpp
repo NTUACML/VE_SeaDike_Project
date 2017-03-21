@@ -438,8 +438,8 @@ bool Module2_Internal::VertivalSoilForceCal() {
 		double width,max_width = 0.0;
 		fv_temp_sum = Var->LevelSection[i].Level_sum_Fh*(tan(15 * M_PI / 180));
 		fv_temp_sum_E = Var->LevelSection[i].Level_sum_Fh_E*(tan(15 * M_PI / 180));
-		Var->LevelSection[i].Level_Fv_sum = fv_temp_sum;
-		Var->LevelSection[i].Level_Fv_sum_E = fv_temp_sum_E;
+		Var->LevelSection[i].Level_sum_Fv = fv_temp_sum;
+		Var->LevelSection[i].Level_sum_Fv_E = fv_temp_sum_E;
 		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
 			ID = Var->LevelSection[i].BlockId[j];
 			width = Var->BlockData[ID].MaxX - Var->BlockData[ID].MinX;
@@ -447,10 +447,10 @@ bool Module2_Internal::VertivalSoilForceCal() {
 				max_width = width;
 			}
 		}
-		Var->LevelSection[i].Level_Fv_x = max_width;
-		Var->LevelSection[i].Level_Fv_x_E = max_width;
-		Var->LevelSection[i].Level_Fv_Mv_sum = Var->LevelSection[i].Level_Fv_sum*Var->LevelSection[i].Level_Fv_x;
-		Var->LevelSection[i].Level_Fv_Mv_sum_E = Var->LevelSection[i].Level_Fv_sum_E*Var->LevelSection[i].Level_Fv_x_E;
+		Var->LevelSection[i].Level_sum_Fv = max_width;
+		Var->LevelSection[i].Level_sum_Fv_E = max_width;
+		Var->LevelSection[i].Level_sum_FvMv = Var->LevelSection[i].Level_sum_Fv*Var->LevelSection[i].Level_total_Fvx;
+		Var->LevelSection[i].Level_sum_FvMv_E = Var->LevelSection[i].Level_sum_Fv_E*Var->LevelSection[i].Level_total_Fvx_E;
 	}
 	Var->Err_Msg += "土壓垂直力及抵抗彎矩計算處理完畢! \r\n";
 	return true;
@@ -589,13 +589,13 @@ bool Module2_Internal::ShipTractionForceCal() {
 bool Module2_Internal::VerticalForceSum() {
 	for (size_t i = 0; i < Var->LevelSection.size(); i++){
 
-		Var->LevelSection[i].VForcesum = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum;
-		Var->LevelSection[i].VMomentsum = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_Fv_Mv_sum;
+		Var->LevelSection[i].VForcesum = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_sum_Fv;
+		Var->LevelSection[i].VMomentsum = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_sum_FvMv;
 
-		Var->LevelSection[i].VForcesum_E = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_Fv_sum_E;
-		Var->LevelSection[i].VMomentsum_E = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_Fv_Mv_sum_E;
+		Var->LevelSection[i].VForcesum_E = Var->LevelSection[i].Level_sum_W + Var->LevelSection[i].Level_sum_Fv_E;
+		Var->LevelSection[i].VMomentsum_E = Var->LevelSection[i].Level_sum_Mx + Var->LevelSection[i].Level_sum_FvMv_E;
 	}
-
+	
 	Var->Err_Msg += "垂直力及抵抗彎矩總合表計算處理完畢! \r\n";
 	return true;
 }
@@ -615,12 +615,77 @@ bool Module2_Internal::HorizontalForceSum() {
 }
 
 bool Module2_Internal::SafetyFactorCheck() {
+	size_t ID;
+	double frictionC;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		Var->LevelSection[i].SF_slide = (Var->LevelSection[i].VForcesum / Var->LevelSection[i].HForcesum);
+		frictionC = 0;
+		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
+			ID = Var->LevelSection[i].BlockId[j];
+			
+			if (Var->BlockData[ID].CalMoment == true && Var->BlockData[ID].FrictionC > frictionC) {
+				frictionC = Var->BlockData[ID].FrictionC;
+			}
+		}
+		Var->LevelSection[i].SF_slide = (Var->LevelSection[i].VForcesum / Var->LevelSection[i].HForcesum) * frictionC;
 		Var->LevelSection[i].SF_slide_E = Var->LevelSection[i].VMomentsum / Var->LevelSection[i].HMomentsum;
-		Var->LevelSection[i].SF_overturning = (Var->LevelSection[i].VForcesum_E / Var->LevelSection[i].HForcesum_E);
+		Var->LevelSection[i].SF_overturning = (Var->LevelSection[i].VForcesum_E / Var->LevelSection[i].HForcesum_E) * frictionC;
 		Var->LevelSection[i].SF_overturning_E = Var->LevelSection[i].VMomentsum_E / Var->LevelSection[i].HMomentsum_E;
 	}
 	Var->Err_Msg += "壁體安全檢核計算處理完畢! \r\n";
+	return true;
+}
+
+bool Module2_Internal::BaseForceCheck() {
+	double last_level = Var->LevelSection.size();
+	Var->V_sum = Var->LevelSection[last_level].VForcesum;
+	Var->V_sum_E = Var->LevelSection[last_level].VForcesum_E;
+	Var->Mr_sum = Var->LevelSection[last_level].VMomentsum;
+	Var->Mr_sum_E = Var->LevelSection[last_level].VMomentsum_E;
+	Var->H_sum = Var->LevelSection[last_level].HForcesum;
+	Var->H_sum_E = Var->LevelSection[last_level].HForcesum_E;
+	Var->Mo_sum = Var->LevelSection[last_level].HMomentsum;
+	Var->Mo_sum_E = Var->LevelSection[last_level].HMomentsum_E;
+
+	Var->X = (Var->Mr_sum - Var->Mo_sum) / Var->V_sum;
+	Var->X_E = (Var->Mr_sum_E - Var->Mo_sum_E) / Var->V_sum_E;
+
+	double B = Var->B * 1;
+	Var->e = 0.5*Var->B - Var->X;
+	if (Var->e < (Var->B / 6)) {
+		Var->P1 = (1 + (6 * Var->e / Var->B))*(Var->V_sum / B);
+		Var->P2 = (1 - (6 * Var->e / Var->B))*(Var->V_sum / B);
+		Var->bplum = Var->B;
+	}
+	else {
+		Var->P1 = (2 / (3 * (0.5-Var->e / Var->B)))*(Var->V_sum / B);
+		Var->P2 = 0;
+		Var->bplum = 3 * (0.5*Var->B-Var->e);
+	}
+	Var->e_E = 0.5*Var->B - Var->X_E;
+	if (Var->e_E < (Var->B / 6)) {
+		Var->P1_E = (1 + (6 * Var->e_E / Var->B))*(Var->V_sum_E / B);
+		Var->P2_E = (1 - (6 * Var->e_E / Var->B))*(Var->V_sum_E / B);
+		Var->bplum_E = Var->B;
+	}
+	else {
+		Var->P1_E = (2 / (3 * (0.5 - Var->e_E / Var->B)))*(Var->V_sum_E / B);
+		Var->P2_E = 0;
+		Var->bplum_E = 3 * (0.5*Var->B - Var->e_E);
+	}
+	
+	Var->sita = atan(Var->H_sum / Var->V_sum) * (180.0 / M_PI);
+	Var->sita_E = atan(Var->H_sum_E / Var->V_sum_E) * (180.0 / M_PI);
+
+	Var->b_2plum = Var->bplum + Var->D*(tan((30 + Var->sita)* M_PI / 180) + tan((30 - Var->sita)* M_PI / 180));
+	Var->b_2plum_E = Var->bplum_E + Var->D*(tan((30 + Var->sita_E)* M_PI / 180) + tan((30 - Var->sita_E)* M_PI / 180));
+
+	Var->R1 = Var->P1*(Var->bplum / Var->b_2plum) + Var->D*Var->soilR_Water;
+	Var->R2 = Var->P2*(Var->bplum / Var->b_2plum) + Var->D*Var->soilR_Water;
+	Var->R1_E = Var->P1_E*(Var->bplum_E / Var->b_2plum_E) + Var->D*Var->soilR_Water;
+	Var->R2_E = Var->P2_E*(Var->bplum_E / Var->b_2plum_E) + Var->D*Var->soilR_Water;
+
+	
+
+	Var->Err_Msg += "地盤承載力安全檢核計算處理完畢! \r\n";
 	return true;
 }
