@@ -160,6 +160,51 @@ bool VE_SD::Module2::Get_DataBank_Data(){
 		VarBank.EL_Out[i].pre_sum_W = Var->LevelSection[i].pre_sum_W;
 		VarBank.EL_Out[i].pre_sum_Mx = Var->LevelSection[i].pre_sum_Mx;
 		VarBank.EL_Out[i].pre_total_arm = Var->LevelSection[i].pre_total_arm;
+		VarBank.EL_Out[i].Level_sum_WE = Var->LevelSection[i].Level_sum_WE;
+		VarBank.EL_Out[i].Level_sum_MxE = Var->LevelSection[i].Level_sum_MxE;
+		VarBank.EL_Out[i].Level_total_armE = Var->LevelSection[i].Level_total_armE;
+		VarBank.EL_Out[i].pre_sum_WE = Var->LevelSection[i].pre_sum_WE;
+		VarBank.EL_Out[i].pre_sum_MxE = Var->LevelSection[i].pre_sum_MxE;
+		VarBank.EL_Out[i].pre_total_armE = Var->LevelSection[i].pre_total_armE;
+
+		VarBank.EL_Out[i].Fh= Var->LevelSection[i].Fh;
+		VarBank.EL_Out[i].Fh_y = Var->LevelSection[i].Fh_y;
+		VarBank.EL_Out[i].Fh_Mh = Var->LevelSection[i].Fh_Mh;
+		VarBank.EL_Out[i].Level_sum_Fh = Var->LevelSection[i].Level_sum_Fh;
+		VarBank.EL_Out[i].Level_sum_FhMh = Var->LevelSection[i].Level_sum_FhMh;
+		VarBank.EL_Out[i].Level_total_Fhy = Var->LevelSection[i].Level_total_Fhy;
+		VarBank.EL_Out[i].pre_sum_Fh = Var->LevelSection[i].pre_sum_Fh;
+		VarBank.EL_Out[i].pre_sum_FhMh = Var->LevelSection[i].pre_sum_FhMh;
+		VarBank.EL_Out[i].pre_total_Fhy = Var->LevelSection[i].pre_total_Fhy;
+		VarBank.EL_Out[i].Fh_E = Var->LevelSection[i].Fh;
+		VarBank.EL_Out[i].Fh_y_E = Var->LevelSection[i].Fh_y;
+		VarBank.EL_Out[i].Fh_Mh_E = Var->LevelSection[i].Fh_Mh;
+		VarBank.EL_Out[i].Level_sum_Fh_E = Var->LevelSection[i].Level_sum_Fh_E;
+		VarBank.EL_Out[i].Level_sum_FhMh_E = Var->LevelSection[i].Level_sum_FhMh_E;
+		VarBank.EL_Out[i].Level_total_Fhy_E = Var->LevelSection[i].Level_total_Fhy_E;
+		VarBank.EL_Out[i].pre_sum_Fh_E = Var->LevelSection[i].pre_sum_Fh_E;
+		VarBank.EL_Out[i].pre_sum_FhMh_E = Var->LevelSection[i].pre_sum_FhMh_E;
+		VarBank.EL_Out[i].pre_total_Fhy_E = Var->LevelSection[i].pre_total_Fhy_E;
+
+		VarBank.EL_Out[i].Level_sum_Fv = Var->LevelSection[i].Level_sum_Fv;
+		VarBank.EL_Out[i].Level_sum_FvMv = Var->LevelSection[i].Level_sum_FvMv;
+		VarBank.EL_Out[i].Level_total_Fvx = Var->LevelSection[i].Level_total_Fvx;
+		VarBank.EL_Out[i].Level_sum_Fv_E = Var->LevelSection[i].Level_sum_Fv_E;
+		VarBank.EL_Out[i].Level_sum_FvMv_E = Var->LevelSection[i].Level_sum_FvMv_E;
+		VarBank.EL_Out[i].Level_total_Fvx_E = Var->LevelSection[i].Level_total_Fvx_E;
+
+		VarBank.EL_Out[i].Fw_sum = Var->LevelSection[i].Fw_sum;
+		VarBank.EL_Out[i].Fw_y = Var->LevelSection[i].Fw_y;
+		VarBank.EL_Out[i].Fw_Mw_sum = Var->LevelSection[i].Fw_Mw_sum;
+		VarBank.EL_Out[i].Level_sum_Fw = Var->LevelSection[i].Level_sum_Fw;
+		VarBank.EL_Out[i].Level_sum_FwMw = Var->LevelSection[i].Level_sum_FwMw;
+		VarBank.EL_Out[i].Level_total_Fwy = Var->LevelSection[i].Level_total_Fwy;
+		VarBank.EL_Out[i].pre_sum_Fw = Var->LevelSection[i].pre_sum_Fw;
+		VarBank.EL_Out[i].pre_sum_FwMw = Var->LevelSection[i].pre_sum_FwMw;
+		VarBank.EL_Out[i].pre_total_Fwy = Var->LevelSection[i].pre_total_Fwy;
+
+		VarBank.EL_Out[i].Ft_y = Var->LevelSection[i].Ft_y;
+		VarBank.EL_Out[i].Ft_Mt = Var->LevelSection[i].Ft_Mt;
 
 		VarBank.EL_Out[i].BlockId = gcnew array< Int32 >(int(Var->LevelSection[i].BlockId.size()));
 		for (int j = 0; j < Var->LevelSection[i].BlockId.size(); ++j) {
@@ -195,6 +240,7 @@ bool VE_SD::Module2::Run()
 	Internal->VerticalForceSum();
 	Internal->HorizontalForceSum();
 	Internal->SafetyFactorCheck();
+	Internal->BaseForceCheck();
 	return true;
 }
 
@@ -356,24 +402,34 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].Ft_Mt << std::endl;
 	//}
 	
-	//- 表格八
-	FILE << std::endl << "表格八" << std::endl;
-	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "平時垂直力總計: " << Var->LevelSection[i].VForcesum << std::endl;
-		FILE << "平時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum << std::endl;
-		FILE << "地震時垂直力總計: " << Var->LevelSection[i].VForcesum_E << std::endl;
-		FILE << "地震時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum_E << std::endl;
-	}
+	////- 表格八
+	//FILE << std::endl << "表格八" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "平時垂直力總計: " << Var->LevelSection[i].VForcesum << std::endl;
+	//	FILE << "平時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum << std::endl;
+	//	FILE << "地震時垂直力總計: " << Var->LevelSection[i].VForcesum_E << std::endl;
+	//	FILE << "地震時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum_E << std::endl;
+	//}
 
-	//- 表格九
-	FILE << std::endl << "表格九" << std::endl;
+	////- 表格九
+	//FILE << std::endl << "表格九" << std::endl;
+	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+	//	FILE << "EL" << i + 1 << " :" << std::endl;
+	//	FILE << "平時水平力總計: " << Var->LevelSection[i].HForcesum << std::endl;
+	//	FILE << "平時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum << std::endl;
+	//	FILE << "地震時水平力總計: " << Var->LevelSection[i].HForcesum_E << std::endl;
+	//	FILE << "地震時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum_E << std::endl;
+	//}
+
+	//- 表格十
+	FILE << std::endl << "表格十" << std::endl;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
 		FILE << "EL" << i + 1 << " :" << std::endl;
-		FILE << "平時水平力總計: " << Var->LevelSection[i].HForcesum << std::endl;
-		FILE << "平時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum << std::endl;
-		FILE << "地震時水平力總計: " << Var->LevelSection[i].HForcesum_E << std::endl;
-		FILE << "地震時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum_E << std::endl;
+		FILE << "平時滑動安全係數: " << Var->LevelSection[i].SF_slide << std::endl;
+		FILE << "地震時滑動安全係數: " << Var->LevelSection[i].SF_slide_E << std::endl;
+		FILE << "平時傾倒安全係數: " << Var->LevelSection[i].SF_overturning << std::endl;
+		FILE << "地震時傾倒安全係數: " << Var->LevelSection[i].SF_overturning_E << std::endl;
 	}
 
 	// File Close
