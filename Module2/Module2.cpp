@@ -402,25 +402,25 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//	FILE << "傾倒彎矩: " << Var->LevelSection[i].Ft_Mt << std::endl;
 	//}
 	
-	////- 表格八
-	//FILE << std::endl << "表格八" << std::endl;
-	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-	//	FILE << "EL" << i + 1 << " :" << std::endl;
-	//	FILE << "平時垂直力總計: " << Var->LevelSection[i].VForcesum << std::endl;
-	//	FILE << "平時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum << std::endl;
-	//	FILE << "地震時垂直力總計: " << Var->LevelSection[i].VForcesum_E << std::endl;
-	//	FILE << "地震時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum_E << std::endl;
-	//}
+	//- 表格八
+	FILE << std::endl << "表格八" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "平時垂直力總計: " << Var->LevelSection[i].VForcesum << std::endl;
+		FILE << "平時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum << std::endl;
+		FILE << "地震時垂直力總計: " << Var->LevelSection[i].VForcesum_E << std::endl;
+		FILE << "地震時抵抗彎矩總計: " << Var->LevelSection[i].VMomentsum_E << std::endl;
+	}
 
-	////- 表格九
-	//FILE << std::endl << "表格九" << std::endl;
-	//for (size_t i = 0; i < Var->LevelSection.size(); i++) {
-	//	FILE << "EL" << i + 1 << " :" << std::endl;
-	//	FILE << "平時水平力總計: " << Var->LevelSection[i].HForcesum << std::endl;
-	//	FILE << "平時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum << std::endl;
-	//	FILE << "地震時水平力總計: " << Var->LevelSection[i].HForcesum_E << std::endl;
-	//	FILE << "地震時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum_E << std::endl;
-	//}
+	//- 表格九
+	FILE << std::endl << "表格九" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "平時水平力總計: " << Var->LevelSection[i].HForcesum << std::endl;
+		FILE << "平時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum << std::endl;
+		FILE << "地震時水平力總計: " << Var->LevelSection[i].HForcesum_E << std::endl;
+		FILE << "地震時傾倒彎矩總計: " << Var->LevelSection[i].HMomentsum_E << std::endl;
+	}
 
 	//- 表格十
 	FILE << std::endl << "表格十" << std::endl;

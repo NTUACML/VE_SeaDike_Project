@@ -447,8 +447,8 @@ bool Module2_Internal::VertivalSoilForceCal() {
 				max_width = width;
 			}
 		}
-		Var->LevelSection[i].Level_sum_Fv = max_width;
-		Var->LevelSection[i].Level_sum_Fv_E = max_width;
+		Var->LevelSection[i].Level_total_Fvx = max_width;
+		Var->LevelSection[i].Level_total_Fvx_E = max_width;
 		Var->LevelSection[i].Level_sum_FvMv = Var->LevelSection[i].Level_sum_Fv*Var->LevelSection[i].Level_total_Fvx;
 		Var->LevelSection[i].Level_sum_FvMv_E = Var->LevelSection[i].Level_sum_Fv_E*Var->LevelSection[i].Level_total_Fvx_E;
 	}

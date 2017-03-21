@@ -3529,7 +3529,7 @@ namespace VE_SD
             {
                 string getpath = SFD_Log.FileName;
                 //呼叫.
-                //Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Mod.OutPutLogFile(getpath);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 MessageBox.Show("輸出完成!", "輸出Log File完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 /*
                 if (chk_OpenFileAfterOutput.Checked)
