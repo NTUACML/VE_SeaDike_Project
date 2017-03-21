@@ -4225,18 +4225,30 @@ namespace VE_SD
                     //第十三個表格.
                     //  整理表.
                     TableRef = newDocument.Tables[13];
-                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
+                    //MessageBox.Show(RCOL.殘留水位);
+                    MessageBox.Show(Mod.VarBank.EL_Out[0].EL.ToString());
+                    bool UsePre = false;
+                    for (int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
                     {
                         int needsize = 1;
                         if(i==0 && Mod.VarBank.EL_Out[i].EL>double.Parse(RCOL.殘留水位 ))
                         {
+                            //MessageBox.Show("Passing");
                             //不安插新的.
                             continue;
                         }
                         if (i != 0 && Mod.VarBank.EL_Out[i].EL<=double.Parse(RCOL.殘留水位))
                         {
-                            //若不須算 就指插入一格.
-                            needsize += 2;
+                            //若不須算 就只插入一格: needsize=1.
+                            if (!UsePre)
+                            {
+                                needsize += 1;
+                                UsePre = true;
+                            }
+                            else
+                            {
+                                needsize += 2;
+                            }
                         }
                         for (int i2 = 0; i2 < needsize; i2++)
                         {
@@ -4247,6 +4259,7 @@ namespace VE_SD
                     //填入數據.
                     rowstart = 2;
                     rowend = 2;
+                    UsePre = false;
                     for (int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
                     {
 
@@ -4256,9 +4269,9 @@ namespace VE_SD
                         {
                             TableRef.Rows[rowstart].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                             rowstart += 1;
+                            //MessageBox.Show("Passing 2");
                             continue;
                         }
-
                         else if(i!=0)
                         {
                             rowend = rowend + 2;
@@ -4267,6 +4280,8 @@ namespace VE_SD
                         {
                             rowend = rowend + 1;
                         }
+                        if (!UsePre) { rowend -= 1;UsePre = true; }
+
                         TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         //前統計.
                         if (i!=0)
@@ -4291,6 +4306,7 @@ namespace VE_SD
                         TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fw_Mw_sum.ToString("0.00");
 
                         rowstart = rowstart + 1;
+
                         //後統計.
                         //殘留水壓
                         TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");
@@ -4306,16 +4322,19 @@ namespace VE_SD
                     rowstart = 2;
                     rowend = 2;
                     minuscount = 0;
+                    UsePre = false;
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
                         //int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
                         rowend = rowstart;// + BlockID.GetLength(0) - 1;
                         if (Mod.VarBank.EL_Out[i].EL > double.Parse(RCOL.殘留水位))
                         {
+                            rowstart += 1;
                             continue;
                         }
                         if (i == 0) { rowend = rowend + 1; }
                         else { rowend = rowend + 2; }
+                        if (!UsePre) { rowend -= 1;UsePre = true; }
 
                         TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
                         minuscount += (rowend - rowstart + 1 - 1);
