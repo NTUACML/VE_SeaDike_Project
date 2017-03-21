@@ -3827,7 +3827,7 @@ namespace VE_SD
 
             WORD.Application wdApplication = null;
             wdApplication = new WORD.Application();
-            wdApplication.Visible = false;// true;
+            wdApplication.Visible = true;
             if (wdApplication != null)
             {
                 try
@@ -4092,12 +4092,16 @@ namespace VE_SD
                     //第六個表格.
                     //  土壓強度(地震時 陸上)
                     // 
-
                     TableRef = newDocument.Tables[6];
+                    TableRef.Rows[1].Cells[2].Range.Text = (0.17).ToString("0.00");
+                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
+
 
                     //第七個表格.
                     //  土壓強度(地震時 水中)
                     TableRef = newDocument.Tables[7];
+                    TableRef.Rows[1].Cells[2].Range.Text = (0.33).ToString("0.00");
+                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
 
                     //第八個表格.
                     //土壓水平力及傾倒彎矩.
@@ -4107,19 +4111,110 @@ namespace VE_SD
                     //第九個表格.
                     //   整理表.
                     TableRef = newDocument.Tables[9];
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        //int[] BlockID = Mod.VarBank.EL_Out[i].BlockID;
+                        int needsize = 1;// BlockID.GetLength(0);
+                        if (i != 0)
+                        { needsize += 2; }
+                        for (int i2 = 0; i2 < needsize; i2++)
+                        {
+                            TableRef.Rows.Add(TableRef.Rows[2]);
+                        }
+                    }
+                    //填入數據.
+                    rowstart = 2;
+                    rowend = 2;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        rowend = rowstart;
+                        if(i==0){rowend = rowend + 1;}
+                        else { rowend = rowend + 2; }
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        if(i!=0)
+                        {
+                            //填入前統計.
+                            //平時 與 地震時.
+                            //   水平分力 力矩  傾倒彎矩
+                            TableRef.Rows[rowstart].Cells[2].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_Fh.ToString("0.00");//水平分力  平時
+                            TableRef.Rows[rowstart].Cells[3].Range.Text= Mod.VarBank.EL_Out[i].pre_total_Fhy.ToString("0.00");//力矩      平時
+                            TableRef.Rows[rowstart].Cells[4].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_FhMh.ToString("0.00");//傾倒彎矩  平時
+                            TableRef.Rows[rowstart].Cells[5].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_Fh_E.ToString("0.00");//水平分力  地震時
+                            TableRef.Rows[rowstart].Cells[6].Range.Text= Mod.VarBank.EL_Out[i].pre_total_Fhy_E.ToString("0.00");//力矩      地震時
+                            TableRef.Rows[rowstart].Cells[7].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_FhMh_E.ToString("0.00");//傾倒彎矩  地震時
+                            rowstart = rowstart + 1;
+                        }
+                        //填入數據.
+                        //平時-水平分力.
+                        TableRef.Rows[rowstart].Cells[2].Range.Text= Mod.VarBank.EL_Out[i].Fh.ToString("0.00");
+                        //平時-力矩
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fh_y.ToString("0.00");
+                        //平時-傾倒彎矩.
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fh_Mh.ToString("0.00");
 
+                        //地震時-水平分力.
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fh_E.ToString("0.00");
+                        //地震時-力矩
+                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Fh_y_E.ToString("0.00");
+                        //地震時-傾倒彎矩.
+                        TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Fh_Mh_E.ToString("0.00");
 
+                        rowstart = rowstart + 1;
+                        //後統計
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh.ToString("0.00");//水平分力  平時
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fhy.ToString("0.00");//力矩      平時
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh.ToString("0.00");//傾倒彎矩  平時
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh_E.ToString("0.00");//水平分力  地震時
+                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fhy_E.ToString("0.00");//力矩      地震時
+                        TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩  地震時
 
+                        rowstart = rowend + 1;
+                    }
+                    rowstart = 2;
+                    rowend = 2;
+                    minuscount = 0;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        //int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
+                        rowend = rowstart;// + BlockID.GetLength(0) - 1;
+                        if (i == 0) { rowend = rowend + 1; }
+                        else { rowend = rowend + 2; }
+
+                        TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
+                        minuscount += (rowend - rowstart + 1 - 1);
+                        rowstart = rowend + 1;
+                    }
+                    /*TableRef.Rows[1].Cells[6].Merge(TableRef.Rows[1].Cells[8]);
+                    TableRef.Rows[1].Cells[3].Merge(TableRef.Rows[1].Cells[5]);
+                    TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
+                    TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[2]);
+                    */
 
                     //第十個表格.
                     //6. 土壓垂直分力及抵抗彎矩.
                     //  表投(垂直分力)
                     TableRef = newDocument.Tables[10];
 
+
+
                     //第十一個表格.
                     //  整理表.
                     TableRef = newDocument.Tables[11];
-
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0)-1;i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[2]);
+                    }
+                    //填入數據.
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
+                    {
+                        TableRef.Rows[2+i].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[2 + i].Cells[2].Range.Text =Mod.VarBank.EL_Out[i].Level_sum_Fv.ToString("0.00");//垂直分力-平時.
+                        TableRef.Rows[2 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fvx.ToString("0.00");//力臂-平時.
+                        TableRef.Rows[2 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv.ToString("0.00");//抵抗彎矩-平時.
+                        TableRef.Rows[2 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv_E.ToString("0.00");//垂直分力-平時.
+                        TableRef.Rows[2 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fvx_E.ToString("0.00");//力臂-平時.
+                        TableRef.Rows[2 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv_E.ToString("0.00");//抵抗彎矩-平時.
+                    }
 
                     //第十二個表格.
                     //7. 殘留水壓及傾倒彎矩.
@@ -4130,6 +4225,104 @@ namespace VE_SD
                     //第十三個表格.
                     //  整理表.
                     TableRef = newDocument.Tables[13];
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
+                    {
+                        int needsize = 1;
+                        if(i==0 && Mod.VarBank.EL_Out[i].EL>double.Parse(RCOL.殘留水位 ))
+                        {
+                            //不安插新的.
+                            continue;
+                        }
+                        if (i != 0 && Mod.VarBank.EL_Out[i].EL<=double.Parse(RCOL.殘留水位))
+                        {
+                            //若不須算 就指插入一格.
+                            needsize += 2;
+                        }
+                        for (int i2 = 0; i2 < needsize; i2++)
+                        {
+                            TableRef.Rows.Add(TableRef.Rows[2]);
+                        }
+                        //TableRef.Rows.Add(TableRef.Rows[2]);
+                    }
+                    //填入數據.
+                    rowstart = 2;
+                    rowend = 2;
+                    for (int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
+                    {
+
+                        rowend = rowstart;
+
+                        if(Mod.VarBank.EL_Out[i].EL > double.Parse(RCOL.殘留水位))
+                        {
+                            TableRef.Rows[rowstart].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                            rowstart += 1;
+                            continue;
+                        }
+
+                        else if(i!=0)
+                        {
+                            rowend = rowend + 2;
+                        }
+                        else if(i==0)
+                        {
+                            rowend = rowend + 1;
+                        }
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        //前統計.
+                        if (i!=0)
+                        {
+                            //殘留水壓
+                            TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Fw.ToString("0.00");//水平分力  平時
+
+                            //力矩
+                            TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].pre_total_Fwy.ToString("0.00");//力矩      平時
+
+                            //傾倒彎矩
+                            TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_FwMw.ToString("0.00");//傾倒彎矩  平時
+
+                            rowstart = rowstart + 1;
+                        }
+                        //殘留水壓
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fw_sum.ToString("0.00");
+
+                        //力矩
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fw_y.ToString("0.00");
+                        //傾倒彎矩.
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fw_Mw_sum.ToString("0.00");
+
+                        rowstart = rowstart + 1;
+                        //後統計.
+                        //殘留水壓
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");
+
+                        //力矩
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fwy.ToString("0.00");
+                        //傾倒彎矩.
+
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");
+                        rowstart = rowend + 1;
+                    }
+
+                    rowstart = 2;
+                    rowend = 2;
+                    minuscount = 0;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        //int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
+                        rowend = rowstart;// + BlockID.GetLength(0) - 1;
+                        if (Mod.VarBank.EL_Out[i].EL > double.Parse(RCOL.殘留水位))
+                        {
+                            continue;
+                        }
+                        if (i == 0) { rowend = rowend + 1; }
+                        else { rowend = rowend + 2; }
+
+                        TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
+                        minuscount += (rowend - rowstart + 1 - 1);
+                        rowstart = rowend + 1;
+                    }
+
+
 
                     //第十四個表格.
                     //8. 船舶牽引力及傾倒彎矩.
