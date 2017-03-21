@@ -4086,6 +4086,7 @@ namespace VE_SD
                     //5. 土壓力水平分力及傾倒彎矩.
                     //  土壓強度(平時).
                     TableRef = newDocument.Tables[5];
+                    TableRef.Rows[3].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
 
 
                     //第六個表格.
