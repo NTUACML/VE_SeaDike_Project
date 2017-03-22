@@ -101,6 +101,7 @@ public:
 	double sita, sita_E; //偏心傾斜荷重傾斜角
 	double b_2plum, b_2plum_E; //基礎拋石底面反力分布寬
 	double R1, R1_E, R2, R2_E; //基礎拋石底面反力
+	double Qu, Qu_E; //Meyerhof's 承載力
 	double qa, qa_E; //基礎地盤之容許承載力
 	
 

@@ -33,6 +33,14 @@ namespace VE_SD {
 		double pre_sum_Fw, pre_total_Fwy, pre_sum_FwMw;
  
 		double Ft_y, Ft_Mt;
+
+		double VForcesum, VMomentsum; //Vertical force and moment summation
+		double VForcesum_E, VMomentsum_E; //Vertical force and moment summation(Earthquake)
+
+		double HForcesum, HMomentsum; //Horizontal force and moment summation
+		double HForcesum_E, HMomentsum_E; //Horizontal force and moment summation(Earthquake)
+
+		double SF_slide, SF_slide_E, SF_overturning, SF_overturning_E; //safety factor per level
 		array<Int32>^ BlockId;
 	};
 
@@ -44,7 +52,14 @@ namespace VE_SD {
 	public value struct DataBank
 		// This struct only output!!!!
 	{
-		
+		double X, X_E; //合力作用點
+		double e, e_E; //偏心量
+		double P1, P2, P1_E, P2_E, bplum, bplum_E; //最大最小反力, 壁體底部反力分布寬
+		double sita, sita_E; //偏心傾斜荷重傾斜角
+		double b_2plum, b_2plum_E; //基礎拋石底面反力分布寬
+		double R1, R1_E, R2, R2_E; //基礎拋石底面反力
+		double Qu, Qu_E; //Meyerhof's 承載力
+		double qa, qa_E; //基礎地盤之容許承載力
 
 		array< EL_SectionResult >^ EL_Out;
 		array< BlockResult2 >^ Block_Out;
