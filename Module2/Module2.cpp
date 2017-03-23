@@ -470,6 +470,17 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "地震時傾倒安全係數: " << Var->LevelSection[i].SF_overturning_E << std::endl;
 	}
 
+	FILE << std::endl << "表格底部檢核" << std::endl;
+	FILE << "X " << Var->X << std::endl;
+	FILE << "X E " << Var->X_E << std::endl;
+	FILE << "Mr_sum " << Var->Mr_sum << std::endl;
+	FILE << "Mo_sum " << Var->Mo_sum << std::endl;
+	FILE << "R1 " << Var->R1 << std::endl;
+	FILE << "R2 " << Var->R2 << std::endl;
+	FILE << "R1 E " << Var->R1_E << std::endl;
+	FILE << "R2 E " << Var->R2_E << std::endl;
+	FILE << "sita " << Var->sita << std::endl;
+	FILE << "sita_E " << Var->sita_E << std::endl;
 	// File Close
 	FILE.close();
 	return true;

@@ -636,7 +636,7 @@ bool Module2_Internal::SafetyFactorCheck() {
 }
 
 bool Module2_Internal::BaseForceCheck() {
-	double last_level = Var->LevelSection.size();
+	double last_level = Var->LevelSection.size()-1;
 	Var->V_sum = Var->LevelSection[last_level].VForcesum;
 	Var->V_sum_E = Var->LevelSection[last_level].VForcesum_E;
 	Var->Mr_sum = Var->LevelSection[last_level].VMomentsum;
