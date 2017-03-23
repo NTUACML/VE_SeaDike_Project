@@ -240,6 +240,7 @@ bool VE_SD::Module2::Get_DataBank_Data(){
 		VarBank.Block_Out[i].Mw_E = Var->BlockData[i].Mw_E;
 	}
 	// Var Get!
+	VarBank.B = Var->B;
 	VarBank.X = Var->X;
 	VarBank.X_E = Var->X_E;
 	VarBank.e = Var->e;

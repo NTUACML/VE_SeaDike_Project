@@ -52,6 +52,7 @@ namespace VE_SD {
 	public value struct DataBank
 		// This struct only output!!!!
 	{
+		double B;//壁體底部寬.
 		double X, X_E; //合力作用點
 		double e, e_E; //偏心量
 		double P1, P2, P1_E, P2_E, bplum, bplum_E; //最大最小反力, 壁體底部反力分布寬

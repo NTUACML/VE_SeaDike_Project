@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,7 +131,12 @@
             this.btnRemoveSects = new System.Windows.Forms.Button();
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.gp_OutputControl = new System.Windows.Forms.GroupBox();
+            this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
+            this.btn_OutputWord = new System.Windows.Forms.Button();
             this.btn_LogOutput = new System.Windows.Forms.Button();
+            this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.btn_Test = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
@@ -140,14 +145,12 @@
             this.OFD_專案 = new System.Windows.Forms.OpenFileDialog();
             this.SFD_Log = new System.Windows.Forms.SaveFileDialog();
             this.SFD_專案 = new System.Windows.Forms.SaveFileDialog();
-            this.label33 = new System.Windows.Forms.Label();
-            this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
-            this.gp_OutputControl = new System.Windows.Forms.GroupBox();
-            this.btn_OutputWord = new System.Windows.Forms.Button();
-            this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
+            this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出LogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出Word報表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -156,8 +159,8 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
             this.tabPage3.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.gp_OutputControl.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -277,7 +280,8 @@
             // 步驟ToolStripMenuItem
             // 
             this.步驟ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.開始檢核ToolStripMenuItem});
+            this.開始檢核ToolStripMenuItem,
+            this.輸出ToolStripMenuItem});
             this.步驟ToolStripMenuItem.Name = "步驟ToolStripMenuItem";
             this.步驟ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.步驟ToolStripMenuItem.Text = "步驟";
@@ -285,7 +289,8 @@
             // 開始檢核ToolStripMenuItem
             // 
             this.開始檢核ToolStripMenuItem.Name = "開始檢核ToolStripMenuItem";
-            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.開始檢核ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
             // 
@@ -1078,8 +1083,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1089,8 +1094,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -1100,9 +1105,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle8;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1147,16 +1152,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend3);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart_Plot.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart_Plot.Series.Add(series3);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -1232,6 +1237,43 @@
             this.tabPage3.Text = "檢核";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // gp_OutputControl
+            // 
+            this.gp_OutputControl.Controls.Add(this.chk_OpenFileAfterOutput);
+            this.gp_OutputControl.Controls.Add(this.btn_OutputWord);
+            this.gp_OutputControl.Controls.Add(this.btn_LogOutput);
+            this.gp_OutputControl.Font = new System.Drawing.Font("標楷體", 12F);
+            this.gp_OutputControl.Location = new System.Drawing.Point(521, 109);
+            this.gp_OutputControl.Name = "gp_OutputControl";
+            this.gp_OutputControl.Size = new System.Drawing.Size(303, 476);
+            this.gp_OutputControl.TabIndex = 4;
+            this.gp_OutputControl.TabStop = false;
+            this.gp_OutputControl.Text = "輸出檢核結果";
+            // 
+            // chk_OpenFileAfterOutput
+            // 
+            this.chk_OpenFileAfterOutput.AutoSize = true;
+            this.chk_OpenFileAfterOutput.Font = new System.Drawing.Font("標楷體", 13F);
+            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(29, 146);
+            this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
+            this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 22);
+            this.chk_OpenFileAfterOutput.TabIndex = 3;
+            this.chk_OpenFileAfterOutput.Text = "輸出後自動開啟檔案";
+            this.toolTip1.SetToolTip(this.chk_OpenFileAfterOutput, "輸出後自動開啟檔案");
+            this.chk_OpenFileAfterOutput.UseVisualStyleBackColor = true;
+            // 
+            // btn_OutputWord
+            // 
+            this.btn_OutputWord.Font = new System.Drawing.Font("標楷體", 14F);
+            this.btn_OutputWord.Location = new System.Drawing.Point(29, 87);
+            this.btn_OutputWord.Name = "btn_OutputWord";
+            this.btn_OutputWord.Size = new System.Drawing.Size(183, 36);
+            this.btn_OutputWord.TabIndex = 2;
+            this.btn_OutputWord.Text = "輸出檢核WORD檔案";
+            this.toolTip1.SetToolTip(this.btn_OutputWord, "輸出檢核結果之WORD檔案");
+            this.btn_OutputWord.UseVisualStyleBackColor = true;
+            this.btn_OutputWord.Click += new System.EventHandler(this.btn_OutputWord_Click);
+            // 
             // btn_LogOutput
             // 
             this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
@@ -1243,6 +1285,27 @@
             this.toolTip1.SetToolTip(this.btn_LogOutput, "輸出LOG檔案");
             this.btn_LogOutput.UseVisualStyleBackColor = true;
             this.btn_LogOutput.Click += new System.EventHandler(this.btn_LogOutput_Click);
+            // 
+            // textBox_CheckMessageShow
+            // 
+            this.textBox_CheckMessageShow.Location = new System.Drawing.Point(18, 46);
+            this.textBox_CheckMessageShow.Multiline = true;
+            this.textBox_CheckMessageShow.Name = "textBox_CheckMessageShow";
+            this.textBox_CheckMessageShow.ReadOnly = true;
+            this.textBox_CheckMessageShow.Size = new System.Drawing.Size(485, 539);
+            this.textBox_CheckMessageShow.TabIndex = 3;
+            this.textBox_CheckMessageShow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_CheckMessageShow_KeyDown);
+            this.textBox_CheckMessageShow.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_CheckMessageShow_KeyPress);
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("標楷體", 14F);
+            this.label33.Location = new System.Drawing.Point(23, 24);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(129, 19);
+            this.label33.TabIndex = 2;
+            this.label33.Text = "檢核計算訊息";
             // 
             // btn_Test
             // 
@@ -1300,64 +1363,6 @@
             this.SFD_專案.Filter = "檢核檔案(.vesdp)|*.vesdp";
             this.SFD_專案.FilterIndex = 0;
             // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("標楷體", 14F);
-            this.label33.Location = new System.Drawing.Point(23, 24);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(129, 19);
-            this.label33.TabIndex = 2;
-            this.label33.Text = "檢核計算訊息";
-            // 
-            // textBox_CheckMessageShow
-            // 
-            this.textBox_CheckMessageShow.Location = new System.Drawing.Point(18, 46);
-            this.textBox_CheckMessageShow.Multiline = true;
-            this.textBox_CheckMessageShow.Name = "textBox_CheckMessageShow";
-            this.textBox_CheckMessageShow.ReadOnly = true;
-            this.textBox_CheckMessageShow.Size = new System.Drawing.Size(485, 539);
-            this.textBox_CheckMessageShow.TabIndex = 3;
-            this.textBox_CheckMessageShow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_CheckMessageShow_KeyDown);
-            this.textBox_CheckMessageShow.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_CheckMessageShow_KeyPress);
-            // 
-            // gp_OutputControl
-            // 
-            this.gp_OutputControl.Controls.Add(this.chk_OpenFileAfterOutput);
-            this.gp_OutputControl.Controls.Add(this.btn_OutputWord);
-            this.gp_OutputControl.Controls.Add(this.btn_LogOutput);
-            this.gp_OutputControl.Font = new System.Drawing.Font("標楷體", 12F);
-            this.gp_OutputControl.Location = new System.Drawing.Point(521, 109);
-            this.gp_OutputControl.Name = "gp_OutputControl";
-            this.gp_OutputControl.Size = new System.Drawing.Size(303, 476);
-            this.gp_OutputControl.TabIndex = 4;
-            this.gp_OutputControl.TabStop = false;
-            this.gp_OutputControl.Text = "輸出檢核結果";
-            // 
-            // btn_OutputWord
-            // 
-            this.btn_OutputWord.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_OutputWord.Location = new System.Drawing.Point(29, 87);
-            this.btn_OutputWord.Name = "btn_OutputWord";
-            this.btn_OutputWord.Size = new System.Drawing.Size(183, 36);
-            this.btn_OutputWord.TabIndex = 2;
-            this.btn_OutputWord.Text = "輸出檢核WORD檔案";
-            this.toolTip1.SetToolTip(this.btn_OutputWord, "輸出檢核結果之WORD檔案");
-            this.btn_OutputWord.UseVisualStyleBackColor = true;
-            this.btn_OutputWord.Click += new System.EventHandler(this.btn_OutputWord_Click);
-            // 
-            // chk_OpenFileAfterOutput
-            // 
-            this.chk_OpenFileAfterOutput.AutoSize = true;
-            this.chk_OpenFileAfterOutput.Font = new System.Drawing.Font("標楷體", 13F);
-            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(29, 146);
-            this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
-            this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 22);
-            this.chk_OpenFileAfterOutput.TabIndex = 3;
-            this.chk_OpenFileAfterOutput.Text = "輸出後自動開啟檔案";
-            this.toolTip1.SetToolTip(this.chk_OpenFileAfterOutput, "輸出後自動開啟檔案");
-            this.chk_OpenFileAfterOutput.UseVisualStyleBackColor = true;
-            // 
             // SFD_WordOutput
             // 
             this.SFD_WordOutput.Filter = "WORD 2013|*.docx|Word 2010|*.doc";
@@ -1370,6 +1375,29 @@
             this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
+            // 
+            // 輸出ToolStripMenuItem
+            // 
+            this.輸出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.輸出LogToolStripMenuItem,
+            this.輸出Word報表ToolStripMenuItem});
+            this.輸出ToolStripMenuItem.Name = "輸出ToolStripMenuItem";
+            this.輸出ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.輸出ToolStripMenuItem.Text = "輸出";
+            // 
+            // 輸出LogToolStripMenuItem
+            // 
+            this.輸出LogToolStripMenuItem.Name = "輸出LogToolStripMenuItem";
+            this.輸出LogToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.輸出LogToolStripMenuItem.Text = "輸出Log";
+            // 
+            // 輸出Word報表ToolStripMenuItem
+            // 
+            this.輸出Word報表ToolStripMenuItem.Name = "輸出Word報表ToolStripMenuItem";
+            this.輸出Word報表ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.輸出Word報表ToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.輸出Word報表ToolStripMenuItem.Text = "輸出Word報表";
+            this.輸出Word報表ToolStripMenuItem.Click += new System.EventHandler(this.輸出Word報表ToolStripMenuItem_Click);
             // 
             // Form_MTExamProgress
             // 
@@ -1396,10 +1424,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.gp_OutputControl.ResumeLayout(false);
             this.gp_OutputControl.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1520,5 +1548,8 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.SaveFileDialog SFD_WordOutput;
         private System.ComponentModel.BackgroundWorker bk_OutputWordReport;
+        private System.Windows.Forms.ToolStripMenuItem 輸出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 輸出LogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 輸出Word報表ToolStripMenuItem;
     }
 }
