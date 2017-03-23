@@ -3545,6 +3545,11 @@ namespace VE_SD
 
         }
         private string WordOutputMsg = "";
+        private void 輸出Word報表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btn_OutputWord_Click(sender, e);
+        }
+
         private void btn_OutputWord_Click(object sender, EventArgs e)
         {
             if (isExporting)
@@ -4226,7 +4231,7 @@ namespace VE_SD
                     //  整理表.
                     TableRef = newDocument.Tables[13];
                     //MessageBox.Show(RCOL.殘留水位);
-                    MessageBox.Show(Mod.VarBank.EL_Out[0].EL.ToString());
+                    //MessageBox.Show(Mod.VarBank.EL_Out[0].EL.ToString());
                     bool UsePre = false;
                     for (int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
                     {
@@ -4346,30 +4351,113 @@ namespace VE_SD
                     //第十四個表格.
                     //8. 船舶牽引力及傾倒彎矩.
                     TableRef = newDocument.Tables[14];
+                    TableRef.Rows[1].Cells[2].Range.Text = RCOL.船舶牽引力;
+                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.繫船柱突出高度;
+
 
                     //第十六個表格.
                     //  整理表.
                     TableRef = newDocument.Tables[15];
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0)-1;i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[2]);
+                    }
+                    //填入數據.
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
+                    {
+                        TableRef.Rows[2 + i].Cells[1].Range.Text = 得到英文碼(i+1);
+                        TableRef.Rows[2+i].Cells[2].Range.Text = RCOL.船舶牽引力;
+                        TableRef.Rows[2 + i].Cells[3].Range.Text= Mod.VarBank.EL_Out[i].Ft_y.ToString("0.00");//力矩.
+                        TableRef.Rows[2 + i].Cells[4].Range.Text= Mod.VarBank.EL_Out[i].Ft_Mt.ToString("0.00");//傾倒彎矩.
+                    }
 
                     //第十七個表格.
                     //9. 垂直力及抵抗彎矩 總和表
                     //    9-1. 平時 整理表
                     TableRef = newDocument.Tables[16];
-
+                    for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0)-1;i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[3]);
+                    }
+                    //填入數據.
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_W.ToString("0.00");//垂直力-壁體自重.
+                        TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv.ToString("0.00");//垂直力-垂直土壓.
+                        TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].VForcesum.ToString("0.00");//垂直力 -計.
+                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Mx.ToString("0.00");//抵抗彎矩-壁體自重.
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv.ToString("0.00");//抵抗彎矩-垂直土壓.
+                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].VMomentsum.ToString("0.00");//抵抗彎矩-計.
+                    }
+                    //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
                     //第十七個表格.
                     //    9-2.地震時 整理表.
                     TableRef = newDocument.Tables[17];
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0)-1; i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[3]);
+                    }
+                    //填入數據.
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_W.ToString("0.00");//垂直力-壁體自重.
+                        TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv_E.ToString("0.00");//垂直力-垂直土壓.
+                        TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].VForcesum_E.ToString("0.00");//垂直力 -計.
+                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Mx.ToString("0.00");//抵抗彎矩-壁體自重.
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv_E.ToString("0.00");//抵抗彎矩-垂直土壓.
+                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].VMomentsum_E.ToString("0.00");//抵抗彎矩-計.
+                    }
+                    //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
                     //第十八個表格.
                     //  10. 水平力及傾倒彎矩 總和表.
                     //   10-1. 平時.
                     TableRef = newDocument.Tables[18];
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0)-1; i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[3]);
+                    }
+                    //填入數據.
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh.ToString("0.00");//水平力-土壓
+                        TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");//水平力-殘留水壓.
+                        TableRef.Rows[3 + i].Cells[4].Range.Text = RCOL.船舶牽引力;//水平力-牽引力.
+                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].HForcesum.ToString("0.00");//水平力-計.
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh.ToString("0.00");//傾倒彎矩-土壓.
+                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");//傾倒彎矩-殘留水壓.
+                        TableRef.Rows[3 + i].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Ft_Mt.ToString("0.00");//傾倒彎矩-牽引力.
+                        TableRef.Rows[3 + i].Cells[9].Range.Text = Mod.VarBank.EL_Out[i].HMomentsum.ToString("0.00");//傾倒彎矩-計.
+
+                    }
+                    //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
+
 
                     //第十九個表格.
                     //   10-2. 地震時.
                     TableRef = newDocument.Tables[19];
-
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[3]);
+                    }
+                    //填入數據.
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh_E.ToString("0.00");//水平力-土壓
+                        TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");//水平力-殘留水壓.
+                        TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");//水平力-牽引力.
+                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].HForcesum_E.ToString("0.00");//水平力-計.
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh.ToString("0.00");//傾倒彎矩-土壓.
+                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");//傾倒彎矩-殘留水壓.
+                        TableRef.Rows[3 + i].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_MxE.ToString("0.00");//傾倒彎矩-地震力.
+                        TableRef.Rows[3 + i].Cells[9].Range.Text = Mod.VarBank.EL_Out[i].HMomentsum_E.ToString("0.00");//傾倒彎矩-計.
+                    }
+                    //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
                     //第二十個表格.
                     //11. 壁體安全檢查.
@@ -4380,15 +4468,110 @@ namespace VE_SD
                     //第二十一個表格.
                     //       11-1-2. 總表.
                     TableRef = newDocument.Tables[21];
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        int needsize = 1;
+                        if(i>0)
+                        {
+                            needsize += 1;
+                        }
+                        for (int i2 = 0; i2 < needsize; i2++)
+                        {
+                            TableRef.Rows.Add(TableRef.Rows[2]);
+                        }
+                    }
+                    rowstart = 2;
+                    rowend = 2;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        rowend = rowstart + 1;
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = "滑動";
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].SF_slide.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].SF_slide >= double.Parse(RCOL.平時滑動安全係數) ? "OK" : "NG";
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].SF_slide_E.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].SF_slide_E >= double.Parse(RCOL.地震時滑動安全係數) ? "OK" : "NG";
+
+                        rowstart += 1;
+                        //TableRef.Rows[rowstart].Cells[1].Range.Text = "EL " + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = "傾倒";
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].SF_overturning.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].SF_overturning >= double.Parse(RCOL.平時傾倒安全係數) ? "OK" : "NG";
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].SF_overturning_E.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].SF_overturning_E >= double.Parse(RCOL.地震時傾倒安全係數) ? "OK" : "NG";
+                        rowstart = rowend + 1;
+                    }
+
+                    //Merge.
+                    rowstart = 2;
+                    rowend = 2;
+                    minuscount = 0;
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        rowend = rowstart+1;
+                        TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
+                        minuscount += (rowend - rowstart + 1 - 1);
+                        rowstart = rowend + 1;
+                    }
+
+                    //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
+                    //TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[2]);
 
                     //第二十二個表格.
                     //    11-2. 地盤承載力檢核.
                     //       11-2-1. 壁體底部反力計算.
                     TableRef = newDocument.Tables[22];
+                    TableRef.Columns[2].Cells[2].Range.Text =Mod.VarBank.X.ToString("0.00");//平時 合力作用點X.
+                    TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.X_E.ToString("0.00");//平時 合力作用點X.
+                    TableRef.Columns[2].Cells[3].Range.Text = Mod.VarBank.e.ToString("0.00");//平時 偏心量e.
+                    TableRef.Columns[3].Cells[3].Range.Text = Mod.VarBank.e_E.ToString("0.00");//地震時 偏心量e.
+                    if (Mod.VarBank.X <= Mod.VarBank.B/6.0)
+                    {
+                        TableRef.Columns[2].Cells[4].Range.Text = "e<=" + (Mod.VarBank.B/6.0).ToString("0.00");//
+                    }
+                    else
+                    {
+                        TableRef.Columns[2].Cells[4].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
+                    }
+                    if (Mod.VarBank.X_E <= Mod.VarBank.B / 6.0)
+                    {
+                        TableRef.Columns[3].Cells[5].Range.Text = "e<=" + (Mod.VarBank.B / 6.0).ToString("0.00");//
+                    }
+                    else
+                    {
+                        TableRef.Columns[3].Cells[5].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
+                    }
+                    //最大反力.
+                    TableRef.Columns[2].Cells[5].Range.Text =Mod.VarBank.P1.ToString("0.00");
+                    TableRef.Columns[3].Cells[5].Range.Text = Mod.VarBank.P1_E.ToString("0.00");
+
+                    //最小反力.
+                    TableRef.Columns[2].Cells[6].Range.Text = Mod.VarBank.P2.ToString("0.00");
+                    TableRef.Columns[3].Cells[6].Range.Text = Mod.VarBank.P2_E.ToString("0.00");
+
+                    //壁體底部反力分布寬B'
+                    //TableRef.Columns[2].Cells[6].Range.Text = Mod.VarBank.b_plum.ToString("0.00");
+                    //TableRef.Columns[3].Cells[6].Range.Text = Mod.VarBank.b_plum_E.ToString("0.00");
+
+                   
+                    //
 
                     //第二十三個表格.
                     //       11-2-2. 基礎拋石底面容許承載力計算.
                     TableRef = newDocument.Tables[23];
+                    //偏心傾斜荷重角度.
+                    TableRef.Columns[2].Cells[2].Range.Text = Mod.VarBank.sita.ToString("0.00");
+                    TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.sita_E.ToString("0.00");
+
+                    //基礎拋石底面反力分布寬B''.
+                    TableRef.Columns[2].Cells[3].Range.Text = Mod.VarBank.b_2plum.ToString("0.00");
+                    TableRef.Columns[3].Cells[3].Range.Text = Mod.VarBank.b_2plum_E.ToString("0.00");
+
+                    //基礎拋石底面反力R1及R2.
+                    TableRef.Columns[2].Cells[4].Range.Text = "R1 = " + Mod.VarBank.R1.ToString("0.00") + Environment.NewLine + "R2 = " + Mod.VarBank.R2.ToString("0.00");
+                    TableRef.Columns[3].Cells[4].Range.Text = "R1 = " + Mod.VarBank.R1_E.ToString("0.00") + Environment.NewLine + "R2 = " + Mod.VarBank.R2_E.ToString("0.00"); ;
+
+
 
                     newDocument.Save(); // (outputFile);
                     newDocument.Close(false, Type.Missing, Type.Missing);
@@ -4397,8 +4580,9 @@ namespace VE_SD
                 }
                 catch(Exception ex)
                 {
+                    //輸出Word報表ToolStripMenuItem_Click
 
-                    OutMsg = "ERROR:WORD處理出現錯誤" + Environment.NewLine + ex.StackTrace.ToString() + Environment.NewLine + ex.Message.ToString();
+                       OutMsg = "ERROR:WORD處理出現錯誤" + Environment.NewLine + ex.StackTrace.ToString() + Environment.NewLine + ex.Message.ToString();
                 }
             }
             else
@@ -4409,6 +4593,62 @@ namespace VE_SD
             System.Runtime.InteropServices.Marshal.ReleaseComObject(wdApplication);
 
             return OutMsg;
+        }
+        private string 得到英文碼(int inputI)
+        {
+            if(inputI<=20)
+            {
+                switch(inputI)
+                {
+                    case 1:
+                        return "I";
+                        //break;
+                    case 2:
+                        return "II";
+                    case 3:
+                        return "III";
+                    case 4:
+                        return "IV";
+                    case 5:
+                        return "V";
+                    case 6:
+                        return "VI";
+                    case 7:
+                        return "VII";
+                    case 8:
+                        return "VIII";
+                    case 9:
+                        return "IX";
+                    case 10:
+                        return "X";
+                    case 11:
+                        return "XI";
+                    case 12:
+                        return "XII";
+                    case 13:
+                        return "XIII";
+                    case 14:
+                        return "XIV";
+                    case 15:
+                        return "XV";
+                    case 16:
+                        return "XVI";
+                    case 17:
+                        return "XVII";
+                    case 18:
+                        return "XVIII";
+                    case 19:
+                        return "XIX";
+                    case 20:
+                        return "XX";
+                     default:
+                        return "";
+                }
+            }
+            else
+            {
+                return "";
+            }
         }
         #endregion
         #region 輸出控制區域
@@ -5068,6 +5308,7 @@ namespace VE_SD
             //OldWidth = this.Width;
             //OldHeight = this.Height;
         }
+
 
 
 
