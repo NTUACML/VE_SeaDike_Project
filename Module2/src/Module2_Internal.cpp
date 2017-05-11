@@ -684,7 +684,13 @@ bool Module2_Internal::BaseForceCheck() {
 	Var->R1_E = Var->P1_E*(Var->bplum_E / Var->b_2plum_E) + Var->D*Var->soilR_Water;
 	Var->R2_E = Var->P2_E*(Var->bplum_E / Var->b_2plum_E) + Var->D*Var->soilR_Water;
 
-	
+	Var->Qu = 72.58;
+	Var->Qu_E = 25.04;
+
+	double Df = Var->D + Var->U;
+
+	Var->qa = Var->Qu / Var->BaseSF + Var->soilR_Water*Df;
+	Var->qa_E = Var->Qu_E / Var->BaseSF_E + Var->soilR_Water*Df;
 
 	Var->Err_Msg += "地盤承載力安全檢核計算處理完畢! \r\n";
 	return true;

@@ -246,7 +246,7 @@ namespace VE_SD
             //- Safety Factor
             Mod.SF_CoefInput(double.Parse(textBox_平時滑動安全係數.Text), double.Parse(textBox_平時傾倒安全係數.Text), double.Parse(textBox_平時地盤承載力安全係數.Text));
             //- Safety Factor
-            Mod.SF_CoefInput(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
+            Mod.SF_CoefInput_E(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
             //- 土壓係數輸入
             Mod.KaInput(double.Parse(textBox_KaStage1.Text), double.Parse(textBox_KaStage2.Text), double.Parse(textBox_KaStage3.Text));
             // Go Go Go~
