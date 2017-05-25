@@ -73,9 +73,9 @@ public:
 	//- Earthquake Var
 	double K, K_plun; // 路上震度, 水中震度
 	//- Material Var
-	double InnerPhi, WallPhi, Beta, hd; // 內摩擦角, 壁面摩擦角, 水平傾斜角, 繫船柱突出高度
+	double InnerPhi, WallPhi, Beta, hd; // 背填料內摩擦角, 壁面摩擦角, 水平傾斜角, 繫船柱突出高度
 	//- Base Var
-	double U, D, BasePhi, C; // 入土深度, 拋石厚度, 內摩擦角, 土壤黏滯力
+	double U, D, BasePhi, C; // 入土深度, 拋石厚度, 地盤基礎內摩擦角, 土壤黏滯力
 	double soilR_Earth, soilR_Water; // 土壤重 水上及水下
 	double rw; // 水單位重
 	//- Meyerhof's Factor

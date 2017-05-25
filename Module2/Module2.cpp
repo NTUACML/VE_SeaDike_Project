@@ -486,12 +486,11 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "Qu_E " << Var->Qu_E << std::endl;
 	FILE << "qa " << Var->qa << std::endl;
 	FILE << "qa_E " << Var->qa_E << std::endl;
-	FILE << "D" << Var->D << std::endl;
-	FILE << "U" << Var->U << std::endl;
-	FILE << "BaseSF" << Var->BaseSF << std::endl;
-	FILE << "BaseSF_E" << Var->BaseSF_E << std::endl;
-	FILE << "soilR_Water" << Var->soilR_Water << std::endl;
-	// File Close
+	//FILE << "D" << Var->D << std::endl;
+	//FILE << "U" << Var->U << std::endl;
+	//FILE << "BaseSF" << Var->BaseSF << std::endl;
+	//FILE << "BaseSF_E" << Var->BaseSF_E << std::endl;
+	//FILE << "soilR_Water" << Var->soilR_Water << std::endl;
 	FILE.close();
 	return true;
 }

@@ -684,10 +684,27 @@ bool Module2_Internal::BaseForceCheck() {
 	Var->R1_E = Var->P1_E*(Var->bplum_E / Var->b_2plum_E) + Var->D*Var->soilR_Water;
 	Var->R2_E = Var->P2_E*(Var->bplum_E / Var->b_2plum_E) + Var->D*Var->soilR_Water;
 
-	Var->Qu = 72.58;
-	Var->Qu_E = 25.04;
 
+
+	double Kp, dr, dq, ir, iq, ir_E, iq_E;
 	double Df = Var->D + Var->U;
+
+	Kp = std::pow(tan((45 + Var->BasePhi / 2)* M_PI / 180), 2.0);
+
+	dq = 1 + 0.1*sqrt(Kp)*Var->D / B;
+	dr = dq;
+	iq = std::pow((1 - (Var->sita / 90)), 2.0);
+	iq_E = std::pow((1 - (Var->sita_E / 90)), 2.0);
+	ir = std::pow((1 - (Var->sita / Var->BasePhi)), 2.0);
+	ir_E = std::pow((1 - (Var->sita_E / Var->BasePhi)), 2.0);
+
+	//Var->Qu = 72.58;
+	//Var->Qu_E = 25.04;
+
+	Var->Qu = Var->soilR_Water*Df*Var->Nq*dq*iq + 0.5*Var->soilR_Water*Var->b_2plum*Var->Nr*ir*dr;
+	Var->Qu_E = Var->soilR_Water*Df*Var->Nq*dq*iq_E + 0.5*Var->soilR_Water*Var->b_2plum_E*Var->Nr*ir_E*dr;
+
+	
 
 	Var->qa = Var->Qu / Var->BaseSF + Var->soilR_Water*Df;
 	Var->qa_E = Var->Qu_E / Var->BaseSF_E + Var->soilR_Water*Df;
