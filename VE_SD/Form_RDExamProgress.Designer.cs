@@ -1568,10 +1568,13 @@
             this.DGMaterialRough.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGMaterialRough.Size = new System.Drawing.Size(748, 447);
             this.DGMaterialRough.TabIndex = 0;
+            this.DGMaterialRough.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterialRough_CellClick);
             this.DGMaterialRough.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterialRough_CellValueChanged);
+            this.DGMaterialRough.CurrentCellDirtyStateChanged += new System.EventHandler(this.DGMaterialRough_CurrentCellDirtyStateChanged);
             this.DGMaterialRough.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DGMaterialRough_RowsRemoved);
             this.DGMaterialRough.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterialRough_UserDeletedRow);
             this.DGMaterialRough.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterialRough_UserDeletingRow);
+            this.DGMaterialRough.Click += new System.EventHandler(this.DGMaterialRough_Click);
             this.DGMaterialRough.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DGMaterialRough_KeyUp);
             // 
             // dataGridViewTextBoxColumn1
@@ -1680,7 +1683,7 @@
             this.tabPage_AddBlock.Controls.Add(this.chart_Plot);
             this.tabPage_AddBlock.Location = new System.Drawing.Point(4, 25);
             this.tabPage_AddBlock.Name = "tabPage_AddBlock";
-            this.tabPage_AddBlock.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_AddBlock.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_AddBlock.Size = new System.Drawing.Size(1075, 521);
             this.tabPage_AddBlock.TabIndex = 0;
             this.tabPage_AddBlock.Text = "形塊設定";
@@ -1887,7 +1890,7 @@
             this.tabPage_RunCheck.Controls.Add(this.label_Show);
             this.tabPage_RunCheck.Location = new System.Drawing.Point(4, 25);
             this.tabPage_RunCheck.Name = "tabPage_RunCheck";
-            this.tabPage_RunCheck.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_RunCheck.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_RunCheck.Size = new System.Drawing.Size(1075, 521);
             this.tabPage_RunCheck.TabIndex = 1;
             this.tabPage_RunCheck.Text = "檢核";

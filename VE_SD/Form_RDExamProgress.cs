@@ -4721,8 +4721,10 @@ namespace VE_SD
                         string M2 = BlockReferencedMaterial[j];
                         for(int k=0;k<MaterialsCoefArray.GetLength(0);k++)
                         {
-                            string C1 = MaterialSubscriptToName[MaterialsCoefArray[k].Id1];
-                            string C2 = MaterialSubscriptToName[MaterialsCoefArray[k].Id2];
+                            //MessageBox.Show()
+
+                            string C1 = MaterialsCoefArray[k].Id1==-9999?"":MaterialSubscriptToName[MaterialsCoefArray[k].Id1];
+                            string C2 = MaterialsCoefArray[k].Id2==-9999?"":MaterialSubscriptToName[MaterialsCoefArray[k].Id2];
                             if (C1==M1 && C2==M2 && MaterialsCoefArray[k].coef!=-9999)
                             {
                                 fullfill = true;
@@ -4741,6 +4743,7 @@ namespace VE_SD
                         }
                     }
                 }
+                //MessageBox.Show("C1");
 
                 //Polygon需逆時針.
                 Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
@@ -4783,7 +4786,7 @@ namespace VE_SD
                 for(int j=0;j<BlockUseMaterial.GetLength(0);j++)
                 {
                     string M2 = BlockUseMaterial[j];
-                    bool hasThis = false ;
+                    //bool hasThis = false ;
                     int fullfillcount = 0; ;//Checking if has any two same materials with different roughness.
                     //Finding effective record.
                     for(int k=0;k<MaterialsCoefArray.GetLength(0);k++)
@@ -4798,27 +4801,28 @@ namespace VE_SD
                         if(M1==C1 && M2==C2)
                         {
                             fullfillcount += 1;//不管摩擦係數有沒有設定,有兩列完全一樣的材質設定就是錯誤.
-                            if (MaterialsCoefArray[k].coef != -9999)
-                                hasThis = true;
+                            //if (MaterialsCoefArray[k].coef != -9999)
+                            //    hasThis = true;
                         }
                         else if(M1==C2 && M2==C1)
                         {
                             fullfillcount += 1;//不管摩擦係數有沒有設定,有兩列完全一樣的材質設定就是錯誤.
-                            if (MaterialsCoefArray[k].coef != -9999)
-                                hasThis = true;
+                            //if (MaterialsCoefArray[k].coef != -9999)
+                            //    hasThis = true;
                         }
 
                     }
-                    if(fullfillcount!=1)
+                    if(fullfillcount>1)
                     {
                         frictionError = true;
                         //return false;
                     }
-                    if (!hasThis)
-                    { frictionError = true; }// return false; }
+                    //if (!hasThis)
+                    //{ frictionError = true; }// return false; }
                 }
             }
-            if(frictionError)
+            //MessageBox.Show("C2");
+            if (frictionError)
             {
                 ErrorMsg += ("摩擦係數設定有誤!有某一列或多列之材質間摩擦係數設定衝突或是沒有設定摩擦係數值!!" + Environment.NewLine);
                 okOrNot = false;
@@ -4898,7 +4902,7 @@ namespace VE_SD
             }
             if(hasELError)
             {
-                ErrorMsg += (ELErrorMessage + Environment.NewLine);
+                ErrorMsg += (ELErrorMessage + Environment.NewLine + Environment.NewLine + "您的設定有誤,無法執行檢核!!!!!");
                 okOrNot = false;
             }
 
@@ -4909,6 +4913,7 @@ namespace VE_SD
 
             return okOrNot;
         }
+
         private void 開始檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isExporting) { return; }
@@ -4930,6 +4935,7 @@ namespace VE_SD
                 return;
             }
             //******************************************************
+            //MessageBox.Show("檢查填入資料Textbox");
             string CheckTextBoxString = "";
             if(!CheckTextBoxNoEmpty(ref CheckTextBoxString))
             {
@@ -4941,6 +4947,7 @@ namespace VE_SD
                 return;
             }
 
+            //MessageBox.Show("檢查填入資料Textbox2");
             string RunCalcString = "";
             if(!CanRunTheCalc(ref RunCalcString))
             {
@@ -4953,6 +4960,7 @@ namespace VE_SD
                 btn_LogOutput.Enabled = false;
                 return;//禁止往下繼續進行.
             }
+            //MessageBox.Show("準備計算摩擦係數");
             //******
             //計算每個Block的摩擦係數.
             for(int i=0;i<BlockMainArray.GetLength(0);i++)
@@ -4997,9 +5005,10 @@ namespace VE_SD
                 sumv = sumv / (double)M2C.GetLength(0);
                 BlockMainArray[i].平均摩擦係數 = sumv;
             }
+            //MessageBox.Show("開始計算");
 
             //***********************
-           
+
 
             //***********************************************************************************************************************//
             //帶入計算
@@ -6971,10 +6980,80 @@ namespace VE_SD
             EscapeDGMaterialRoughnessCellContentChanged = true;//避免再次進入CellValueChanged內.
 
         }
+        private void DGMaterialRough_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //MessageBox.Show("H2");
+            if (!使用者手動更新材質與摩擦)
+            {
+                return;
+            }
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+            if (EscapeDGMaterialRoughnessCellContentChanged)
+            {
+                EscapeDGMaterialRoughnessCellContentChanged = false;
+                return;
+            }
+            switch (e.ColumnIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    //break;
+                    try
+                    {
+                        MaterialsCoefArray[e.RowIndex].Id1 = MaterialNameToArraySubScript[DGMaterialRough.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()];
+                    }
+                    catch
+                    {
+                        MaterialsCoefArray[e.RowIndex].Id1 = -9999;
+                    }
+                   break;
+                case 2:
+                    
+                    try
+                    {
+                        MaterialsCoefArray[e.RowIndex].Id2 = MaterialNameToArraySubScript[DGMaterialRough.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()];
+                    }
+                    catch { MaterialsCoefArray[e.RowIndex].Id2 = -9999; }
+                   break;
+                case 3:
+                    //MessageBox.Show("H");
+                    string Temp;
+                    try
+                    {
+                        Temp = DGMaterialRough.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        if (!double.TryParse(Temp, out MaterialsCoefArray[e.RowIndex].coef))
+                        {
+                            MaterialsCoefArray[e.RowIndex].coef = -9999;
+                        }
+                        else
+                        {
+                            // MessageBox.Show("OK:" + DGMaterialRough.Rows[e.RowIndex].Cells[3].Value.ToString());
+                        }
+                    }
+                    catch
+                    {
+                        //出現錯誤.
+                    }
+
+
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void DGMaterialRough_Click(object sender, EventArgs e)
+        {
+            
+        }
         private void DGMaterialRough_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             //設定摩擦係數時.
             //不做任何事情,等實際運行前再檢查.
+            //MessageBox.Show("H1");
             if(!使用者手動更新材質與摩擦)
             {
                 return;
@@ -6993,6 +7072,7 @@ namespace VE_SD
                 case 0:
                     break;
                 case 1:
+                    
                     try
                     {
                         MaterialsCoefArray[e.RowIndex].Id1 = MaterialNameToArraySubScript[DGMaterialRough.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()];
@@ -7003,6 +7083,7 @@ namespace VE_SD
                     }
                     break;
                 case 2:
+                    
                     try
                     {
                         MaterialsCoefArray[e.RowIndex].Id2 = MaterialNameToArraySubScript[DGMaterialRough.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()];
@@ -7036,9 +7117,44 @@ namespace VE_SD
                     break;
             }
         }
+        private void DGMaterialRough_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            //See also https://stackoverflow.com/questions/5652957/what-event-catches-a-change-of-value-in-a-combobox-in-a-datagridviewcell
 
-
-
+            if (this.DGMaterialRough.IsCurrentCellDirty)
+            {
+                //This will fire the CellValueChangedEvent.
+                DGMaterialRough.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+        private void DGMaterialRough_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (DGMaterialRough.CurrentCell.RowIndex != -1)
+            {
+                if (DGMaterialRough.CurrentCell.ColumnIndex == 3)
+                {
+                    //更新.
+                    string Temp;
+                    int rowindex = DGMaterialRough.CurrentCell.RowIndex;
+                    try
+                    {
+                        Temp = DGMaterialRough.Rows[rowindex].Cells[3].Value.ToString();
+                        if (!double.TryParse(Temp, out MaterialsCoefArray[rowindex].coef))
+                        {
+                            MaterialsCoefArray[rowindex].coef = -9999;
+                        }
+                        else
+                        {
+                            //MessageBox.Show("OK:" + DGMaterialRough.Rows[rowindex].Cells[3].Value.ToString());
+                        }
+                    }
+                    catch
+                    {
+                        //出現錯誤.
+                    }
+                }
+            }
+        }
         #endregion
         #region 其他檢核
         private void chk_BlockWeightCalc_HO_CheckedChanged(object sender, EventArgs e)
@@ -7213,34 +7329,7 @@ namespace VE_SD
         {
 
         }
-        private void DGMaterialRough_KeyUp(object sender, KeyEventArgs e)
-        {
-            if(DGMaterialRough.CurrentCell.RowIndex!=-1)
-            {
-                if(DGMaterialRough.CurrentCell.ColumnIndex==3)
-                {
-                    //更新.
-                    string Temp;
-                    int rowindex = DGMaterialRough.CurrentCell.RowIndex;
-                    try
-                    {
-                        Temp = DGMaterialRough.Rows[rowindex].Cells[3].Value.ToString();
-                        if (!double.TryParse(Temp, out MaterialsCoefArray[rowindex].coef))
-                        {
-                            MaterialsCoefArray[rowindex].coef = -9999;
-                        }
-                        else
-                        {
-                            //MessageBox.Show("OK:" + DGMaterialRough.Rows[rowindex].Cells[3].Value.ToString());
-                        }
-                    }
-                    catch
-                    {
-                        //出現錯誤.
-                    }
-                }
-            }
-        }
+        
         #region Tab控制器
         //Tab Control控制器.
         private void tabControl1_KeyDown(object sender, KeyEventArgs e)
@@ -8395,5 +8484,7 @@ namespace VE_SD
             //    MessageBox.Show("無法成功打開Nc、Nq與Nr的參考檔案" + Environment.NewLine +"有其他程式已經打開此檔案", "NcNqNr參考檔案", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //}
         }
+
+
     }
 }
