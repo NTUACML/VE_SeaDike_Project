@@ -627,8 +627,8 @@ bool Module2_Internal::SafetyFactorCheck() {
 			}
 		}
 		Var->LevelSection[i].SF_slide = (Var->LevelSection[i].VForcesum / Var->LevelSection[i].HForcesum) * frictionC;
-		Var->LevelSection[i].SF_slide_E = Var->LevelSection[i].VMomentsum / Var->LevelSection[i].HMomentsum;
-		Var->LevelSection[i].SF_overturning = (Var->LevelSection[i].VForcesum_E / Var->LevelSection[i].HForcesum_E) * frictionC;
+		Var->LevelSection[i].SF_slide_E =  (Var->LevelSection[i].VForcesum_E / Var->LevelSection[i].HForcesum_E) * frictionC;
+		Var->LevelSection[i].SF_overturning = Var->LevelSection[i].VMomentsum / Var->LevelSection[i].HMomentsum;
 		Var->LevelSection[i].SF_overturning_E = Var->LevelSection[i].VMomentsum_E / Var->LevelSection[i].HMomentsum_E;
 	}
 	Var->Err_Msg += "壁體安全檢核計算處理完畢! \r\n";
