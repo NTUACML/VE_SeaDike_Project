@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +50,9 @@
             this.退出此檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.步驟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開始檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出LogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.輸出Word報表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.測試ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -148,9 +151,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
-            this.輸出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.輸出LogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.輸出Word報表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -293,6 +293,30 @@
             this.開始檢核ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.開始檢核ToolStripMenuItem.Text = "開始檢核";
             this.開始檢核ToolStripMenuItem.Click += new System.EventHandler(this.開始檢核ToolStripMenuItem_Click);
+            // 
+            // 輸出ToolStripMenuItem
+            // 
+            this.輸出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.輸出LogToolStripMenuItem,
+            this.輸出Word報表ToolStripMenuItem});
+            this.輸出ToolStripMenuItem.Name = "輸出ToolStripMenuItem";
+            this.輸出ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.輸出ToolStripMenuItem.Text = "輸出";
+            this.輸出ToolStripMenuItem.Click += new System.EventHandler(this.輸出ToolStripMenuItem_Click);
+            // 
+            // 輸出LogToolStripMenuItem
+            // 
+            this.輸出LogToolStripMenuItem.Name = "輸出LogToolStripMenuItem";
+            this.輸出LogToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.輸出LogToolStripMenuItem.Text = "輸出Log";
+            // 
+            // 輸出Word報表ToolStripMenuItem
+            // 
+            this.輸出Word報表ToolStripMenuItem.Name = "輸出Word報表ToolStripMenuItem";
+            this.輸出Word報表ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.輸出Word報表ToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.輸出Word報表ToolStripMenuItem.Text = "輸出Word報表";
+            this.輸出Word報表ToolStripMenuItem.Click += new System.EventHandler(this.輸出Word報表ToolStripMenuItem_Click);
             // 
             // 測試ToolStripMenuItem
             // 
@@ -1083,8 +1107,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1094,8 +1118,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -1105,9 +1129,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle2;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1152,16 +1176,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea3.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend3);
+            chartArea1.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend1);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart_Plot.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart_Plot.Series.Add(series1);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -1375,29 +1399,6 @@
             this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
-            // 
-            // 輸出ToolStripMenuItem
-            // 
-            this.輸出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.輸出LogToolStripMenuItem,
-            this.輸出Word報表ToolStripMenuItem});
-            this.輸出ToolStripMenuItem.Name = "輸出ToolStripMenuItem";
-            this.輸出ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.輸出ToolStripMenuItem.Text = "輸出";
-            // 
-            // 輸出LogToolStripMenuItem
-            // 
-            this.輸出LogToolStripMenuItem.Name = "輸出LogToolStripMenuItem";
-            this.輸出LogToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.輸出LogToolStripMenuItem.Text = "輸出Log";
-            // 
-            // 輸出Word報表ToolStripMenuItem
-            // 
-            this.輸出Word報表ToolStripMenuItem.Name = "輸出Word報表ToolStripMenuItem";
-            this.輸出Word報表ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.輸出Word報表ToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.輸出Word報表ToolStripMenuItem.Text = "輸出Word報表";
-            this.輸出Word報表ToolStripMenuItem.Click += new System.EventHandler(this.輸出Word報表ToolStripMenuItem_Click);
             // 
             // Form_MTExamProgress
             // 

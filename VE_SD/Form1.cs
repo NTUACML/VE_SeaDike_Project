@@ -291,6 +291,8 @@ namespace VE_SD
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //MessageBox.Show("尚不開放使用");
+            //return;
             /*
             string 驗證Msg = "";
             if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))

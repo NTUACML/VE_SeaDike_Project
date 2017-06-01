@@ -4536,11 +4536,11 @@ namespace VE_SD
                     }
                     if (Mod.VarBank.X_E <= Mod.VarBank.B / 6.0)
                     {
-                        TableRef.Columns[3].Cells[5].Range.Text = "e<=" + (Mod.VarBank.B / 6.0).ToString("0.00");//
+                        TableRef.Columns[3].Cells[4].Range.Text = "e<=" + (Mod.VarBank.B / 6.0).ToString("0.00");//
                     }
                     else
                     {
-                        TableRef.Columns[3].Cells[5].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
+                        TableRef.Columns[3].Cells[4].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
                     }
                     //最大反力.
                     TableRef.Columns[2].Cells[5].Range.Text ="最大反力P1:" + Environment.NewLine + Mod.VarBank.P1.ToString("0.00") + "(t/m^2)";
@@ -5334,8 +5334,12 @@ namespace VE_SD
 
 
 
+
         #endregion
 
+        private void 輸出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }
