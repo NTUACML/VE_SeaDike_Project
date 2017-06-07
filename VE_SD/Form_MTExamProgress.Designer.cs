@@ -134,7 +134,7 @@
             this.btnRemoveSects = new System.Windows.Forms.Button();
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.gp_OutputControl = new System.Windows.Forms.GroupBox();
+            this.gp_ExameControl = new System.Windows.Forms.GroupBox();
             this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
             this.btn_OutputWord = new System.Windows.Forms.Button();
             this.btn_LogOutput = new System.Windows.Forms.Button();
@@ -151,6 +151,9 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_Meyerhof = new System.Windows.Forms.RadioButton();
+            this.rb_Tergazhi = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -159,8 +162,9 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
             this.tabPage3.SuspendLayout();
-            this.gp_OutputControl.SuspendLayout();
+            this.gp_ExameControl.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -324,6 +328,7 @@
             this.測試ToolStripMenuItem.Name = "測試ToolStripMenuItem";
             this.測試ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.測試ToolStripMenuItem.Text = "測試";
+            this.測試ToolStripMenuItem.Visible = false;
             // 
             // tabControl1
             // 
@@ -1250,10 +1255,9 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.gp_OutputControl);
+            this.tabPage3.Controls.Add(this.gp_ExameControl);
             this.tabPage3.Controls.Add(this.textBox_CheckMessageShow);
             this.tabPage3.Controls.Add(this.label33);
-            this.tabPage3.Controls.Add(this.btn_Test);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1239, 642);
@@ -1261,24 +1265,26 @@
             this.tabPage3.Text = "檢核";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // gp_OutputControl
+            // gp_ExameControl
             // 
-            this.gp_OutputControl.Controls.Add(this.chk_OpenFileAfterOutput);
-            this.gp_OutputControl.Controls.Add(this.btn_OutputWord);
-            this.gp_OutputControl.Controls.Add(this.btn_LogOutput);
-            this.gp_OutputControl.Font = new System.Drawing.Font("標楷體", 12F);
-            this.gp_OutputControl.Location = new System.Drawing.Point(521, 109);
-            this.gp_OutputControl.Name = "gp_OutputControl";
-            this.gp_OutputControl.Size = new System.Drawing.Size(303, 476);
-            this.gp_OutputControl.TabIndex = 4;
-            this.gp_OutputControl.TabStop = false;
-            this.gp_OutputControl.Text = "輸出檢核結果";
+            this.gp_ExameControl.Controls.Add(this.groupBox1);
+            this.gp_ExameControl.Controls.Add(this.btn_Test);
+            this.gp_ExameControl.Controls.Add(this.chk_OpenFileAfterOutput);
+            this.gp_ExameControl.Controls.Add(this.btn_OutputWord);
+            this.gp_ExameControl.Controls.Add(this.btn_LogOutput);
+            this.gp_ExameControl.Font = new System.Drawing.Font("標楷體", 12F);
+            this.gp_ExameControl.Location = new System.Drawing.Point(521, 46);
+            this.gp_ExameControl.Name = "gp_ExameControl";
+            this.gp_ExameControl.Size = new System.Drawing.Size(303, 539);
+            this.gp_ExameControl.TabIndex = 4;
+            this.gp_ExameControl.TabStop = false;
+            this.gp_ExameControl.Text = "檢核";
             // 
             // chk_OpenFileAfterOutput
             // 
             this.chk_OpenFileAfterOutput.AutoSize = true;
             this.chk_OpenFileAfterOutput.Font = new System.Drawing.Font("標楷體", 13F);
-            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(29, 146);
+            this.chk_OpenFileAfterOutput.Location = new System.Drawing.Point(24, 310);
             this.chk_OpenFileAfterOutput.Name = "chk_OpenFileAfterOutput";
             this.chk_OpenFileAfterOutput.Size = new System.Drawing.Size(189, 22);
             this.chk_OpenFileAfterOutput.TabIndex = 3;
@@ -1289,7 +1295,7 @@
             // btn_OutputWord
             // 
             this.btn_OutputWord.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_OutputWord.Location = new System.Drawing.Point(29, 87);
+            this.btn_OutputWord.Location = new System.Drawing.Point(24, 251);
             this.btn_OutputWord.Name = "btn_OutputWord";
             this.btn_OutputWord.Size = new System.Drawing.Size(183, 36);
             this.btn_OutputWord.TabIndex = 2;
@@ -1301,7 +1307,7 @@
             // btn_LogOutput
             // 
             this.btn_LogOutput.Font = new System.Drawing.Font("標楷體", 14F);
-            this.btn_LogOutput.Location = new System.Drawing.Point(29, 37);
+            this.btn_LogOutput.Location = new System.Drawing.Point(24, 201);
             this.btn_LogOutput.Name = "btn_LogOutput";
             this.btn_LogOutput.Size = new System.Drawing.Size(183, 32);
             this.btn_LogOutput.TabIndex = 1;
@@ -1334,7 +1340,7 @@
             // btn_Test
             // 
             this.btn_Test.Font = new System.Drawing.Font("標楷體", 15.75F);
-            this.btn_Test.Location = new System.Drawing.Point(521, 46);
+            this.btn_Test.Location = new System.Drawing.Point(24, 26);
             this.btn_Test.Name = "btn_Test";
             this.btn_Test.Size = new System.Drawing.Size(183, 39);
             this.btn_Test.TabIndex = 0;
@@ -1400,6 +1406,39 @@
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rb_Tergazhi);
+            this.groupBox1.Controls.Add(this.rb_Meyerhof);
+            this.groupBox1.Location = new System.Drawing.Point(24, 71);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(257, 114);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "檢核設定";
+            // 
+            // rb_Meyerhof
+            // 
+            this.rb_Meyerhof.AutoSize = true;
+            this.rb_Meyerhof.Location = new System.Drawing.Point(23, 26);
+            this.rb_Meyerhof.Name = "rb_Meyerhof";
+            this.rb_Meyerhof.Size = new System.Drawing.Size(154, 20);
+            this.rb_Meyerhof.TabIndex = 0;
+            this.rb_Meyerhof.TabStop = true;
+            this.rb_Meyerhof.Text = "Meyerhof檢核公式";
+            this.rb_Meyerhof.UseVisualStyleBackColor = true;
+            // 
+            // rb_Tergazhi
+            // 
+            this.rb_Tergazhi.AutoSize = true;
+            this.rb_Tergazhi.Location = new System.Drawing.Point(23, 53);
+            this.rb_Tergazhi.Name = "rb_Tergazhi";
+            this.rb_Tergazhi.Size = new System.Drawing.Size(154, 20);
+            this.rb_Tergazhi.TabIndex = 1;
+            this.rb_Tergazhi.TabStop = true;
+            this.rb_Tergazhi.Text = "Terzaghi檢核公式";
+            this.rb_Tergazhi.UseVisualStyleBackColor = true;
+            // 
             // Form_MTExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1425,10 +1464,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.gp_OutputControl.ResumeLayout(false);
-            this.gp_OutputControl.PerformLayout();
+            this.gp_ExameControl.ResumeLayout(false);
+            this.gp_ExameControl.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1543,7 +1584,7 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox textBox_CheckMessageShow;
-        private System.Windows.Forms.GroupBox gp_OutputControl;
+        private System.Windows.Forms.GroupBox gp_ExameControl;
         private System.Windows.Forms.Button btn_OutputWord;
         private System.Windows.Forms.CheckBox chk_OpenFileAfterOutput;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -1552,5 +1593,8 @@
         private System.Windows.Forms.ToolStripMenuItem 輸出ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 輸出LogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 輸出Word報表ToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rb_Tergazhi;
+        private System.Windows.Forms.RadioButton rb_Meyerhof;
     }
 }

@@ -249,6 +249,15 @@ namespace VE_SD
             Mod.SF_CoefInput_E(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
             //- 土壓係數輸入
             Mod.KaInput(double.Parse(textBox_KaStage1.Text), double.Parse(textBox_KaStage2.Text), double.Parse(textBox_KaStage3.Text));
+
+            if(rb_Meyerhof.Checked)
+            {
+                //使用公式1.
+            }
+            else
+            {
+                //使用公式2.
+            }
             // Go Go Go~
             Mod.Run();
 
@@ -697,7 +706,7 @@ namespace VE_SD
 
 
             textBox_CheckMessageShow.Text = "";
-
+            rb_Meyerhof.Checked = true;
             //開始檢核ToolStripMenuItem.Enabled = false;
             //btn_Test.Enabled = false;
             //btn_LogOutput.Enabled = false;
@@ -4285,42 +4294,43 @@ namespace VE_SD
                         {
                             rowend = rowend + 1;
                         }
-                        if (!UsePre) { rowend -= 1;UsePre = true; }
+                        if (!UsePre) { rowend -= 1;}
 
                         TableRef.Rows[rowend].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         //前統計.
-                        if (i!=0)
+                        if (i!=0 && UsePre)
                         {
                             //殘留水壓
-                            TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Fw.ToString("0.00");//水平分力  平時
+                            TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Fw.ToString("0.00");//水平分力  平時
 
                             //力矩
-                            TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].pre_total_Fwy.ToString("0.00");//力矩      平時
+                            TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].pre_total_Fwy.ToString("0.00");//力矩      平時
 
                             //傾倒彎矩
-                            TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_FwMw.ToString("0.00");//傾倒彎矩  平時
+                            TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_FwMw.ToString("0.00");//傾倒彎矩  平時
 
                             rowstart = rowstart + 1;
                         }
+                        if (!UsePre) UsePre = true;
                         //殘留水壓
-                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fw_sum.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Fw_sum.ToString("0.00");
 
                         //力矩
-                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fw_y.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fw_y.ToString("0.00");
                         //傾倒彎矩.
-                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fw_Mw_sum.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fw_Mw_sum.ToString("0.00");
 
                         rowstart = rowstart + 1;
 
                         //後統計.
                         //殘留水壓
-                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");
 
                         //力矩
-                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fwy.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fwy.ToString("0.00");
                         //傾倒彎矩.
 
-                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");
                         rowstart = rowend + 1;
                     }
 
@@ -4453,7 +4463,7 @@ namespace VE_SD
                         TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");//水平力-殘留水壓.
                         TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");//水平力-牽引力.
                         TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].HForcesum_E.ToString("0.00");//水平力-計.
-                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh.ToString("0.00");//傾倒彎矩-土壓.
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩-土壓.
                         TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");//傾倒彎矩-殘留水壓.
                         TableRef.Rows[3 + i].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_MxE.ToString("0.00");//傾倒彎矩-地震力.
                         TableRef.Rows[3 + i].Cells[9].Range.Text = Mod.VarBank.EL_Out[i].HMomentsum_E.ToString("0.00");//傾倒彎矩-計.
@@ -4526,7 +4536,7 @@ namespace VE_SD
                     TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.X_E.ToString("0.00");//平時 合力作用點X.
                     TableRef.Columns[2].Cells[3].Range.Text = Mod.VarBank.e.ToString("0.00");//平時 偏心量e.
                     TableRef.Columns[3].Cells[3].Range.Text = Mod.VarBank.e_E.ToString("0.00");//地震時 偏心量e.
-                    if (Mod.VarBank.X <= Mod.VarBank.B/6.0)
+                    if (Mod.VarBank.e <= Mod.VarBank.B/6.0)
                     {
                         TableRef.Columns[2].Cells[4].Range.Text = "e<=" + (Mod.VarBank.B/6.0).ToString("0.00");//
                     }
@@ -4534,7 +4544,7 @@ namespace VE_SD
                     {
                         TableRef.Columns[2].Cells[4].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
                     }
-                    if (Mod.VarBank.X_E <= Mod.VarBank.B / 6.0)
+                    if (Mod.VarBank.e_E <= Mod.VarBank.B / 6.0)
                     {
                         TableRef.Columns[3].Cells[4].Range.Text = "e<=" + (Mod.VarBank.B / 6.0).ToString("0.00");//
                     }
