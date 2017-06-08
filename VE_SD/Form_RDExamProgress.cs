@@ -8485,6 +8485,9 @@ namespace VE_SD
             //}
         }
 
+        private void cmb_DeepWaveActDir_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

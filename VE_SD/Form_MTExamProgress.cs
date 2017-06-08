@@ -253,10 +253,12 @@ namespace VE_SD
             if(rb_Meyerhof.Checked)
             {
                 //使用公式1.
+                Mod.MeyerhofCheck(true);
             }
             else
             {
                 //使用公式2.
+                Mod.MeyerhofCheck(false);
             }
             // Go Go Go~
             Mod.Run();

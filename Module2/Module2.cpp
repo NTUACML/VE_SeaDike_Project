@@ -92,6 +92,10 @@ void VE_SD::Module2::KaInput(double _ka, double _ka_17, double _ka_33)
 	Var->ka_33 = _ka_33;
 }
 
+void VE_SD::Module2::MeyerhofCheck(bool _MeyerhofCheck) {
+	Var->MeyerhofCK = _MeyerhofCheck;
+}
+
 int VE_SD::Module2::NewBlock(double _Density, double _EQ_Density, double _FrictionC, bool _CalMoment) {
 	Var->BlockData.emplace_back(_Density, _EQ_Density, _FrictionC, _CalMoment);
 	return int(Var->BlockData.size());
