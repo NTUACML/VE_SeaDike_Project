@@ -273,17 +273,48 @@ bool VE_SD::Module2::Get_DataBank_Data(){
 
 bool VE_SD::Module2::Run()
 {
-	Internal->GeoPreCal();
-	Internal->WeightCal();
-	Internal->EarthQuakeForceCal();
-	Internal->HorizontalSoilForceCal();
-	Internal->VertivalSoilForceCal();
-	Internal->ResidualWaterForceCal();
-	Internal->ShipTractionForceCal();
-	Internal->VerticalForceSum();
-	Internal->HorizontalForceSum();
-	Internal->SafetyFactorCheck();
-	Internal->BaseForceCheck();
+	try {
+		if (!Internal->GeoPreCal() 
+			||
+			!Internal->WeightCal() 
+			||
+			!Internal->EarthQuakeForceCal() 
+			||
+			!Internal->HorizontalSoilForceCal() 
+			||
+			!Internal->VertivalSoilForceCal() 
+			||
+			!Internal->ResidualWaterForceCal() 
+			||
+			!Internal->ShipTractionForceCal() 
+			||
+			!Internal->VerticalForceSum() 
+			||
+			!Internal->HorizontalForceSum()
+			||
+			!Internal->SafetyFactorCheck()
+			||
+			!Internal->BaseForceCheck()
+			) {
+			MsgAdd();
+			ErrMsg += "*** Module - 2 計算失敗 *** \r\n";
+		}
+	}
+	catch (std::exception& e) {
+		MsgAdd();
+		ErrMsg += "*** Module - 2 程式錯誤，請確認輸入條件 *** \r\n";
+		return false;
+	}
+
+
+	// Mesg Print
+	MsgAdd();
+
+	//Mesg
+	ErrMsg += "*** Module - 2 計算結束 *** \r\n";
+
+	//Test---
+
 	return true;
 }
 
@@ -497,4 +528,10 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	//FILE << "soilR_Water" << Var->soilR_Water << std::endl;
 	FILE.close();
 	return true;
+}
+
+void VE_SD::Module2::MsgAdd()
+{
+	ErrMsg += gcnew String(Var->Err_Msg.c_str());
+	Var->Err_Msg.clear();
 }

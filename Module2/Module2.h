@@ -119,5 +119,8 @@ namespace VE_SD {
 		//Data
 		Module2_Internal *Internal;
 		Module2_Var *Var;
+
+		//Func
+		void MsgAdd();
 	};
 }
