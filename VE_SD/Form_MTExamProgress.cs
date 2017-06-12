@@ -67,6 +67,8 @@ namespace VE_SD
         int ELSize = 0;
 
         private bool isExporting = false;
+        private bool isCalc = false;
+
         string selectname = null;  //目前點選到的Block.
         Module2 Mod = null;
         private Form1 mainForm = null;
@@ -121,9 +123,9 @@ namespace VE_SD
         }
         private void btn_Test_Click(object sender, EventArgs e)
         {
-            if (isExporting)
+            if (isExporting || isCalc)
             { return; }
-            /*
+            
             string 驗證Msg = "";
             if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
             {
@@ -133,12 +135,14 @@ namespace VE_SD
             {
                 if (mainForm.提供服務訊息)
                 {
-                    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
+                    this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行碼頭檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                 }
                 MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
-            */
+            tabControl1.SelectedIndex = 2;
+            isCalc = true;
+
             string CheckTextBoxString = "";
             if (!CheckTextBoxNoEmpty(ref CheckTextBoxString))
             {
@@ -262,9 +266,10 @@ namespace VE_SD
             }
             // Go Go Go~
             Mod.Run();
-
-            MessageBox.Show("完成檢核!!","完成檢核",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            tabControl1.SelectedIndex = 2;
+            isCalc = false;
+            textBox_CheckMessageShow.Text = Mod.ErrMsg;
+            MessageBox.Show("完成檢核計算!!","完成檢核",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -648,6 +653,7 @@ namespace VE_SD
 
             cmb_seawaveDir.SelectedItem = "右";
             isExporting = false;
+            isCalc = false;
             this.Text = "專案檔:未命名";
             textBox_設計潮位高.Text = "1.5";
             textBox_設計潮位低.Text = "0.07";
@@ -926,6 +932,9 @@ namespace VE_SD
 
         private void btn_ShowNcNqNr_Click(object sender, EventArgs e)
         {
+            if (isExporting || isCalc)
+            { return; }
+
             string picFolder = mainForm.程式運作路徑 + "\\PIC\\NcNqNr.png";
             //if(!IsFileLocked(new FileInfo(picFolder)))
             //{
@@ -1081,7 +1090,11 @@ namespace VE_SD
         }
         private void 開啟一個新的專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isExporting) { return; }
+            if (isExporting || isCalc)
+            {
+                return;
+            }
+
             if (!(BlockMainArray.GetLength(0) == 0))
             {
                 //當有編輯中的專案時(有Block時,才會有警示).
@@ -1094,11 +1107,13 @@ namespace VE_SD
         }
         private void 開啟舊的專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(isExporting)
-            { return; }
+            if (isExporting || isCalc)
+            {
+                return;
+            }
 
 
-            
+
             if (OFD_專案.ShowDialog() == DialogResult.OK)
             {
                 打開檔案之訊息 = null;
@@ -1123,7 +1138,10 @@ namespace VE_SD
         }
         private void 儲存此專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isExporting) { return; }
+            if (isExporting || isCalc)
+            {
+                return;
+            }
             if (BlockMainArray.GetLength(0) == 0)
             { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             string xmlpath;// = workfoldernow + "\\Test.xml";
@@ -1156,7 +1174,11 @@ namespace VE_SD
         }
         private void 另存專案檔ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isExporting) { return; }
+            if (isExporting || isCalc)
+            {
+                return;
+            }
+
             if (BlockMainArray.GetLength(0) == 0)
             { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             string xmlpath;// = workfoldernow + "\\Test.xml";
@@ -1181,10 +1203,16 @@ namespace VE_SD
         }
         private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*if (isExporting || isCalc)
+            {
+                return;
+            }
+
             if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
             {
                 this.Close();
             }
+            */
         }
 
         //舊檔案打開按鈕程序.tsp_
@@ -1193,6 +1221,10 @@ namespace VE_SD
         private void 舊檔案1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("HH" + 舊檔案1ToolStripMenuItem.Tag.ToString());
+            if(isExporting || isCalc)
+            {
+                return;
+            }
 
             if(!File.Exists(舊檔案1ToolStripMenuItem.Tag.ToString()))
             {
@@ -1226,6 +1258,10 @@ namespace VE_SD
         private void 舊檔案2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("HH" + 舊檔案2ToolStripMenuItem.Tag.ToString());
+            if (isExporting || isCalc)
+            {
+                return;
+            }
 
             if (!File.Exists(舊檔案2ToolStripMenuItem.Tag.ToString()))
             {
@@ -1259,6 +1295,11 @@ namespace VE_SD
         {
             //MessageBox.Show("HH" + 舊檔案3ToolStripMenuItem.Tag.ToString());
 
+            if (isExporting || isCalc)
+            {
+                return;
+            }
+
             if (!File.Exists(舊檔案3ToolStripMenuItem.Tag.ToString()))
             {
                 //若檔案不存在,則無法點開.
@@ -1290,6 +1331,10 @@ namespace VE_SD
         private void 舊檔案4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("HH" + 舊檔案4ToolStripMenuItem.Tag.ToString());
+            if (isExporting || isCalc)
+            {
+                return;
+            }
 
 
             if (!File.Exists(舊檔案4ToolStripMenuItem.Tag.ToString()))
@@ -1323,7 +1368,10 @@ namespace VE_SD
         private void 舊檔案5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("HH" + 舊檔案5ToolStripMenuItem.Tag.ToString());
-
+            if (isExporting || isCalc)
+            {
+                return;
+            }
 
             if (!File.Exists(舊檔案5ToolStripMenuItem.Tag.ToString()))
             {
@@ -2662,6 +2710,9 @@ namespace VE_SD
         #region 型塊設定區域
         private void btn_AddASect_Click(object sender, EventArgs e)
         {
+            if (isExporting || isCalc)
+            { return; }
+
             InterfaceBlock = null;
             Form_BlockNameAndCorrdinate form_blockNameAnsCoordinate = new Form_BlockNameAndCorrdinate(this, BlockNameToListSubScript);
             form_blockNameAnsCoordinate.ShowDialog();
@@ -3559,7 +3610,7 @@ namespace VE_SD
         #region 輸出區域
         private void btn_LogOutput_Click(object sender, EventArgs e)
         {
-            if(isExporting)
+            if(isExporting || isCalc)
             { return; }
 
             //給周大大輸出一點東西出來.
@@ -3596,7 +3647,7 @@ namespace VE_SD
 
         private void btn_OutputWord_Click(object sender, EventArgs e)
         {
-            if (isExporting)
+            if (isExporting || isCalc)
             { return; }
 
             if (object.Equals(Mod, null))
@@ -3949,7 +4000,7 @@ namespace VE_SD
 
             WORD.Application wdApplication = null;
             wdApplication = new WORD.Application();
-            wdApplication.Visible = true;
+            wdApplication.Visible = false;// true;
             if (wdApplication != null)
             {
                 try
@@ -4887,6 +4938,9 @@ namespace VE_SD
         //刪除BLOCK.
         private void btnRemoveSects_Click(object sender, EventArgs e)
         {
+            if (isExporting || isCalc)
+            { return; }
+
             if (MessageBox.Show("您確定要刪除此Block嗎?", "刪除Block", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
             {
                 return;
@@ -4994,6 +5048,9 @@ namespace VE_SD
         //編輯Block.
         private void btn_ModifiedBlock_Click(object sender, EventArgs e)
         {
+            if (isExporting || isCalc)
+            { return; }
+
             if (object.Equals(selectname, null))
             {
                 return;
@@ -5518,6 +5575,36 @@ namespace VE_SD
         private void 輸出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Form_MTExamProgress_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isExporting || isCalc)
+            {
+                e.Cancel = true;
+            }
+            if (MessageBox.Show("確定關閉?", "關閉檢核", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)==DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void 輸出LogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btn_LogOutput_Click(sender, e);
+        }
+
+        private void tabControl1_TabIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_Deselecting(object sender, TabControlCancelEventArgs e)
+        {
+            if(isCalc || isExporting)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

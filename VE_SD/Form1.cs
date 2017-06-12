@@ -293,7 +293,7 @@ namespace VE_SD
         {
             //MessageBox.Show("尚不開放使用");
             //return;
-            /*
+            
             string 驗證Msg = "";
             if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
             {
@@ -307,7 +307,7 @@ namespace VE_SD
                     return;
                 }
             }
-            */
+            
             if (_提供服務訊息)
             {
                 this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了碼頭檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));

@@ -59,6 +59,7 @@
             this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
             this.bk_SendFIle = new System.ComponentModel.BackgroundWorker();
             this.bk_AccessServerForDownload = new System.ComponentModel.BackgroundWorker();
+            this.TSP_Validate = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -201,7 +202,8 @@
             this.TSSTATUS_label,
             this.TSP_Progressbar,
             this.TSP_UserInfoShow,
-            this.TSP_ChangeUserBtn});
+            this.TSP_ChangeUserBtn,
+            this.TSP_Validate});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip1.Location = new System.Drawing.Point(0, 601);
             this.statusStrip1.Name = "statusStrip1";
@@ -336,6 +338,13 @@
             this.bk_AccessServerForDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_AccessServerForDownload_DoWork);
             this.bk_AccessServerForDownload.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_AccessServerForDownload_RunWorkerCompleted);
             // 
+            // TSP_Validate
+            // 
+            this.TSP_Validate.Name = "TSP_Validate";
+            this.TSP_Validate.Size = new System.Drawing.Size(128, 25);
+            this.TSP_Validate.Text = "toolStripStatusLabel1";
+            this.TSP_Validate.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -402,6 +411,7 @@
         private System.Windows.Forms.ToolStripMenuItem 測試傳送遠端ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 測試密碼轉換ToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker bk_AccessServerForDownload;
+        private System.Windows.Forms.ToolStripStatusLabel TSP_Validate;
     }
 }
 

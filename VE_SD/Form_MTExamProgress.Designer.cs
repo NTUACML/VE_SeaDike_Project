@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.開啟最近使用的舊檔ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,12 +135,15 @@
             this.btn_AddASect = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.gp_ExameControl = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_Tergazhi = new System.Windows.Forms.RadioButton();
+            this.rb_Meyerhof = new System.Windows.Forms.RadioButton();
+            this.btn_Test = new System.Windows.Forms.Button();
             this.chk_OpenFileAfterOutput = new System.Windows.Forms.CheckBox();
             this.btn_OutputWord = new System.Windows.Forms.Button();
             this.btn_LogOutput = new System.Windows.Forms.Button();
             this.textBox_CheckMessageShow = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
-            this.btn_Test = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsp_cond = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsp_progressbar = new System.Windows.Forms.ToolStripProgressBar();
@@ -151,9 +154,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rb_Meyerhof = new System.Windows.Forms.RadioButton();
-            this.rb_Tergazhi = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -163,8 +163,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_Plot)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.gp_ExameControl.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -311,8 +311,10 @@
             // 輸出LogToolStripMenuItem
             // 
             this.輸出LogToolStripMenuItem.Name = "輸出LogToolStripMenuItem";
+            this.輸出LogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this.輸出LogToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.輸出LogToolStripMenuItem.Text = "輸出Log";
+            this.輸出LogToolStripMenuItem.Click += new System.EventHandler(this.輸出LogToolStripMenuItem_Click);
             // 
             // 輸出Word報表ToolStripMenuItem
             // 
@@ -342,6 +344,8 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1247, 671);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Deselecting);
+            this.tabControl1.TabIndexChanged += new System.EventHandler(this.tabControl1_TabIndexChanged);
             // 
             // tabPage1
             // 
@@ -1112,8 +1116,8 @@
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ELDGV1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ELDGV1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1123,8 +1127,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(104, 435);
             this.ELDGV1.TabIndex = 3;
@@ -1134,9 +1138,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle17;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1181,16 +1185,16 @@
             // 
             this.chart_Plot.BorderlineColor = System.Drawing.Color.Black;
             this.chart_Plot.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.Name = "ChartArea1";
-            this.chart_Plot.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart_Plot.Legends.Add(legend1);
+            chartArea6.Name = "ChartArea1";
+            this.chart_Plot.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chart_Plot.Legends.Add(legend6);
             this.chart_Plot.Location = new System.Drawing.Point(138, 7);
             this.chart_Plot.Name = "chart_Plot";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart_Plot.Series.Add(series1);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.chart_Plot.Series.Add(series6);
             this.chart_Plot.Size = new System.Drawing.Size(983, 448);
             this.chart_Plot.TabIndex = 17;
             this.chart_Plot.Text = "chart_Plot";
@@ -1280,6 +1284,50 @@
             this.gp_ExameControl.TabStop = false;
             this.gp_ExameControl.Text = "檢核";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rb_Tergazhi);
+            this.groupBox1.Controls.Add(this.rb_Meyerhof);
+            this.groupBox1.Location = new System.Drawing.Point(24, 71);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(257, 114);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "檢核設定";
+            // 
+            // rb_Tergazhi
+            // 
+            this.rb_Tergazhi.AutoSize = true;
+            this.rb_Tergazhi.Location = new System.Drawing.Point(23, 53);
+            this.rb_Tergazhi.Name = "rb_Tergazhi";
+            this.rb_Tergazhi.Size = new System.Drawing.Size(154, 20);
+            this.rb_Tergazhi.TabIndex = 1;
+            this.rb_Tergazhi.TabStop = true;
+            this.rb_Tergazhi.Text = "Terzaghi檢核公式";
+            this.rb_Tergazhi.UseVisualStyleBackColor = true;
+            // 
+            // rb_Meyerhof
+            // 
+            this.rb_Meyerhof.AutoSize = true;
+            this.rb_Meyerhof.Location = new System.Drawing.Point(23, 26);
+            this.rb_Meyerhof.Name = "rb_Meyerhof";
+            this.rb_Meyerhof.Size = new System.Drawing.Size(154, 20);
+            this.rb_Meyerhof.TabIndex = 0;
+            this.rb_Meyerhof.TabStop = true;
+            this.rb_Meyerhof.Text = "Meyerhof檢核公式";
+            this.rb_Meyerhof.UseVisualStyleBackColor = true;
+            // 
+            // btn_Test
+            // 
+            this.btn_Test.Font = new System.Drawing.Font("標楷體", 15.75F);
+            this.btn_Test.Location = new System.Drawing.Point(24, 26);
+            this.btn_Test.Name = "btn_Test";
+            this.btn_Test.Size = new System.Drawing.Size(183, 39);
+            this.btn_Test.TabIndex = 0;
+            this.btn_Test.Text = "進行檢核";
+            this.btn_Test.UseVisualStyleBackColor = true;
+            this.btn_Test.Click += new System.EventHandler(this.btn_Test_Click);
+            // 
             // chk_OpenFileAfterOutput
             // 
             this.chk_OpenFileAfterOutput.AutoSize = true;
@@ -1336,17 +1384,6 @@
             this.label33.Size = new System.Drawing.Size(129, 19);
             this.label33.TabIndex = 2;
             this.label33.Text = "檢核計算訊息";
-            // 
-            // btn_Test
-            // 
-            this.btn_Test.Font = new System.Drawing.Font("標楷體", 15.75F);
-            this.btn_Test.Location = new System.Drawing.Point(24, 26);
-            this.btn_Test.Name = "btn_Test";
-            this.btn_Test.Size = new System.Drawing.Size(183, 39);
-            this.btn_Test.TabIndex = 0;
-            this.btn_Test.Text = "進行檢核";
-            this.btn_Test.UseVisualStyleBackColor = true;
-            this.btn_Test.Click += new System.EventHandler(this.btn_Test_Click);
             // 
             // statusStrip1
             // 
@@ -1406,39 +1443,6 @@
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rb_Tergazhi);
-            this.groupBox1.Controls.Add(this.rb_Meyerhof);
-            this.groupBox1.Location = new System.Drawing.Point(24, 71);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(257, 114);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "檢核設定";
-            // 
-            // rb_Meyerhof
-            // 
-            this.rb_Meyerhof.AutoSize = true;
-            this.rb_Meyerhof.Location = new System.Drawing.Point(23, 26);
-            this.rb_Meyerhof.Name = "rb_Meyerhof";
-            this.rb_Meyerhof.Size = new System.Drawing.Size(154, 20);
-            this.rb_Meyerhof.TabIndex = 0;
-            this.rb_Meyerhof.TabStop = true;
-            this.rb_Meyerhof.Text = "Meyerhof檢核公式";
-            this.rb_Meyerhof.UseVisualStyleBackColor = true;
-            // 
-            // rb_Tergazhi
-            // 
-            this.rb_Tergazhi.AutoSize = true;
-            this.rb_Tergazhi.Location = new System.Drawing.Point(23, 53);
-            this.rb_Tergazhi.Name = "rb_Tergazhi";
-            this.rb_Tergazhi.Size = new System.Drawing.Size(154, 20);
-            this.rb_Tergazhi.TabIndex = 1;
-            this.rb_Tergazhi.TabStop = true;
-            this.rb_Tergazhi.Text = "Terzaghi檢核公式";
-            this.rb_Tergazhi.UseVisualStyleBackColor = true;
-            // 
             // Form_MTExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1448,9 +1452,11 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form_MTExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "碼頭檢核";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_MTExamProgress_FormClosing);
             this.Load += new System.EventHandler(this.Form_MTExamProgress_Load);
             this.Resize += new System.EventHandler(this.Form_MTExamProgress_Resize);
             this.menuStrip1.ResumeLayout(false);
@@ -1466,10 +1472,10 @@
             this.tabPage3.PerformLayout();
             this.gp_ExameControl.ResumeLayout(false);
             this.gp_ExameControl.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
