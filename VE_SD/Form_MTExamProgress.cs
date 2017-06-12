@@ -708,7 +708,8 @@ namespace VE_SD
 
 
             textBox_CheckMessageShow.Text = "";
-            rb_Meyerhof.Checked = true;
+            //rb_Meyerhof.Checked = true;
+            rb_Tergazhi.Checked = true;
             //開始檢核ToolStripMenuItem.Enabled = false;
             //btn_Test.Enabled = false;
             //btn_LogOutput.Enabled = false;
@@ -2846,6 +2847,15 @@ namespace VE_SD
             double xspace, yspace;
             xspace = 取得最佳Interval(Xmin, Xmax);
             yspace = 取得最佳Interval(Ymin, Ymax);
+
+            if(xspace>1)
+            {
+                xspace = 1;
+            }
+            if(yspace>1)
+            {
+                yspace = 1;
+            }
             //xspace = xdiff / 4.0;//5 label.
             //yspace = ydiff / 4.0;//5 label.
 
@@ -2898,10 +2908,29 @@ namespace VE_SD
             //{
             //    yspace = 100;
             //}
+            /*
+            ChartArea ca = INS.ChartAreas[0];
+            ElementPosition ipp0 = ca.InnerPlotPosition;
+            ElementPosition cap = ca.Position;
+            Size CaSize = new Size((int)(cap.Width * INS.ClientSize.Width / 100f), (int)(cap.Height * INS.ClientSize.Height / 100f));
+            Size IppSize=new Size((int)(ipp0.Width*CaSize.Width/100f),(int)(ipp0.Height*CaSize.Height/100f));
+
+            int ippNewSide = Math.Min(IppSize.Width, IppSize.Height);
+            //MessageBox.Show(ippNewSide.ToString());
+            MessageBox.Show(cap.Width.ToString() + "," + cap.Height.ToString());
+            MessageBox.Show(IppSize.Width.ToString()+ "," +  IppSize.Height.ToString());
+
+            float px = ipp0.Width / IppSize.Width * ippNewSide;
+            float py = ipp0.Height / IppSize.Height * ippNewSide;
+            */
+
             double NewXmin = Math.Floor(Xmin / xspace) * xspace;
             double NewXmax = Math.Ceiling(Xmax / xspace) * xspace;// Xmin - xspace / 2.0 + 6.5 * xspace;// + Math.Floor((Xmax - Xmin) / xspace + 0.5) * xspace;
             double NewYmax = Math.Ceiling(Ymax / yspace) * yspace + yspace / 2.0;// Ymin - yspace / 2.0 + 6.5 * yspace;
             double NewYmin = Math.Ceiling(Ymin / yspace) * yspace;
+
+
+
             //double NewYmax = Ymin + Math.Floor((Ymax - Ymin) / yspace + 0.5) * yspace;
             //label_Show.Text = Xmin.ToString() + "," + NewXmax.ToString(); // + ":" + NewYmax.ToString();
 
@@ -3322,7 +3351,10 @@ namespace VE_SD
                 double ydiff = (Ymax - Ymin);
                 double yspace;
                 yspace = 取得最佳Interval(Ymin, Ymax);//;ydiff / 4.0;
-
+                if(yspace>1)
+                {
+                    yspace = 1;
+                }
                 //if (ydiff <= 1)
                 //{
                 //    yspace = 0.2;
@@ -3422,6 +3454,7 @@ namespace VE_SD
                     xcc = cx / 3.0 / w;
                     ycc = cy / 3.0 / w;
                     TT.Text = BlockListSubScriptToName[i];
+                    TT.Tag = "BLOCK";
                     TT.AllowMoving = true;
                     TT.AnchorAlignment = ContentAlignment.MiddleCenter;
                     TT.Font = new Font("微軟正黑體", 7, FontStyle.Bold);
@@ -3603,6 +3636,7 @@ namespace VE_SD
                 tsp_cond.Text = "輸出Word檔案報表中";
 
                 //先將圖片輸出.
+
                 string[] TempName = new string[] { };
                 for (int i = 0; i < chart_Plot.Series.Count; i++)
                 {
@@ -3636,10 +3670,63 @@ namespace VE_SD
                         TT.Visible = false;
                         //chart_Plot.Annotations.RemoveAt(i);
                     }
-
-
+                    if (!object.Equals(TT.Tag, null))
+                    {
+                        if (TT.Tag.ToString() == "BLOCK")
+                        {
+                            TT.Font = new Font("微軟正黑體", 14, FontStyle.Bold); ;
+                        }
+                    }
                 }
-                chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);
+                ChartArea ca = chart_Plot.ChartAreas[0];
+                ElementPosition ipp0 = ca.InnerPlotPosition;
+                Size OldClientSize = chart_Plot.ClientSize;
+                int oldClientXSize = chart_Plot.ClientSize.Width;
+                int oldClientYSize = chart_Plot.ClientSize.Height;
+                double oldXmin=chart_Plot.ChartAreas[0].AxisX.Minimum;// -xspace/2.0;// -xspace/2.0;// - xspace;
+                double oldXmax=chart_Plot.ChartAreas[0].AxisX.Maximum;// NewXmax;
+                double oldXInterval=chart_Plot.ChartAreas[0].AxisX.Interval;
+                double oldYmin=chart_Plot.ChartAreas[0].AxisY.Minimum;// - yspace;
+                double oldYmax=chart_Plot.ChartAreas[0].AxisY.Maximum;// NewYmax;
+                double oldYInterval=chart_Plot.ChartAreas[0].AxisY.Interval;
+
+
+                //Adjusting the interval and new ymax,ymin,xmax,xmin.
+                float xf = (float)ipp0.Width/ (float)(oldXmax - oldXmin);
+                float yf =  (float)ipp0.Height/(float)(oldYmax - oldYmin);
+                //MessageBox.Show("Xf = " + xf.ToString() + ", YF = " + yf.ToString());
+
+                if(xf<yf)
+                {
+                    //狀況: XF使用的刻度較多,Y軸的刻度範圍較小,改以Y軸之大小來放大X軸之大小.
+                    //MessageBox.Show();
+                    //float newHeight = xf * (float)(oldYmax - oldYmin);
+                    float newWidth = (float)(oldXmax - oldXmin) * yf;
+                    //MessageBox.Show("Using XF to adjust Y height: " + (newWidth).ToString());
+                    //ca.InnerPlotPosition = new ElementPosition(ipp0.X, ipp0.Y, ipp0.Width,xf*(float)(oldYmax-oldYmin));
+                    chart_Plot.ClientSize = new Size((int)(oldClientYSize * newWidth / (float)ipp0.Width), oldClientYSize);//(int)((float)oldClientXSize / (float)ipp0.Width * newHeight));
+                }
+                else if(xf>yf)
+                {
+                    //狀況: YF使用的刻度較多,X軸的刻度範圍小,改以X軸之大小來放大Y軸之大小.
+                    //MessageBox.Show(((float)(oldXmax - oldXmin) * (float)yf).ToString());
+                    //float newWidth = (float)(oldXmax - oldXmin) * yf;
+                    float newHeight = (float)(oldYmax - oldYmin) * xf; //得到新的Y軸之大小.
+                    //MessageBox.Show("Using YF to adjust X width: " + newHeight.ToString());
+                    //ca.InnerPlotPosition = new ElementPosition(ipp0.X, ipp0.Y,(float)(oldXmax-oldXmin)*yf , ipp0.Height);
+                    chart_Plot.ClientSize = new Size(oldClientXSize, (int)(oldClientXSize*newHeight/(float)ipp0.Height));//(int)((float)oldClientYSize/(float)ipp0.Height*newWidth), oldClientYSize);
+                }
+                else
+                {
+                    //隨意.
+                    //chart_Plot.ChartAreas[0].AxisX.Interval=1;
+                    //chart_Plot.ChartAreas[0].AxisY.Interval=1;
+                }
+                //chart_Plot.ChartAreas[0].RecalculateAxesScale();
+                chart_Plot.SaveImage(PNGStoredFolderPath, ChartImageFormat.Png);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
                 for (int i = 0; i < TempName.GetLength(0); i++)
                 {
                     chart_Plot.Series[TempName[i]].IsVisibleInLegend = false;
@@ -3659,9 +3746,28 @@ namespace VE_SD
                         TT.Visible = true;
                         //chart_Plot.Annotations.RemoveAt(i);
                     }
-
-
+                    if (!object.Equals(TT.Tag, null))
+                    {
+                        if (TT.Tag.ToString() == "BLOCK")
+                        {
+                            TT.Font = new Font("微軟正黑體", 7, FontStyle.Bold); ;
+                        }
+                    }
                 }
+
+                //恢復原狀
+                //chart_Plot.ChartAreas[0] = ca;
+                chart_Plot.ClientSize = OldClientSize;
+                //ca.InnerPlotPosition= ipp0;
+                //ca.Position=cap;
+
+                //chart_Plot.ChartAreas[0].AxisX.Minimum=oldXmin;// -xspace/2.0;// -xspace/2.0;// - xspace;
+                //chart_Plot.ChartAreas[0].AxisX.Maximum=oldXmax;// NewXmax;
+                //chart_Plot.ChartAreas[0].AxisX.Interval= oldXInterval;
+                //chart_Plot.ChartAreas[0].AxisY.Minimum= oldYmin;// - yspace;
+                //chart_Plot.ChartAreas[0].AxisY.Maximum= oldYmax;// NewYmax;
+                //chart_Plot.ChartAreas[0].AxisY.Interval= oldYInterval;
+                //chart_Plot.ChartAreas[0].RecalculateAxesScale();
 
                 //Runing the backgroundworker.
                 WordOutputMsg = "ERROR";
@@ -3890,23 +3996,23 @@ namespace VE_SD
                     TableRef.Rows[13].Cells[2].Range.Text = RCOL.背填料水平傾斜角;
                     TableRef.Rows[14].Cells[2].Range.Text = RCOL.入土深度;
                     TableRef.Rows[15].Cells[2].Range.Text = RCOL.拋石厚度;
-                    TableRef.Rows[16].Cells[2].Range.Text = RCOL.海側方向;
-                    TableRef.Rows[17].Cells[2].Range.Text = RCOL.地盤基礎內摩擦角;
-                    TableRef.Rows[18].Cells[2].Range.Text = RCOL.土壤凝聚力;
+                    //TableRef.Rows[16].Cells[2].Range.Text = RCOL.海側方向;
+                    TableRef.Rows[16].Cells[2].Range.Text = RCOL.地盤基礎內摩擦角;
+                    TableRef.Rows[17].Cells[2].Range.Text = RCOL.土壤凝聚力;
+                    TableRef.Rows[18].Cells[2].Range.Text = RCOL.Nc;
                     TableRef.Rows[19].Cells[2].Range.Text = RCOL.Nq;
-                    TableRef.Rows[20].Cells[2].Range.Text = RCOL.Nc;
-                    TableRef.Rows[21].Cells[2].Range.Text = RCOL.Nr;
-                    TableRef.Rows[22].Cells[2].Range.Text = RCOL.平時滑動安全係數;
-                    TableRef.Rows[23].Cells[2].Range.Text = RCOL.平時傾倒安全係數;
-                    TableRef.Rows[24].Cells[2].Range.Text = RCOL.平時地盤承載力安全係數;
-                    TableRef.Rows[25].Cells[2].Range.Text = RCOL.地震時滑動安全係數;
-                    TableRef.Rows[26].Cells[2].Range.Text = RCOL.地震時傾倒安全係數;
-                    TableRef.Rows[27].Cells[2].Range.Text = RCOL.地震時地盤承載力安全係數;
-                    TableRef.Rows[28].Cells[2].Range.Text = RCOL.陸上土壤重;
-                    TableRef.Rows[29].Cells[2].Range.Text = RCOL.水中土壤重;
-                    TableRef.Rows[30].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
-                    TableRef.Rows[31].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
-                    TableRef.Rows[32].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
+                    TableRef.Rows[20].Cells[2].Range.Text = RCOL.Nr;
+                    TableRef.Rows[21].Cells[2].Range.Text = RCOL.平時滑動安全係數;
+                    TableRef.Rows[22].Cells[2].Range.Text = RCOL.平時傾倒安全係數;
+                    TableRef.Rows[23].Cells[2].Range.Text = RCOL.平時地盤承載力安全係數;
+                    TableRef.Rows[24].Cells[2].Range.Text = RCOL.地震時滑動安全係數;
+                    TableRef.Rows[25].Cells[2].Range.Text = RCOL.地震時傾倒安全係數;
+                    TableRef.Rows[26].Cells[2].Range.Text = RCOL.地震時地盤承載力安全係數;
+                    TableRef.Rows[27].Cells[2].Range.Text = RCOL.陸上土壤重;
+                    TableRef.Rows[28].Cells[2].Range.Text = RCOL.水中土壤重;
+                    TableRef.Rows[29].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
+                    TableRef.Rows[30].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
+                    TableRef.Rows[31].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
                     //TableRef.Rows[33].Cells[2].Range.Text =;
 
                     //取得第三個表格.
@@ -3934,7 +4040,8 @@ namespace VE_SD
                         rowend = rowstart + BlocKID.GetLength(0) - 1;
                         if (i == 0) { rowend = rowend + 1; }
                         else { rowend = rowend + 2; }
-                        TableRef.Rows[rowend].Cells[1].Range.Text =  (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL" + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         if(i!=0)
                         {
                             //前統計.
@@ -3944,8 +4051,13 @@ namespace VE_SD
                             TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].pre_total_arm.ToString("0.00");
                             //抵抗彎矩
                             TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Mx.ToString("0.00");
+                            for(int ii=1;ii<=7;ii++)
+                            {
+                                TableRef.Rows[rowstart].Cells[ii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                            }
                             rowstart = rowstart + 1;
                         }
+                        TableRef.Rows[rowstart].Cells[1].Range.Text = 得到英文碼(i + 1);
                         for (int ii = 0; ii <= BlocKID.GetUpperBound(0); ii++)
                         {
                             //各個Block的結果.
@@ -3970,8 +4082,13 @@ namespace VE_SD
                             //抵抗彎矩
                             //Mw
                             TableRef.Rows[rowstart + ii].Cells[7].Range.Text = Mod.VarBank.Block_Out[blockidGet].Mw.ToString("0.00");
+                            for (int iii = 1; iii <= 7; iii++)
+                            {
+                                TableRef.Rows[rowstart+ii].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                            }
                         }
                         //後統計.
+                        TableRef.Rows[rowend].Cells[2].Range.Text = "計";
                         TableRef.Rows[rowend].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_W.ToString("0.00");
                         //力矩.
                         TableRef.Rows[rowend].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_arm.ToString("0.00");
@@ -3986,9 +4103,11 @@ namespace VE_SD
                     //壁體自重.
                     //TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.W.ToString("0.00");
 
+                    int minuscount = 0;
+                    /*
                     rowstart = 2;
                     rowend = 2;
-                    int minuscount = 0;
+                    
                     for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
                     {
                         int[] BlockID = Mod.VarBank.EL_Out[i].BlockId;
@@ -4000,8 +4119,9 @@ namespace VE_SD
                         minuscount += (rowend-rowstart+1 - 1);
                         rowstart = rowend + 1;
                     }
+                    */
 
-                    wdrange = TableRef.Columns[1].Cells[rowstart - minuscount].Range;
+                    wdrange = TableRef.Columns[1].Cells[rowstart - 1].Range;// - minuscount].Range;
                     wdrange.Select();
                     wdApplication.Selection.MoveDown(ref lu, 1, Type.Missing);
                     //插入圖.
@@ -4031,7 +4151,7 @@ namespace VE_SD
                         rowend = rowstart + BlocKID.GetLength(0) - 1;
                         if (i == 0) { rowend = rowend + 1; }
                         else { rowend = rowend + 2; }
-                        TableRef.Rows[rowend].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL" + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         if (i != 0)
                         {
                             //前統計.
@@ -4041,8 +4161,13 @@ namespace VE_SD
                             TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].pre_total_armE.ToString("0.00");
                             //抵抗彎矩
                             TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_MxE.ToString("0.00");
+                            for (int iii = 1; iii <= 7; iii++)
+                            {
+                                TableRef.Rows[rowstart].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                            }
                             rowstart = rowstart + 1;
                         }
+                        TableRef.Rows[rowstart].Cells[1].Range.Text = 得到英文碼(i + 1);
                         for (int ii = 0; ii <= BlocKID.GetUpperBound(0); ii++)
                         {
                             //各個Block的結果.
@@ -4066,8 +4191,13 @@ namespace VE_SD
                             //傾倒彎矩
                             //Mw
                             TableRef.Rows[rowstart + ii].Cells[7].Range.Text = Mod.VarBank.Block_Out[blockidGet].Mw_E.ToString("0.00");
+                            for (int iii = 1; iii <= 7; iii++)
+                            {
+                                TableRef.Rows[rowstart + ii].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                            }
                         }
                         //後統計.
+                        TableRef.Rows[rowend].Cells[2].Range.Text = "計";
                         TableRef.Rows[rowend].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");
                         //力矩.
                         TableRef.Rows[rowend].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_armE.ToString("0.00");
@@ -4081,7 +4211,7 @@ namespace VE_SD
                     //忽略整體統計資訊.
                     //壁體自重.
                     //TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.W.ToString("0.00");
-
+                    /*
                     rowstart = 2;
                     rowend = 2;
                     minuscount = 0;
@@ -4096,13 +4226,14 @@ namespace VE_SD
                         minuscount += (rowend - rowstart + 1 - 1);
                         rowstart = rowend + 1;
                     }
+                    */
 
 
                     //取得第五個表格.
                     //5. 土壓力水平分力及傾倒彎矩.
                     //  土壓強度(平時).
                     TableRef = newDocument.Tables[5];
-                    TableRef.Rows[3].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
+                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
 
 
                     //第六個表格.
@@ -4135,59 +4266,71 @@ namespace VE_SD
                         { needsize += 2; }
                         for (int i2 = 0; i2 < needsize; i2++)
                         {
-                            TableRef.Rows.Add(TableRef.Rows[2]);
+                            TableRef.Rows.Add(TableRef.Rows[3]);
                         }
                     }
                     //填入數據.
-                    rowstart = 2;
-                    rowend = 2;
+                    rowstart = 3;
+                    rowend = 3;
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
                         rowend = rowstart;
                         if(i==0){rowend = rowend + 1;}
                         else { rowend = rowend + 2; }
-                        TableRef.Rows[rowend].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL" + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         if(i!=0)
                         {
                             //填入前統計.
                             //平時 與 地震時.
                             //   水平分力 力矩  傾倒彎矩
-                            TableRef.Rows[rowstart].Cells[2].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_Fh.ToString("0.00");//水平分力  平時
-                            TableRef.Rows[rowstart].Cells[3].Range.Text= Mod.VarBank.EL_Out[i].pre_total_Fhy.ToString("0.00");//力矩      平時
-                            TableRef.Rows[rowstart].Cells[4].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_FhMh.ToString("0.00");//傾倒彎矩  平時
-                            TableRef.Rows[rowstart].Cells[5].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_Fh_E.ToString("0.00");//水平分力  地震時
-                            TableRef.Rows[rowstart].Cells[6].Range.Text= Mod.VarBank.EL_Out[i].pre_total_Fhy_E.ToString("0.00");//力矩      地震時
-                            TableRef.Rows[rowstart].Cells[7].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_FhMh_E.ToString("0.00");//傾倒彎矩  地震時
+                            TableRef.Rows[rowstart].Cells[3].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_Fh.ToString("0.00");//水平分力  平時
+                            TableRef.Rows[rowstart].Cells[4].Range.Text= Mod.VarBank.EL_Out[i].pre_total_Fhy.ToString("0.00");//力矩      平時
+                            TableRef.Rows[rowstart].Cells[5].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_FhMh.ToString("0.00");//傾倒彎矩  平時
+                            TableRef.Rows[rowstart].Cells[6].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_Fh_E.ToString("0.00");//水平分力  地震時
+                            TableRef.Rows[rowstart].Cells[7].Range.Text= Mod.VarBank.EL_Out[i].pre_total_Fhy_E.ToString("0.00");//力矩      地震時
+                            TableRef.Rows[rowstart].Cells[8].Range.Text= Mod.VarBank.EL_Out[i].pre_sum_FhMh_E.ToString("0.00");//傾倒彎矩  地震時
+                            for (int iii = 1; iii <= 8; iii++)
+                            {
+                                TableRef.Rows[rowstart].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                            }
                             rowstart = rowstart + 1;
                         }
                         //填入數據.
+                        TableRef.Rows[rowstart].Cells[1].Range.Text = 得到英文碼(i + 1);
+
                         //平時-水平分力.
-                        TableRef.Rows[rowstart].Cells[2].Range.Text= Mod.VarBank.EL_Out[i].Fh.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[3].Range.Text= Mod.VarBank.EL_Out[i].Fh.ToString("0.00");
                         //平時-力矩
-                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fh_y.ToString("0.00");
-                        //平時-傾倒彎矩.
-                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fh_Mh.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fh_y.ToString("0.00");
+                        //平時-傾倒彎矩
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fh_Mh.ToString("0.00");
 
                         //地震時-水平分力.
-                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fh_E.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Fh_E.ToString("0.00");
                         //地震時-力矩
-                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Fh_y_E.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Fh_y_E.ToString("0.00");
                         //地震時-傾倒彎矩.
-                        TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Fh_Mh_E.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Fh_Mh_E.ToString("0.00");
+                        for (int iii = 1; iii <= 8; iii++)
+                        {
+                            TableRef.Rows[rowstart].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                        }
 
                         rowstart = rowstart + 1;
                         //後統計
-                        TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh.ToString("0.00");//水平分力  平時
-                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fhy.ToString("0.00");//力矩      平時
-                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh.ToString("0.00");//傾倒彎矩  平時
-                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh_E.ToString("0.00");//水平分力  地震時
-                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fhy_E.ToString("0.00");//力矩      地震時
-                        TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩  地震時
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = "計";
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh.ToString("0.00");//水平分力  平時
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fhy.ToString("0.00");//力矩      平時
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh.ToString("0.00");//傾倒彎矩  平時
+                        TableRef.Rows[rowstart].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh_E.ToString("0.00");//水平分力  地震時
+                        TableRef.Rows[rowstart].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fhy_E.ToString("0.00");//力矩      地震時
+                        TableRef.Rows[rowstart].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩  地震時
 
                         rowstart = rowend + 1;
                     }
-                    rowstart = 2;
-                    rowend = 2;
+                    /*
+                    rowstart = 3;
+                    rowend = 3;
                     minuscount = 0;
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
@@ -4200,11 +4343,12 @@ namespace VE_SD
                         minuscount += (rowend - rowstart + 1 - 1);
                         rowstart = rowend + 1;
                     }
-                    /*TableRef.Rows[1].Cells[6].Merge(TableRef.Rows[1].Cells[8]);
-                    TableRef.Rows[1].Cells[3].Merge(TableRef.Rows[1].Cells[5]);
-                    TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
-                    TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[2]);
                     */
+                    //TableRef.Rows[1].Cells[5].Merge(TableRef.Rows[1].Cells[7]);
+                    //TableRef.Rows[1].Cells[2].Merge(TableRef.Rows[1].Cells[4]);
+                    //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
+                    //TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[2]);
+                    //*/
 
                     //第十個表格.
                     //6. 土壓垂直分力及抵抗彎矩.
@@ -4218,18 +4362,18 @@ namespace VE_SD
                     TableRef = newDocument.Tables[11];
                     for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0)-1;i++)
                     {
-                        TableRef.Rows.Add(TableRef.Rows[2]);
+                        TableRef.Rows.Add(TableRef.Rows[3]);
                     }
                     //填入數據.
                     for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0);i++)
                     {
-                        TableRef.Rows[2+i].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
-                        TableRef.Rows[2 + i].Cells[2].Range.Text =Mod.VarBank.EL_Out[i].Level_sum_Fv.ToString("0.00");//垂直分力-平時.
-                        TableRef.Rows[2 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fvx.ToString("0.00");//力臂-平時.
-                        TableRef.Rows[2 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv.ToString("0.00");//抵抗彎矩-平時.
-                        TableRef.Rows[2 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv_E.ToString("0.00");//垂直分力-平時.
-                        TableRef.Rows[2 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fvx_E.ToString("0.00");//力臂-平時.
-                        TableRef.Rows[2 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv_E.ToString("0.00");//抵抗彎矩-平時.
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = 得到英文碼(i + 1);// (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[2].Range.Text =Mod.VarBank.EL_Out[i].Level_sum_Fv.ToString("0.00");//垂直分力-平時.
+                        TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fvx.ToString("0.00");//力臂-平時.
+                        TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv.ToString("0.00");//抵抗彎矩-平時.
+                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv_E.ToString("0.00");//垂直分力-平時.
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fvx_E.ToString("0.00");//力臂-平時.
+                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FvMv_E.ToString("0.00");//抵抗彎矩-平時.
                     }
 
                     //第十二個表格.
@@ -4283,7 +4427,7 @@ namespace VE_SD
 
                         if(Mod.VarBank.EL_Out[i].EL > double.Parse(RCOL.殘留水位))
                         {
-                            TableRef.Rows[rowstart].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                            TableRef.Rows[rowstart].Cells[1].Range.Text = 得到英文碼(i + 1);//= (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                             rowstart += 1;
                             //MessageBox.Show("Passing 2");
                             continue;
@@ -4298,44 +4442,55 @@ namespace VE_SD
                         }
                         if (!UsePre) { rowend -= 1;}
 
-                        TableRef.Rows[rowend].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        
+                        TableRef.Rows[rowend].Cells[1].Range.Text = "EL" + (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         //前統計.
                         if (i!=0 && UsePre)
                         {
                             //殘留水壓
-                            TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Fw.ToString("0.00");//水平分力  平時
+                            TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_Fw.ToString("0.00");//水平分力  平時
 
                             //力矩
-                            TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].pre_total_Fwy.ToString("0.00");//力矩      平時
+                            TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].pre_total_Fwy.ToString("0.00");//力矩      平時
 
                             //傾倒彎矩
-                            TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_FwMw.ToString("0.00");//傾倒彎矩  平時
-
+                            TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].pre_sum_FwMw.ToString("0.00");//傾倒彎矩  平時
+                            for (int iii = 1; iii <= 5; iii++)
+                            {
+                                TableRef.Rows[rowstart].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                            }
                             rowstart = rowstart + 1;
                         }
                         if (!UsePre) UsePre = true;
+
+                        TableRef.Rows[rowstart].Cells[1].Range.Text = 得到英文碼(i + 1);
                         //殘留水壓
-                        TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Fw_sum.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fw_sum.ToString("0.00");
 
                         //力矩
-                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fw_y.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fw_y.ToString("0.00");
                         //傾倒彎矩.
-                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fw_Mw_sum.ToString("0.00");
-
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fw_Mw_sum.ToString("0.00");
+                        for (int iii = 1; iii <= 5; iii++)
+                        {
+                            TableRef.Rows[rowstart].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                        }
                         rowstart = rowstart + 1;
 
                         //後統計.
                         //殘留水壓
-                        TableRef.Rows[rowstart].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[2].Range.Text = "計";
+                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");
 
                         //力矩
-                        TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fwy.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_total_Fwy.ToString("0.00");
                         //傾倒彎矩.
 
-                        TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");
+                        TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");
                         rowstart = rowend + 1;
                     }
 
+                    /*
                     rowstart = 2;
                     rowend = 2;
                     minuscount = 0;
@@ -4357,7 +4512,7 @@ namespace VE_SD
                         minuscount += (rowend - rowstart + 1 - 1);
                         rowstart = rowend + 1;
                     }
-
+                    */
 
 
                     //第十四個表格.
@@ -4394,7 +4549,7 @@ namespace VE_SD
                     //填入數據.
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
-                        TableRef.Rows[3 + i].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = 得到英文碼(i + 1);// (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_W.ToString("0.00");//垂直力-壁體自重.
                         TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv.ToString("0.00");//垂直力-垂直土壓.
                         TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].VForcesum.ToString("0.00");//垂直力 -計.
@@ -4415,7 +4570,7 @@ namespace VE_SD
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
                         //"EL " +
-                        TableRef.Rows[3 + i].Cells[1].Range.Text =  (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = 得到英文碼(i + 1);// (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_W.ToString("0.00");//垂直力-壁體自重.
                         TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fv_E.ToString("0.00");//垂直力-垂直土壓.
                         TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].VForcesum_E.ToString("0.00");//垂直力 -計.
@@ -4436,7 +4591,7 @@ namespace VE_SD
                     //填入數據.
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
-                        TableRef.Rows[3 + i].Cells[1].Range.Text =(Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[1].Range.Text =  得到英文碼(i+1);// (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh.ToString("0.00");//水平力-土壓
                         TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");//水平力-殘留水壓.
                         TableRef.Rows[3 + i].Cells[4].Range.Text = RCOL.船舶牽引力;//水平力-牽引力.
@@ -4453,14 +4608,14 @@ namespace VE_SD
                     //第十九個表格.
                     //   10-2. 地震時.
                     TableRef = newDocument.Tables[19];
-                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0)-1; i++)
                     {
                         TableRef.Rows.Add(TableRef.Rows[3]);
                     }
                     //填入數據.
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
-                        TableRef.Rows[3 + i].Cells[1].Range.Text =  (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[3 + i].Cells[1].Range.Text = 得到英文碼(i + 1);//(Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh_E.ToString("0.00");//水平力-土壓
                         TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");//水平力-殘留水壓.
                         TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");//水平力-牽引力.
@@ -4490,15 +4645,20 @@ namespace VE_SD
                         }
                         for (int i2 = 0; i2 < needsize; i2++)
                         {
-                            TableRef.Rows.Add(TableRef.Rows[2]);
+                            TableRef.Rows.Add(TableRef.Rows[3]);
                         }
                     }
-                    rowstart = 2;
-                    rowend = 2;
+                    rowstart = 3;
+                    rowend = 3;
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
                         rowend = rowstart + 1;
-                        TableRef.Rows[rowend].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        //TableRef.Rows[rowend].Cells[1].Range.Text = (Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
+                        TableRef.Rows[rowstart].Cells[1].Range.Text = 得到英文碼(i + 1);
+                        for(int iii=1;iii<=6;iii++)
+                        {
+                            TableRef.Rows[rowstart].Cells[iii].Range.Borders[WORD.WdBorderType.wdBorderBottom].LineStyle = WORD.WdLineStyle.wdLineStyleNone;
+                        }
                         TableRef.Rows[rowstart].Cells[2].Range.Text = "滑動";
                         TableRef.Rows[rowstart].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].SF_slide.ToString("0.00");
                         TableRef.Rows[rowstart].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].SF_slide >= double.Parse(RCOL.平時滑動安全係數) ? "OK" : "NG";
@@ -4516,17 +4676,21 @@ namespace VE_SD
                     }
 
                     //Merge.
-                    rowstart = 2;
-                    rowend = 2;
+                    /*
+                    rowstart = 3;
+                    rowend = 3;
                     minuscount = 0;
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
                         rowend = rowstart+1;
+                                               
                         TableRef.Columns[1].Cells[rowstart - minuscount].Merge(TableRef.Columns[1].Cells[rowend - minuscount]);
                         minuscount += (rowend - rowstart + 1 - 1);
                         rowstart = rowend + 1;
                     }
-
+                    */
+                    //TableRef.Rows[1].Cells[5].Merge(TableRef.Rows[1].Cells[7]);
+                    //TableRef.Rows[1].Cells[2].Merge(TableRef.Rows[1].Cells[4]);
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
                     //TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[2]);
 
@@ -4536,35 +4700,37 @@ namespace VE_SD
                     TableRef = newDocument.Tables[22];
                     TableRef.Columns[2].Cells[2].Range.Text =Mod.VarBank.X.ToString("0.00");//平時 合力作用點X.
                     TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.X_E.ToString("0.00");//平時 合力作用點X.
-                    TableRef.Columns[2].Cells[3].Range.Text = Mod.VarBank.e.ToString("0.00");//平時 偏心量e.
-                    TableRef.Columns[3].Cells[3].Range.Text = Mod.VarBank.e_E.ToString("0.00");//地震時 偏心量e.
+                    TableRef.Columns[2].Cells[3].Range.Text = Mod.VarBank.B.ToString("0.00");
+                    TableRef.Columns[3].Cells[3].Range.Text = Mod.VarBank.B.ToString("0.00");
+                    TableRef.Columns[2].Cells[4].Range.Text = Mod.VarBank.e.ToString("0.00");//平時 偏心量e.
+                    TableRef.Columns[3].Cells[4].Range.Text = Mod.VarBank.e_E.ToString("0.00");//地震時 偏心量e.
                     if (Mod.VarBank.e <= Mod.VarBank.B/6.0)
                     {
-                        TableRef.Columns[2].Cells[4].Range.Text = "e<=" + (Mod.VarBank.B/6.0).ToString("0.00");//
+                        TableRef.Columns[2].Cells[5].Range.Text = "e<=(b/6)";// + (Mod.VarBank.B/6.0).ToString("0.00");//
                     }
                     else
                     {
-                        TableRef.Columns[2].Cells[4].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
+                        TableRef.Columns[2].Cells[5].Range.Text = "e>(b/6)";// + (Mod.VarBank.B / 6.0).ToString("0.00");
                     }
                     if (Mod.VarBank.e_E <= Mod.VarBank.B / 6.0)
                     {
-                        TableRef.Columns[3].Cells[4].Range.Text = "e<=" + (Mod.VarBank.B / 6.0).ToString("0.00");//
+                        TableRef.Columns[3].Cells[5].Range.Text = "e<=(b/6)";// + (Mod.VarBank.B / 6.0).ToString("0.00");//
                     }
                     else
                     {
-                        TableRef.Columns[3].Cells[4].Range.Text = "e>" + (Mod.VarBank.B / 6.0).ToString("0.00");
+                        TableRef.Columns[3].Cells[5].Range.Text = "e>(b/6)";// + (Mod.VarBank.B / 6.0).ToString("0.00");
                     }
                     //最大反力.
-                    TableRef.Columns[2].Cells[5].Range.Text ="最大反力P1:" + Environment.NewLine + Mod.VarBank.P1.ToString("0.00") + "(t/m^2)";
-                    TableRef.Columns[3].Cells[5].Range.Text = "最大反力P1:" + Environment.NewLine + Mod.VarBank.P1_E.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[2].Cells[6].Range.Text ="最大反力P1=" + Environment.NewLine + Mod.VarBank.P1.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[3].Cells[6].Range.Text = "最大反力P1=" + Environment.NewLine + Mod.VarBank.P1_E.ToString("0.00") + "(t/m^2)";
 
                     //最小反力.
-                    TableRef.Columns[2].Cells[6].Range.Text = "最小反力P2:" + Environment.NewLine + Mod.VarBank.P2.ToString("0.00") + "(t/m^2)";
-                    TableRef.Columns[3].Cells[6].Range.Text = "最小反力P2:" + Environment.NewLine + Mod.VarBank.P2_E.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[2].Cells[7].Range.Text = "最小反力P2=" + Environment.NewLine + Mod.VarBank.P2.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[3].Cells[7].Range.Text = "最小反力P2=" + Environment.NewLine + Mod.VarBank.P2_E.ToString("0.00") + "(t/m^2)";
 
                     //壁體底部反力分布寬B'
-                    TableRef.Columns[2].Cells[7].Range.Text = "壁體底部反力分佈寬:" + Environment.NewLine + Mod.VarBank.bplum .ToString("0.00") + "(m)";
-                    TableRef.Columns[3].Cells[7].Range.Text = "壁體底部反力分佈寬:" + Environment.NewLine + Mod.VarBank.bplum_E.ToString("0.00") + "(m)";
+                    TableRef.Columns[2].Cells[8].Range.Text = "壁體底部反力分佈寬=" + Environment.NewLine + Mod.VarBank.bplum .ToString("0.00") + "(m)";
+                    TableRef.Columns[3].Cells[8].Range.Text = "壁體底部反力分佈寬=" + Environment.NewLine + Mod.VarBank.bplum_E.ToString("0.00") + "(m)";
 
                    
                     //
@@ -4577,17 +4743,17 @@ namespace VE_SD
                     TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.sita_E.ToString("0.00") + "°";
 
                     //基礎拋石底面反力分布寬B''.
-                    TableRef.Columns[2].Cells[3].Range.Text = "b'':" + Mod.VarBank.b_2plum.ToString("0.00") + "(m)";
-                    TableRef.Columns[3].Cells[3].Range.Text = "b'':" + Mod.VarBank.b_2plum_E.ToString("0.00") + "(m)";
+                    TableRef.Columns[2].Cells[3].Range.Text = "b''=" + Mod.VarBank.b_2plum.ToString("0.00") + "(m)";
+                    TableRef.Columns[3].Cells[3].Range.Text = "b''=" + Mod.VarBank.b_2plum_E.ToString("0.00") + "(m)";
 
                     //基礎拋石底面反力R1及R2.
-                    TableRef.Columns[2].Cells[4].Range.Text = "R1 = " + Mod.VarBank.R1.ToString("0.00") + "(t/m^2)" + Environment.NewLine + "R2 = " + Mod.VarBank.R2.ToString("0.00") + "(t/m^2)";
-                    TableRef.Columns[3].Cells[4].Range.Text = "R1 = " + Mod.VarBank.R1_E.ToString("0.00") + "(t/m^2)" + Environment.NewLine + "R2 = " + Mod.VarBank.R2_E.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[2].Cells[4].Range.Text = "R1= " + Mod.VarBank.R1.ToString("0.00") + "(t/m^2)" + Environment.NewLine + "R2= " + Mod.VarBank.R2.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[3].Cells[4].Range.Text = "R1= " + Mod.VarBank.R1_E.ToString("0.00") + "(t/m^2)" + Environment.NewLine + "R2= " + Mod.VarBank.R2_E.ToString("0.00") + "(t/m^2)";
 
 
                     //基礎地盤之容許承載力Qa.
-                    TableRef.Columns[2].Cells[5].Range.Text = "Qu =" + Mod.VarBank.Qu.ToString("0.00") + "(t/m^2)" + Environment.NewLine + "qa =" + Mod.VarBank.qa.ToString("0.00") + "(t/m^2)";
-                    TableRef.Columns[3].Cells[5].Range.Text = "Qu =" + Mod.VarBank.Qu_E .ToString("0.00") + "(t/m^2)" + Environment.NewLine + "qa =" + Mod.VarBank.qa_E.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[2].Cells[5].Range.Text = "Qu=" + Mod.VarBank.Qu.ToString("0.00") + "(t/m^2)" + Environment.NewLine + "qa=" + Mod.VarBank.qa.ToString("0.00") + "(t/m^2)";
+                    TableRef.Columns[3].Cells[5].Range.Text = "Qu=" + Mod.VarBank.Qu_E .ToString("0.00") + "(t/m^2)" + Environment.NewLine + "qa=" + Mod.VarBank.qa_E.ToString("0.00") + "(t/m^2)";
 
                     //判定.
                     if(Mod.VarBank.qa>=Mod.VarBank.R1)
