@@ -227,11 +227,11 @@ namespace VE_SD
 
             // 1-2. Level給定
             //Mod.NewLevel(3.2);
-            Mod.NewLevel(1.2);
-            Mod.NewLevel(-0.5);
-            Mod.NewLevel(-2.00);
-            Mod.NewLevel(-3.25);
-            Mod.NewLevel(-4.5);
+            //Mod.NewLevel(2.7);
+            //Mod.NewLevel(1.0);
+            Mod.NewLevel(-0.6);
+            Mod.NewLevel(-2.2);
+            Mod.NewLevel(-3.5);
 
 
             // 2. 背景參數帶入
