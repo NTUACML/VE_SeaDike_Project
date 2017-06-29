@@ -125,7 +125,7 @@ namespace VE_SD
         {
             if (isExporting || isCalc)
             { return; }
-            
+            MessageBox.Show("H0");
             string 驗證Msg = "";
             if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
             {
@@ -140,6 +140,7 @@ namespace VE_SD
                 MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
+            MessageBox.Show("H1");
             tabControl1.SelectedIndex = 2;
             isCalc = true;
 
@@ -151,16 +152,19 @@ namespace VE_SD
                 //btn_OutputExcel.Enabled = false;
                 //輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
                 //btn_LogOutput.Enabled = false;
+                isCalc = false;
                 return;
             }
-
+            MessageBox.Show("H2");
 
             if (BlockMainArray.GetLength(0)==0)
             {
                 MessageBox.Show("沒有任何東西需要被檢核");
+                isCalc = false;
                 return;
             }
 
+            MessageBox.Show("H3");
             //計算Block的平均摩擦係數.
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
             {
@@ -193,10 +197,11 @@ namespace VE_SD
                     }
                     if (getv == -9999)
                     {
-                        MessageBox.Show("出現程式錯誤!!!!此時應該要排除找不到摩擦係數的問題!!!");
+                        MessageBox.Show("出現無配對的摩擦係數設定!!!" + Environment.NewLine + "為" + M1.ToString() + "與" + M2.ToString() + Environment.NewLine + "請手動於專案檔內補齊","摩擦係數設定錯誤",MessageBoxButtons.OK,MessageBoxIcon.Error);
                         //btn_OutputExcel.Enabled = false;
                         //輸出Word檔案ToolStripMenuItem.Enabled = btn_OutputExcel.Enabled;
                         //btn_LogOutput.Enabled = false;
+                        isCalc = false;
                         return;
                     }
                     sumv += getv;
@@ -205,11 +210,12 @@ namespace VE_SD
                 BlockMainArray[i].平均摩擦係數 = sumv;
             }
             //***********************************************************************************************************************//
+            MessageBox.Show("H4");
             //帶入計算
             Mod = new Module2();
             //MessageBox.Show("這是測試");
             Mod.DeleteAllBlockData();
-
+            MessageBox.Show("H5");
             // 1-1. Block給定.
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
             {
@@ -224,7 +230,7 @@ namespace VE_SD
                     Mod.SetBlockCoord(nowid, getx[i2], gety[i2]);
                 }
             }
-
+            MessageBox.Show("H6");
             // 1-2. Level給定
             //Mod.NewLevel(3.2);
             Mod.NewLevel(1.2);
@@ -232,29 +238,38 @@ namespace VE_SD
             Mod.NewLevel(-2.00);
             Mod.NewLevel(-3.25);
             Mod.NewLevel(-4.5);
-
+            MessageBox.Show("H7");
 
             // 2. 背景參數帶入
             //- 水位設計輸入
             Mod.WaterDesignInput(double.Parse(textBox_設計潮位高.Text), double.Parse(textBox_設計潮位低.Text), double.Parse(textBox_殘留水位.Text));
+            MessageBox.Show("H8");
             //- 力量輸入
             Mod.ForceDesignInput(double.Parse(textBox_平時上載荷重.Text), double.Parse(textBox_地震時上載荷重.Text), double.Parse(textBox_船舶牽引力.Text));
+            MessageBox.Show("H9");
             //- 設計震度參數輸入
             Mod.EarthquakeDesignInput(double.Parse(textBox_陸上設計震度.Text), double.Parse(textBox_水中設計震度.Text));
+            MessageBox.Show("H10");
             //- 背填料參數輸入
             Mod.MaterialDesignInput(double.Parse(textBox_背填料內摩擦角.Text), double.Parse(textBox_背填料壁面摩擦角.Text), double.Parse(textBox_背填料水平傾斜角.Text), double.Parse(textBox_BoatColumnHeight.Text));
+            MessageBox.Show("H11");
             //- 基礎參數輸入
             Mod.BaseDesignInput(double.Parse(textBox_入土深度.Text), double.Parse(textBox_拋石厚度.Text), double.Parse(textBox_地盤基礎內摩擦角.Text), double.Parse(textBox_土壤凝聚力.Text), double.Parse(textBox_SoilR_Earth.Text), double.Parse(textBox_SoilR_Water.Text), double.Parse(textBox_rw.Text));
+            MessageBox.Show("H12");
             //- Meyerhof's Factor
             Mod.MF_DesignInput(double.Parse(textBox_Nq.Text), double.Parse(textBox_Nr.Text), double.Parse(textBox_Nc.Text));
+            MessageBox.Show("H13");
             //- Safety Factor
             Mod.SF_CoefInput(double.Parse(textBox_平時滑動安全係數.Text), double.Parse(textBox_平時傾倒安全係數.Text), double.Parse(textBox_平時地盤承載力安全係數.Text));
+            MessageBox.Show("H14");
             //- Safety Factor
             Mod.SF_CoefInput_E(double.Parse(textBox_地震時滑動安全係數.Text), double.Parse(textBox_地震時傾倒安全係數.Text), double.Parse(textBox_地震時地盤承載力安全係數.Text));
+            MessageBox.Show("H15");
             //- 土壓係數輸入
             Mod.KaInput(double.Parse(textBox_KaStage1.Text), double.Parse(textBox_KaStage2.Text), double.Parse(textBox_KaStage3.Text));
 
-            if(rb_Meyerhof.Checked)
+            MessageBox.Show("H16");
+            if (rb_Meyerhof.Checked)
             {
                 //使用公式1.
                 Mod.MeyerhofCheck(true);
@@ -264,6 +279,7 @@ namespace VE_SD
                 //使用公式2.
                 Mod.MeyerhofCheck(false);
             }
+            MessageBox.Show("H17");
             // Go Go Go~
             Mod.Run();
             isCalc = false;
