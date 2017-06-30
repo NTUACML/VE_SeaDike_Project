@@ -35,6 +35,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox1.Location = new System.Drawing.Point(-3, 2);
             this.textBox1.Multiline = true;
@@ -48,9 +49,9 @@
             // btn_Sure
             // 
             this.btn_Sure.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_Sure.Location = new System.Drawing.Point(349, 409);
+            this.btn_Sure.Location = new System.Drawing.Point(402, 409);
             this.btn_Sure.Name = "btn_Sure";
-            this.btn_Sure.Size = new System.Drawing.Size(123, 38);
+            this.btn_Sure.Size = new System.Drawing.Size(70, 38);
             this.btn_Sure.TabIndex = 1;
             this.btn_Sure.Text = "確定";
             this.btn_Sure.UseVisualStyleBackColor = true;
@@ -60,6 +61,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(484, 455);
             this.Controls.Add(this.btn_Sure);
             this.Controls.Add(this.textBox1);

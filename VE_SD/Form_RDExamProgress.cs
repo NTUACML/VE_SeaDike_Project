@@ -5110,7 +5110,7 @@ namespace VE_SD
             Array.Sort(ELA);
             //- Push Level
             Mod.DeleteAllLevel();
-            for(int i = 0; i<ELA.GetLength(0); ++i)
+            for(int i = 0; i<ELA.GetLength(0); i++)
             {
                 Mod.NewLevel(ELA[i]);
             }
@@ -7376,15 +7376,13 @@ namespace VE_SD
         {
 
         }
-        #region 檢視使用者說明書
 
+        #region 檢視使用者說明書
         private void 檢視使用者說明書ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isExporting) { return; }
             mainForm.檢示使用者說明書ToolStripMenuItem_Click(sender, e);//呼叫相同方法.
         }
-
-
         #endregion
         #region "輸出Word報表"
         private string WordOutputMsg = "";
@@ -8417,12 +8415,10 @@ namespace VE_SD
             }
         }
         #endregion
-
         private void button2_Click(object sender, EventArgs e)
         {
             btn_Test_Click(sender, e);
         }
-
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(isExporting)
@@ -8430,7 +8426,6 @@ namespace VE_SD
                 return;
             }
         }
-
         private void Form_RDExamProgress_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (isExporting) { e.Cancel=true; }
