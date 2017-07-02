@@ -64,12 +64,7 @@ void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, doub
 	Var->rw = _rw;
 }
 
-void VE_SD::Module2::MF_DesignInput(double _Nq, double _Nr, double _Nc)
-{
-	Var->Nq = _Nq;
-	Var->Nr = _Nr;
-	Var->Nc = _Nc;
-}
+
 
 void VE_SD::Module2::SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF)
 {
@@ -521,6 +516,10 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "Qu_E " << Var->Qu_E << std::endl;
 	FILE << "qa " << Var->qa << std::endl;
 	FILE << "qa_E " << Var->qa_E << std::endl;
+	FILE << "Base_Phi " << Var->BasePhi << std::endl;
+	FILE << "Nc " << Var->Nc << std::endl;
+	FILE << "Nq " << Var->Nq << std::endl;
+	FILE << "Nr " << Var->Nr << std::endl;
 	//FILE << "D" << Var->D << std::endl;
 	//FILE << "U" << Var->U << std::endl;
 	//FILE << "BaseSF" << Var->BaseSF << std::endl;

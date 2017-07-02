@@ -703,6 +703,11 @@ bool Module2_Internal::BaseForceCheck() {
 
 	//Var->Qu = 72.58;
 	//Var->Qu_E = 25.04;
+	//double Nc, Nq, Nr;
+	Var->Nq = exp(M_PI*tan((Var->BasePhi)* M_PI / 180))* std::pow(tan((45 + Var->BasePhi / 2)* M_PI / 180), 2.0);
+	Var->Nc = (Var->Nq - 1)*(cos(Var->BasePhi* M_PI / 180) / sin(Var->BasePhi* M_PI / 180));
+	Var->Nr = (Var->Nq - 1)*tan((1.4*Var->BasePhi)* M_PI / 180);
+
 	if (Var->MeyerhofCK == true) {
 		Var->Qu = Var->C*Var->Nc*ic*dc + Var->soilR_Water*Df*Var->Nq*dq*iq + 0.5*Var->soilR_Water*Var->b_2plum*Var->Nr*ir*dr;
 		Var->Qu_E = Var->C*Var->Nc*ic_E*dc + Var->soilR_Water*Df*Var->Nq*dq*iq_E + 0.5*Var->soilR_Water*Var->b_2plum_E*Var->Nr*ir_E*dr;
