@@ -520,6 +520,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "Nc " << Var->Nc << std::endl;
 	FILE << "Nq " << Var->Nq << std::endl;
 	FILE << "Nr " << Var->Nr << std::endl;
+	FILE << "K" << Var->K << std::endl;
 	//FILE << "D" << Var->D << std::endl;
 	//FILE << "U" << Var->U << std::endl;
 	//FILE << "BaseSF" << Var->BaseSF << std::endl;
