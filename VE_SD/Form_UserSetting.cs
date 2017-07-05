@@ -32,6 +32,7 @@ namespace VE_SD
             //根據目前使用者偏好設定,顯示相關之控制項狀態.
             chk_RemoveUserLog.Checked = mainForm.RemoveLoginDataWhenClosing;
             chk_ServiceOut.Checked = mainForm.提供服務訊息;
+            cmb_軟體開啟時的視窗大小.SelectedItem = mainForm.軟體開啟時的視窗大小;
         }
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -45,6 +46,7 @@ namespace VE_SD
 
             mainForm.RemoveLoginDataWhenClosing = chk_RemoveUserLog.Checked;
             mainForm.提供服務訊息 = chk_ServiceOut.Checked;
+            mainForm.軟體開啟時的視窗大小 = cmb_軟體開啟時的視窗大小.SelectedItem.ToString();
             //完成後關閉表單.
             this.Close();
         }

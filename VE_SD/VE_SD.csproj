@@ -138,6 +138,18 @@
     <Compile Include="FrmShowMsg.Designer.cs">
       <DependentUpon>FrmShowMsg.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_AdjustChartXYAspectRatio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_AdjustChartXYAspectRatio.Designer.cs">
+      <DependentUpon>frm_AdjustChartXYAspectRatio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_AnnotationSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_AnnotationSetting.Designer.cs">
+      <DependentUpon>Frm_AnnotationSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="MTExameTextBox_Object_Class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -176,6 +188,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmShowMsg.resx">
       <DependentUpon>FrmShowMsg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_AdjustChartXYAspectRatio.resx">
+      <DependentUpon>frm_AdjustChartXYAspectRatio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_AnnotationSetting.resx">
+      <DependentUpon>Frm_AnnotationSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
