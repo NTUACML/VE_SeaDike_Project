@@ -4069,7 +4069,7 @@ namespace VE_SD
                 //MessageBox.Show("Xmin = " + _oldXmin.ToString() + " , Xmax = " + _oldXmax.ToString());
                 float cxf = (float)ipp0.Width/ (float)(_oldXmax - _oldXmin);
                 float cyf =  (float)ipp0.Height/(float)(_oldYmax -_oldYmin);
-                MessageBox.Show("Xf = " + cxf.ToString() + ", YF = " + cyf.ToString());
+                //MessageBox.Show("Xf = " + cxf.ToString() + ", YF = " + cyf.ToString());
 
                 if(cxf<cyf)
                 {
@@ -4087,7 +4087,7 @@ namespace VE_SD
                     //MessageBox.Show(((float)(oldXmax - oldXmin) * (float)yf).ToString());
                     //float newWidth = (float)(oldXmax - oldXmin) * yf;
                     float newHeight = (float)(_oldYmax - _oldYmin) * cxf; //得到新的Y軸之大小.
-                    MessageBox.Show("Adjust from using cxf, Original Height =" + oldClientYSize.ToString() + ", New Height = " + ((int)(oldClientXSize * newHeight / (float)ipp0.Height)).ToString());
+                    //MessageBox.Show("Adjust from using cxf, Original Height =" + oldClientYSize.ToString() + ", New Height = " + ((int)(oldClientXSize * newHeight / (float)ipp0.Height)).ToString());
                     //MessageBox.Show("Using YF to adjust X width: " + newHeight.ToString());
                     //ca.InnerPlotPosition = new ElementPosition(ipp0.X, ipp0.Y,(float)(oldXmax-oldXmin)*yf , ipp0.Height);
                     chart_Plot.ClientSize = new Size(oldClientXSize, (int)(oldClientXSize*newHeight/(float)ipp0.Height));//(int)((float)oldClientYSize/(float)ipp0.Height*newWidth), oldClientYSize);
