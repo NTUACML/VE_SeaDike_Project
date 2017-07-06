@@ -119,23 +119,27 @@ namespace VE_SD
             使用者手動更新材質與摩擦 = false;
             isExporting = false;
             //Tab 1.[公用參數設定區塊]初始化
-            cmb_seawaveDir.SelectedItem = "右";
-            cmb_DeepWaveActDir.SelectedItem = "E";
-            textBox_H0.Text = "13.22";
-            textBox_T0.Text = "14.30";
-            textBox_GroundELE.Text = "-7.5";
-            textBox_ArmorBlockEle.Text = "5.66";
-            textBox_HWL.Text = "+2.44";
-            textBox_Slope.Text = "0.025";
-            textBox_Kr.Text = "0.810";
-            textBox_Ks.Text = "1.117";
-            textBox_Kd.Text = "1.000";
-            textBox_Lenda.Text = "0.90";
-            textBox_Beta.Text = "0";
-            textBox_BataFix.Text = "0";
-            textBox_SFSlide.Text = "1.2";
-            textBox_SFOver.Text = "1.2";
-            textBox_SeaGamma.Text = "1.03";
+
+            if (mainForm.防波堤檢核開啟時預設數字)
+            {
+                cmb_seawaveDir.SelectedItem = "右";
+                cmb_DeepWaveActDir.SelectedItem = "E";
+                textBox_H0.Text = "13.22";
+                textBox_T0.Text = "14.30";
+                textBox_GroundELE.Text = "-7.5";
+                textBox_ArmorBlockEle.Text = "5.66";
+                textBox_HWL.Text = "+2.44";
+                textBox_Slope.Text = "0.025";
+                textBox_Kr.Text = "0.810";
+                textBox_Ks.Text = "1.117";
+                textBox_Kd.Text = "1.000";
+                textBox_Lenda.Text = "0.90";
+                textBox_Beta.Text = "0";
+                textBox_BataFix.Text = "0";
+                textBox_SFSlide.Text = "1.2";
+                textBox_SFOver.Text = "1.2";
+                textBox_SeaGamma.Text = "1.03";
+            }
 
             chk_BlockWeightCalc_HO.Checked = false;
             chk_BlockWeightCalc_HE.Checked = false;
@@ -250,7 +254,10 @@ namespace VE_SD
 
             //2016/03/26.
             //加入讀取預設摩擦係數設定之功能於此.
-            讀入摩擦係數初始設定();
+            if (mainForm.防波堤檢核開啟時預設數字)
+            {
+                讀入摩擦係數初始設定();
+            }
             使用者手動更新材質與摩擦 = true;
 
             chart_Plot.Series.Clear();
@@ -6179,7 +6186,7 @@ namespace VE_SD
             e.Handled = true;
 
         }
-        bool hh = false;
+        //bool hh = false;
         private void textBox_CheckMessageShow_KeyDown(object sender, KeyEventArgs e)
         {
             //檢核頁面顯示計算訊息的textbox,限制只能按下Ctrl+C[複製],Ctrl+A[全選]. 
@@ -6190,18 +6197,18 @@ namespace VE_SD
                 //MessageBox.Show("Yes");
                 ((TextBox)sender).SelectAll();
                 e.Handled = true;
-                hh = true;
+                //hh = true;
             }
             else if(e.Control && e.KeyCode==Keys.C)
             {
                 e.Handled = true;
-                hh = true;
+                //hh = true;
             }
             else
             {
                 //MessageBox.Show("Handle event");
                 e.Handled = true;
-                hh = true;
+                //hh = true;
             }
         }
         #region 關閉表單

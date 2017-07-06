@@ -33,6 +33,9 @@ namespace VE_SD
             chk_RemoveUserLog.Checked = mainForm.RemoveLoginDataWhenClosing;
             chk_ServiceOut.Checked = mainForm.提供服務訊息;
             cmb_軟體開啟時的視窗大小.SelectedItem = mainForm.軟體開啟時的視窗大小;
+
+            chk_防波堤預設填入數字.Checked = mainForm.防波堤檢核開啟時預設數字;
+            chk_碼頭預設填入數字.Checked = mainForm.碼頭檢核開啟時預設數字;
         }
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -47,6 +50,8 @@ namespace VE_SD
             mainForm.RemoveLoginDataWhenClosing = chk_RemoveUserLog.Checked;
             mainForm.提供服務訊息 = chk_ServiceOut.Checked;
             mainForm.軟體開啟時的視窗大小 = cmb_軟體開啟時的視窗大小.SelectedItem.ToString();
+            mainForm.防波堤檢核開啟時預設數字 = chk_防波堤預設填入數字.Checked;
+            mainForm.碼頭檢核開啟時預設數字 = chk_碼頭預設填入數字.Checked;
             //完成後關閉表單.
             this.Close();
         }

@@ -28,10 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.btn_AnnotationReset = new System.Windows.Forms.Button();
+            this.btn_YXRatioReset = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -109,11 +113,37 @@
             131072});
             this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
+            // btn_AnnotationReset
+            // 
+            this.btn_AnnotationReset.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btn_AnnotationReset.Location = new System.Drawing.Point(160, 10);
+            this.btn_AnnotationReset.Name = "btn_AnnotationReset";
+            this.btn_AnnotationReset.Size = new System.Drawing.Size(48, 24);
+            this.btn_AnnotationReset.TabIndex = 5;
+            this.btn_AnnotationReset.Text = "Reset";
+            this.toolTip1.SetToolTip(this.btn_AnnotationReset, "Reset Block Annotation文字大小");
+            this.btn_AnnotationReset.UseVisualStyleBackColor = true;
+            this.btn_AnnotationReset.Click += new System.EventHandler(this.btn_AnnotationReset_Click);
+            // 
+            // btn_YXRatioReset
+            // 
+            this.btn_YXRatioReset.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btn_YXRatioReset.Location = new System.Drawing.Point(160, 77);
+            this.btn_YXRatioReset.Name = "btn_YXRatioReset";
+            this.btn_YXRatioReset.Size = new System.Drawing.Size(48, 24);
+            this.btn_YXRatioReset.TabIndex = 6;
+            this.btn_YXRatioReset.Text = "Reset";
+            this.toolTip1.SetToolTip(this.btn_YXRatioReset, "Reset Block繪圖區的Y/X Aspect Ratio");
+            this.btn_YXRatioReset.UseVisualStyleBackColor = true;
+            this.btn_YXRatioReset.Click += new System.EventHandler(this.btn_YXRatioReset_Click);
+            // 
             // Frm_AnnotationSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(212, 116);
+            this.Controls.Add(this.btn_YXRatioReset);
+            this.Controls.Add(this.btn_AnnotationReset);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericUpDown1);
@@ -123,6 +153,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Frm_AnnotationSetting";
             this.Text = "Block繪圖區設定";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Frm_AnnotationSetting_FormClosed);
             this.Load += new System.EventHandler(this.Frm_AnnotationSetting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -137,5 +168,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Button btn_AnnotationReset;
+        private System.Windows.Forms.Button btn_YXRatioReset;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

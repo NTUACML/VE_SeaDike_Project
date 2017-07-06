@@ -247,45 +247,40 @@
             // 舊檔案1ToolStripMenuItem
             // 
             this.舊檔案1ToolStripMenuItem.Name = "舊檔案1ToolStripMenuItem";
-            this.舊檔案1ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D1)));
-            this.舊檔案1ToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.舊檔案1ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
+            this.舊檔案1ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.舊檔案1ToolStripMenuItem.Text = "舊檔案1";
             this.舊檔案1ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案1ToolStripMenuItem_Click);
             // 
             // 舊檔案2ToolStripMenuItem
             // 
             this.舊檔案2ToolStripMenuItem.Name = "舊檔案2ToolStripMenuItem";
-            this.舊檔案2ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D2)));
-            this.舊檔案2ToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.舊檔案2ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
+            this.舊檔案2ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.舊檔案2ToolStripMenuItem.Text = "舊檔案2";
             this.舊檔案2ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案2ToolStripMenuItem_Click);
             // 
             // 舊檔案3ToolStripMenuItem
             // 
             this.舊檔案3ToolStripMenuItem.Name = "舊檔案3ToolStripMenuItem";
-            this.舊檔案3ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D3)));
-            this.舊檔案3ToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.舊檔案3ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D3)));
+            this.舊檔案3ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.舊檔案3ToolStripMenuItem.Text = "舊檔案3";
             this.舊檔案3ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案3ToolStripMenuItem_Click);
             // 
             // 舊檔案4ToolStripMenuItem
             // 
             this.舊檔案4ToolStripMenuItem.Name = "舊檔案4ToolStripMenuItem";
-            this.舊檔案4ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D4)));
-            this.舊檔案4ToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.舊檔案4ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D4)));
+            this.舊檔案4ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.舊檔案4ToolStripMenuItem.Text = "舊檔案4";
             this.舊檔案4ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案4ToolStripMenuItem_Click);
             // 
             // 舊檔案5ToolStripMenuItem
             // 
             this.舊檔案5ToolStripMenuItem.Name = "舊檔案5ToolStripMenuItem";
-            this.舊檔案5ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D5)));
-            this.舊檔案5ToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.舊檔案5ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D5)));
+            this.舊檔案5ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.舊檔案5ToolStripMenuItem.Text = "舊檔案5";
             this.舊檔案5ToolStripMenuItem.Click += new System.EventHandler(this.舊檔案5ToolStripMenuItem_Click);
             // 
@@ -460,6 +455,7 @@
             this.tabPage1.Size = new System.Drawing.Size(1239, 634);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "1. 設計條件參數";
+            this.toolTip1.SetToolTip(this.tabPage1, "填入設計相關參數");
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // gp_一般係數設定
@@ -1080,9 +1076,9 @@
             this.label26.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label26.Location = new System.Drawing.Point(6, 33);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(244, 20);
+            this.label26.Size = new System.Drawing.Size(124, 20);
             this.label26.TabIndex = 51;
-            this.label26.Text = "平時(無設計震度k=0)土壓係數Ka";
+            this.label26.Text = "平時土壓係數Ka";
             // 
             // label27
             // 
@@ -1287,6 +1283,7 @@
             this.tabPage_MaterialAndFirction.Size = new System.Drawing.Size(1239, 634);
             this.tabPage_MaterialAndFirction.TabIndex = 3;
             this.tabPage_MaterialAndFirction.Text = "2. 使用材質與摩擦係數設定";
+            this.toolTip1.SetToolTip(this.tabPage_MaterialAndFirction, "填入使用之材質與材質間之摩擦係數值");
             this.tabPage_MaterialAndFirction.UseVisualStyleBackColor = true;
             // 
             // groupBox4
@@ -1469,6 +1466,7 @@
             this.tabPage2.Size = new System.Drawing.Size(1239, 634);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "3. 型塊設定";
+            this.toolTip1.SetToolTip(this.tabPage2, "設定型塊");
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // ELDGV1
@@ -1640,6 +1638,7 @@
             this.tabPage3.Size = new System.Drawing.Size(1239, 634);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "4. 檢核";
+            this.toolTip1.SetToolTip(this.tabPage3, "進行檢核並輸出結果檔案");
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // gp_ExameControl

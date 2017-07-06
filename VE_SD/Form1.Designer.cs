@@ -62,6 +62,7 @@
             this.bk_SendFIle = new System.ComponentModel.BackgroundWorker();
             this.bk_AccessServerForDownload = new System.ComponentModel.BackgroundWorker();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.碼頭檢核ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -137,7 +138,8 @@
             this.海堤檢核ToolStripMenuItem,
             this.海堤檢核給Kavy玩ToolStripMenuItem,
             this.測試傳送遠端ToolStripMenuItem,
-            this.測試密碼轉換ToolStripMenuItem});
+            this.測試密碼轉換ToolStripMenuItem,
+            this.碼頭檢核ToolStripMenuItem});
             this.功能ToolStripMenuItem.Name = "功能ToolStripMenuItem";
             this.功能ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.功能ToolStripMenuItem.Text = "功能";
@@ -146,7 +148,7 @@
             // 
             this.海堤檢核ToolStripMenuItem.Name = "海堤檢核ToolStripMenuItem";
             this.海堤檢核ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.海堤檢核ToolStripMenuItem.Text = "海堤檢核";
+            this.海堤檢核ToolStripMenuItem.Text = "防波堤檢核";
             this.海堤檢核ToolStripMenuItem.Click += new System.EventHandler(this.海堤檢核ToolStripMenuItem_Click);
             // 
             // 海堤檢核給Kavy玩ToolStripMenuItem
@@ -244,9 +246,8 @@
             // TSP_Validate
             // 
             this.TSP_Validate.Name = "TSP_Validate";
-            this.TSP_Validate.Size = new System.Drawing.Size(128, 25);
-            this.TSP_Validate.Text = "toolStripStatusLabel1";
-            this.TSP_Validate.Visible = false;
+            this.TSP_Validate.Size = new System.Drawing.Size(94, 25);
+            this.TSP_Validate.Text = "                             ";
             // 
             // groupBox1
             // 
@@ -292,7 +293,7 @@
             this.btn_StandardMT.Name = "btn_StandardMT";
             this.btn_StandardMT.Size = new System.Drawing.Size(369, 115);
             this.btn_StandardMT.TabIndex = 1;
-            this.btn_StandardMT.Text = "碼頭模組";
+            this.btn_StandardMT.Text = "碼頭檢核";
             this.btn_StandardMT.UseVisualStyleBackColor = true;
             this.btn_StandardMT.Click += new System.EventHandler(this.button1_Click);
             this.btn_StandardMT.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
@@ -371,6 +372,13 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // 碼頭檢核ToolStripMenuItem
+            // 
+            this.碼頭檢核ToolStripMenuItem.Name = "碼頭檢核ToolStripMenuItem";
+            this.碼頭檢核ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.碼頭檢核ToolStripMenuItem.Text = "碼頭檢核";
+            this.碼頭檢核ToolStripMenuItem.Click += new System.EventHandler(this.碼頭檢核ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -438,6 +446,7 @@
         private System.ComponentModel.BackgroundWorker bk_AccessServerForDownload;
         private System.Windows.Forms.ToolStripStatusLabel TSP_Validate;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripMenuItem 碼頭檢核ToolStripMenuItem;
     }
 }
 
