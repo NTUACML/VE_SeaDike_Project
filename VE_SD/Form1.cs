@@ -34,6 +34,10 @@ namespace VE_SD
         private string Exepath = System.IO.Directory.GetCurrentDirectory();
         private string PORT = "2016";
         private bool _提供服務訊息=true;//是否提供服務訊息傳送到主機.
+        private static string _軟體開啟時的視窗大小="正常";
+
+        private static string[] photo = new string[] { };
+        private static Dictionary<int, int> 照片對照表 = new Dictionary<int, int>();
         //UdpClient U;//宣告UDP通訊物件.
         //Thread th;//宣告監聽用執行緒.
 
@@ -77,6 +81,11 @@ namespace VE_SD
             get { return _提供服務訊息; }
             set { _提供服務訊息 =value; }
         }
+        public string 軟體開啟時的視窗大小
+        {
+            get { return _軟體開啟時的視窗大小; }
+            set { _軟體開啟時的視窗大小 = value; }
+        }
         public string 程式運作路徑
         {
             get { return Exepath; }
@@ -97,6 +106,8 @@ namespace VE_SD
             TSSTATUS_label.Text = "歡迎使用浩海工程顧問公司檢核程式!";
             Form_Welcome fwel = new Form_Welcome();
             fwel.ShowDialog();
+
+
 
 
             //跳出登入視窗.
@@ -121,6 +132,31 @@ namespace VE_SD
             //TSP_Progressbar.RightToLeft = RightToLeft.No;
             //TSP_Progressbar.Visible = true;
             //TSP_Progressbar.Style = ProgressBarStyle.Marquee;
+            Array.Resize(ref photo, 2);
+            photo[0] = "STDVESD";
+            photo[1] = "MTExamVESD";
+
+            //載入圖檔;
+            imageList1.ImageSize = new Size(256, 150);// 200);
+            imageList1.ColorDepth = ColorDepth.Depth32Bit;
+            int ic = 0;
+            for(int i=0;i<=photo.GetUpperBound(0);i++)
+            {
+                if(File.Exists(Exepath + "\\PIC\\" + photo[i] +".JPG"))
+                {
+                    imageList1.Images.Add(Image.FromFile(Exepath + "\\PIC\\" + photo[i] + ".JPG"));//new Bitmap(Exepath + "\\PIC\\" + photo[i] + ".JPG"));
+
+                    照片對照表.Add(i, ic);
+                    ic += 1;
+                }
+                else
+                {
+                    照片對照表.Add(i, -9999);
+                }
+            }
+            
+            
+
         }
         public void LoadingProgramSystemReference()
         {
@@ -137,6 +173,7 @@ namespace VE_SD
             doc.Load(SystemReferenceFileName);
             bool 提供服務訊息Inner = true;
             bool 每次關閉軟體後刪除使用者登入資訊 = false;
+            string 開啟軟體時的視窗大小 = null;
             try
             {
                 //開啟失敗,則跳出.
@@ -165,6 +202,18 @@ namespace VE_SD
                     //MessageBox.Show("H4");
                     return;
                 }
+
+                RNode = doc.SelectSingleNode("Root/啟動時視窗大小");
+                if(object.Equals(RNode,null))
+                {
+                    return;
+                }
+                Relement = (XmlElement)RNode;
+                開啟軟體時的視窗大小 = Relement.GetAttribute("Value").ToString();
+                if (開啟軟體時的視窗大小!="正常" && 開啟軟體時的視窗大小 != "最大")
+                {
+                    return;
+                }
             }
             catch(Exception ex)
             {
@@ -174,9 +223,7 @@ namespace VE_SD
 
             _RemoveLogInDataWhenClosing = 每次關閉軟體後刪除使用者登入資訊;
             _提供服務訊息 = 提供服務訊息Inner;
-
-
-
+            _軟體開啟時的視窗大小 = 開啟軟體時的視窗大小;
         }
         public void SavingProgramSystemReference()
         {
@@ -197,9 +244,14 @@ namespace VE_SD
             XmlElement 提供服務訊息Node = doc.CreateElement("提供服務訊息");
             提供服務訊息Node.SetAttribute("Value", _提供服務訊息.ToString());
 
+            XmlElement 開啟軟體時的視窗大小Node = doc.CreateElement("開啟軟體時的視窗大小");
+            開啟軟體時的視窗大小Node.SetAttribute("Value", _軟體開啟時的視窗大小);
+
 
             Root.AppendChild(每次關閉軟體後刪除使用者登入資訊);
             Root.AppendChild(提供服務訊息Node);
+            Root.AppendChild(開啟軟體時的視窗大小Node);
+
 
             doc.Save(SystemReferenceFileName);
 
@@ -320,6 +372,18 @@ namespace VE_SD
         {
             //MessageBox.Show(Exepath);
             this.textBox_ItemDescp.Text = "此為防波堤檢核程式,使用者須輸入計算所需之參數以求得防波堤設計是否符合所需之標準";
+            /*
+            if(照片對照表[0]==-9999)
+            {
+                //什麼事情都不做.
+                this.pictureBox_ItemDescp.Image = null;
+            }
+            else
+            {
+                this.pictureBox_ItemDescp.Image = imageList1.Images[照片對照表[0]];
+            }
+            */
+            
             try
             { 
               this.pictureBox_ItemDescp.Load(Exepath + "\\PIC\\STDVESD.JPG");
@@ -328,12 +392,44 @@ namespace VE_SD
             {
                 this.pictureBox_ItemDescp.Image = null;
             }
+            
 
         }
         private void btn_StandardRDC_MouseLeave(object sender, EventArgs e)
         {
             this.textBox_ItemDescp.Text = "";
             this.pictureBox_ItemDescp.Image = null;
+        }
+        private void button1_MouseEnter(object sender, EventArgs e)
+        {
+            this.textBox_ItemDescp.Text = "此為碼頭檢核程式,使用者須輸入計算所需之參數以求得碼頭設計是否符合所需之標準";
+            /*
+            if (照片對照表[1] == -9999)
+            {
+                this.pictureBox_ItemDescp.Image = null;
+            }
+            else
+            {
+                this.pictureBox_ItemDescp.Image = imageList1.Images[照片對照表[1]];
+            }
+            */
+            
+            try
+            {
+                this.pictureBox_ItemDescp.Load(Exepath + "\\PIC\\MTExamVESD.JPG");
+            }
+            catch
+            {
+                this.pictureBox_ItemDescp.Image = null;
+            }
+            
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            this.textBox_ItemDescp.Text = "";
+            this.pictureBox_ItemDescp.Image = null;
+
         }
         #region "檢視說明"
 
@@ -1781,25 +1877,10 @@ namespace VE_SD
             Form_UserSetting frm_User = new Form_UserSetting(this);
             frm_User.ShowDialog();
 
+
+            SavingProgramSystemReference();
         }
 
-        private void button1_MouseEnter(object sender, EventArgs e)
-        {
-            this.textBox_ItemDescp.Text = "此為碼頭檢核程式,使用者須輸入計算所需之參數以求得碼頭設計是否符合所需之標準";
-            try
-            {
-                //this.pictureBox_ItemDescp.Load(Exepath + "\\PIC\\STDVESD.JPG");
-            }
-            catch
-            {
-                //this.pictureBox_ItemDescp.Image = null;
-            }
-        }
 
-        private void button1_MouseLeave(object sender, EventArgs e)
-        {
-            this.textBox_ItemDescp.Text = "";
-
-        }
     }
 }

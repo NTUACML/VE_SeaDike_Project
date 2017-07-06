@@ -34,7 +34,7 @@ namespace VE_SD
 
 
         private string _過去使用檔案;
-        private int _過去使用檔案數量 =5;
+        //private int _過去使用檔案數量 =5;
         //Stack<string> MyData = new Stack<string>();
         string[] 使用檔案紀錄序列=new string[] { };
         object[] OBB = new object[] { };//儲存MenustripItem的成員.
@@ -74,7 +74,18 @@ namespace VE_SD
         private Form1 mainForm = null;
         private string 打開專案檔的名稱 = null;
         private static bool 使用者手動更新材質與摩擦;
-        //RDExameTextBox_Object_Class RCOL = new RDExameTextBox_Object_Class();
+
+        private static int _AnnotationSize = 7;//CHART的ANNOTATION字體大小.
+        private static double _ChartYXRatio=-9999;//Y:X ratio.
+        private static bool _調整Chart比例 = false;
+        private static double _xf;
+        private static double _yf;
+        private static double _oldXmin;
+        private static double _oldXmax;
+        private static double _oldYmin;
+        private static double _oldYmax;
+        private static double _OldChartYXRatio;
+        //RDExameTextBox_ObjectClass RCOL = new RDExameTextBox_Object_Class();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -100,8 +111,23 @@ namespace VE_SD
             get { return InterfaceBlock; }
             set { InterfaceBlock = value; }
         }
+        public int AnnotationSize
+        {
+            get { return _AnnotationSize; }
+            set { _AnnotationSize = value; }
+        }
+        public double ChartYXRatio
+        {
+            get { return _ChartYXRatio; }
+            set { _ChartYXRatio = value; }
+        }
+        public bool 調整Chart比例
+        {
+            get { return _調整Chart比例; }
+            set { _調整Chart比例 = value; }
+        }
 
-        
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Form_MTExamProgress()
         {
@@ -113,8 +139,6 @@ namespace VE_SD
             mainForm = callingForm as Form1;//傳入物件參考.
             InitializeComponent();
         }
-
-
         string PNGStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
         string VESDStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP_Project.vesdp";
         #region 檢核
@@ -293,7 +317,7 @@ namespace VE_SD
             isCalc = false;
             textBox_CheckMessageShow.Text = Mod.ErrMsg;
             MessageBox.Show("完成檢核計算!!","完成檢核",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            
+            textBox_CheckMessageShow.Select(0, 0);
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -652,8 +676,15 @@ namespace VE_SD
         }
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
-            Adjust(this);
- 
+            //Adjust(this);
+            if(mainForm.軟體開啟時的視窗大小=="最大")
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
             //決定過去開啟的舊檔案.
             Array.Resize(ref OBB, 5);
             OBB[0] = 舊檔案1ToolStripMenuItem;
@@ -736,6 +767,17 @@ namespace VE_SD
             Array.Resize(ref BlockMainArray, 0);
             BlockCount = 0;
             Array.Resize(ref ELArray, 0);
+            調整Chart比例 = false;
+            _ChartYXRatio = -9999;
+            _xf = -9999;
+            _yf = -9999;
+            _oldXmax = -9999;
+            _oldXmin = -9999;
+            _oldYmin = -9999;
+            _oldYmax = -9999;
+            //顯示設定ToolStripMenuItem.Visible = false;
+            blockLabels設定ToolStripMenuItem.Enabled = false;
+            
             ELSize = 0;
             InterfaceBlock = null;
             打開專案檔的名稱 = null;
@@ -1216,6 +1258,7 @@ namespace VE_SD
             if (OFD_專案.ShowDialog() == DialogResult.OK)
             {
                 打開檔案之訊息 = null;
+                
                 打開檔案之訊息 = 打開XML專案檔(OFD_專案.FileName);
                 if(打開檔案之訊息=="")
                 {
@@ -1224,7 +1267,9 @@ namespace VE_SD
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
+                    _調整Chart比例 = false;
                     填入一個新的檔案(打開專案檔的名稱);
+                    取得YX比例(null);
                     //MessageBox.Show("H2");
                 }
                 else
@@ -1346,8 +1391,9 @@ namespace VE_SD
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
+                    _調整Chart比例 = false;
                     填入一個新的檔案(打開專案檔的名稱);
-
+                    取得YX比例(null);
                 }
                 else
                 {
@@ -1382,8 +1428,9 @@ namespace VE_SD
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
+                    _調整Chart比例 = false;
                     填入一個新的檔案(打開專案檔的名稱);
-
+                    取得YX比例(null);
                 }
                 else
                 {
@@ -1419,8 +1466,9 @@ namespace VE_SD
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
+                    _調整Chart比例 = false;
                     填入一個新的檔案(打開專案檔的名稱);
-
+                    取得YX比例(null);
                 }
                 else
                 {
@@ -1456,8 +1504,9 @@ namespace VE_SD
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
+                    _調整Chart比例 = false;
                     填入一個新的檔案(打開專案檔的名稱);
-
+                    取得YX比例(null);
                 }
                 else
                 {
@@ -1492,8 +1541,9 @@ namespace VE_SD
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
+                    _調整Chart比例 = false;
                     填入一個新的檔案(打開專案檔的名稱);
-
+                    取得YX比例(null);
                 }
                 else
                 {
@@ -2364,12 +2414,22 @@ namespace VE_SD
                 listBox_SectSetting.Items.Add(BlockMainArray[i].名稱 + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[i]));// "(" + BlockMainArray[i].單位體積重量.ToString() + ")");
 
             }
+            blockLabels設定ToolStripMenuItem.Enabled = false;
             if (BlockMainArray.GetLength(0) > 0)
             {
                 //MessageBox.Show("H1" + chart_Plot.Series.Count.ToString());
                 ELDGV1.Enabled = true;
+                blockLabels設定ToolStripMenuItem.Enabled = true;
                 調整Chart(chart_Plot);
                 繪上EL();
+                //if (!_調整Chart比例)
+                //{
+                //    //取得YX比例(null);
+                //}
+                //else
+                //{
+                //    以YX比例設定座標軸(null);
+                //}
             }
 
             selectname = (selectedBlockIndex == -1 ? null : BlockMainArray[selectedBlockIndex].名稱);
@@ -2819,6 +2879,16 @@ namespace VE_SD
         }
         #endregion
         #region 型塊設定區域
+        private void chart_Plot_Enter(object sender, EventArgs e)
+        {
+            //為焦點時.
+            //顯示設定ToolStripMenuItem.Visible = true;
+        }
+
+        private void chart_Plot_Leave(object sender, EventArgs e)
+        {
+            //顯示設定ToolStripMenuItem.Visible = false;
+        }
         private void btn_AddASect_Click(object sender, EventArgs e)
         {
             if (isExporting || isCalc)
@@ -2860,7 +2930,8 @@ namespace VE_SD
             //4. 更新目前選擇的.
             listBox_SectSetting.SetSelected(BlockCount - 1, true); //設定Listbox點選項目.
 
-            string Msg = "";
+            blockLabels設定ToolStripMenuItem.Enabled = true;
+            //string Msg = "";
             //開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// 檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
             //btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
 
@@ -2971,11 +3042,24 @@ namespace VE_SD
             chart_Plot.Series[NewI.名稱].MarkerBorderWidth = 2;
             ELDGV1.Enabled = true;
             調整Chart(chart_Plot);
-            繪上EL();
+            //取得YX比例(null);
+            //;
+            if(!_調整Chart比例)
+            {
+                取得YX比例(null);
+                繪上EL();
+            }
+            else
+            {
+                以YX比例設定座標軸(null);
+            }
         }
-        private void 調整Chart(Chart INS)
+        public void 調整Chart(Chart INS)
         {
-            //包含繪上Block編號之文字.
+            if (object.Equals(INS, null))
+            {
+                INS = chart_Plot;
+            }
 
             double Xmin = 1000000; // double.MaxValue;
             double Xmax = -100000; // double.MinValue;
@@ -3010,11 +3094,11 @@ namespace VE_SD
             xspace = 取得最佳Interval(Xmin, Xmax);
             yspace = 取得最佳Interval(Ymin, Ymax);
 
-            if(xspace>1)
+            if (xspace > 1)
             {
                 xspace = 1;
             }
-            if(yspace>1)
+            if (yspace > 1)
             {
                 yspace = 1;
             }
@@ -3104,10 +3188,104 @@ namespace VE_SD
             INS.ChartAreas[0].AxisY.Interval = yspace;
             INS.ChartAreas[0].RecalculateAxesScale();
 
+            /*
+            ChartArea ca = INS.ChartAreas[0];
+            ElementPosition ipp0 = ca.InnerPlotPosition;
+            double xf = (double)ipp0.Width / (NewXmax - NewXmin);
+            double yf = (double)ipp0.Height / (NewYmax - NewYmin);
+            _ChartYXRatio = yf / xf;
+            */
+        }
+        private void 取得YX比例(Chart INS2)
+        {
+
+            if (object.Equals(INS2, null))
+            {
+                INS2 = chart_Plot;
+            }
+            ChartArea ca = INS2.ChartAreas[0];
+            ElementPosition ipp0 = ca.InnerPlotPosition;
+            //Size OldClientSize = chart_Plot.ClientSize;
+            //int oldClientXSize = chart_Plot.ClientSize.Width;
+            //int oldClientYSize = chart_Plot.ClientSize.Height;
+            _oldXmin = INS2.ChartAreas[0].AxisX.Minimum;// -xspace/2.0;// -xspace/2.0;// - xspace;
+            _oldXmax = INS2.ChartAreas[0].AxisX.Maximum;// NewXmax;
+                                                              //double oldXInterval = INS.ChartAreas[0].AxisX.Interval;
+            _oldYmin = INS2.ChartAreas[0].AxisY.Minimum;// - yspace;
+            _oldYmax = INS2.ChartAreas[0].AxisY.Maximum;// NewYmax;
+                                                              //double oldYInterval = chart_Plot.ChartAreas[0].AxisY.Interval;
 
 
-            //繪上EL();
+            //Adjusting the interval and new ymax,ymin,xmax,xmin.
 
+            _xf = (double)ipp0.Width / (_oldXmax - _oldXmin);
+            _yf = (double)ipp0.Height / (_oldYmax - _oldYmin);
+            _ChartYXRatio = _yf / _xf;
+            _OldChartYXRatio = _ChartYXRatio;
+            //MessageBox.Show(_ChartYXRatio.ToString());
+
+        }
+        public void 以YX比例設定座標軸(Chart INS3,bool BackToOriginal=false)
+        {
+            if(object.Equals(INS3,null))
+            {
+                INS3 = chart_Plot;
+            }
+            ChartArea ca = INS3.ChartAreas[0];
+            ElementPosition ipp0 = ca.InnerPlotPosition;
+            //Size OldClientSize = chart_Plot.ClientSize;
+            //int oldClientXSize = chart_Plot.ClientSize.Width;
+            //int oldClientYSize = chart_Plot.ClientSize.Height;
+            /*
+            double oldXmin = INS3.ChartAreas[0].AxisX.Minimum;// -xspace/2.0;// -xspace/2.0;// - xspace;
+            double oldXmax = INS3.ChartAreas[0].AxisX.Maximum;// NewXmax;
+                                                              //double oldXInterval = INS.ChartAreas[0].AxisX.Interval;
+            double oldYmin = INS3.ChartAreas[0].AxisY.Minimum;// - yspace;
+            double oldYmax = INS3.ChartAreas[0].AxisY.Maximum;// NewYmax;
+                                                              //double oldYInterval = chart_Plot.ChartAreas[0].AxisY.Interval;
+
+            */
+            //Adjusting the interval and new ymax,ymin,xmax,xmin.
+            //float xf = (float)ipp0.Width / (float)(oldXmax - oldXmin);
+            //float yf = (float)ipp0.Height / (float)(oldYmax - oldYmin);
+
+            //if (_調整Chart比例)
+            //{
+            //MessageBox.Show(_ChartYXRatio.ToString());
+            //先回復原本設定!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            INS3.ChartAreas[0].AxisX.Maximum = _oldXmax;
+            INS3.ChartAreas[0].AxisX.Minimum = _oldXmin;
+            INS3.ChartAreas[0].AxisY.Minimum = _oldYmin;
+            INS3.ChartAreas[0].AxisY.Maximum = _oldYmax;
+            if (BackToOriginal) { return; }
+            if (_ChartYXRatio == -9999) { return; }
+            if (_ChartYXRatio == _OldChartYXRatio) { return; }
+            //先回復原本設定!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            //MessageBox.Show((_yf < _ChartYXRatio * _xf).ToString());
+            if (_yf < _ChartYXRatio * _xf)
+            {
+                //以yf調整Xmax.
+                INS3.ChartAreas[0].AxisX.Maximum = _oldXmin + _ChartYXRatio * ipp0.Width / _yf;
+            }
+            else if (_yf > _ChartYXRatio * _xf)
+            {
+                //以xf調整Ymax.
+                INS3.ChartAreas[0].AxisY.Maximum = _oldYmin + ipp0.Height / _xf / _ChartYXRatio;
+                //    }
+            }
+            else
+            { }
+            /*else
+            {
+                INS3.ChartAreas[0].AxisX.Maximum = _oldXmax;
+                INS3.ChartAreas[0].AxisX.Minimum = _oldXmin;
+                INS3.ChartAreas[0].AxisY.Minimum = _oldYmin;
+                INS3.ChartAreas[0].AxisY.Maximum = _oldYmax;
+            }
+            */
+            _調整Chart比例 = true;
+            繪上EL();
         }
         public double 取得最佳Interval(double MinV, double MaxV)
         {
@@ -3119,7 +3297,6 @@ namespace VE_SD
             double space = A.Tick;
             return space;
         }
-
         void 取得目前ELMIN與ELMAX(ref double[] ELMIN, ref double[] ELMAX, ref double AllCenterX)
         {
             //double xcenterright = -10000000;
@@ -3186,7 +3363,7 @@ namespace VE_SD
                 }//Loop through each node of Blocks.
             }
         }
-        void 繪上EL()
+        public void 繪上EL()
         {
             //若有EL,則調整之.
             //將ELDG的顏色全部變更為正常顏色.
@@ -3619,7 +3796,7 @@ namespace VE_SD
                     TT.Tag = "BLOCK";
                     TT.AllowMoving = true;
                     TT.AnchorAlignment = ContentAlignment.MiddleCenter;
-                    TT.Font = new Font("微軟正黑體", 7, FontStyle.Bold);
+                    TT.Font = new Font("微軟正黑體", _AnnotationSize, FontStyle.Bold);
                     TT.ForeColor = Color.OrangeRed;
                     //double hitX = chart_Plot.ChartAreas[0].AxisX.PixelPositionToValue(ex.X);
                     //double hitY = chart_Plot.ChartAreas[0].AxisY.PixelPositionToValue(ex.Y);
@@ -3674,7 +3851,6 @@ namespace VE_SD
             }
 
         }
-
         private PointFMY Cross(PointFMY a, PointFMY b)
         {
             PointFMY RR;
@@ -3716,6 +3892,27 @@ namespace VE_SD
                 return "";
             }
 
+        }
+        private void blockLabels設定ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BlockMainArray.GetLength(0) == 0) {
+                MessageBox.Show("需要有Block才可更改!!!", "Block繪圖區顯示調整", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            //if (!_調整Chart比例)
+            //{
+                //獲取此時的資訊.
+                /*
+                ChartArea ca = chart_Plot.ChartAreas[0];
+                ElementPosition ipp0 = ca.InnerPlotPosition;
+                _xf = (double)ipp0.Width / (chart_Plot.ChartAreas[0].AxisX.Maximum - chart_Plot.ChartAreas[0].AxisX.Minimum);
+                _yf = (double)ipp0.Height / (chart_Plot.ChartAreas[0].AxisY.Maximum - chart_Plot.ChartAreas[0].AxisY.Minimum);
+                _ChartYXRatio = _yf / _xf;
+                */
+            //}
+            
+            Frm_AnnotationSetting frmAnnotationSetting = new Frm_AnnotationSetting(this, "MT");
+            frmAnnotationSetting.Show();
         }
         #endregion
         #region 輸出區域
@@ -3798,6 +3995,18 @@ namespace VE_SD
                 tsp_cond.Text = "輸出Word檔案報表中";
 
                 //先將圖片輸出.
+                ChartArea ca = chart_Plot.ChartAreas[0];
+                ElementPosition ipp0 = ca.InnerPlotPosition;
+                Size OldClientSize = chart_Plot.ClientSize;
+                int oldClientXSize = chart_Plot.ClientSize.Width;
+                int oldClientYSize = chart_Plot.ClientSize.Height;
+                double NowXmin = chart_Plot.ChartAreas[0].AxisX.Minimum;// -xspace/2.0;// -xspace/2.0;// - xspace;
+                double NowXmax = chart_Plot.ChartAreas[0].AxisX.Maximum;// NewXmax;
+                //double oldXInterval=chart_Plot.ChartAreas[0].AxisX.Interval;
+                double NowYmin = chart_Plot.ChartAreas[0].AxisY.Minimum;// - yspace;
+                double NowYmax = chart_Plot.ChartAreas[0].AxisY.Maximum;// NewYmax;
+
+
 
                 string[] TempName = new string[] { };
                 for (int i = 0; i < chart_Plot.Series.Count; i++)
@@ -3840,40 +4049,45 @@ namespace VE_SD
                         }
                     }
                 }
-                ChartArea ca = chart_Plot.ChartAreas[0];
-                ElementPosition ipp0 = ca.InnerPlotPosition;
-                Size OldClientSize = chart_Plot.ClientSize;
-                int oldClientXSize = chart_Plot.ClientSize.Width;
-                int oldClientYSize = chart_Plot.ClientSize.Height;
-                double oldXmin=chart_Plot.ChartAreas[0].AxisX.Minimum;// -xspace/2.0;// -xspace/2.0;// - xspace;
-                double oldXmax=chart_Plot.ChartAreas[0].AxisX.Maximum;// NewXmax;
-                double oldXInterval=chart_Plot.ChartAreas[0].AxisX.Interval;
-                double oldYmin=chart_Plot.ChartAreas[0].AxisY.Minimum;// - yspace;
-                double oldYmax=chart_Plot.ChartAreas[0].AxisY.Maximum;// NewYmax;
-                double oldYInterval=chart_Plot.ChartAreas[0].AxisY.Interval;
+                /*
+                chart_Plot.ChartAreas[0].AxisX.Minimum = _oldXmin;
+                chart_Plot.ChartAreas[0].AxisX.Maximum = 10.0;// _oldXmax;
+                chart_Plot.ChartAreas[0].AxisY.Minimum = _oldYmin;
+                chart_Plot.ChartAreas[0].AxisX.Maximum = _oldYmax;
+                chart_Plot.ChartAreas[0].AxisX.Interval = 1;
+                chart_Plot.ChartAreas[0].AxisY.Interval = 1;
+                chart_Plot.ChartAreas[0].RecalculateAxesScale();
+                */
+                以YX比例設定座標軸(null, true);
+                
+                //double oldYInterval=chart_Plot.ChartAreas[0].AxisY.Interval;
+                //MessageBox.Show(chart_Plot.ChartAreas[0].AxisX.Maximum.ToString() + "," + _oldXmax.ToString());
 
 
+                //return;
                 //Adjusting the interval and new ymax,ymin,xmax,xmin.
-                float xf = (float)ipp0.Width/ (float)(oldXmax - oldXmin);
-                float yf =  (float)ipp0.Height/(float)(oldYmax - oldYmin);
-                //MessageBox.Show("Xf = " + xf.ToString() + ", YF = " + yf.ToString());
+                //MessageBox.Show("Xmin = " + _oldXmin.ToString() + " , Xmax = " + _oldXmax.ToString());
+                float cxf = (float)ipp0.Width/ (float)(_oldXmax - _oldXmin);
+                float cyf =  (float)ipp0.Height/(float)(_oldYmax -_oldYmin);
+                //MessageBox.Show("Xf = " + cxf.ToString() + ", YF = " + cyf.ToString());
 
-                if(xf<yf)
+                if(cxf<cyf)
                 {
                     //狀況: XF使用的刻度較多,Y軸的刻度範圍較小,改以Y軸之大小來放大X軸之大小.
                     //MessageBox.Show();
                     //float newHeight = xf * (float)(oldYmax - oldYmin);
-                    float newWidth = (float)(oldXmax - oldXmin) * yf;
+                    float newWidth = (float)(_oldXmax-_oldXmin) * cyf;
                     //MessageBox.Show("Using XF to adjust Y height: " + (newWidth).ToString());
                     //ca.InnerPlotPosition = new ElementPosition(ipp0.X, ipp0.Y, ipp0.Width,xf*(float)(oldYmax-oldYmin));
                     chart_Plot.ClientSize = new Size((int)(oldClientYSize * newWidth / (float)ipp0.Width), oldClientYSize);//(int)((float)oldClientXSize / (float)ipp0.Width * newHeight));
                 }
-                else if(xf>yf)
+                else if(cxf>cyf)
                 {
                     //狀況: YF使用的刻度較多,X軸的刻度範圍小,改以X軸之大小來放大Y軸之大小.
                     //MessageBox.Show(((float)(oldXmax - oldXmin) * (float)yf).ToString());
                     //float newWidth = (float)(oldXmax - oldXmin) * yf;
-                    float newHeight = (float)(oldYmax - oldYmin) * xf; //得到新的Y軸之大小.
+                    float newHeight = (float)(_oldYmax - _oldYmin) * cxf; //得到新的Y軸之大小.
+                    //MessageBox.Show("Adjust from using cxf, Original Height =" + oldClientYSize.ToString() + ", New Height = " + ((int)(oldClientXSize * newHeight / (float)ipp0.Height)).ToString());
                     //MessageBox.Show("Using YF to adjust X width: " + newHeight.ToString());
                     //ca.InnerPlotPosition = new ElementPosition(ipp0.X, ipp0.Y,(float)(oldXmax-oldXmin)*yf , ipp0.Height);
                     chart_Plot.ClientSize = new Size(oldClientXSize, (int)(oldClientXSize*newHeight/(float)ipp0.Height));//(int)((float)oldClientYSize/(float)ipp0.Height*newWidth), oldClientYSize);
@@ -3891,7 +4105,7 @@ namespace VE_SD
 
                 for (int i = 0; i < TempName.GetLength(0); i++)
                 {
-                    chart_Plot.Series[TempName[i]].IsVisibleInLegend = false;
+                    chart_Plot.Series[TempName[i]].IsVisibleInLegend = true;
                 }
                 if (listBox_SectSetting.SelectedIndex != -1)
                 {
@@ -3912,7 +4126,7 @@ namespace VE_SD
                     {
                         if (TT.Tag.ToString() == "BLOCK")
                         {
-                            TT.Font = new Font("微軟正黑體", 7, FontStyle.Bold); ;
+                            TT.Font = new Font("微軟正黑體", _AnnotationSize, FontStyle.Bold); ;
                         }
                     }
                 }
@@ -3920,6 +4134,7 @@ namespace VE_SD
                 //恢復原狀
                 //chart_Plot.ChartAreas[0] = ca;
                 chart_Plot.ClientSize = OldClientSize;
+                以YX比例設定座標軸(null);
                 //ca.InnerPlotPosition= ipp0;
                 //ca.Position=cap;
 
@@ -4075,10 +4290,12 @@ namespace VE_SD
                 MessageBox.Show("您的Word報表輸出出現錯誤!" + Environment.NewLine + WordOutputMsg.Replace("ERROR:", ""), "WORD輸出錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tsp_cond.Text = "您沒有成功輸出檢核報表";
             }
+            /*
             if (File.Exists(PNGStoredFolderPath))
             {
                 File.Delete(PNGStoredFolderPath);
             }
+            */
         }
         private string 輸出Word報表(string getPath)
         {
@@ -5127,12 +5344,21 @@ namespace VE_SD
                 //btnRemoveSects.Enabled = false;
                 開始檢核ToolStripMenuItem.Enabled = false;
                 btn_Test.Enabled = false;
-
+                blockLabels設定ToolStripMenuItem.Enabled = false;
             }
 
 
             BlockCount = listBox_SectSetting.Items.Count;
-            繪上EL();
+            
+            if (!_調整Chart比例)
+            {
+                取得YX比例(null);
+                繪上EL();
+            }
+            else
+            {
+                以YX比例設定座標軸(null);
+            }
             //if(BlockCount==0)
             //{
             //清除此區塊之名稱文字.
@@ -5219,8 +5445,16 @@ namespace VE_SD
             chart_Plot.Series[NewName].Color = Color.Red;//= Color.Transparent;
             chart_Plot.Series[NewName].MarkerBorderWidth = 2;
             調整Chart(chart_Plot);
-            繪上EL();
-
+            
+            if (!_調整Chart比例)
+            {
+                取得YX比例(null);
+                繪上EL();
+            }
+            else
+            {
+                以YX比例設定座標軸(null);
+            }
 
             //修改Listbox.
             listBox_SectSetting.Items[oldpos] = InterfaceBlock.名稱 + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[oldpos]);// "(" + BlockMainArray[oldpos].單位體積重量.ToString() + ")";
@@ -5388,11 +5622,16 @@ namespace VE_SD
             }
             BlockMainArray[id].周圍參考材質 = UseReferencedBlock;//更新.
         }
-        
         private void chart_Plot_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.MouseEventArgs ex = (System.Windows.Forms.MouseEventArgs)e;
             //MessageBox.Show(ex.X.ToString() + "," + ex.Y.ToString());
+            if(BlockMainArray.GetLength(0)==0)
+            {
+                顯示設定ToolStripMenuItem.Visible = false;
+                return;
+            }
+            chart_Plot.Focus();
             HitTestResult result = chart_Plot.HitTest(ex.X, ex.Y);
 
             if (result.ChartElementType == ChartElementType.DataPoint)
@@ -6637,6 +6876,55 @@ namespace VE_SD
                 }
             }
         }
+
+
         #endregion
+
+        private void 測試ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 顯示比例ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            //調整顯示比例之測試.
+            if (BlockMainArray.GetLength(0) == 0) { return; }
+            //跳出顯示比例的設定視窗.
+
+            return;
+
+
+            ChartArea ca = chart_Plot.ChartAreas[0];
+            ElementPosition ipp0 = ca.InnerPlotPosition;
+            Size OldClientSize = chart_Plot.ClientSize;
+            int oldClientXSize = chart_Plot.ClientSize.Width;
+            int oldClientYSize = chart_Plot.ClientSize.Height;
+            double oldXmin = chart_Plot.ChartAreas[0].AxisX.Minimum;// -xspace/2.0;// -xspace/2.0;// - xspace;
+            double oldXmax = chart_Plot.ChartAreas[0].AxisX.Maximum;// NewXmax;
+            double oldXInterval = chart_Plot.ChartAreas[0].AxisX.Interval;
+            double oldYmin = chart_Plot.ChartAreas[0].AxisY.Minimum;// - yspace;
+            double oldYmax = chart_Plot.ChartAreas[0].AxisY.Maximum;// NewYmax;
+            double oldYInterval = chart_Plot.ChartAreas[0].AxisY.Interval;
+
+
+            //Adjusting the interval and new ymax,ymin,xmax,xmin.
+            float xf = (float)ipp0.Width / (float)(oldXmax - oldXmin);
+            float yf = (float)ipp0.Height / (float)(oldYmax - oldYmin);
+
+
+            //目的是透過調整座標軸上的數值,達到等間距的目的.
+            if(yf<xf)
+            {
+                //以yf調整Xmax.
+                chart_Plot.ChartAreas[0].AxisX.Maximum = oldXmin + ipp0.Width / yf;
+            }
+            else if(yf>xf)
+            {
+                //以xf調整Ymax.
+                chart_Plot.ChartAreas[0].AxisY.Maximum = oldYmin + ipp0.Height / xf;
+            }
+            MessageBox.Show("完成");
+        }
     }
 }

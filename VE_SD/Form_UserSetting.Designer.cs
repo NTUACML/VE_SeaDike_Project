@@ -31,11 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_UserSetting));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chk_ServiceOut = new System.Windows.Forms.CheckBox();
             this.chk_RemoveUserLog = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_OK = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
-            this.chk_ServiceOut = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmb_軟體開啟時的視窗大小 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -44,6 +46,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabControl1.Location = new System.Drawing.Point(2, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -53,32 +56,44 @@
             // tabPage1
             // 
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.cmb_軟體開啟時的視窗大小);
+            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.chk_ServiceOut);
             this.tabPage1.Controls.Add(this.chk_RemoveUserLog);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(434, 259);
+            this.tabPage1.Size = new System.Drawing.Size(434, 255);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chk_ServiceOut
+            // 
+            this.chk_ServiceOut.AutoSize = true;
+            this.chk_ServiceOut.Location = new System.Drawing.Point(5, 43);
+            this.chk_ServiceOut.Name = "chk_ServiceOut";
+            this.chk_ServiceOut.Size = new System.Drawing.Size(124, 24);
+            this.chk_ServiceOut.TabIndex = 1;
+            this.chk_ServiceOut.Text = "提供服務訊息";
+            this.chk_ServiceOut.UseVisualStyleBackColor = true;
             // 
             // chk_RemoveUserLog
             // 
             this.chk_RemoveUserLog.AutoSize = true;
             this.chk_RemoveUserLog.Location = new System.Drawing.Point(6, 17);
             this.chk_RemoveUserLog.Name = "chk_RemoveUserLog";
-            this.chk_RemoveUserLog.Size = new System.Drawing.Size(298, 19);
+            this.chk_RemoveUserLog.Size = new System.Drawing.Size(300, 24);
             this.chk_RemoveUserLog.TabIndex = 0;
             this.chk_RemoveUserLog.Text = "每次關閉軟體後將登入使用者資訊清除";
             this.chk_RemoveUserLog.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(434, 259);
+            this.tabPage2.Size = new System.Drawing.Size(434, 255);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -103,15 +118,26 @@
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
-            // chk_ServiceOut
+            // label1
             // 
-            this.chk_ServiceOut.AutoSize = true;
-            this.chk_ServiceOut.Location = new System.Drawing.Point(5, 43);
-            this.chk_ServiceOut.Name = "chk_ServiceOut";
-            this.chk_ServiceOut.Size = new System.Drawing.Size(122, 19);
-            this.chk_ServiceOut.TabIndex = 1;
-            this.chk_ServiceOut.Text = "提供服務訊息";
-            this.chk_ServiceOut.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 81);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(169, 20);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "軟體開啟時的視窗大小";
+            // 
+            // cmb_軟體開啟時的視窗大小
+            // 
+            this.cmb_軟體開啟時的視窗大小.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_軟體開啟時的視窗大小.FormattingEnabled = true;
+            this.cmb_軟體開啟時的視窗大小.Items.AddRange(new object[] {
+            "最大",
+            "正常"});
+            this.cmb_軟體開啟時的視窗大小.Location = new System.Drawing.Point(171, 78);
+            this.cmb_軟體開啟時的視窗大小.Name = "cmb_軟體開啟時的視窗大小";
+            this.cmb_軟體開啟時的視窗大小.Size = new System.Drawing.Size(102, 28);
+            this.cmb_軟體開啟時的視窗大小.TabIndex = 3;
             // 
             // Form_UserSetting
             // 
@@ -145,5 +171,7 @@
         private System.Windows.Forms.Button btn_OK;
         private System.Windows.Forms.Button btn_Cancel;
         private System.Windows.Forms.CheckBox chk_ServiceOut;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmb_軟體開啟時的視窗大小;
     }
 }

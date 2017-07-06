@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_BlockNameAndCorrdinate));
@@ -71,10 +72,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.Location = new System.Drawing.Point(6, 57);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 19);
+            this.label1.Size = new System.Drawing.Size(90, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "形塊名稱:";
             // 
@@ -83,7 +84,7 @@
             this.textBox_NameInput.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.textBox_NameInput.Location = new System.Drawing.Point(110, 49);
             this.textBox_NameInput.Name = "textBox_NameInput";
-            this.textBox_NameInput.Size = new System.Drawing.Size(375, 30);
+            this.textBox_NameInput.Size = new System.Drawing.Size(375, 35);
             this.textBox_NameInput.TabIndex = 1;
             this.textBox_NameInput.TextChanged += new System.EventHandler(this.textBox_NameInput_TextChanged);
             // 
@@ -104,7 +105,7 @@
             this.gp_AddCoordinate.Controls.Add(this.chart1);
             this.gp_AddCoordinate.Controls.Add(this.btn_RemovePoints);
             this.gp_AddCoordinate.Controls.Add(this.btn_Add);
-            this.gp_AddCoordinate.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gp_AddCoordinate.Font = new System.Drawing.Font("微軟正黑體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.gp_AddCoordinate.Location = new System.Drawing.Point(27, 119);
             this.gp_AddCoordinate.Name = "gp_AddCoordinate";
             this.gp_AddCoordinate.Size = new System.Drawing.Size(566, 469);
@@ -139,7 +140,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(375, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 19);
+            this.label2.Size = new System.Drawing.Size(33, 27);
             this.label2.TabIndex = 10;
             this.label2.Text = "列";
             // 
@@ -158,12 +159,20 @@
             this.X,
             this.Y});
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Arrow;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.dataGridView1.Location = new System.Drawing.Point(10, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(202, 434);
             this.dataGridView1.TabIndex = 9;
@@ -276,7 +285,7 @@
             this.gp_AddNewName.Controls.Add(this.btn_SetName);
             this.gp_AddNewName.Controls.Add(this.textBox_NameInput);
             this.gp_AddNewName.Controls.Add(this.label1);
-            this.gp_AddNewName.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gp_AddNewName.Font = new System.Drawing.Font("微軟正黑體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.gp_AddNewName.Location = new System.Drawing.Point(27, 2);
             this.gp_AddNewName.Name = "gp_AddNewName";
             this.gp_AddNewName.Size = new System.Drawing.Size(572, 100);
@@ -287,10 +296,10 @@
             // 
             // btn_SetName
             // 
-            this.btn_SetName.Font = new System.Drawing.Font("標楷體", 12F);
+            this.btn_SetName.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_SetName.Location = new System.Drawing.Point(491, 51);
             this.btn_SetName.Name = "btn_SetName";
-            this.btn_SetName.Size = new System.Drawing.Size(75, 23);
+            this.btn_SetName.Size = new System.Drawing.Size(75, 33);
             this.btn_SetName.TabIndex = 2;
             this.btn_SetName.Text = "輸入";
             this.btn_SetName.UseVisualStyleBackColor = true;

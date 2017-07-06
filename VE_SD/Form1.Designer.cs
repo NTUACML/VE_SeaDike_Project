@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,17 +50,18 @@
             this.TSP_Progressbar = new System.Windows.Forms.ToolStripProgressBar();
             this.TSP_UserInfoShow = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSP_ChangeUserBtn = new System.Windows.Forms.ToolStripDropDownButton();
+            this.TSP_Validate = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_StandardMT = new System.Windows.Forms.Button();
             this.btn_StandardRDC = new System.Windows.Forms.Button();
             this.gp_ItemExplan = new System.Windows.Forms.GroupBox();
             this.pictureBox_ItemDescp = new System.Windows.Forms.PictureBox();
             this.textBox_ItemDescp = new System.Windows.Forms.TextBox();
             this.bk_SendFIle = new System.ComponentModel.BackgroundWorker();
             this.bk_AccessServerForDownload = new System.ComponentModel.BackgroundWorker();
-            this.TSP_Validate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -69,7 +71,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.SeaShell;
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.檔案ToolStripMenuItem,
             this.功能ToolStripMenuItem,
@@ -189,9 +191,10 @@
             // label_LoginCond
             // 
             this.label_LoginCond.AutoSize = true;
+            this.label_LoginCond.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_LoginCond.Location = new System.Drawing.Point(321, 24);
             this.label_LoginCond.Name = "label_LoginCond";
-            this.label_LoginCond.Size = new System.Drawing.Size(23, 15);
+            this.label_LoginCond.Size = new System.Drawing.Size(33, 19);
             this.label_LoginCond.TabIndex = 1;
             this.label_LoginCond.Text = "NO";
             this.label_LoginCond.Visible = false;
@@ -238,13 +241,22 @@
             this.TSP_ChangeUserBtn.Text = "變更登入之使用者";
             this.TSP_ChangeUserBtn.Click += new System.EventHandler(this.TSP_ChangeUserBtn_Click);
             // 
+            // TSP_Validate
+            // 
+            this.TSP_Validate.Name = "TSP_Validate";
+            this.TSP_Validate.Size = new System.Drawing.Size(128, 25);
+            this.TSP_Validate.Text = "toolStripStatusLabel1";
+            this.TSP_Validate.Visible = false;
+            // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btn_StandardMT);
             this.groupBox1.Controls.Add(this.btn_StandardRDC);
-            this.groupBox1.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox1.Location = new System.Drawing.Point(13, 42);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(399, 542);
@@ -254,6 +266,7 @@
             // 
             // button3
             // 
+            this.button3.Font = new System.Drawing.Font("微軟正黑體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.button3.Location = new System.Drawing.Point(16, 383);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(369, 115);
@@ -263,6 +276,7 @@
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("微軟正黑體", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.button2.Location = new System.Drawing.Point(16, 270);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(369, 115);
@@ -270,20 +284,24 @@
             this.button2.Text = "未開發";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btn_StandardMT
             // 
-            this.button1.Location = new System.Drawing.Point(16, 156);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(369, 115);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "碼頭模組";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            this.button1.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
-            this.button1.MouseLeave += new System.EventHandler(this.button1_MouseLeave);
+            this.btn_StandardMT.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_StandardMT.Font = new System.Drawing.Font("微軟正黑體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btn_StandardMT.Location = new System.Drawing.Point(16, 156);
+            this.btn_StandardMT.Name = "btn_StandardMT";
+            this.btn_StandardMT.Size = new System.Drawing.Size(369, 115);
+            this.btn_StandardMT.TabIndex = 1;
+            this.btn_StandardMT.Text = "碼頭模組";
+            this.btn_StandardMT.UseVisualStyleBackColor = true;
+            this.btn_StandardMT.Click += new System.EventHandler(this.button1_Click);
+            this.btn_StandardMT.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
+            this.btn_StandardMT.MouseLeave += new System.EventHandler(this.button1_MouseLeave);
             // 
             // btn_StandardRDC
             // 
+            this.btn_StandardRDC.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_StandardRDC.Font = new System.Drawing.Font("微軟正黑體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_StandardRDC.Location = new System.Drawing.Point(16, 40);
             this.btn_StandardRDC.Name = "btn_StandardRDC";
             this.btn_StandardRDC.Size = new System.Drawing.Size(369, 115);
@@ -296,16 +314,22 @@
             // 
             // gp_ItemExplan
             // 
+            this.gp_ItemExplan.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gp_ItemExplan.Controls.Add(this.pictureBox_ItemDescp);
             this.gp_ItemExplan.Controls.Add(this.textBox_ItemDescp);
-            this.gp_ItemExplan.Location = new System.Drawing.Point(433, 53);
+            this.gp_ItemExplan.Location = new System.Drawing.Point(433, 42);
             this.gp_ItemExplan.Name = "gp_ItemExplan";
-            this.gp_ItemExplan.Size = new System.Drawing.Size(668, 531);
+            this.gp_ItemExplan.Size = new System.Drawing.Size(668, 542);
             this.gp_ItemExplan.TabIndex = 4;
             this.gp_ItemExplan.TabStop = false;
             // 
             // pictureBox_ItemDescp
             // 
+            this.pictureBox_ItemDescp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox_ItemDescp.Location = new System.Drawing.Point(7, 145);
             this.pictureBox_ItemDescp.Name = "pictureBox_ItemDescp";
             this.pictureBox_ItemDescp.Size = new System.Drawing.Size(655, 380);
@@ -315,9 +339,12 @@
             // 
             // textBox_ItemDescp
             // 
+            this.textBox_ItemDescp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_ItemDescp.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_ItemDescp.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_ItemDescp.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.textBox_ItemDescp.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_ItemDescp.Location = new System.Drawing.Point(7, 25);
             this.textBox_ItemDescp.Multiline = true;
             this.textBox_ItemDescp.Name = "textBox_ItemDescp";
@@ -338,12 +365,11 @@
             this.bk_AccessServerForDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_AccessServerForDownload_DoWork);
             this.bk_AccessServerForDownload.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_AccessServerForDownload_RunWorkerCompleted);
             // 
-            // TSP_Validate
+            // imageList1
             // 
-            this.TSP_Validate.Name = "TSP_Validate";
-            this.TSP_Validate.Size = new System.Drawing.Size(128, 25);
-            this.TSP_Validate.Text = "toolStripStatusLabel1";
-            this.TSP_Validate.Visible = false;
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // Form1
             // 
@@ -360,7 +386,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "浩海工程顧問公司檢核程式";
@@ -398,7 +423,7 @@
         private System.Windows.Forms.Button btn_StandardRDC;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_StandardMT;
         private System.Windows.Forms.GroupBox gp_ItemExplan;
         private System.Windows.Forms.PictureBox pictureBox_ItemDescp;
         private System.Windows.Forms.TextBox textBox_ItemDescp;
@@ -412,6 +437,7 @@
         private System.Windows.Forms.ToolStripMenuItem 測試密碼轉換ToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker bk_AccessServerForDownload;
         private System.Windows.Forms.ToolStripStatusLabel TSP_Validate;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
