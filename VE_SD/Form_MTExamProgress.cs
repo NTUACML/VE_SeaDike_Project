@@ -791,18 +791,23 @@ namespace VE_SD
             propertyGrid_Block.SelectedObject = null;
             ReferencedMaterialCHKL.Items.Clear();
             btn_ModifiedBlock.Enabled = false;
+            btnRemoveSects.Enabled = false;
             BlockArraySubscriptToName.Clear();
             BlockListSubScriptToName.Clear();
             BlockNameToArraySubscript.Clear();
             BlockNameToListSubScript.Clear();
 
 
+            
             textBox_CheckMessageShow.Text = "";
             //rb_Meyerhof.Checked = true;
             rb_Tergazhi.Checked = true;
-            //開始檢核ToolStripMenuItem.Enabled = false;
-            //btn_Test.Enabled = false;
-            //btn_LogOutput.Enabled = false;
+            開始檢核ToolStripMenuItem.Enabled = false;
+            btn_Test.Enabled = false;
+            btn_LogOutput.Enabled = false;
+            btn_OutputWord.Enabled = false;
+            輸出LogToolStripMenuItem.Enabled = false;
+            輸出Word報表ToolStripMenuItem.Enabled = false;
             //data_BlockTempShow.Rows.Clear();
 
         }
@@ -5361,7 +5366,7 @@ namespace VE_SD
             //selectname = null; -->這個已經被包含到觸動函數去了.
             if (listBox_SectSetting.Items.Count == 0)
             {
-                //btnRemoveSects.Enabled = false;
+                btnRemoveSects.Enabled = false;
                 開始檢核ToolStripMenuItem.Enabled = false;
                 btn_Test.Enabled = false;
                 blockLabels設定ToolStripMenuItem.Enabled = false;
@@ -6886,7 +6891,7 @@ namespace VE_SD
                 int selectedindex;
                 int.TryParse(e.KeyCode.ToString().Replace("D", ""), out selectedindex);
                 //MessageBox.Show(selectedindex.ToString());
-                if (selectedindex < 1 || selectedindex > 5)
+                if (selectedindex < 1 || selectedindex > tabControl1.TabPages.Count)
                 {
                     //Do nothing.
                 }
@@ -6896,7 +6901,50 @@ namespace VE_SD
                 }
             }
         }
-
+        private void tabControl1_KeyUp(object sender, KeyEventArgs e)
+        {
+            /*
+            if (("D1D2D3D4D5D6D7D8D9D0".Contains(e.KeyCode.ToString())) && e.Control)
+            {
+                //按下數字鍵
+                int selectedindex;
+                int.TryParse(e.KeyCode.ToString().Replace("D", ""), out selectedindex);
+                //MessageBox.Show(selectedindex.ToString());
+                if (selectedindex < 1 || selectedindex > tabControl1.TabPages.Count)
+                {
+                    //Do nothing.
+                }
+                else
+                {
+                    tabControl1.SelectedIndex = (selectedindex - 1);
+                }
+            }
+            
+            else if (e.Control && e.KeyCode == Keys.Right)
+            {
+                //往右.
+                if (tabControl1.SelectedIndex == tabControl1.TabPages.Count - 1)
+                {
+                    tabControl1.SelectedIndex = 0;
+                }
+                else
+                {
+                    tabControl1.SelectedIndex += 1;
+                }
+            }
+            else if (e.Control && e.KeyCode == Keys.Left)
+            {
+                if (tabControl1.SelectedIndex == 0)
+                {
+                    tabControl1.SelectedIndex = tabControl1.TabPages.Count - 1;
+                }
+                else
+                {
+                    tabControl1.SelectedIndex -= 1;
+                }
+            }
+            */
+        }
 
         #endregion
 
@@ -6947,5 +6995,7 @@ namespace VE_SD
             MessageBox.Show("完成");
             */
         }
+
+
     }
 }

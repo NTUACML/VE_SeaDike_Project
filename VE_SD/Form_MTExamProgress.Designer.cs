@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_MTExamProgress));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -140,10 +143,6 @@
             this.btn_RemoveRowMR = new System.Windows.Forms.Button();
             this.btnAddRow = new System.Windows.Forms.Button();
             this.DGMaterialRough = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.材質一 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.材質二 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.摩擦係數值 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DGMaterial = new System.Windows.Forms.DataGridView();
             this.序號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.材質名稱 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -181,6 +180,10 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.材質一 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.材質二 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.摩擦係數值 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -436,11 +439,13 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.ShowToolTips = true;
             this.tabControl1.Size = new System.Drawing.Size(1247, 666);
             this.tabControl1.TabIndex = 1;
             this.tabControl1.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Deselecting);
             this.tabControl1.TabIndexChanged += new System.EventHandler(this.tabControl1_TabIndexChanged);
             this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyDown);
+            this.tabControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tabControl1_KeyUp);
             // 
             // tabPage1
             // 
@@ -456,6 +461,7 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "1. 設計條件參數";
             this.toolTip1.SetToolTip(this.tabPage1, "填入設計相關參數");
+            this.tabPage1.ToolTipText = "填入設計相關參數";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // gp_一般係數設定
@@ -554,7 +560,7 @@
             // cmb_seawaveDir
             // 
             this.cmb_seawaveDir.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_seawaveDir.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmb_seawaveDir.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_seawaveDir.FormattingEnabled = true;
             this.cmb_seawaveDir.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.cmb_seawaveDir.Items.AddRange(new object[] {
@@ -562,7 +568,7 @@
             "右"});
             this.cmb_seawaveDir.Location = new System.Drawing.Point(201, 497);
             this.cmb_seawaveDir.Name = "cmb_seawaveDir";
-            this.cmb_seawaveDir.Size = new System.Drawing.Size(127, 27);
+            this.cmb_seawaveDir.Size = new System.Drawing.Size(127, 28);
             this.cmb_seawaveDir.TabIndex = 50;
             this.cmb_seawaveDir.SelectedIndexChanged += new System.EventHandler(this.cmb_seawaveDir_SelectedIndexChanged);
             // 
@@ -1284,6 +1290,7 @@
             this.tabPage_MaterialAndFirction.TabIndex = 3;
             this.tabPage_MaterialAndFirction.Text = "2. 使用材質與摩擦係數設定";
             this.toolTip1.SetToolTip(this.tabPage_MaterialAndFirction, "填入使用之材質與材質間之摩擦係數值");
+            this.tabPage_MaterialAndFirction.ToolTipText = "填入使用之材質與材質間之摩擦係數值";
             this.tabPage_MaterialAndFirction.UseVisualStyleBackColor = true;
             // 
             // groupBox4
@@ -1347,6 +1354,8 @@
             this.DGMaterialRough.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.DGMaterialRough.Location = new System.Drawing.Point(15, 24);
             this.DGMaterialRough.Name = "DGMaterialRough";
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.DGMaterialRough.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.DGMaterialRough.RowTemplate.Height = 24;
             this.DGMaterialRough.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGMaterialRough.Size = new System.Drawing.Size(907, 551);
@@ -1359,40 +1368,6 @@
             this.DGMaterialRough.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterialRough_UserDeletingRow);
             this.DGMaterialRough.Click += new System.EventHandler(this.DGMaterialRough_Click);
             this.DGMaterialRough.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DGMaterialRough_KeyUp);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewTextBoxColumn1.HeaderText = "序號";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 70;
-            // 
-            // 材質一
-            // 
-            this.材質一.HeaderText = "材質一";
-            this.材質一.Name = "材質一";
-            this.材質一.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.材質一.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.材質一.Width = 250;
-            // 
-            // 材質二
-            // 
-            this.材質二.HeaderText = "材質二";
-            this.材質二.Name = "材質二";
-            this.材質二.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.材質二.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.材質二.Width = 250;
-            // 
-            // 摩擦係數值
-            // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle2;
-            this.摩擦係數值.HeaderText = "摩擦係數值";
-            this.摩擦係數值.Name = "摩擦係數值";
-            this.摩擦係數值.Width = 120;
             // 
             // DGMaterial
             // 
@@ -1424,9 +1399,9 @@
             // 
             // 序號
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle6;
             this.序號.FillWeight = 50F;
             this.序號.HeaderText = "序號";
             this.序號.Name = "序號";
@@ -1467,14 +1442,15 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "3. 型塊設定";
             this.toolTip1.SetToolTip(this.tabPage2, "設定型塊");
+            this.tabPage2.ToolTipText = "設定型塊";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // ELDGV1
             // 
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.ELDGV1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ELDGV1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -1486,8 +1462,8 @@
             this.ELDGV1.MultiSelect = false;
             this.ELDGV1.Name = "ELDGV1";
             this.ELDGV1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ELDGV1.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.ELDGV1.RowTemplate.Height = 24;
             this.ELDGV1.Size = new System.Drawing.Size(274, 229);
             this.ELDGV1.TabIndex = 3;
@@ -1497,9 +1473,9 @@
             // 
             // EL
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EL.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EL.DefaultCellStyle = dataGridViewCellStyle8;
             this.EL.HeaderText = "EL";
             this.EL.Name = "EL";
             this.EL.Width = 70;
@@ -1533,14 +1509,22 @@
             // propertyGrid_Block
             // 
             this.propertyGrid_Block.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGrid_Block.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.propertyGrid_Block.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.propertyGrid_Block.CategorySplitterColor = System.Drawing.SystemColors.ButtonFace;
+            this.propertyGrid_Block.CommandsBackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.propertyGrid_Block.CommandsBorderColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.propertyGrid_Block.DisabledItemForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.propertyGrid_Block.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.propertyGrid_Block.HelpBorderColor = System.Drawing.SystemColors.ButtonFace;
             this.propertyGrid_Block.HelpVisible = false;
-            this.propertyGrid_Block.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.propertyGrid_Block.LineColor = System.Drawing.SystemColors.ButtonFace;
             this.propertyGrid_Block.Location = new System.Drawing.Point(957, 244);
             this.propertyGrid_Block.Name = "propertyGrid_Block";
             this.propertyGrid_Block.Size = new System.Drawing.Size(276, 203);
             this.propertyGrid_Block.TabIndex = 18;
+            this.propertyGrid_Block.ViewBorderColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.propertyGrid_Block.ViewForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.propertyGrid_Block.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_Block_PropertyValueChanged);
             this.propertyGrid_Block.Click += new System.EventHandler(this.propertyGrid_Block_Click);
             this.propertyGrid_Block.MouseClick += new System.Windows.Forms.MouseEventHandler(this.propertyGrid_Block_MouseClick);
@@ -1595,6 +1579,7 @@
             this.cmb_ShowOnBlockListChoice.Name = "cmb_ShowOnBlockListChoice";
             this.cmb_ShowOnBlockListChoice.Size = new System.Drawing.Size(126, 27);
             this.cmb_ShowOnBlockListChoice.TabIndex = 15;
+            this.toolTip1.SetToolTip(this.cmb_ShowOnBlockListChoice, "變更顯示文字方式");
             this.cmb_ShowOnBlockListChoice.SelectedIndexChanged += new System.EventHandler(this.cmb_ShowOnBlockListChoice_SelectedIndexChanged);
             // 
             // btn_ModifiedBlock
@@ -1605,6 +1590,7 @@
             this.btn_ModifiedBlock.Size = new System.Drawing.Size(48, 38);
             this.btn_ModifiedBlock.TabIndex = 13;
             this.btn_ModifiedBlock.Text = "Edit";
+            this.toolTip1.SetToolTip(this.btn_ModifiedBlock, "修改此Block型塊");
             this.btn_ModifiedBlock.UseVisualStyleBackColor = true;
             this.btn_ModifiedBlock.Click += new System.EventHandler(this.btn_ModifiedBlock_Click);
             // 
@@ -1615,6 +1601,7 @@
             this.btnRemoveSects.Size = new System.Drawing.Size(21, 35);
             this.btnRemoveSects.TabIndex = 7;
             this.btnRemoveSects.Text = "-";
+            this.toolTip1.SetToolTip(this.btnRemoveSects, "刪除此Block型塊");
             this.btnRemoveSects.UseVisualStyleBackColor = true;
             this.btnRemoveSects.Click += new System.EventHandler(this.btnRemoveSects_Click);
             // 
@@ -1625,6 +1612,7 @@
             this.btn_AddASect.Size = new System.Drawing.Size(21, 36);
             this.btn_AddASect.TabIndex = 6;
             this.btn_AddASect.Text = "+";
+            this.toolTip1.SetToolTip(this.btn_AddASect, "新增一個Block型塊");
             this.btn_AddASect.UseVisualStyleBackColor = true;
             this.btn_AddASect.Click += new System.EventHandler(this.btn_AddASect_Click);
             // 
@@ -1639,6 +1627,7 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "4. 檢核";
             this.toolTip1.SetToolTip(this.tabPage3, "進行檢核並輸出結果檔案");
+            this.tabPage3.ToolTipText = "進行檢核並輸出結果檔案";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // gp_ExameControl
@@ -1828,6 +1817,44 @@
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewTextBoxColumn1.HeaderText = "序號";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 70;
+            // 
+            // 材質一
+            // 
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.材質一.DefaultCellStyle = dataGridViewCellStyle2;
+            this.材質一.HeaderText = "材質一";
+            this.材質一.Name = "材質一";
+            this.材質一.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.材質一.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.材質一.Width = 250;
+            // 
+            // 材質二
+            // 
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.材質二.DefaultCellStyle = dataGridViewCellStyle3;
+            this.材質二.HeaderText = "材質二";
+            this.材質二.Name = "材質二";
+            this.材質二.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.材質二.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.材質二.Width = 250;
+            // 
+            // 摩擦係數值
+            // 
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.摩擦係數值.DefaultCellStyle = dataGridViewCellStyle4;
+            this.摩擦係數值.HeaderText = "摩擦係數值";
+            this.摩擦係數值.Name = "摩擦係數值";
+            this.摩擦係數值.Width = 120;
+            // 
             // Form_MTExamProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2010,10 +2037,6 @@
         private System.Windows.Forms.Button btn_RemoveRowMR;
         private System.Windows.Forms.Button btnAddRow;
         private System.Windows.Forms.DataGridView DGMaterialRough;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewComboBoxColumn 材質一;
-        private System.Windows.Forms.DataGridViewComboBoxColumn 材質二;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 摩擦係數值;
         private System.Windows.Forms.ToolStripMenuItem 說明ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 檢視使用者說明書ToolStripMenuItem;
         private System.Windows.Forms.GroupBox gp_土壓係數;
@@ -2024,5 +2047,9 @@
         private System.Windows.Forms.ToolStripMenuItem 顯示設定ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blockLabels設定ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 顯示比例ToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewComboBoxColumn 材質一;
+        private System.Windows.Forms.DataGridViewComboBoxColumn 材質二;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 摩擦係數值;
     }
 }

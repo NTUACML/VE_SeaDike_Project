@@ -104,7 +104,8 @@ namespace VE_SD
         }
         #endregion 
 
-
+        private static string 驗證Msg = "";
+        private static bool 驗證Bool;
         private void Form1_Load(object sender, EventArgs e)
         {
             if (!Directory.Exists(_SystemReferenceStoreFolder))
@@ -137,6 +138,7 @@ namespace VE_SD
             TSP_ChangeUserBtn.RightToLeft = RightToLeft.No;
             TSP_Validate.Alignment = ToolStripItemAlignment.Right;
             TSP_Validate.RightToLeft = RightToLeft.No;
+            TSP_Validate.BackColor = Color.Gray;
 
 
             //載入使用者登入設定.
@@ -169,17 +171,9 @@ namespace VE_SD
                     照片對照表.Add(i, -9999);
                 }
             }
-
-            string 驗證Msg = "";
-            if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
-            {
-                //Nothing.
-                TSP_Validate.BackColor = Color.Green;
-            }
-            else
-            {
-                TSP_Validate.BackColor = Color.Red;
-            }
+            驗證Bool = false;
+            bk_Validate.RunWorkerAsync();
+            
             if(_軟體開啟時的視窗大小=="最大")
             {
                 this.WindowState = FormWindowState.Maximized;
@@ -324,7 +318,6 @@ namespace VE_SD
             doc.Save(SystemReferenceFileName);
 
         }
-
         private void 海堤檢核ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btn_StandardRDC_Click(sender, e);
@@ -346,7 +339,6 @@ namespace VE_SD
             //fsdm.ShowDialog();
 
         }
-
         private void 海堤檢核給Kavy玩ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //string temp1 = "C:\\Users\\Andy\\Desktop\\VE_SeaDike_Project\\VE_SD\\bin\\Release\\Temp2.docx";
@@ -386,7 +378,6 @@ namespace VE_SD
             //kavytest.ShowDialog();
 
         }
-
         private void btn_StandardRDC_Click(object sender, EventArgs e)
         {
             
@@ -507,7 +498,6 @@ namespace VE_SD
             }
             
         }
-
         private void button1_MouseLeave(object sender, EventArgs e)
         {
             this.textBox_ItemDescp.Text = "";
@@ -1372,8 +1362,7 @@ namespace VE_SD
             }
             return r1;
 
-        }
-       
+        }      
         public string 密碼16位碼再加密(string inputs)
         {
             //輸入值為"2312-5678-5567-3421.
@@ -1513,6 +1502,23 @@ namespace VE_SD
                 return "unknow";
             }
         }
+        private void bk_Validate_DoWork(object sender, DoWorkEventArgs e)
+        {
+            驗證Bool = 檢視目前是否已有合理認證(ref 驗證Msg);//mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))    
+        }
+        private void bk_Validate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (驗證Bool)
+            {
+                //Nothing.
+                TSP_Validate.BackColor = Color.Green;
+            }
+            else
+            {
+                TSP_Validate.BackColor = Color.Red;
+            }
+            驗證Msg = "";
+        }
         #endregion 
         public string 取得中文數字碼(int N)
         {
@@ -1540,7 +1546,6 @@ namespace VE_SD
                 return 數字與國字碼對照[N];
             }
         }
-
         #region 發送訊息給主機
         public void 發送操作指令(string 操作訊息)
         {
@@ -1896,7 +1901,6 @@ namespace VE_SD
         {
 
         }
-
         private void 測試傳送遠端ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1923,19 +1927,16 @@ namespace VE_SD
                 MessageBox.Show(ex.StackTrace.ToString());
             }
         }
-
         private void 測試密碼轉換ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string TestCode="1472-8923-3516-9864";
             MessageBox.Show(密碼16位碼再加密(TestCode));
 
         }
-
         private void 關閉此軟體ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //根據設定決定關閉軟體時的動作.
@@ -1960,7 +1961,6 @@ namespace VE_SD
             //儲存新的系統設定.
             SavingProgramSystemReference();
         }
-
         private void 軟體偏好設定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form_UserSetting frm_User = new Form_UserSetting(this);
