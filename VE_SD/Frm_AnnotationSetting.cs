@@ -19,23 +19,28 @@ namespace VE_SD
         private Form_MTExamProgress mainForm1 = null;
         private Form_RDExamProgress mainForm2 = null;
         private static string 使用類型 = null;
-        public Frm_AnnotationSetting(Form callingForm,string type)
+        private static double _原始AspectRatio;
+        private static double _原始AnnotationSize;
+        public Frm_AnnotationSetting(Form callingForm,string type,double 原始AspectRatio)
         {
             if(type=="RD")
             {
                 mainForm2=callingForm as Form_RDExamProgress;
                 使用類型 = "RD";
+                _原始AspectRatio = 原始AspectRatio;
             }
             else if(type=="MT")
             {
                 mainForm1 = callingForm as Form_MTExamProgress;
                 使用類型 = "MT";
+                _原始AspectRatio = 原始AspectRatio;
             }
             InitializeComponent();
         }
         private static bool _Initial = true;
         private void Frm_AnnotationSetting_Load(object sender, EventArgs e)
         {
+            _原始AnnotationSize = 7;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (使用類型 == "RD")
             {
                 //numericUpDown1.Value = mainForm2.
@@ -80,6 +85,42 @@ namespace VE_SD
                 //mainForm1.調整Chart比例 = true;
                 //mainForm1.調整Chart(null);
                 //mainForm1.繪上EL();//重繪.
+            }
+        }
+
+        private void Frm_AnnotationSetting_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(使用類型 == "RD")
+            {
+
+            }
+            else if(使用類型 == "MT")
+            {
+                mainForm1.關閉BlockLabels設定();
+            }
+        }
+
+        private void btn_AnnotationReset_Click(object sender, EventArgs e)
+        {
+            if (使用類型 == "RD")
+            {
+
+            }
+            else if (使用類型 == "MT")
+            {
+                numericUpDown1.Value =(decimal)_原始AnnotationSize;
+            }
+        }
+
+        private void btn_YXRatioReset_Click(object sender, EventArgs e)
+        {
+            if (使用類型 == "RD")
+            {
+
+            }
+            else if (使用類型 == "MT")
+            {
+                numericUpDown2.Value = (decimal)_原始AspectRatio;
             }
         }
     }

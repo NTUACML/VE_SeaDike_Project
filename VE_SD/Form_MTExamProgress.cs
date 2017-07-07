@@ -707,43 +707,46 @@ namespace VE_SD
             tsp_progressbar.Visible = false;
             //tsp_cond.Text = "OK";
 
-
-            cmb_seawaveDir.SelectedItem = "右";
             isExporting = false;
             isCalc = false;
             this.Text = "專案檔:未命名";
-            textBox_設計潮位高.Text = "1.5";
-            textBox_設計潮位低.Text = "0.07";
-            textBox_殘留水位.Text = "0.55";
-            textBox_平時上載荷重.Text = "1";
-            textBox_地震時上載荷重.Text = "0.5";
-            textBox_船舶牽引力.Text = "2";
-            textBox_陸上設計震度.Text = "0.165";
-            textBox_水中設計震度.Text = "0.33";
-            textBox_背填料內摩擦角.Text = "40";
-            textBox_背填料壁面摩擦角.Text = "15";
-            textBox_背填料水平傾斜角.Text = "0";
-            textBox_入土深度.Text = "0.5";
-            textBox_拋石厚度.Text = "1.5";
-            textBox_地盤基礎內摩擦角.Text = "31.5";
-            textBox_土壤凝聚力.Text = "0";
-            //textBox_Nq.Text = "21.86";
-            //textBox_Nc.Text = "34.04";
-            //textBox_Nr.Text = "20.22";
-            textBox_平時滑動安全係數.Text = "1.2";
-            textBox_平時傾倒安全係數.Text = "1.2";
-            textBox_平時地盤承載力安全係數.Text = "2.5";
-            textBox_地震時滑動安全係數.Text = "1";
-            textBox_地震時傾倒安全係數.Text = "1.1";
-            textBox_地震時地盤承載力安全係數.Text = "1.5";
-            textBox_rw.Text = "1.03";
-            textBox_BoatColumnHeight.Text = "0.25";
-            textBox_SoilR_Earth.Text = "1.8";
-            textBox_SoilR_Water.Text = "1.0";
 
-            textBox_KaStage1.Text = "0.201";
-            textBox_KaStage2.Text = "0.293";
-            textBox_KaStage3.Text = "0.423";
+            if (mainForm.碼頭檢核開啟時預設數字)
+            {
+                cmb_seawaveDir.SelectedItem = "右";
+                textBox_設計潮位高.Text = "1.5";
+                textBox_設計潮位低.Text = "0.07";
+                textBox_殘留水位.Text = "0.55";
+                textBox_平時上載荷重.Text = "1";
+                textBox_地震時上載荷重.Text = "0.5";
+                textBox_船舶牽引力.Text = "2";
+                textBox_陸上設計震度.Text = "0.165";
+                textBox_水中設計震度.Text = "0.33";
+                textBox_背填料內摩擦角.Text = "40";
+                textBox_背填料壁面摩擦角.Text = "15";
+                textBox_背填料水平傾斜角.Text = "0";
+                textBox_入土深度.Text = "0.5";
+                textBox_拋石厚度.Text = "1.5";
+                textBox_地盤基礎內摩擦角.Text = "31.5";
+                textBox_土壤凝聚力.Text = "0";
+                //textBox_Nq.Text = "21.86";
+                //textBox_Nc.Text = "34.04";
+                //textBox_Nr.Text = "20.22";
+                textBox_平時滑動安全係數.Text = "1.2";
+                textBox_平時傾倒安全係數.Text = "1.2";
+                textBox_平時地盤承載力安全係數.Text = "2.5";
+                textBox_地震時滑動安全係數.Text = "1";
+                textBox_地震時傾倒安全係數.Text = "1.1";
+                textBox_地震時地盤承載力安全係數.Text = "1.5";
+                textBox_rw.Text = "1.03";
+                textBox_BoatColumnHeight.Text = "0.25";
+                textBox_SoilR_Earth.Text = "1.8";
+                textBox_SoilR_Water.Text = "1.0";
+
+                textBox_KaStage1.Text = "0.201";
+                textBox_KaStage2.Text = "0.293";
+                textBox_KaStage3.Text = "0.423";
+            }
 
             EscapeDGMaterialCellValueChangedFunction = true;
             DGMaterial.Rows.Clear();
@@ -753,7 +756,10 @@ namespace VE_SD
             Array.Resize(ref MaterialsCoefArray, 0); MaterialRoughnessArrayCount = 0;
             MaterialNameToArraySubScript.Clear();
             MaterialSubscriptToName.Clear();
-            讀入摩擦係數初始設定();
+            if (mainForm.碼頭檢核開啟時預設數字)
+            {
+                讀入摩擦係數初始設定();
+            }
             使用者手動更新材質與摩擦 = true;
 
 
@@ -785,18 +791,23 @@ namespace VE_SD
             propertyGrid_Block.SelectedObject = null;
             ReferencedMaterialCHKL.Items.Clear();
             btn_ModifiedBlock.Enabled = false;
+            btnRemoveSects.Enabled = false;
             BlockArraySubscriptToName.Clear();
             BlockListSubScriptToName.Clear();
             BlockNameToArraySubscript.Clear();
             BlockNameToListSubScript.Clear();
 
 
+            
             textBox_CheckMessageShow.Text = "";
             //rb_Meyerhof.Checked = true;
             rb_Tergazhi.Checked = true;
-            //開始檢核ToolStripMenuItem.Enabled = false;
-            //btn_Test.Enabled = false;
-            //btn_LogOutput.Enabled = false;
+            開始檢核ToolStripMenuItem.Enabled = false;
+            btn_Test.Enabled = false;
+            btn_LogOutput.Enabled = false;
+            btn_OutputWord.Enabled = false;
+            輸出LogToolStripMenuItem.Enabled = false;
+            輸出Word報表ToolStripMenuItem.Enabled = false;
             //data_BlockTempShow.Rows.Clear();
 
         }
@@ -1312,7 +1323,7 @@ namespace VE_SD
                 ff.Show();
                 return;
             }
-            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            TSP_DATETIME.Text = "最新一次編輯時間:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             儲存XML專案檔(xmlpath);
             填入一個新的檔案(打開專案檔的名稱);
         }
@@ -1341,7 +1352,7 @@ namespace VE_SD
                 return;
             }
 
-            TSP_DATETIME.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            TSP_DATETIME.Text = "最新一次編輯時間:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             儲存XML專案檔(xmlpath);
             填入一個新的檔案(xmlpath);
             this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(xmlpath);
@@ -1612,7 +1623,7 @@ namespace VE_SD
 
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
-            bool 成功與否 = false;
+            //bool 成功與否 = false;
             try
             {
                 RNode = doc.SelectSingleNode("Root/版本");
@@ -2286,7 +2297,7 @@ namespace VE_SD
 
 
                 //檢核區塊.
-                成功與否 = true;
+                //成功與否 = true;
             }
             catch
             {
@@ -2294,7 +2305,7 @@ namespace VE_SD
                 //MessageBox.Show("出現錯誤!");
             }
 
-            TSP_DATETIME.Text = 最後編輯時間R;
+            TSP_DATETIME.Text = "最新一次編輯時間: "+  最後編輯時間R;
 
             textBox_設計潮位高.Text = 設計潮位高R.ToString();
             textBox_設計潮位低.Text = 設計潮位低R.ToString();
@@ -2517,7 +2528,7 @@ namespace VE_SD
             BlockToolTipinfo.SetAttribute("Value", cmb_ShowOnBlockListChoice.SelectedItem.ToString());
 
             XmlElement 最後編輯時間 = doc.CreateElement("最後編輯時間");
-            最後編輯時間.SetAttribute("Value", TSP_DATETIME.Text);
+            最後編輯時間.SetAttribute("Value", TSP_DATETIME.Text.Replace("最新一次編輯時間: " ,""));
 
             XmlElement 地盤基礎內摩擦角 = doc.CreateElement("地盤基礎內摩擦角");
             地盤基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
@@ -3893,6 +3904,17 @@ namespace VE_SD
             }
 
         }
+        private static Frm_AnnotationSetting frmAnnotationSetting = null;
+        private static bool _UseFrmAnnotationSetting = false;
+        public void 關閉BlockLabels設定()
+        {
+            if(!object.Equals(frmAnnotationSetting,null))
+            {
+                frmAnnotationSetting = null;
+                _UseFrmAnnotationSetting = false;
+                blockLabels設定ToolStripMenuItem.Enabled = true;
+            }
+        }
         private void blockLabels設定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (BlockMainArray.GetLength(0) == 0) {
@@ -3901,18 +3923,21 @@ namespace VE_SD
             }
             //if (!_調整Chart比例)
             //{
-                //獲取此時的資訊.
-                /*
-                ChartArea ca = chart_Plot.ChartAreas[0];
-                ElementPosition ipp0 = ca.InnerPlotPosition;
-                _xf = (double)ipp0.Width / (chart_Plot.ChartAreas[0].AxisX.Maximum - chart_Plot.ChartAreas[0].AxisX.Minimum);
-                _yf = (double)ipp0.Height / (chart_Plot.ChartAreas[0].AxisY.Maximum - chart_Plot.ChartAreas[0].AxisY.Minimum);
-                _ChartYXRatio = _yf / _xf;
-                */
+            //獲取此時的資訊.
+            /*
+            ChartArea ca = chart_Plot.ChartAreas[0];
+            ElementPosition ipp0 = ca.InnerPlotPosition;
+            _xf = (double)ipp0.Width / (chart_Plot.ChartAreas[0].AxisX.Maximum - chart_Plot.ChartAreas[0].AxisX.Minimum);
+            _yf = (double)ipp0.Height / (chart_Plot.ChartAreas[0].AxisY.Maximum - chart_Plot.ChartAreas[0].AxisY.Minimum);
+            _ChartYXRatio = _yf / _xf;
+            */
             //}
-            
-            Frm_AnnotationSetting frmAnnotationSetting = new Frm_AnnotationSetting(this, "MT");
-            frmAnnotationSetting.Show();
+            _UseFrmAnnotationSetting = true;
+            blockLabels設定ToolStripMenuItem.Enabled = false;
+            frmAnnotationSetting = new Frm_AnnotationSetting(this, "MT",_OldChartYXRatio);
+            frmAnnotationSetting.ShowDialog();// Show();
+
+            //
         }
         #endregion
         #region 輸出區域
@@ -4482,7 +4507,7 @@ namespace VE_SD
                     //壁體自重.
                     //TableRef.Rows[rowstart].Cells[5].Range.Text = Mod.VarBank.W.ToString("0.00");
 
-                    int minuscount = 0;
+                    //int minuscount = 0;
                     /*
                     rowstart = 2;
                     rowend = 2;
@@ -5341,7 +5366,7 @@ namespace VE_SD
             //selectname = null; -->這個已經被包含到觸動函數去了.
             if (listBox_SectSetting.Items.Count == 0)
             {
-                //btnRemoveSects.Enabled = false;
+                btnRemoveSects.Enabled = false;
                 開始檢核ToolStripMenuItem.Enabled = false;
                 btn_Test.Enabled = false;
                 blockLabels設定ToolStripMenuItem.Enabled = false;
@@ -6866,7 +6891,7 @@ namespace VE_SD
                 int selectedindex;
                 int.TryParse(e.KeyCode.ToString().Replace("D", ""), out selectedindex);
                 //MessageBox.Show(selectedindex.ToString());
-                if (selectedindex < 1 || selectedindex > 5)
+                if (selectedindex < 1 || selectedindex > tabControl1.TabPages.Count)
                 {
                     //Do nothing.
                 }
@@ -6876,7 +6901,50 @@ namespace VE_SD
                 }
             }
         }
-
+        private void tabControl1_KeyUp(object sender, KeyEventArgs e)
+        {
+            /*
+            if (("D1D2D3D4D5D6D7D8D9D0".Contains(e.KeyCode.ToString())) && e.Control)
+            {
+                //按下數字鍵
+                int selectedindex;
+                int.TryParse(e.KeyCode.ToString().Replace("D", ""), out selectedindex);
+                //MessageBox.Show(selectedindex.ToString());
+                if (selectedindex < 1 || selectedindex > tabControl1.TabPages.Count)
+                {
+                    //Do nothing.
+                }
+                else
+                {
+                    tabControl1.SelectedIndex = (selectedindex - 1);
+                }
+            }
+            
+            else if (e.Control && e.KeyCode == Keys.Right)
+            {
+                //往右.
+                if (tabControl1.SelectedIndex == tabControl1.TabPages.Count - 1)
+                {
+                    tabControl1.SelectedIndex = 0;
+                }
+                else
+                {
+                    tabControl1.SelectedIndex += 1;
+                }
+            }
+            else if (e.Control && e.KeyCode == Keys.Left)
+            {
+                if (tabControl1.SelectedIndex == 0)
+                {
+                    tabControl1.SelectedIndex = tabControl1.TabPages.Count - 1;
+                }
+                else
+                {
+                    tabControl1.SelectedIndex -= 1;
+                }
+            }
+            */
+        }
 
         #endregion
 
@@ -6894,7 +6962,7 @@ namespace VE_SD
 
             return;
 
-
+            /*
             ChartArea ca = chart_Plot.ChartAreas[0];
             ElementPosition ipp0 = ca.InnerPlotPosition;
             Size OldClientSize = chart_Plot.ClientSize;
@@ -6925,6 +6993,9 @@ namespace VE_SD
                 chart_Plot.ChartAreas[0].AxisY.Maximum = oldYmin + ipp0.Height / xf;
             }
             MessageBox.Show("完成");
+            */
         }
+
+
     }
 }

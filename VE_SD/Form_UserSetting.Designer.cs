@@ -31,15 +31,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_UserSetting));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cmb_軟體開啟時的視窗大小 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.chk_ServiceOut = new System.Windows.Forms.CheckBox();
             this.chk_RemoveUserLog = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_OK = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmb_軟體開啟時的視窗大小 = new System.Windows.Forms.ComboBox();
+            this.chk_防波堤預設填入數字 = new System.Windows.Forms.CheckBox();
+            this.gp_填入數字 = new System.Windows.Forms.GroupBox();
+            this.chk_碼頭預設填入數字 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.gp_填入數字.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -56,6 +60,7 @@
             // tabPage1
             // 
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.gp_填入數字);
             this.tabPage1.Controls.Add(this.cmb_軟體開啟時的視窗大小);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.chk_ServiceOut);
@@ -67,6 +72,27 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cmb_軟體開啟時的視窗大小
+            // 
+            this.cmb_軟體開啟時的視窗大小.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_軟體開啟時的視窗大小.FormattingEnabled = true;
+            this.cmb_軟體開啟時的視窗大小.Items.AddRange(new object[] {
+            "最大",
+            "正常"});
+            this.cmb_軟體開啟時的視窗大小.Location = new System.Drawing.Point(171, 78);
+            this.cmb_軟體開啟時的視窗大小.Name = "cmb_軟體開啟時的視窗大小";
+            this.cmb_軟體開啟時的視窗大小.Size = new System.Drawing.Size(102, 28);
+            this.cmb_軟體開啟時的視窗大小.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 81);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(169, 20);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "軟體開啟時的視窗大小";
             // 
             // chk_ServiceOut
             // 
@@ -118,26 +144,35 @@
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
-            // label1
+            // chk_防波堤預設填入數字
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 81);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 20);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "軟體開啟時的視窗大小";
+            this.chk_防波堤預設填入數字.AutoSize = true;
+            this.chk_防波堤預設填入數字.Location = new System.Drawing.Point(13, 28);
+            this.chk_防波堤預設填入數字.Name = "chk_防波堤預設填入數字";
+            this.chk_防波堤預設填入數字.Size = new System.Drawing.Size(284, 24);
+            this.chk_防波堤預設填入數字.TabIndex = 4;
+            this.chk_防波堤預設填入數字.Text = "防波堤檢核頁面開啟時自動填入數字";
+            this.chk_防波堤預設填入數字.UseVisualStyleBackColor = true;
             // 
-            // cmb_軟體開啟時的視窗大小
+            // gp_填入數字
             // 
-            this.cmb_軟體開啟時的視窗大小.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_軟體開啟時的視窗大小.FormattingEnabled = true;
-            this.cmb_軟體開啟時的視窗大小.Items.AddRange(new object[] {
-            "最大",
-            "正常"});
-            this.cmb_軟體開啟時的視窗大小.Location = new System.Drawing.Point(171, 78);
-            this.cmb_軟體開啟時的視窗大小.Name = "cmb_軟體開啟時的視窗大小";
-            this.cmb_軟體開啟時的視窗大小.Size = new System.Drawing.Size(102, 28);
-            this.cmb_軟體開啟時的視窗大小.TabIndex = 3;
+            this.gp_填入數字.Controls.Add(this.chk_碼頭預設填入數字);
+            this.gp_填入數字.Controls.Add(this.chk_防波堤預設填入數字);
+            this.gp_填入數字.Location = new System.Drawing.Point(9, 127);
+            this.gp_填入數字.Name = "gp_填入數字";
+            this.gp_填入數字.Size = new System.Drawing.Size(415, 120);
+            this.gp_填入數字.TabIndex = 5;
+            this.gp_填入數字.TabStop = false;
+            // 
+            // chk_碼頭預設填入數字
+            // 
+            this.chk_碼頭預設填入數字.AutoSize = true;
+            this.chk_碼頭預設填入數字.Location = new System.Drawing.Point(13, 59);
+            this.chk_碼頭預設填入數字.Name = "chk_碼頭預設填入數字";
+            this.chk_碼頭預設填入數字.Size = new System.Drawing.Size(268, 24);
+            this.chk_碼頭預設填入數字.TabIndex = 5;
+            this.chk_碼頭預設填入數字.Text = "碼頭檢核頁面開啟時自動填入數字";
+            this.chk_碼頭預設填入數字.UseVisualStyleBackColor = true;
             // 
             // Form_UserSetting
             // 
@@ -158,6 +193,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.gp_填入數字.ResumeLayout(false);
+            this.gp_填入數字.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -173,5 +210,8 @@
         private System.Windows.Forms.CheckBox chk_ServiceOut;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmb_軟體開啟時的視窗大小;
+        private System.Windows.Forms.CheckBox chk_防波堤預設填入數字;
+        private System.Windows.Forms.GroupBox gp_填入數字;
+        private System.Windows.Forms.CheckBox chk_碼頭預設填入數字;
     }
 }
