@@ -318,6 +318,10 @@ namespace VE_SD
             textBox_CheckMessageShow.Text = Mod.ErrMsg;
             MessageBox.Show("完成檢核計算!!","完成檢核",MessageBoxButtons.OK,MessageBoxIcon.Information);
             textBox_CheckMessageShow.Select(0, 0);
+            btn_LogOutput.Enabled = true;
+            btn_OutputWord.Enabled = true;
+            輸出LogToolStripMenuItem.Enabled = true;
+            輸出Word報表ToolStripMenuItem.Enabled = true;
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -2454,14 +2458,14 @@ namespace VE_SD
             InterfaceBlock = null;
             if (BlockMainArray.GetLength(0) > 0)
             {
-                //string Msg = "";
-                //開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
-                //btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
+                string Msg = "";
+                開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg));// && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+                btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
             }
             else
             {
-                //開始檢核ToolStripMenuItem.Enabled = false;
-                //btn_Test.Enabled = false;
+                開始檢核ToolStripMenuItem.Enabled = false;
+                btn_Test.Enabled = false;
             }
             //btn_LogOutput.Enabled = false;
             tsp_cond.Text = "請設定或編輯您的專案檔";
@@ -2469,6 +2473,11 @@ namespace VE_SD
             {
                 tabControl1.SelectedIndex = SelectedTab;
             }
+
+            btn_LogOutput.Enabled = false;
+            btn_OutputWord.Enabled = false;
+            輸出LogToolStripMenuItem.Enabled = false;
+            輸出Word報表ToolStripMenuItem.Enabled = false;
             //toolStripStatusLabel1.Text = "開啟完成,取得" + BlockMainArray.GetLength(0).ToString() + "個區塊";
 
             //*****

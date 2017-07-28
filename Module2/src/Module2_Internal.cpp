@@ -711,6 +711,10 @@ bool Module2_Internal::BaseForceCheck() {
 	Var->Nq = 19;
 	Var->Nr = 17;
 
+	/*Var->Nc = 0;
+	Var->Nq = 21.86;
+	Var->Nr = 20.22;*/
+
 	if (Var->MeyerhofCK == true) {
 		Var->Qu = Var->C*Var->Nc*ic*dc + Var->soilR_Water*Df*Var->Nq*dq*iq + 0.5*Var->soilR_Water*Var->b_2plum*Var->Nr*ir*dr;
 		Var->Qu_E = Var->C*Var->Nc*ic_E*dc + Var->soilR_Water*Df*Var->Nq*dq*iq_E + 0.5*Var->soilR_Water*Var->b_2plum_E*Var->Nr*ir_E*dr;
