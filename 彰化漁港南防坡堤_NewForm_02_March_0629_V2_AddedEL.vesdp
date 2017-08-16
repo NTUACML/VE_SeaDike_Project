@@ -9,7 +9,7 @@
     <殘留水位 Value="0.6" />
     <平時上載荷重 Value="1" />
     <地震時上載荷重 Value="0.5" />
-    <船舶牽引力 Value="5" />
+    <船舶牽引力 Value="0" />
     <陸上設計震度 Value="0.1" />
     <水中設計震度 Value="0.2" />
     <水單位重 Value="1.03" />
@@ -17,20 +17,20 @@
     <背填料內摩擦角 Value="40" />
     <背填料壁面摩擦角 Value="15" />
     <背填料水平傾斜角 Value="0" />
-    <入土深度 Value="0.5" />
+    <入土深度 Value="0" />
     <拋石厚度 Value="1" />
     <海側方向 Value="右" />
     <地盤內基礎內摩擦角 Value="33" />
     <土壤凝聚力 Value="0" />
     <平時滑動安全係數 Value="1.2" />
-    <平時傾倒安全係數 Value="1" />
+    <平時傾倒安全係數 Value="1.2" />
     <平時地盤承載力安全係數 Value="2.5" />
     <地震時滑動安全係數 Value="1" />
-    <地震時傾倒安全係數 Value="33" />
+    <地震時傾倒安全係數 Value="1" />
     <地震時地盤承載力安全係數 Value="2.5" />
     <土壤重陸上 Value="1.8" />
     <土壤重水中 Value="1" />
-    <平時設計震度土壓係數 Value="0.201" />
+    <平時設計震度土壓係數 Value="0.201050634" />
     <地震時水上土壓係數 Value="0.253021498" />
     <地震時水下土壓係數 Value="0.316794511" />
     <EL點數>
@@ -104,7 +104,7 @@
       <單位體積重量 Value="1.27" />
       <地震時單位體積重量 Value="2.3" />
       <使用材質 Value="混凝土方塊" />
-      <計算Moment Value="False" />
+      <計算Moment Value="True" />
       <周圍參考材質 Value="混凝土方塊" />
       <BlockCoordinate xValue="0" yValue="0.6" />
       <BlockCoordinate xValue="0" yValue="-0.6" />
@@ -171,7 +171,7 @@
       <地震時單位體積重量 Value="2.3" />
       <使用材質 Value="混凝土方塊" />
       <計算Moment Value="True" />
-      <周圍參考材質 Value="混凝土方塊" />
+      <周圍參考材質 Value="混凝土拋石" />
       <BlockCoordinate xValue="0" yValue="-2.2" />
       <BlockCoordinate xValue="0" yValue="-3.5" />
       <BlockCoordinate xValue="3.6" yValue="-3.5" />

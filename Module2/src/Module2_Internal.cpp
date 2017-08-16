@@ -215,6 +215,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 	//setting up the max level
 	double upper_level = Var->Max_level;
 	double rh = 0;
+	//pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
 	pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
 	double temp_sum_Fh = 0;
 	double temp_sum_FhMh = 0;
@@ -375,6 +376,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			//------------------------------------------------------------------------------
 			//lower layer
 			pi_up = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			//pi_up = pi_down;
 			length = Var->RWL - Var->LevelSection[i].Level;
 			rh_E += length*Var->soilR_Water;
 			pi_down = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
@@ -725,6 +727,9 @@ bool Module2_Internal::BaseForceCheck() {
 	else {
 		Var->Qu = Var->C*Var->Nc + Var->soilR_Water*Df*Var->Nq + 0.5*Var->soilR_Water*Var->b_2plum*Var->Nr;
 		Var->Qu_E = Var->C*Var->Nc + Var->soilR_Water*Df*Var->Nq + 0.5*Var->soilR_Water*Var->b_2plum_E*Var->Nr;
+
+		/*Var->Qu = Var->C*Var->Nc + Var->soilR_Water*Df*Var->Nq + 0.5*Var->soilR_Water*B*Var->Nr;
+		Var->Qu_E = Var->C*Var->Nc + Var->soilR_Water*Df*Var->Nq + 0.5*Var->soilR_Water*B*Var->Nr;*/
 
 		Var->qa = Var->Qu / Var->BaseSF + Var->soilR_Water*Df;
 		Var->qa_E = Var->Qu_E / Var->BaseSF_E + Var->soilR_Water*Df;
