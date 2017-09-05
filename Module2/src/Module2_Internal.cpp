@@ -709,9 +709,9 @@ bool Module2_Internal::BaseForceCheck() {
 	/*Var->Nq = exp(M_PI*tan((Var->BasePhi)* M_PI / 180))* std::pow(tan((45 + Var->BasePhi / 2)* M_PI / 180), 2.0);
 	Var->Nc = (Var->Nq - 1)*(cos(Var->BasePhi* M_PI / 180) / sin(Var->BasePhi* M_PI / 180));
 	Var->Nr = (Var->Nq - 1)*tan((1.4*Var->BasePhi)* M_PI / 180);*/
-	Var->Nc = 0;
+	/*Var->Nc = 0;
 	Var->Nq = 19;
-	Var->Nr = 17;
+	Var->Nr = 17;*/
 
 	/*Var->Nc = 0;
 	Var->Nq = 21.86;

@@ -733,9 +733,9 @@ namespace VE_SD
                 textBox_拋石厚度.Text = "1.5";
                 textBox_地盤基礎內摩擦角.Text = "31.5";
                 textBox_土壤凝聚力.Text = "0";
-                //textBox_Nq.Text = "21.86";
-                //textBox_Nc.Text = "34.04";
-                //textBox_Nr.Text = "20.22";
+                textBox_Nq.Text = "21.86";
+                textBox_Nc.Text = "34.04";
+                textBox_Nr.Text = "20.22";
                 textBox_平時滑動安全係數.Text = "1.2";
                 textBox_平時傾倒安全係數.Text = "1.2";
                 textBox_平時地盤承載力安全係數.Text = "2.5";
@@ -1598,11 +1598,11 @@ namespace VE_SD
             string dirr;
             double 地盤內基礎內摩擦角R;
             double 土壤凝聚力R;
-            /*
+            
             double NcR;
             double NqR;
             double NrR;
-            */
+            
             double 平時滑動安全係數R;
             double 平時傾倒安全係數R;
             double 平時地盤承載力安全係數R;
@@ -1889,7 +1889,7 @@ namespace VE_SD
                     return "土壤凝聚力讀取失敗";
                 }
 
-                /*
+                
                 //Nq
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/Nq");
                 if (object.Equals(RNode, null))
@@ -1925,7 +1925,7 @@ namespace VE_SD
                 {
                     return "Nr讀取失敗";
                 }
-                */
+                
 
                 //平時滑動安全係數
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/平時滑動安全係數");
@@ -2329,11 +2329,11 @@ namespace VE_SD
             cmb_seawaveDir.SelectedItem = dirr;
             textBox_地盤基礎內摩擦角.Text = 地盤內基礎內摩擦角R.ToString();
             textBox_土壤凝聚力.Text = 土壤凝聚力R.ToString();
-            /*
+            
             textBox_Nq.Text = NqR.ToString();
             textBox_Nc.Text = NcR.ToString();
             textBox_Nr.Text = NrR.ToString();
-            */
+            
             textBox_平時滑動安全係數.Text = 平時滑動安全係數R.ToString();
             textBox_平時傾倒安全係數.Text = 平時傾倒安全係數R.ToString();
             textBox_平時地盤承載力安全係數.Text = 平時地盤承載力安全係數R.ToString();
@@ -2598,7 +2598,7 @@ namespace VE_SD
             XmlElement 地盤內基礎內摩擦角 = doc.CreateElement("地盤內基礎內摩擦角");
             地盤內基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
 
-            /*
+            
             XmlElement Nc = doc.CreateElement("Nc");
             Nc.SetAttribute("Value", textBox_Nc.Text);
 
@@ -2607,7 +2607,7 @@ namespace VE_SD
 
             XmlElement Nr = doc.CreateElement("Nr");
             Nr.SetAttribute("Value", textBox_Nr.Text);
-            */
+            
 
             XmlElement 平時滑動安全係數 = doc.CreateElement("平時滑動安全係數");
             平時滑動安全係數.SetAttribute("Value", textBox_平時滑動安全係數.Text);
