@@ -64,7 +64,12 @@ void VE_SD::Module2::BaseDesignInput(double _U, double _D, double _BasePhi, doub
 	Var->rw = _rw;
 }
 
-
+void VE_SD::Module2::BC_DesignInput(double _Nq, double _Nr, double _Nc)
+{
+	Var->Nq = _Nq;
+	Var->Nr = _Nr;
+	Var->Nc = _Nc;
+}
 
 void VE_SD::Module2::SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF)
 {
