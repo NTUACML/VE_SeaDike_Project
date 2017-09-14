@@ -329,8 +329,31 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "******背景參數******" << std::endl;
 	FILE << "HWL: " << Var->HWL << std::endl;
 	FILE << "LWL: " << Var->LWL << std::endl;
-	FILE << "Ka: " << Var->ka << std::endl;
-
+	FILE << "RWL: " << Var->RWL << std::endl;
+	FILE << "上載重 (平時): " << Var->Q << std::endl;
+	FILE << "上載重 (地震時): " << Var->Qe << std::endl;
+	FILE << "船舶牽引力: " << Var->Ta << std::endl;
+	FILE << "陸上震度: " << Var->K << std::endl;
+	FILE << "水中震度: " << Var->K_plun << std::endl;
+	FILE << "背填料內摩擦角: " << Var->InnerPhi << std::endl;
+	FILE << "壁面摩擦角: " << Var->WallPhi << std::endl;
+	FILE << "水平傾斜角: " << Var->Beta << std::endl;
+	FILE << "繫船柱突出高度: " << Var->hd << std::endl;
+	FILE << "入土深度: " << Var->U << std::endl;
+	FILE << "拋石厚度: " << Var->D << std::endl;
+	FILE << "地盤基礎內摩擦角: " << Var->BasePhi << std::endl;
+	FILE << "土壤黏滯力: " << Var->C << std::endl;
+	FILE << "平時滑動安全係數: " << Var->SlideSF << std::endl;
+	FILE << "平時傾倒安全係數: " << Var->RotateSF << std::endl;
+	FILE << "平時地盤承載力安全係數: " << Var->BaseSF << std::endl;
+	FILE << "地震時滑動安全係數: " << Var->SlideSF_E << std::endl;
+	FILE << "地震時傾倒安全係數: " << Var->RotateSF_E << std::endl;
+	FILE << "地震時地盤承載力安全係數: " << Var->BaseSF_E << std::endl;
+	FILE << "土壤重 (水中): " << Var->soilR_Water << std::endl;
+	FILE << "上載重 (陸上): " << Var->soilR_Earth << std::endl;
+	FILE << "Nc: " << Var->Nc << std::endl;
+	FILE << "Nq: " << Var->Nq << std::endl;
+	FILE << "Nr: " << Var->Nr << std::endl;
 	FILE << std::endl;
 	FILE << "******型塊參數******" << std::endl;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
@@ -521,16 +544,6 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "Qu_E " << Var->Qu_E << std::endl;
 	FILE << "qa " << Var->qa << std::endl;
 	FILE << "qa_E " << Var->qa_E << std::endl;
-	FILE << "Base_Phi " << Var->BasePhi << std::endl;
-	FILE << "Nc " << Var->Nc << std::endl;
-	FILE << "Nq " << Var->Nq << std::endl;
-	FILE << "Nr " << Var->Nr << std::endl;
-	FILE << "K" << Var->K << std::endl;
-	//FILE << "D" << Var->D << std::endl;
-	//FILE << "U" << Var->U << std::endl;
-	FILE << "BaseSF" << Var->BaseSF << std::endl;
-	FILE << "BaseSF_E" << Var->BaseSF_E << std::endl;
-	//FILE << "soilR_Water" << Var->soilR_Water << std::endl;
 	FILE.close();
 	return true;
 }
