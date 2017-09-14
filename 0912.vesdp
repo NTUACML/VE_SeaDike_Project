@@ -1,4 +1,4 @@
-﻿<Root>
+<Root>
   <版本 Value="SeaDikeVS_P2" />
   <GlobalParameters>
     <選擇Tab Value="2" />
@@ -33,9 +33,9 @@
     <平時設計震度土壓係數 Value="0.201050634" />
     <地震時水上土壓係數 Value="0.253021498" />
     <地震時水下土壓係數 Value="0.316794511" />
-    <Nc Value="0" />
-    <Nq Value="19" />
-    <Nr Value="17" />
+	<Nc Value="31.2" />
+	<Nq Value="31.2" />
+	<Nr Value="31.2" />
     <EL點數>
       <EL Value="-0.6" />
       <EL Value="-2.2" />

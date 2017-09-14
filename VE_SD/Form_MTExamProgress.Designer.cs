@@ -560,6 +560,7 @@
             // cmb_seawaveDir
             // 
             this.cmb_seawaveDir.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_seawaveDir.Enabled = false;
             this.cmb_seawaveDir.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_seawaveDir.FormattingEnabled = true;
             this.cmb_seawaveDir.ImeMode = System.Windows.Forms.ImeMode.Disable;
@@ -570,6 +571,7 @@
             this.cmb_seawaveDir.Name = "cmb_seawaveDir";
             this.cmb_seawaveDir.Size = new System.Drawing.Size(127, 28);
             this.cmb_seawaveDir.TabIndex = 50;
+            this.cmb_seawaveDir.Visible = false;
             this.cmb_seawaveDir.SelectedIndexChanged += new System.EventHandler(this.cmb_seawaveDir_SelectedIndexChanged);
             // 
             // textBox_BoatColumnHeight
@@ -585,12 +587,14 @@
             // label25
             // 
             this.label25.AutoSize = true;
+            this.label25.Enabled = false;
             this.label25.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label25.Location = new System.Drawing.Point(19, 500);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(73, 20);
             this.label25.TabIndex = 49;
             this.label25.Text = "海側方向";
+            this.label25.Visible = false;
             // 
             // textBox_殘留水位
             // 
@@ -1018,14 +1022,12 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Enabled = false;
             this.label18.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label18.Location = new System.Drawing.Point(10, 116);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(108, 20);
             this.label18.TabIndex = 17;
             this.label18.Text = "土壤承載力Nr";
-            this.label18.Visible = false;
             // 
             // textBox_Nr
             // 
@@ -1057,12 +1059,14 @@
             this.gp_土壓係數.Controls.Add(this.textBox_KaStage1);
             this.gp_土壓係數.Controls.Add(this.textBox_KaStage3);
             this.gp_土壓係數.Controls.Add(this.textBox_KaStage2);
+            this.gp_土壓係數.Enabled = false;
             this.gp_土壓係數.Location = new System.Drawing.Point(752, 294);
             this.gp_土壓係數.Name = "gp_土壓係數";
             this.gp_土壓係數.Size = new System.Drawing.Size(468, 296);
             this.gp_土壓係數.TabIndex = 66;
             this.gp_土壓係數.TabStop = false;
             this.gp_土壓係數.Text = "土壓係數設定";
+            this.gp_土壓係數.Visible = false;
             // 
             // label26
             // 
