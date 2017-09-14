@@ -328,6 +328,7 @@ namespace VE_SD
             ErrorMsg = "";
             bool okOrNot = true;//True is Ok[No faults].
 
+            /*
             if (cmb_seawaveDir.SelectedItem.ToString() == "")
             {
                 ErrorMsg += ("您深海波波向沒有選擇!!!" + Environment.NewLine);
@@ -335,6 +336,8 @@ namespace VE_SD
                 //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //return false;
             }
+            */
+
             if (textBox_設計潮位高.Text == "")
             {
                 ErrorMsg += ("您設計潮位高沒有選擇!!!" + Environment.NewLine);
@@ -539,6 +542,7 @@ namespace VE_SD
                 //return false;
 
             }
+            /*
             if (textBox_KaStage1.Text == "")
             {
                 ErrorMsg += ("您平時設計震度土壓係數沒有選擇!!!" + Environment.NewLine);
@@ -562,7 +566,7 @@ namespace VE_SD
                 //MessageBox.Show("您深海波波向沒有選擇!!!", "檢核檢查", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 //return false;
 
-            }
+            }*/
             /*
             if (textBox_平時上載荷重.Text == "")
             {
@@ -717,7 +721,7 @@ namespace VE_SD
 
             if (mainForm.碼頭檢核開啟時預設數字)
             {
-                cmb_seawaveDir.SelectedItem = "右";
+                //cmb_seawaveDir.SelectedItem = "右";
                 textBox_設計潮位高.Text = "1.5";
                 textBox_設計潮位低.Text = "0.07";
                 textBox_殘留水位.Text = "0.55";
@@ -747,9 +751,11 @@ namespace VE_SD
                 textBox_SoilR_Earth.Text = "1.8";
                 textBox_SoilR_Water.Text = "1.0";
 
+                /*
                 textBox_KaStage1.Text = "0.201";
                 textBox_KaStage2.Text = "0.293";
                 textBox_KaStage3.Text = "0.423";
+                */
             }
 
             EscapeDGMaterialCellValueChangedFunction = true;
@@ -1595,7 +1601,7 @@ namespace VE_SD
             double 背填料水平傾斜角R;
             double 入土深度R;
             double 拋石厚度R;
-            string dirr;
+            //string dirr;
             double 地盤內基礎內摩擦角R;
             double 土壤凝聚力R;
             
@@ -1611,9 +1617,11 @@ namespace VE_SD
             double 地震時地盤承載力安全係數R;
             double 土壤重陸上R;
             double 土壤重水中R;
+            /*
             double 平時設計震度土壓係數R;
             double 地震時水上土壓係數R;
             double 地震時水下土壓係數R;
+            */
 
             string BlockToolTip資訊選擇;
 
@@ -1672,6 +1680,7 @@ namespace VE_SD
                 Relement = (XmlElement)RNode;
                 最後編輯時間R = Relement.GetAttribute("Value");
 
+                /*
                 //海側方向.
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/海側方向");
                 if (object.Equals(RNode, null))
@@ -1684,6 +1693,7 @@ namespace VE_SD
                 {
                     return "海側方向讀取失敗";
                 }
+                */
 
                 //設計潮位高.
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/設計潮位高");
@@ -1892,6 +1902,7 @@ namespace VE_SD
                 
                 //Nq
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/Nq");
+                MessageBox.Show(object.Equals(RNode,null).ToString());
                 if (object.Equals(RNode, null))
                 {
                     return "Nq讀取失敗";
@@ -1899,7 +1910,7 @@ namespace VE_SD
                 Relement = (XmlElement)RNode;
                 if (!double.TryParse(Relement.GetAttribute("Value"), out NqR))
                 {
-                    return "Nq讀取失敗";
+                    return "Nq轉換失敗";
                 }
 
                 //Nc
@@ -1911,7 +1922,7 @@ namespace VE_SD
                 Relement = (XmlElement)RNode;
                 if (!double.TryParse(Relement.GetAttribute("Value"), out NcR))
                 {
-                    return "Nc讀取失敗";
+                    return "Nc轉換失敗";
                 }
 
                 //Nr
@@ -1923,7 +1934,7 @@ namespace VE_SD
                 Relement = (XmlElement)RNode;
                 if (!double.TryParse(Relement.GetAttribute("Value"), out NrR))
                 {
-                    return "Nr讀取失敗";
+                    return "Nr轉換失敗";
                 }
                 
 
@@ -2023,6 +2034,7 @@ namespace VE_SD
                     return "土壤重水中讀取失敗";
                 }
 
+                /*
                 //平時設計震度土壓係數.
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/平時設計震度土壓係數");
                 if (object.Equals(RNode, null))
@@ -2058,6 +2070,7 @@ namespace VE_SD
                 {
                     return "地震時水下土壓係數讀取失敗";
                 }
+                */
 
 
                 //EL讀取.
@@ -2326,7 +2339,7 @@ namespace VE_SD
             textBox_背填料水平傾斜角.Text = 背填料水平傾斜角R.ToString();
             textBox_入土深度.Text = 入土深度R.ToString();
             textBox_拋石厚度.Text = 拋石厚度R.ToString();
-            cmb_seawaveDir.SelectedItem = dirr;
+            //cmb_seawaveDir.SelectedItem = dirr;
             textBox_地盤基礎內摩擦角.Text = 地盤內基礎內摩擦角R.ToString();
             textBox_土壤凝聚力.Text = 土壤凝聚力R.ToString();
             
@@ -2342,10 +2355,11 @@ namespace VE_SD
             textBox_地震時地盤承載力安全係數.Text = 地震時地盤承載力安全係數R.ToString();
             textBox_SoilR_Earth.Text = 土壤重陸上R.ToString();
             textBox_SoilR_Water.Text = 土壤重水中R.ToString();
+            /*
             textBox_KaStage1.Text = 平時設計震度土壓係數R.ToString();
             textBox_KaStage2.Text = 地震時水上土壓係數R.ToString();
             textBox_KaStage3.Text = 地震時水下土壓係數R.ToString();
-
+            */
 
 
             Form_BlockNameAndCorrdinate p = new Form_BlockNameAndCorrdinate();
@@ -2588,8 +2602,8 @@ namespace VE_SD
             XmlElement 拋石厚度 = doc.CreateElement("拋石厚度");
             拋石厚度.SetAttribute("Value", textBox_拋石厚度.Text);
 
-            XmlElement 海側方向info = doc.CreateElement("海側方向");
-            海側方向info.SetAttribute("Value", cmb_seawaveDir.SelectedItem.ToString());
+            //XmlElement 海側方向info = doc.CreateElement("海側方向");
+            //海側方向info.SetAttribute("Value", cmb_seawaveDir.SelectedItem.ToString());
 
 
             XmlElement 土壤凝聚力 = doc.CreateElement("土壤凝聚力");
@@ -2634,6 +2648,7 @@ namespace VE_SD
             XmlElement 土壤重水中 = doc.CreateElement("土壤重水中");
             土壤重水中.SetAttribute("Value", textBox_SoilR_Water.Text);
 
+            /*
             XmlElement 平時設計震度土壓係數 = doc.CreateElement("平時設計震度土壓係數");
             平時設計震度土壓係數.SetAttribute("Value", textBox_KaStage1.Text);
 
@@ -2642,7 +2657,7 @@ namespace VE_SD
 
             XmlElement 地震時水下土壓係數 = doc.CreateElement("地震時水下土壓係數");
             地震時水下土壓係數.SetAttribute("Value", textBox_KaStage3.Text);
-
+            */
 
             /*
             XmlElement 內摩擦角 = doc.CreateElement("內摩擦角");
@@ -2681,7 +2696,7 @@ namespace VE_SD
             全域參數XML點.AppendChild(背填料水平傾斜角);
             全域參數XML點.AppendChild(入土深度);
             全域參數XML點.AppendChild(拋石厚度);
-            全域參數XML點.AppendChild(海側方向info);
+            //全域參數XML點.AppendChild(海側方向info);
             全域參數XML點.AppendChild(地盤內基礎內摩擦角);
             全域參數XML點.AppendChild(土壤凝聚力);
             /*
@@ -2697,9 +2712,11 @@ namespace VE_SD
             全域參數XML點.AppendChild(地震時地盤承載力安全係數);
             全域參數XML點.AppendChild(土壤重陸上);
             全域參數XML點.AppendChild(土壤重水中);
+            /*
             全域參數XML點.AppendChild(平時設計震度土壓係數);
             全域參數XML點.AppendChild(地震時水上土壓係數);
             全域參數XML點.AppendChild(地震時水下土壓係數);
+            */
 
             //全域參數XML點.AppendChild();
             //全域參數XML點.AppendChild();
@@ -3495,8 +3512,13 @@ namespace VE_SD
                 double[] ELMAXInner = new double[] { };
                 double XCenterX = -100000;
                 取得目前ELMIN與ELMAX(ref ELMINInner, ref ELMAXInner, ref XCenterX);
+
+                //取消根據海向決定EL的機制.
+                MinEL = Math.Min(ELMINInner[0], ELMINInner[1]);
+                MaxEL = Math.Max(ELMAXInner[0], ELMAXInner[1]);
+
                 //根據目前選取的海向,決定ARROW圖與EL最大值與最小值.
-                if (cmb_seawaveDir.SelectedItem.ToString() == "右")
+                /*if (cmb_seawaveDir.SelectedItem.ToString() == "右")
                 {
                     //[東].海側在右邊,箭頭往左邊畫.
                     MinEL = ELMINInner[1];
@@ -3508,6 +3530,7 @@ namespace VE_SD
                     MinEL = ELMINInner[0];
                     MaxEL = ELMAXInner[0];
                 }
+                */
                 //繪上ELMAX與ELMIN線段.
                 try
                 {
@@ -3754,7 +3777,9 @@ namespace VE_SD
                 chart_Plot.Annotations.Clear();//清除所有的Annotations.
                 double xspace = chart_Plot.ChartAreas[0].AxisX.Interval;
 
+                //取消海測文字[2017/09/14].
                 //海側文字.
+                /*
                 TextAnnotation SeaSidetext = new TextAnnotation();
                 SeaSidetext.AxisX = chart_Plot.ChartAreas[0].AxisX;
                 SeaSidetext.AxisY = chart_Plot.ChartAreas[0].AxisY;
@@ -3764,7 +3789,7 @@ namespace VE_SD
                 SeaSidetext.Font = new Font("微軟正黑體", 14, FontStyle.Bold);
                 SeaSidetext.Text = "海側";// (cmb_seawaveDir.SelectedItem.ToString()=="E"?"<":"") + "========="+ (cmb_seawaveDir.SelectedItem.ToString()=="W"?">":"");
                 chart_Plot.Annotations.Add(SeaSidetext);
-
+                */
 
                 //畫上Block名稱.
                 for (int i = 0; i < BlockMainArray.GetLength(0); i++)
@@ -4210,7 +4235,7 @@ namespace VE_SD
             RCOL.背填料水平傾斜角=textBox_背填料水平傾斜角.Text;
             RCOL.入土深度=textBox_入土深度.Text;
             RCOL.拋石厚度=textBox_拋石厚度.Text;
-            RCOL.海側方向= cmb_seawaveDir.SelectedItem.ToString();
+            //RCOL.海側方向= cmb_seawaveDir.SelectedItem.ToString();
             RCOL.地盤基礎內摩擦角=textBox_地盤基礎內摩擦角.Text;
             RCOL.土壤凝聚力=textBox_土壤凝聚力.Text;
             RCOL.Nq=textBox_Nq.Text;
@@ -4224,9 +4249,9 @@ namespace VE_SD
             RCOL.地震時地盤承載力安全係數=textBox_地震時地盤承載力安全係數.Text;
             RCOL.陸上土壤重=textBox_SoilR_Earth.Text;//土壤重(陸上)
             RCOL.水中土壤重=textBox_SoilR_Water.Text;//土壤重(水中)
-            RCOL.平時無設計震度土壓係數Ka=textBox_KaStage1.Text;//平時無設計震度土壓係數Ka
-            RCOL.地震時設計震度K017土壓係數Ka=textBox_KaStage2.Text;//地震時(設計震度K=0.17)土壓係數Ka
-            RCOL.地震時設計震度K033土壓係數Ka=textBox_KaStage3.Text;//地震時(設計震度K=0.33)土壓係數Ka
+            //RCOL.平時無設計震度土壓係數Ka=textBox_KaStage1.Text;//平時無設計震度土壓係數Ka
+            //RCOL.地震時設計震度K017土壓係數Ka=textBox_KaStage2.Text;//地震時(設計震度K=0.17)土壓係數Ka
+            //RCOL.地震時設計震度K033土壓係數Ka=textBox_KaStage3.Text;//地震時(設計震度K=0.33)土壓係數Ka
         }
         public bool IsFileLocked(FileInfo file)
         {
@@ -5907,13 +5932,15 @@ namespace VE_SD
             }
             return dtheata;
         }
+        
         private void cmb_seawaveDir_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_seawaveDir.SelectedIndex != -1)
             {
-                繪上EL();
+                //繪上EL();
             }
         }
+        
         #endregion
         #region 縮放表單
         private void Form_MTExamProgress_Resize(object sender, EventArgs e)
