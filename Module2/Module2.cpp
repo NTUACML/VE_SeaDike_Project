@@ -85,12 +85,12 @@ void VE_SD::Module2::SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, doubl
 	Var->BaseSF_E = _BaseSF_E;
 }
 
-void VE_SD::Module2::KaInput(double _ka, double _ka_17, double _ka_33)
-{
-	Var->ka = _ka;
-	Var->ka_17 = _ka_17;
-	Var->ka_33 = _ka_33;
-}
+//void VE_SD::Module2::KaInput(double _ka, double _ka_17, double _ka_33)
+//{
+//	Var->ka = _ka;
+//	Var->ka_17 = _ka_17;
+//	Var->ka_33 = _ka_33;
+//}
 
 void VE_SD::Module2::MeyerhofCheck(bool _MeyerhofCheck) {
 	Var->MeyerhofCK = _MeyerhofCheck;

@@ -91,7 +91,7 @@ namespace VE_SD {
 		void BC_DesignInput(double _Nq, double _Nr, double _Nc);
 		void SF_CoefInput(double _SlideSF, double _RotateSF, double _BaseSF);
 		void SF_CoefInput_E(double _SlideSF_E, double _RotateSF_E, double _BaseSF_E);
-		void KaInput(double _ka, double _ka_17, double _ka_33);
+		//void KaInput(double _ka, double _ka_17, double _ka_33);
 		void MeyerhofCheck(bool _MeyerhofCheck);
 
 		//- Block Set

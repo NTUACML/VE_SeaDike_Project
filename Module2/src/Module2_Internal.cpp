@@ -215,8 +215,10 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 	//setting up the max level
 	double upper_level = Var->Max_level;
 	double rh = 0;
-	//pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
-	pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+	double phi = Var->InnerPhi*M_PI / 180;
+	double delta = Var->WallPhi*M_PI / 180;
+	double ka = pow(cos(phi), 2) / (cos(delta)*pow((1 + sqrt(sin(phi + delta)*sin(phi) / cos(delta))), 2));
+	pi_down = (Var->Q + rh)*ka*cos(Var->WallPhi*M_PI / 180);
 	double temp_sum_Fh = 0;
 	double temp_sum_FhMh = 0;
 
@@ -237,7 +239,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = upper_level - Var->LevelSection[i].Level;
 			rh += length*Var->soilR_Earth;
-			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Q + rh)*ka*cos(Var->WallPhi*M_PI / 180);
 			Var->LevelSection[i].Fh = 0.5*(pi_up + pi_down)*length;
 
 			//refresh the upper level
@@ -259,7 +261,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = upper_level - Var->RWL;
 			rh += length*Var->soilR_Earth;
-			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Q + rh)*ka*cos(Var->WallPhi*M_PI / 180);
 			Var->LevelSection[i].Fh = 0.5*(pi_up + pi_down)*length;
 
 			//finding the arm
@@ -273,7 +275,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = Var->RWL - Var->LevelSection[i].Level;
 			rh += length*Var->soilR_Water;
-			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Q + rh)*ka*cos(Var->WallPhi*M_PI / 180);
 			lower_fhi = 0.5*(pi_up + pi_down)*length;;
 			Var->LevelSection[i].Fh += lower_fhi;
 
@@ -296,7 +298,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = upper_level - Var->LevelSection[i].Level;
 			rh += length*Var->soilR_Water;
-			pi_down = (Var->Q + rh)*Var->ka*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Q + rh)*ka*cos(Var->WallPhi*M_PI / 180);
 			Var->LevelSection[i].Fh = 0.5*(pi_up + pi_down)*length;
 
 			//refresh the upper level
@@ -322,7 +324,12 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 
 	upper_level = Var->Max_level;
 	double rh_E = 0;
-	pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+	double theda_down, theda_up;
+	theda_up = atan(Var->K);
+	theda_down = atan(Var->K_plun);
+	double ka_up = pow(cos(phi - theda_up), 2) / (cos(delta + theda_up)*cos(theda_up)*pow((1 + sqrt(sin(phi + delta)*sin(phi - theda_up) / cos(delta + theda_up))), 2));
+	double ka_down = pow(cos(phi - theda_down), 2) / (cos(delta + theda_down)*cos(theda_down)*pow((1 + sqrt(sin(phi + delta)*sin(phi - theda_down) / cos(delta + theda_down))), 2));
+	pi_down = (Var->Qe + rh_E)*ka_up*cos(Var->WallPhi*M_PI / 180);
 	double temp_sum_Fh_E = 0;
 	double temp_sum_FhMh_E = 0;
 	//- Earthquake situation
@@ -342,7 +349,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = upper_level - Var->LevelSection[i].Level;
 			rh_E += length*Var->soilR_Earth;
-			pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Qe + rh_E)*ka_up*cos(Var->WallPhi*M_PI / 180);
 			Var->LevelSection[i].Fh_E = 0.5*(pi_up + pi_down)*length;
 
 			//refresh the upper level
@@ -364,7 +371,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = upper_level - Var->RWL;
 			rh_E += length*Var->soilR_Earth;
-			pi_down = (Var->Qe + rh_E)*Var->ka_17*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Qe + rh_E)*ka_up*cos(Var->WallPhi*M_PI / 180);
 			Var->LevelSection[i].Fh_E = 0.5*(pi_up + pi_down)*length;
 
 			//finding the arm
@@ -375,11 +382,11 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			Var->LevelSection[i].Fh_Mh_E = Var->LevelSection[i].Fh_E*Var->LevelSection[i].Fh_y_E;
 			//------------------------------------------------------------------------------
 			//lower layer
-			pi_up = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			pi_up = (Var->Qe + rh_E)*ka_down*cos(Var->WallPhi*M_PI / 180);
 			//pi_up = pi_down;
 			length = Var->RWL - Var->LevelSection[i].Level;
 			rh_E += length*Var->soilR_Water;
-			pi_down = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Qe + rh_E)*ka_down*cos(Var->WallPhi*M_PI / 180);
 			lower_fhi = 0.5*(pi_up + pi_down)*length;;
 			Var->LevelSection[i].Fh_E += lower_fhi;
 
@@ -402,7 +409,7 @@ bool Module2_Internal::HorizontalSoilForceCal() {
 			pi_up = pi_down;
 			length = upper_level - Var->LevelSection[i].Level;
 			rh_E += length*Var->soilR_Water;
-			pi_down = (Var->Qe + rh_E)*Var->ka_33*cos(Var->WallPhi*M_PI / 180);
+			pi_down = (Var->Qe + rh_E)*ka_down*cos(Var->WallPhi*M_PI / 180);
 			Var->LevelSection[i].Fh_E = 0.5*(pi_up + pi_down)*length;
 
 			//refresh the upper level

@@ -89,7 +89,7 @@ public:
 		RotateSF_E,
 		BaseSF_E;
 	//- 不同震度土壓係數
-	double ka, ka_17, ka_33;
+	//double ka, ka_17, ka_33;
 	//- 確認是否為混凝土塊
 	bool concretecheck;
 	//- summations of all force
