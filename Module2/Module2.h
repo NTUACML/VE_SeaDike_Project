@@ -61,6 +61,7 @@ namespace VE_SD {
 		double R1, R1_E, R2, R2_E; //基礎拋石底面反力
 		double Qu, Qu_E; //Meyerhof's 承載力
 		double qa, qa_E; //基礎地盤之容許承載力
+		double ka_0, ka_up, ka_down;
 
 		array< EL_SectionResult >^ EL_Out;
 		array< BlockResult2 >^ Block_Out;

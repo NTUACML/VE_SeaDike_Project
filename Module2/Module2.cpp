@@ -267,7 +267,10 @@ bool VE_SD::Module2::Get_DataBank_Data(){
 	VarBank.Qu_E = Var->Qu_E;
 	VarBank.qa = Var->qa;
 	VarBank.qa_E = Var->qa_E;
-
+	// new ka is here!
+	VarBank.ka_0 = Var->ka_0;
+	VarBank.ka_up = Var->ka_up;
+	VarBank.ka_down = Var->ka_down;
 	return true;
 }
 
@@ -354,6 +357,9 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 	FILE << "Nc: " << Var->Nc << std::endl;
 	FILE << "Nq: " << Var->Nq << std::endl;
 	FILE << "Nr: " << Var->Nr << std::endl;
+	FILE << "溃玒计(キ): " << Var->ka_0 << std::endl;
+	FILE << "溃玒计(綺嘲): " << Var->ka_up << std::endl;
+	FILE << "溃玒计(綺): " << Var->ka_down << std::endl;
 	FILE << std::endl;
 	FILE << "******遏把计******" << std::endl;
 	for (size_t i = 0; i < Var->BlockData.size(); i++)
