@@ -1902,7 +1902,7 @@ namespace VE_SD
                 
                 //Nq
                 RNode = doc.SelectSingleNode("Root/GlobalParameters/Nq");
-                MessageBox.Show(object.Equals(RNode,null).ToString());
+                //MessageBox.Show(object.Equals(RNode,null).ToString());
                 if (object.Equals(RNode, null))
                 {
                     return "Nq讀取失敗";
