@@ -47,6 +47,8 @@ namespace VE_SD
         string _平時無設計震度土壓係數Ka = "";
         string _地震時設計震度K017土壓係數Ka="";
         string _地震時設計震度K033土壓係數Ka="";
+
+
         /*
         string ="";
         string ="";

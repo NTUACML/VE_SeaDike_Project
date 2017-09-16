@@ -4448,9 +4448,11 @@ namespace VE_SD
                     TableRef.Rows[26].Cells[2].Range.Text = RCOL.地震時地盤承載力安全係數;
                     TableRef.Rows[27].Cells[2].Range.Text = RCOL.陸上土壤重;
                     TableRef.Rows[28].Cells[2].Range.Text = RCOL.水中土壤重;
+                    /*
                     TableRef.Rows[29].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
                     TableRef.Rows[30].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
                     TableRef.Rows[31].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
+                    */
                     //TableRef.Rows[33].Cells[2].Range.Text =;
 
                     //取得第三個表格.
@@ -4670,23 +4672,26 @@ namespace VE_SD
                     //取得第五個表格.
                     //5. 土壓力水平分力及傾倒彎矩.
                     //  土壓強度(平時).
+                    //TableRef.Rows[29].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
+                    //TableRef.Rows[30].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
+                    //TableRef.Rows[31].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
                     TableRef = newDocument.Tables[5];
-                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.平時無設計震度土壓係數Ka;
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.ka_0.ToString("0.00");// RCOL.平時無設計震度土壓係數Ka;
 
 
                     //第六個表格.
                     //  土壓強度(地震時 陸上)
                     // 
                     TableRef = newDocument.Tables[6];
-                    TableRef.Rows[1].Cells[2].Range.Text = (0.17).ToString("0.00");
-                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.地震時設計震度K017土壓係數Ka;
+                    TableRef.Rows[1].Cells[2].Range.Text = RCOL.陸上設計震度;
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.ka_up.ToString("0.00"); //RCOL.地震時設計震度K017土壓係數Ka;
 
 
                     //第七個表格.
                     //  土壓強度(地震時 水中)
                     TableRef = newDocument.Tables[7];
-                    TableRef.Rows[1].Cells[2].Range.Text = (0.33).ToString("0.00");
-                    TableRef.Rows[2].Cells[2].Range.Text = RCOL.地震時設計震度K033土壓係數Ka;
+                    TableRef.Rows[1].Cells[2].Range.Text = RCOL.水中設計震度;//(0.33).ToString("0.00");
+                    TableRef.Rows[2].Cells[2].Range.Text = Mod.VarBank.ka_down.ToString("0.00"); //RCOL.地震時設計震度K033土壓係數Ka;
 
                     //第八個表格.
                     //土壓水平力及傾倒彎矩.
