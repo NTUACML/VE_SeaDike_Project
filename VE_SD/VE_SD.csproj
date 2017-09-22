@@ -71,7 +71,9 @@
   <ItemGroup>
     <Compile Include="AxisAssists.cs" />
     <Compile Include="Class_BlockSect.cs" />
+    <Compile Include="Class_BlockSect_MT.cs" />
     <Compile Include="Class_Block_Interface.cs" />
+    <Compile Include="Class_Block_MT_Interface.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

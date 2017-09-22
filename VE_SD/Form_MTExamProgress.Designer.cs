@@ -1603,7 +1603,7 @@
             this.cmb_ShowOnBlockListChoice.Items.AddRange(new object[] {
             "無",
             "單位體積重",
-            "Moment計算",
+            "是否為混凝土塊",
             "材質"});
             this.cmb_ShowOnBlockListChoice.Location = new System.Drawing.Point(8, 48);
             this.cmb_ShowOnBlockListChoice.Name = "cmb_ShowOnBlockListChoice";

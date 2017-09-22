@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace VE_SD
 {
-    public class Class_BlockSect
+    public class Class_BlockSect_MT
     {
         //變數定義區塊.
         private int _點數 = 0;
-        private double[] _x=new double[] { };
-        private double[] _y=new double[] { };
+        private double[] _x = new double[] { };
+        private double[] _y = new double[] { };
         private string _name = "";
         private bool _canprocess = true;
         private string _errordesp = "";
@@ -28,17 +28,17 @@ namespace VE_SD
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 2.3;
         private double _地震時單位體積重量 = 2.3;
-        private string _使用材質="";//這個Block的使用材質.
+        private string _使用材質 = "";//這個Block的使用材質.
         private bool _是否為混凝土塊 = true;// = "開啟";
-        private bool _計算Moment與否 = true;
+        //private bool _計算Moment與否 = true;
         private string[] _參考材質 = new string[] { };//這個Block使用的周圍參考材質.
         private double _平均摩擦係數;
-       // private double _滑倒安全係數 = 1.2;
-       // private double _傾倒安全係數 = 1.2;
+        // private double _滑倒安全係數 = 1.2;
+        // private double _傾倒安全係數 = 1.2;
 
 
         //建立式.
-        public Class_BlockSect(string inputname, int pointcounts, double[] xi, double[] yi)
+        public Class_BlockSect_MT(string inputname, int pointcounts, double[] xi, double[] yi)
         {
             _點數 = pointcounts;
             Array.Resize(ref _x, _點數);
@@ -50,7 +50,7 @@ namespace VE_SD
                 _y[i] = yi[i];
             }
         }
-        public Class_BlockSect()
+        public Class_BlockSect_MT()
         {
 
         }
@@ -63,7 +63,7 @@ namespace VE_SD
         }
         public string 名稱
         {
-            get { return _name;}
+            get { return _name; }
             set { _name = value; }
         }
         public bool 可否運行
@@ -142,19 +142,14 @@ namespace VE_SD
         public string 使用材質
         {
             get { return _使用材質; }
-            set { _使用材質=value  ; }
+            set { _使用材質 = value; }
         }
         public bool 是否為混凝土塊
         {
             get { return _是否為混凝土塊; }
-            set { _是否為混凝土塊 = value ; }
+            set { _是否為混凝土塊 = value; }
         }
         //計算Moment與否
-        public bool 計算Moment與否
-        {
-            get { return _計算Moment與否; }
-            set { _計算Moment與否 = value; }
-        }
         public double 平均摩擦係數
         {
             get { return _平均摩擦係數; }
@@ -164,13 +159,13 @@ namespace VE_SD
 
         //public double 滑倒安全係數
         //{
-         //   get { return _滑倒安全係數; }
-         //   set { _滑倒安全係數 = value; }
+        //   get { return _滑倒安全係數; }
+        //   set { _滑倒安全係數 = value; }
         //}
         //public double 傾倒
         //{
-         //   get { return _傾倒安全係數; }
-         //   set { _傾倒安全係數 = value; }
+        //   get { return _傾倒安全係數; }
+        //   set { _傾倒安全係數 = value; }
         //}
 
         public double[] X
@@ -188,6 +183,5 @@ namespace VE_SD
             get { return _參考材質; }
             set { _參考材質 = value; }
         }
-
     }
 }

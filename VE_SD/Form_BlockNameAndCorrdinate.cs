@@ -14,6 +14,9 @@ namespace VE_SD
     public partial class Form_BlockNameAndCorrdinate : Form
     {
         Class_BlockSect II = null;
+        Class_BlockSect_MT II2 = null;
+
+        bool UseII = false;
         Dictionary<string, int> DI = new Dictionary<string, int>();
         string oname = "";
         string nowname = "";
@@ -22,12 +25,23 @@ namespace VE_SD
             InitializeComponent();
         }
         private Form_RDExamProgress  RDExamMainForm = null;
+        private Form_MTExamProgress MTExamMainForm = null;
         public Form_BlockNameAndCorrdinate(Form callingForm,Class_BlockSect IX,Dictionary<string,int> DIX)//Form callingForm)
         {
             //修改Block
             II = IX;
             RDExamMainForm = callingForm as Form_RDExamProgress ;
             DI = DIX;
+            UseII = true;
+            InitializeComponent();
+        }
+        public Form_BlockNameAndCorrdinate(Form callingForm, Class_BlockSect_MT IX, Dictionary<string, int> DIX)//Form callingForm)
+        {
+            //修改Block
+            II2 = IX;
+            MTExamMainForm = callingForm as Form_MTExamProgress;
+            DI = DIX;
+            UseII = false;
             InitializeComponent();
         }
         public Form_BlockNameAndCorrdinate(Form callingForm,Dictionary<String,int> DIX)
@@ -52,7 +66,7 @@ namespace VE_SD
             chart1.ChartAreas[0].AxisY.MinorGrid.Enabled = false;
             textBox_AddNumber.Text = "4";
 
-            if (object.Equals(II,null) || II.座標點數==0)
+            if (UseII && (object.Equals(II,null) || II.座標點數==0))
             {
                 oname = "";
                 nowname = "";
@@ -76,7 +90,21 @@ namespace VE_SD
                 btn_Insert.Enabled = false;
                 //btn_OK.Enabled = false;
             }
-            else
+            else if(!UseII && (object.Equals(II2,null) || II2.座標點數==0) )
+            {
+                oname = "";
+                nowname = "";
+                gp_AddNewName.Enabled = true;
+                gp_AddCoordinate.Enabled = false;
+
+                dataGridView1.Rows.Clear();
+                btn_SetName.Text = "新增";
+                textBox_NameInput.Text = "";
+                toolTip1.SetToolTip(btn_SetName, "新增新的名稱");
+                btn_RemovePoints.Enabled = false;
+                btn_Insert.Enabled = false;
+            }
+            else if(UseII)
             {
                 //如果II不為空白,填入值.
                 oname = II.名稱;
@@ -104,6 +132,38 @@ namespace VE_SD
                 gp_AddNewName.Enabled = true;
                 DrawingChart();
                 //btn_OK.Enabled = true;
+            }
+            else if(!UseII)
+            {
+                //如果II2不為空白,填入值.
+                oname = II2.名稱;
+                nowname = II2.名稱;
+                gp_AddNewName.Enabled = true;
+                gp_AddCoordinate.Enabled = true;
+
+                //直接開始載入值.
+                //InitializingListViewXY();
+                dataGridView1.Rows.Clear();
+                DataGridViewRowCollection rows = dataGridView1.Rows;
+
+                for (int i = 0; i < II2.座標點數; i++)
+                {
+                    rows.Add(new object[] { II2.X[i].ToString(), II2.Y[i].ToString() });
+                }
+                dataGridView1.CurrentCell = dataGridView1.Rows[II2.座標點數 - 1].Cells[0];
+                btn_Insert.Enabled = true;
+                btn_RemovePoints.Enabled = true;
+                btn_SetName.Text = "修改";
+                textBox_NameInput.Text = II2.名稱;
+                toolTip1.SetToolTip(btn_SetName, "修改為新的名稱");
+                textBox_AddNumber.Text = "3";
+                gp_AddCoordinate.Enabled = true;
+                gp_AddNewName.Enabled = true;
+                DrawingChart();
+            }
+            else
+            {
+
             }
             
         }
@@ -170,6 +230,18 @@ namespace VE_SD
                     return;
                 }
                 if(MessageBox.Show("您確定變更您的Block名稱嗎?","變更Block名稱",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)==DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            else if(btn_SetName.Text=="修改" && !object.Equals(II2,null))
+            {
+                if (oname == textBox_NameInput.Text)
+                {
+                    //等於什麼都沒變.
+                    return;
+                }
+                if (MessageBox.Show("您確定變更您的Block名稱嗎?", "變更Block名稱", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
                     return;
                 }
@@ -606,12 +678,24 @@ namespace VE_SD
 
 
             //MessageBox.Show(ss);
-            II = new Class_BlockSect();
-            II.名稱 = nowname;// textBox_NameInput.Text;
-            II.X = xout;
-            II.Y = yout;
-            II.座標點數 = xout.GetUpperBound(0) + 1;
-            RDExamMainForm.BlockObj = II;
+            if (UseII)
+            {
+                II = new Class_BlockSect();
+                II.名稱 = nowname;// textBox_NameInput.Text;
+                II.X = xout;
+                II.Y = yout;
+                II.座標點數 = xout.GetUpperBound(0) + 1;
+                RDExamMainForm.BlockObj = II;
+            }
+            else
+            {
+                II2 = new Class_BlockSect_MT();
+                II2.名稱 = nowname;// textBox_NameInput.Text;
+                II2.X = xout;
+                II2.Y = yout;
+                II2.座標點數 = xout.GetUpperBound(0) + 1;
+                MTExamMainForm.BlockObj = II2;
+            }
             this.Close();
         }
         public bool CheckIsConvexPolygonAndCounterClockWise(double[] XI, double[] YI)

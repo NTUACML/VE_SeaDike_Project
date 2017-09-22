@@ -7,29 +7,17 @@ using System.ComponentModel;
 
 namespace VE_SD
 {
-    
-    public class Class_Block_Interface
+    public class Class_Block_MT_Interface
     {
-        //private double _混凝土方塊與方塊摩擦係數 = 0.5;
-        //private double _混凝土方塊與拋石摩擦係數 = 0.6;
-        //private double _場注土方塊與拋石摩擦係數 = 0.7;
-        //private double _拋石與拋石摩擦係數 = 0.8;
-
-        //private double _混凝土陸上單位體積重量 = 2.3;
-        //private double _混凝土水中單位體積重量 = 1.27;
-        //private double _拋石陸上單位體積重量 = 1.8;
-        //private double _拋石水中單位體積重量 = 1.0;
-        //private double _砂土水中單位體積重量 = 1.0;
-        //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 2.3;
         private double _地震時單位體積重量 = 2.3;
         private string _使用材質;
-        private bool _計算Moment與否 = true;//="開啟";
+        private bool _是否為混凝土塊 = true;//="開啟";
         private string[] _可用材質;
 
         //private double _滑倒安全係數 = 1.2;
         //private double _傾倒安全係數 = 1.2;
-        public Class_Block_Interface()
+        public Class_Block_MT_Interface()
         {
             //無,使用預設值.
         }
@@ -50,7 +38,7 @@ namespace VE_SD
         //    _單位體積重量 = 單位體積重量;
 
         //}
-        public Class_Block_Interface(Class_BlockSect M)
+        public Class_Block_MT_Interface(Class_BlockSect_MT M)
         {
             //_混凝土方塊與方塊摩擦係數 = M.混凝土方塊與方塊摩擦係數;
             //_混凝土方塊與拋石摩擦係數 = M.混凝土方塊與拋石摩擦係數;
@@ -66,7 +54,7 @@ namespace VE_SD
             _地震時單位體積重量 = M.地震時單位體積重量;
             _單位體積重量 = M.單位體積重量;
             _使用材質 = M.使用材質;
-            計算Moment與否 = M.計算Moment與否;
+            _是否為混凝土塊 = M.是否為混凝土塊;
         }
         public string[] 可用材質
         {
@@ -134,10 +122,10 @@ namespace VE_SD
         //    get { return _海水單位體積重量; }
         //    set { _海水單位體積重量 = value; }
         //}
-       // [CategoryAttribute("單位體積重量")]
+        // [CategoryAttribute("單位體積重量")]
         public double 單位體積重量
         {
-            get { return _單位體積重量;}
+            get { return _單位體積重量; }
             set { _單位體積重量 = value; }
         }
         public double 地震時單位體積重量
@@ -145,17 +133,17 @@ namespace VE_SD
             get { return _地震時單位體積重量; }
             set { _地震時單位體積重量 = value; }
         }
-        public bool 計算Moment與否
+        public bool 是否為混凝土塊
         {
-            get { return _計算Moment與否; }
-            set { _計算Moment與否 = value; }
+            get { return _是否為混凝土塊; }
+            set { _是否為混凝土塊 = value; }
         }
         //[CategoryAttribute("材質")]
         [TypeConverter(typeof(List2PropertyConverter))]
         public string 使用材質
         {
             get { return _使用材質; }
-            set { _使用材質=value ; }
+            set { _使用材質 = value; }
         }
 
         List<string> List;
@@ -190,10 +178,9 @@ namespace VE_SD
         // }
 
     }
-    /*
-    internal class List2PropertyConverter:StringConverter
+    internal class List2PropertyConverter : StringConverter
     {
-         //https://bytes.com/topic/c-sharp/answers/596701-propertygrid-dynamic-dropdown-list
+        //https://bytes.com/topic/c-sharp/answers/596701-propertygrid-dynamic-dropdown-list
         public List2PropertyConverter()
         {
 
@@ -212,10 +199,9 @@ namespace VE_SD
         }
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            List<string> List=(context.Instance as Class_Block_Interface).MyList;
-                StandardValuesCollection cols = new StandardValuesCollection(List);
-                return cols;// new StandardValuesCollection();
+            List<string> List = (context.Instance as Class_Block_Interface).MyList;
+            StandardValuesCollection cols = new StandardValuesCollection(List);
+            return cols;// new StandardValuesCollection();
         }
     }
-    */
 }

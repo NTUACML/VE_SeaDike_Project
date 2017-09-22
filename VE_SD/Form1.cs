@@ -187,7 +187,7 @@ namespace VE_SD
             FileInfo f1 = new FileInfo(SystemReferenceFileName);
             if(!f1.Exists)
             {
-                MessageBox.Show("No File exists");
+                //MessageBox.Show("No File exists");
                 return;
             }
             XmlDocument doc = new XmlDocument();
@@ -269,7 +269,7 @@ namespace VE_SD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.StackTrace.ToString());
+                //MessageBox.Show(ex.StackTrace.ToString());
 
             }
 
@@ -512,7 +512,7 @@ namespace VE_SD
             { 
                 Process p = new Process();
                 p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-                p.StartInfo.FileName = "VESD User Mannual Version 1.0.pdf";// 浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                p.StartInfo.FileName = "VESD User Mannual Version 2.0.pdf";// 浩海工程顧問-工程輔助軟體說明手冊.pdf";// EPA SWMM User Manual Version 5.1.pdf";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 p.Start();
             }
             catch
@@ -1903,6 +1903,7 @@ namespace VE_SD
         }
         private void 測試傳送遠端ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            return;
             try
             {
                 TcpClient tcpclient = new TcpClient();
@@ -1918,19 +1919,19 @@ namespace VE_SD
                 {
                     news = news + Convert.ToChar(bb[i]);
                 }
-                MessageBox.Show(news);
+                //MessageBox.Show(news);
                 tcpclient.Close();
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
-                MessageBox.Show(ex.StackTrace.ToString());
+                //MessageBox.Show(ex.Message.ToString());
+                //MessageBox.Show(ex.StackTrace.ToString());
             }
         }
         private void 測試密碼轉換ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string TestCode="1472-8923-3516-9864";
-            MessageBox.Show(密碼16位碼再加密(TestCode));
+            //string TestCode="1472-8923-3516-9864";
+            //MessageBox.Show(密碼16位碼再加密(TestCode));
 
         }
         private void 關閉此軟體ToolStripMenuItem_Click(object sender, EventArgs e)

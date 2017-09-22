@@ -39,11 +39,11 @@ namespace VE_SD
         string[] 使用檔案紀錄序列=new string[] { };
         object[] OBB = new object[] { };//儲存MenustripItem的成員.
 
-        public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
+        public Class_BlockSect_MT[] BlockMainArray = new Class_BlockSect_MT[] { };// = new Class_BlockSect();
         int BlockCount = 0; //Block Array size.
         //public Class_BlockSect[] BlockMainArray = new Class_BlockSect[] { };// = new Class_BlockSect();
         //int BlockCount = 0; //Block Array size
-        public Class_BlockSect InterfaceBlock;
+        public Class_BlockSect_MT InterfaceBlock;
         private Dictionary<string, int> BlockNameToArraySubscript = new Dictionary<string, int>();//Block Name To Array Subscript.
         public Dictionary<string, int> BlockNameToListSubScript = new Dictionary<string, int>(); //Block Name To List Subscript.
         private Dictionary<int, String> BlockListSubScriptToName = new Dictionary<int, string>();//Block List Subscript to Name
@@ -106,7 +106,7 @@ namespace VE_SD
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Property宣告
-        public Class_BlockSect BlockObj
+        public Class_BlockSect_MT BlockObj
         {
             get { return InterfaceBlock; }
             set { InterfaceBlock = value; }
@@ -243,7 +243,7 @@ namespace VE_SD
             {
                 //- 迴圈塞入Block.
                 // 2016/03/29. 新增是否計算Moment選項.
-                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].地震時單位體積重量, BlockMainArray[i].平均摩擦係數, BlockMainArray[i].計算Moment與否);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                int nowid = Mod.NewBlock(BlockMainArray[i].單位體積重量, BlockMainArray[i].地震時單位體積重量, BlockMainArray[i].平均摩擦係數, BlockMainArray[i].是否為混凝土塊);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 double[] getx = BlockMainArray[i].X;
                 double[] gety = BlockMainArray[i].Y;
                 int 座標點數 = BlockMainArray[i].座標點數;
@@ -1579,7 +1579,7 @@ namespace VE_SD
         private string 打開XML專案檔(string path)
         {
 
-            Class_BlockSect[] BlockMainArrayR = new Class_BlockSect[] { };
+            Class_BlockSect_MT[] BlockMainArrayR = new Class_BlockSect_MT[] { };
             int blockSizer = 0;
             int selectedBlockIndex = -1;
             double[] ELArrayR = new double[] { };
@@ -2167,7 +2167,7 @@ namespace VE_SD
 
                     Relement = (XmlElement)BlockNode;
 
-                    BlockMainArrayR[blockSizer] = new Class_BlockSect();
+                    BlockMainArrayR[blockSizer] = new Class_BlockSect_MT();
                     BlockMainArrayR[blockSizer].名稱 = Relement.GetAttribute("名稱").ToString();
                     if (!int.TryParse(Relement.GetAttribute("點數").ToString(), out PointCount))
                     {
@@ -2214,7 +2214,7 @@ namespace VE_SD
                     {
                         return  "Block讀取計算Moment狀況失敗!";
                     }
-                    BlockMainArrayR[blockSizer].計算Moment與否 = btest;
+                    BlockMainArrayR[blockSizer].是否為混凝土塊 = btest;
 
                     //Block使用材質
                     RNode = BlockNode.SelectSingleNode("使用材質");
@@ -2841,7 +2841,7 @@ namespace VE_SD
                 XmlElement Block使用材質 = doc.CreateElement("使用材質");
                 Block使用材質.SetAttribute("Value", BlockMainArray[i].使用材質.ToString());
                 XmlElement Block是否計算Moment = doc.CreateElement("計算Moment");
-                Block是否計算Moment.SetAttribute("Value", BlockMainArray[i].計算Moment與否.ToString());
+                Block是否計算Moment.SetAttribute("Value", BlockMainArray[i].是否為混凝土塊.ToString());
 
 
                 //BlockNode.AppendChild(Block混凝土方塊與方塊摩擦係數);
@@ -3014,7 +3014,7 @@ namespace VE_SD
             //2.Property Grid更換.
             //BBBBBBBBBBBBBBBBBBBBBBBBBBBBB
             
-            Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+            Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
             D.可用材質 = MaterialArray;
             if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
             { D.使用材質 = ""; }
@@ -3043,7 +3043,7 @@ namespace VE_SD
             }
             
         }
-        private void AddNewChart(Class_BlockSect NewI)
+        private void AddNewChart(Class_BlockSect_MT NewI)
         {
             //新增一個新的Chart進來.
             double[] getx = NewI.X;
@@ -3914,7 +3914,7 @@ namespace VE_SD
             // finally, let's decrement Array's size by one
             Array.Resize(ref arr, arr.Length - 1);
         }
-        public String 根據選擇的呈現選項回傳Block屬性(Class_BlockSect B)
+        public String 根據選擇的呈現選項回傳Block屬性(Class_BlockSect_MT B)
         {
             if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "無")
             {
@@ -3924,9 +3924,9 @@ namespace VE_SD
             {
                 return "(" + B.單位體積重量.ToString() + ")";
             }
-            else if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "Moment計算")
+            else if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "是否為混凝土塊")
             {
-                return "(" + B.計算Moment與否.ToString() + ")";
+                return "(" + B.是否為混凝土塊.ToString() + ")";
             }
             else if (cmb_ShowOnBlockListChoice.SelectedItem.ToString() == "材質")
             {
@@ -5603,7 +5603,7 @@ namespace VE_SD
                 //BBBBBBBBBBBBBBBBBBBBBBBBBBBBB
                 //重新載入一次
                 
-                Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
@@ -5619,7 +5619,7 @@ namespace VE_SD
                 //BBBBBBBBBBBBBBBBBBBBBBBBBBBBB
                 //重新載入一次
                 
-                Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
@@ -5639,7 +5639,7 @@ namespace VE_SD
             {
                 return;
             }
-            Class_Block_Interface D = (Class_Block_Interface)propertyGrid_Block.SelectedObject;
+            Class_Block_MT_Interface D = (Class_Block_MT_Interface)propertyGrid_Block.SelectedObject;
 
             int id = BlockNameToListSubScript[selectname];
             //BlockMainArray[id].場注土方塊與拋石摩擦係數 = D.場注土方塊與拋石;
@@ -5654,7 +5654,7 @@ namespace VE_SD
             //BlockMainArray[id].砂土水中單位體積重量 = D.砂土水中;
 
             BlockMainArray[id].單位體積重量 = D.單位體積重量;
-            BlockMainArray[id].計算Moment與否 = D.計算Moment與否;
+            BlockMainArray[id].是否為混凝土塊 = D.是否為混凝土塊;
             BlockMainArray[id].使用材質 = D.使用材質;
             BlockMainArray[id].地震時單位體積重量 = D.地震時單位體積重量;
             listBox_SectSetting.Items[listBox_SectSetting.SelectedIndex] = BlockListSubScriptToName[listBox_SectSetting.SelectedIndex] + 根據選擇的呈現選項回傳Block屬性(BlockMainArray[listBox_SectSetting.SelectedIndex]);//; "(" + D.單位體積重量 + ")";
@@ -6184,7 +6184,7 @@ namespace VE_SD
                 {
                     return;
                 }
-                Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
@@ -6373,7 +6373,7 @@ namespace VE_SD
             if (listBox_SectSetting.SelectedIndex != -1 && listBox_SectSetting.Items.Count > 0)
             {
                 //重新載入Property Grid與參考材質.
-                Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
@@ -6561,7 +6561,7 @@ namespace VE_SD
             if (listBox_SectSetting.SelectedIndex != -1 && listBox_SectSetting.Items.Count > 0)
             {
                 //重新載入Property Grid.
-                Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
