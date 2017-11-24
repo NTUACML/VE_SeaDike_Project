@@ -2932,7 +2932,7 @@ namespace VE_SD
             { return; }
 
             InterfaceBlock = null;
-            Form_BlockNameAndCorrdinate form_blockNameAnsCoordinate = new Form_BlockNameAndCorrdinate(this, BlockNameToListSubScript);
+            Form_BlockNameAndCorrdinate form_blockNameAnsCoordinate = new Form_BlockNameAndCorrdinate(this, BlockNameToListSubScript,"MT");
             form_blockNameAnsCoordinate.ShowDialog();
 
             if (object.Equals(InterfaceBlock, null))

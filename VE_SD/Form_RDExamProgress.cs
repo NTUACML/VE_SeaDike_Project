@@ -1007,7 +1007,7 @@ namespace VE_SD
         {
             //新增一個形塊.
             InterfaceBlock = null;
-            Form_BlockNameAndCorrdinate form_blockNameAnsCoordinate = new Form_BlockNameAndCorrdinate(this,BlockNameToListSubScript);
+            Form_BlockNameAndCorrdinate form_blockNameAnsCoordinate = new Form_BlockNameAndCorrdinate(this,BlockNameToListSubScript,"RDE");
             form_blockNameAnsCoordinate.ShowDialog();
 
             if(object.Equals(InterfaceBlock,null))

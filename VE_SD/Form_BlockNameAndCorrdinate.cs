@@ -44,11 +44,20 @@ namespace VE_SD
             UseII = false;
             InitializeComponent();
         }
-        public Form_BlockNameAndCorrdinate(Form callingForm,Dictionary<String,int> DIX)
+        public Form_BlockNameAndCorrdinate(Form callingForm,Dictionary<String,int> DIX,string InputType)
         {
             //新創一個Block時.
             DI = DIX;
-            RDExamMainForm = callingForm as Form_RDExamProgress;
+            if(InputType=="RDE")
+            {
+                UseII = true;
+                RDExamMainForm = callingForm as Form_RDExamProgress;
+            }
+            else
+            {
+                UseII = false;
+                MTExamMainForm = callingForm as Form_MTExamProgress;
+            }
             InitializeComponent();
         }
 
