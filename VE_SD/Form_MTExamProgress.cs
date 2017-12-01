@@ -1315,6 +1315,7 @@ namespace VE_SD
                 if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
                 {
                     xmlpath = SFD_專案.FileName;
+                    打開專案檔的名稱 = xmlpath;
                 }
                 else
                 {
