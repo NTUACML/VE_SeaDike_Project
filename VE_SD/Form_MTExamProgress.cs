@@ -1260,7 +1260,7 @@ namespace VE_SD
             if (!(BlockMainArray.GetLength(0) == 0))
             {
                 //當有編輯中的專案時(有Block時,才會有警示).
-                if (MessageBox.Show("您確定要開啟新的專案檔?按下確定後目前編輯中的專案檔會遺失所有更動" + Environment.NewLine + "若否,請先存檔", "開新的專案檔", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                if (MessageBox.Show("您確定要開啟新的專案檔?按下確定後目前編輯中的專案檔會遺失所有更動" + Environment.NewLine + "若確定,請按[確定]" + Environment.NewLine  + "若否,請按取消", "開新的專案檔", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 { return; }
 
             }
@@ -2700,11 +2700,11 @@ namespace VE_SD
             //全域參數XML點.AppendChild(海側方向info);
             全域參數XML點.AppendChild(地盤內基礎內摩擦角);
             全域參數XML點.AppendChild(土壤凝聚力);
-            /*
+            
             全域參數XML點.AppendChild(Nq);
             全域參數XML點.AppendChild(Nc);
             全域參數XML點.AppendChild(Nr);
-            */
+            
             全域參數XML點.AppendChild(平時滑動安全係數);
             全域參數XML點.AppendChild(平時傾倒安全係數);
             全域參數XML點.AppendChild(平時地盤承載力安全係數);
