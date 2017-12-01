@@ -34,7 +34,7 @@ namespace VE_SD
         private string Exepath = System.IO.Directory.GetCurrentDirectory();
         private string PORT = "2016";
         private bool _提供服務訊息=true;//是否提供服務訊息傳送到主機.
-        private static string _軟體開啟時的視窗大小="正常";
+        private static string _軟體開啟時的視窗大小 = "最大";//"正常";
         private static bool  _碼頭檢核開啟時預設數字 = true;
         private static bool _防波堤檢核開啟時預設數字 = true;
 
@@ -102,10 +102,28 @@ namespace VE_SD
         {
             get { return Exepath; }
         }
+        public bool 軟體驗證是否通過
+        {
+            get { return 驗證Bool; }
+        }
         #endregion 
 
         private static string 驗證Msg = "";
         private static bool 驗證Bool;
+
+        private static Form_MTExamProgress formmt = null;
+        public void 指派Form_MTExamProgress()
+        {
+            formmt = new Form_MTExamProgress(this);
+            formmt.ShowInTaskbar = false;
+            //formmt.ShowDialog();
+            formmt.Opacity = 0;
+            formmt.Show();
+            //formmt.Visible = false;
+            
+            
+            //formmt.Hide();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             if (!Directory.Exists(_SystemReferenceStoreFolder))
@@ -117,10 +135,8 @@ namespace VE_SD
             label_LoginCond.Text = "NO";
             TSP_Progressbar.Visible = false;
             TSSTATUS_label.Text = "歡迎使用浩海工程顧問公司檢核程式!";
-            Form_Welcome fwel = new Form_Welcome();
+            Form_Welcome fwel = new Form_Welcome(this);
             fwel.ShowDialog();
-
-
 
 
             //跳出登入視窗.
@@ -172,12 +188,22 @@ namespace VE_SD
                 }
             }
             驗證Bool = false;
+            timer_Check.Start();
             bk_Validate.RunWorkerAsync();
-            
-            if(_軟體開啟時的視窗大小=="最大")
+            _軟體開啟時的視窗大小 = "最大";
+            this.WindowState = FormWindowState.Maximized;
+            /*if(_軟體開啟時的視窗大小=="最大")
             {
                 this.WindowState = FormWindowState.Maximized;
             }
+            */
+            //timer_MT.Enabled = true;
+            //timer_MT.Start();
+            /*formmt = new Form_MTExamProgress(this);
+            formmt.Visible = false;
+            formmt.ShowInTaskbar = false;
+            formmt.ShowDialog();
+            */
         }
         public void LoadingProgramSystemReference()
         {
@@ -230,7 +256,7 @@ namespace VE_SD
                 }
 
                 //啟動時視窗大小
-                RNode = doc.SelectSingleNode("Root/啟動時視窗大小");
+                RNode = doc.SelectSingleNode("Root/開啟軟體時的視窗大小");
                 if(object.Equals(RNode,null))
                 {
                     return;
@@ -417,29 +443,54 @@ namespace VE_SD
             //return;
             
             //碼頭檢核工具.
-            string 驗證Msg = "";
-            if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            //string 驗證Msg = "";
+            //if (檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            if(驗證Bool)
             {
                 //Nothing.
-                TSP_Validate.BackColor = Color.Green;
+                //TSP_Validate.BackColor = Color.Green;
             }
             else
             {
-                TSP_Validate.BackColor = Color.Red;
+                //TSP_Validate.BackColor = Color.Red;
                 //沒有驗證資訊,提示無法進行檢核計算.
                 if (MessageBox.Show("您目前沒有通過此軟體之驗證,您將無法使用檢核功能,僅能設定專案檔" + Environment.NewLine + "確定繼續進行?","沒有軟體驗證",MessageBoxButtons.OKCancel,MessageBoxIcon.Warning)==DialogResult.Cancel)
                 {
                     return;
                 }
-
             }
             
             if (_提供服務訊息)
             {
                 this.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + GetMacAddress() + "', IP(IPV4) = '" + MyIP() + "')開啟了碼頭檢核工具,員工編號為'" + _LoginInUserID + "',員工名稱為'" + _LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
             }
+            if(!object.Equals(formmt,null))
+            {
+                //this.Hide();
+                formmt.ShowInTaskbar = true;
+                formmt.開啟與ReLoad();
+                formmt.Activate();
+                formmt.Opacity = 100;
+                
+                //formmt.WindowState = FormWindowState.Maximized;
+                //formmt.Visible = true;
+                //formmt.Activate();
+                //formmt.BringToFront();
+                //this.ShowInTaskbar = false;
+                //this.WindowState = FormWindowState.Minimized;
+                //formmt.ShowDialog();
+                //formmt.開啟與ReLoad();
+                //formmt.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Hi ~~~~~");
+            }
+
+            /*
             Form_MTExamProgress fmtexam = new Form_MTExamProgress(this);
             fmtexam.ShowDialog();
+            */
         }
         #endregion
         private void btn_StandardRDC_MouseEnter(object sender, EventArgs e)
@@ -532,7 +583,15 @@ namespace VE_SD
             TSP_UserInfoShow.Text = "目前登入使用者ID:" + _LoginInUserID + ",名稱為" + _LoginInUserName;
         }
         #endregion
-        #region 設定機碼
+        #region 軟體驗證
+        private void timer_Check_Tick(object sender, EventArgs e)
+        {
+            if (bk_Validate.IsBusy)
+            {
+                return;
+            }
+            bk_Validate.RunWorkerAsync();
+        }
         private void 軟體驗證ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //驗證此軟體.
@@ -1084,7 +1143,7 @@ namespace VE_SD
         //    }
         //    return CodeValue;
         //}
-        public bool 檢視目前是否已有合理認證(ref string Msg)
+        private bool 檢視目前是否已有合理認證(ref string Msg)
         {
             string F1 = 機碼密碼初步加密(GetCPUID() + "_" + GetMacAddress());
             string F2 = 密碼轉16位密碼計算(F1);
@@ -1969,6 +2028,24 @@ namespace VE_SD
             SavingProgramSystemReference();
         }
 
+        private void timer_MT_Tick(object sender, EventArgs e)
+        {
+            return;
+
+            /*
+            formmt = new Form_MTExamProgress(this);
+            formmt.ShowInTaskbar = false;
+            formmt.開啟與ReLoad();
+            timer_MT.Enabled = false;
+            timer_MT.Stop();
+            */
+            //formmt.Show();
+
+            //formmt.Hide();//.Visible = false;
+
+            //formmt.Show();//.ShowDialog();
+            //formmt.ShowDialog();
+        }
 
     }
 }

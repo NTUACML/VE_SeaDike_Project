@@ -64,6 +64,8 @@
             this.bk_AccessServerForDownload = new System.ComponentModel.BackgroundWorker();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.bk_Validate = new System.ComponentModel.BackgroundWorker();
+            this.timer_MT = new System.Windows.Forms.Timer(this.components);
+            this.timer_Check = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -282,6 +284,7 @@
             this.button3.TabIndex = 3;
             this.button3.Text = "未開發";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
             // 
             // button2
             // 
@@ -292,6 +295,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "未開發";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             // 
             // btn_StandardMT
             // 
@@ -385,6 +389,16 @@
             this.bk_Validate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_Validate_DoWork);
             this.bk_Validate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_Validate_RunWorkerCompleted);
             // 
+            // timer_MT
+            // 
+            this.timer_MT.Interval = 1000;
+            this.timer_MT.Tick += new System.EventHandler(this.timer_MT_Tick);
+            // 
+            // timer_Check
+            // 
+            this.timer_Check.Interval = 10000;
+            this.timer_Check.Tick += new System.EventHandler(this.timer_Check_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -454,6 +468,8 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripMenuItem 碼頭檢核ToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker bk_Validate;
+        private System.Windows.Forms.Timer timer_MT;
+        private System.Windows.Forms.Timer timer_Check;
     }
 }
 

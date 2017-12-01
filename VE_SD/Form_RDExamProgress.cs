@@ -1043,7 +1043,7 @@ namespace VE_SD
             listBox_SectSetting.SetSelected(BlockCount-1,true); //設定Listbox點選項目.
 
             string Msg = "";
-            開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// 檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+            開始檢核ToolStripMenuItem.Enabled = (mainForm.軟體驗證是否通過);//檢視目前是否已有合理認證(ref Msg) && true);// 檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
             btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
 
             //btnRemoveSects.Enabled = true;
@@ -4223,7 +4223,7 @@ namespace VE_SD
             if (BlockMainArray.GetLength(0) > 0)
             {
                 string Msg = "";
-                開始檢核ToolStripMenuItem.Enabled = (mainForm.檢視目前是否已有合理認證(ref Msg) && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
+                開始檢核ToolStripMenuItem.Enabled = (mainForm.軟體驗證是否通過);//.檢視目前是否已有合理認證(ref Msg) && true);// (mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref Msg) && true);
                 btn_Test.Enabled = 開始檢核ToolStripMenuItem.Enabled;
             }
             else
@@ -4927,8 +4927,8 @@ namespace VE_SD
             //檢核前預檢查.
 
             //檢查是否有綁訂機碼.
-            string 驗證Msg = "";
-            if (mainForm.檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
+            //string 驗證Msg = "";
+            if (mainForm.軟體驗證是否通過)//檢視目前是否已有合理認證(ref 驗證Msg)) //mainForm.檢視目前是否已設定正確機碼來鎖定機器(ref 驗證Msg))
             {
                 //Nothing.
             }
@@ -4938,7 +4938,7 @@ namespace VE_SD
                 {
                     this.mainForm.發送操作指令("電腦主機'" + Dns.GetHostName() + "'(MAC IP = '" + mainForm.GetMacAddress() + "', IP(IPV4) = '" + mainForm.MyIP() + "')嘗試進行標準海堤檢核但缺乏軟體驗證遭到阻擋,員工編號為'" + mainForm.LoginInUserID + "',員工名稱為'" + mainForm.LoginInUserName + "',時間為:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
                 }
-                MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + 驗證Msg, "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + "您沒有正確的軟體驗證" + Environment.NewLine + "您可存檔後退出回到主頁面進行軟體驗證", "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
             //******************************************************

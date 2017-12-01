@@ -1860,6 +1860,7 @@
             this.Name = "Form_MTExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "碼頭檢核";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_MTExamProgress_FormClosing);
             this.Load += new System.EventHandler(this.Form_MTExamProgress_Load);
             this.Resize += new System.EventHandler(this.Form_MTExamProgress_Resize);
