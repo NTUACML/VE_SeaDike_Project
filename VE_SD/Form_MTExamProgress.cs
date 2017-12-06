@@ -5607,15 +5607,19 @@ namespace VE_SD
         {
             //Nothing.
             //MessageBox.Show("C1");
+            //MessageBox.Show("H0");
             if (listBox_SectSetting.SelectedIndex != -1)
             {
                 //BBBBBBBBBBBBBBBBBBBBBBBBBBBBB
                 //重新載入一次
                 
                 Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                //MessageBox.Show("H1");
                 D.可用材質 = MaterialArray;
+                //MessageBox.Show("H2");
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
+                //MessageBox.Show("H3");
                 propertyGrid_Block.SelectedObject = D;
                 
             }
@@ -5623,15 +5627,19 @@ namespace VE_SD
         private void propertyGrid_Block_MouseClick(object sender, MouseEventArgs e)
         {
             //MessageBox.Show("C2");
+            //MessageBox.Show("Z0");
             if (listBox_SectSetting.SelectedIndex != -1)
             {
                 //BBBBBBBBBBBBBBBBBBBBBBBBBBBBB
                 //重新載入一次
                 
                 Class_Block_MT_Interface D = new Class_Block_MT_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                //MessageBox.Show("Z1");
                 D.可用材質 = MaterialArray;
+                //MessageBox.Show("Z2");
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
+                //MessageBox.Show("Z3");
                 propertyGrid_Block.SelectedObject = D;
                 
             }
@@ -5648,6 +5656,7 @@ namespace VE_SD
             {
                 return;
             }
+            //MessageBox.Show("Here1");
             Class_Block_MT_Interface D = (Class_Block_MT_Interface)propertyGrid_Block.SelectedObject;
 
             int id = BlockNameToListSubScript[selectname];

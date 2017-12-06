@@ -13,7 +13,7 @@ namespace VE_SD
         private double _地震時單位體積重量 = 2.3;
         private string _使用材質;
         private bool _是否為混凝土塊 = true;//="開啟";
-        private string[] _可用材質;
+        private string[] _可用材質=new string[] { };
 
         //private double _滑倒安全係數 = 1.2;
         //private double _傾倒安全係數 = 1.2;
@@ -51,6 +51,7 @@ namespace VE_SD
             //_拋石水中單位體積重量 = M.拋石水中單位體積重量;
             //_砂土水中單位體積重量 = M.砂土水中單位體積重量;
             //_海水單位體積重量 = M.海水單位體積重量;
+            
             _地震時單位體積重量 = M.地震時單位體積重量;
             _單位體積重量 = M.單位體積重量;
             _使用材質 = M.使用材質;
@@ -199,7 +200,7 @@ namespace VE_SD
         }
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            List<string> List = (context.Instance as Class_Block_Interface).MyList;
+            List<string> List = (context.Instance as Class_Block_MT_Interface).MyList;
             StandardValuesCollection cols = new StandardValuesCollection(List);
             return cols;// new StandardValuesCollection();
         }

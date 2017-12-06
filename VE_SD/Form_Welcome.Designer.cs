@@ -77,7 +77,7 @@
             this.MinimizeBox = false;
             this.Name = "Form_Welcome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form_Welcome";
+            this.Text = "浩海工程顧問公司檢核程式";
             this.Load += new System.EventHandler(this.Form_Welcome_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
