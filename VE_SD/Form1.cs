@@ -106,10 +106,15 @@ namespace VE_SD
         {
             get { return 驗證Bool; }
         }
+        private static bool Continue = true;
+        public bool 繼續
+        {
+            set { Continue = value; }
+        }
         #endregion 
 
         private static string 驗證Msg = "";
-        private static bool 驗證Bool;
+        private static bool 驗證Bool=false;
 
         private static Form_MTExamProgress formmt = null;
         public void 指派Form_MTExamProgress()
@@ -124,6 +129,12 @@ namespace VE_SD
             
             //formmt.Hide();
         }
+        public void 關閉Form_MTExamProgress()
+        {
+            //MessageBox.Show("Hi");
+            formmt.不提示就關閉全部();
+            //formmt.Close();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             if (!Directory.Exists(_SystemReferenceStoreFolder))
@@ -131,67 +142,80 @@ namespace VE_SD
                 Directory.CreateDirectory(_SystemReferenceStoreFolder);
             }
             _RemoveLogInDataWhenClosing = false; //預設為不刪除.
+            Array.Resize(ref photo, 2);
+            photo[0] = "STDVESD";
+            photo[1] = "MTExamVESD";
             _提供服務訊息 = true;
-            label_LoginCond.Text = "NO";
-            TSP_Progressbar.Visible = false;
-            TSSTATUS_label.Text = "歡迎使用浩海工程顧問公司檢核程式!";
-            Form_Welcome fwel = new Form_Welcome(this);
-            fwel.ShowDialog();
+            imageList1.ImageSize = new Size(256, 150);
+            _軟體開啟時的視窗大小 = "最大";
 
 
             //跳出登入視窗.
             System.Threading.Thread.Sleep(1000);
-            Form_Login flogin = new Form_Login(this, "Exit Then End All");//"Exit Then End All": 若使用者選擇不登入,則直接關閉.
+            Form_Login flogin = new Form_Login(this,"Exit Then End All");//"Exit Then End All": 若使用者選擇不登入,則直接關閉.
             flogin.ShowDialog();
 
+            //MessageBox.Show("H2");
 
-            //更改Toolstrip排列,Layout方法要更改為Overflow with horizontal[Horizontal Stack with overflow]
-            TSP_UserInfoShow.Text = "目前登入使用者ID:" + _LoginInUserID + ",名稱為" + _LoginInUserName;
-            TSP_UserInfoShow.Alignment = ToolStripItemAlignment.Right;
-            TSP_UserInfoShow.RightToLeft = RightToLeft.No;
-
-            TSP_ChangeUserBtn.Alignment = ToolStripItemAlignment.Right;
-            TSP_ChangeUserBtn.RightToLeft = RightToLeft.No;
-            TSP_Validate.Alignment = ToolStripItemAlignment.Right;
-            TSP_Validate.RightToLeft = RightToLeft.No;
-            TSP_Validate.BackColor = Color.Gray;
-
-
-            //載入使用者登入設定.
-            LoadingProgramSystemReference();
-
-            //更改排列順序.
-            //TSP_Progressbar.Alignment = ToolStripItemAlignment.Right;
-            //TSP_Progressbar.RightToLeft = RightToLeft.No;
-            //TSP_Progressbar.Visible = true;
-            //TSP_Progressbar.Style = ProgressBarStyle.Marquee;
-            Array.Resize(ref photo, 2);
-            photo[0] = "STDVESD";
-            photo[1] = "MTExamVESD";
-
-            //載入圖檔;
-            imageList1.ImageSize = new Size(256, 150);// 200);
-            imageList1.ColorDepth = ColorDepth.Depth32Bit;
-            int ic = 0;
-            for (int i = 0; i <= photo.GetUpperBound(0); i++)
+            if (Continue)
             {
-                if (File.Exists(Exepath + "\\PIC\\" + photo[i] + ".JPG"))
-                {
-                    imageList1.Images.Add(Image.FromFile(Exepath + "\\PIC\\" + photo[i] + ".JPG"));//new Bitmap(Exepath + "\\PIC\\" + photo[i] + ".JPG"));
+                label_LoginCond.Text = "NO";
+                TSP_Progressbar.Visible = false;
+                TSSTATUS_label.Text = "歡迎使用浩海工程顧問公司檢核程式!";
+                Form_Welcome fwel = new Form_Welcome(this);
+                fwel.ShowDialog();
 
-                    照片對照表.Add(i, ic);
-                    ic += 1;
-                }
-                else
+                //MessageBox.Show("GG3");
+                //更改Toolstrip排列,Layout方法要更改為Overflow with horizontal[Horizontal Stack with overflow]
+                TSP_UserInfoShow.Text = "目前登入使用者ID:" + _LoginInUserID + ",名稱為" + _LoginInUserName;
+                TSP_UserInfoShow.Alignment = ToolStripItemAlignment.Right;
+                TSP_UserInfoShow.RightToLeft = RightToLeft.No;
+
+                TSP_ChangeUserBtn.Alignment = ToolStripItemAlignment.Right;
+                TSP_ChangeUserBtn.RightToLeft = RightToLeft.No;
+                TSP_Validate.Alignment = ToolStripItemAlignment.Right;
+                TSP_Validate.RightToLeft = RightToLeft.No;
+                TSP_Validate.BackColor = Color.Gray;
+
+
+                //載入使用者登入設定.
+                LoadingProgramSystemReference();
+
+                //更改排列順序.
+                //TSP_Progressbar.Alignment = ToolStripItemAlignment.Right;
+                //TSP_Progressbar.RightToLeft = RightToLeft.No;
+                //TSP_Progressbar.Visible = true;
+                //TSP_Progressbar.Style = ProgressBarStyle.Marquee;
+
+
+                //載入圖檔;
+                // 200);
+                imageList1.ColorDepth = ColorDepth.Depth32Bit;
+                int ic = 0;
+                for (int i = 0; i <= photo.GetUpperBound(0); i++)
                 {
-                    照片對照表.Add(i, -9999);
+                    if (File.Exists(Exepath + "\\PIC\\" + photo[i] + ".JPG"))
+                    {
+                        imageList1.Images.Add(Image.FromFile(Exepath + "\\PIC\\" + photo[i] + ".JPG"));//new Bitmap(Exepath + "\\PIC\\" + photo[i] + ".JPG"));
+
+                        照片對照表.Add(i, ic);
+                        ic += 1;
+                    }
+                    else
+                    {
+                        照片對照表.Add(i, -9999);
+                    }
                 }
+                驗證Bool = false;
+                timer_Check.Start();
+                bk_Validate.RunWorkerAsync();
+
+                this.WindowState = FormWindowState.Maximized;
             }
-            驗證Bool = false;
-            timer_Check.Start();
-            bk_Validate.RunWorkerAsync();
-            _軟體開啟時的視窗大小 = "最大";
-            this.WindowState = FormWindowState.Maximized;
+            else
+            {
+                this.Close();
+            }
             /*if(_軟體開啟時的視窗大小=="最大")
             {
                 this.WindowState = FormWindowState.Maximized;
@@ -208,6 +232,7 @@ namespace VE_SD
         public void LoadingProgramSystemReference()
         {
             //載入設定,若無則直接跳過.
+            //MessageBox.Show("H3");
             string SystemReferenceFileName = _SystemReferenceStoreFolder + "\\System.Info";
             //以XML格式處理.
             FileInfo f1 = new FileInfo(SystemReferenceFileName);
@@ -309,39 +334,46 @@ namespace VE_SD
         public void SavingProgramSystemReference()
         {
             //儲存系統設定.
-            string SystemReferenceFileName = _SystemReferenceStoreFolder + "\\System.Info";
-            if(!Directory.Exists(_SystemReferenceStoreFolder))
+            try
             {
-                Directory.CreateDirectory(_SystemReferenceStoreFolder);
+                string SystemReferenceFileName = _SystemReferenceStoreFolder + "\\System.Info";
+                if (!Directory.Exists(_SystemReferenceStoreFolder))
+                {
+                    Directory.CreateDirectory(_SystemReferenceStoreFolder);
+                }
+                //以XML格式儲存.
+                XmlDocument doc = new XmlDocument();
+                XmlElement Root = doc.CreateElement("Root");
+                doc.AppendChild(Root);
+
+                XmlElement 每次關閉軟體後刪除使用者登入資訊 = doc.CreateElement("每次關閉軟體後刪除使用者登入資訊");
+                每次關閉軟體後刪除使用者登入資訊.SetAttribute("Value", _RemoveLogInDataWhenClosing.ToString());
+
+                XmlElement 提供服務訊息Node = doc.CreateElement("提供服務訊息");
+                提供服務訊息Node.SetAttribute("Value", _提供服務訊息.ToString());
+
+                XmlElement 開啟軟體時的視窗大小Node = doc.CreateElement("開啟軟體時的視窗大小");
+                開啟軟體時的視窗大小Node.SetAttribute("Value", _軟體開啟時的視窗大小);
+
+                XmlElement 碼頭檢核開啟時預設數字Node = doc.CreateElement("碼頭檢核開啟時預設數字");
+                碼頭檢核開啟時預設數字Node.SetAttribute("Value", _碼頭檢核開啟時預設數字.ToString());
+
+
+                XmlElement 防波堤檢核開啟時預設數字Node = doc.CreateElement("防波堤檢核開啟時預設數字");
+                防波堤檢核開啟時預設數字Node.SetAttribute("Value", _防波堤檢核開啟時預設數字.ToString());
+
+                Root.AppendChild(每次關閉軟體後刪除使用者登入資訊);
+                Root.AppendChild(提供服務訊息Node);
+                Root.AppendChild(開啟軟體時的視窗大小Node);
+                Root.AppendChild(碼頭檢核開啟時預設數字Node);
+                Root.AppendChild(防波堤檢核開啟時預設數字Node);
+
+                doc.Save(SystemReferenceFileName);
             }
-            //以XML格式儲存.
-            XmlDocument doc = new XmlDocument();
-            XmlElement Root = doc.CreateElement("Root");
-            doc.AppendChild(Root);
-
-            XmlElement 每次關閉軟體後刪除使用者登入資訊= doc.CreateElement("每次關閉軟體後刪除使用者登入資訊");
-            每次關閉軟體後刪除使用者登入資訊.SetAttribute("Value", _RemoveLogInDataWhenClosing.ToString());
-
-            XmlElement 提供服務訊息Node = doc.CreateElement("提供服務訊息");
-            提供服務訊息Node.SetAttribute("Value", _提供服務訊息.ToString());
-
-            XmlElement 開啟軟體時的視窗大小Node = doc.CreateElement("開啟軟體時的視窗大小");
-            開啟軟體時的視窗大小Node.SetAttribute("Value", _軟體開啟時的視窗大小);
-
-            XmlElement 碼頭檢核開啟時預設數字Node = doc.CreateElement("碼頭檢核開啟時預設數字");
-            碼頭檢核開啟時預設數字Node.SetAttribute("Value", _碼頭檢核開啟時預設數字.ToString());
-
-
-            XmlElement 防波堤檢核開啟時預設數字Node = doc.CreateElement("防波堤檢核開啟時預設數字");
-            防波堤檢核開啟時預設數字Node.SetAttribute("Value", _防波堤檢核開啟時預設數字.ToString());
-
-            Root.AppendChild(每次關閉軟體後刪除使用者登入資訊);
-            Root.AppendChild(提供服務訊息Node);
-            Root.AppendChild(開啟軟體時的視窗大小Node);
-            Root.AppendChild(碼頭檢核開啟時預設數字Node);
-            Root.AppendChild(防波堤檢核開啟時預設數字Node);
-
-            doc.Save(SystemReferenceFileName);
+            catch
+            {
+                return;
+            }
 
         }
         private void 海堤檢核ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2020,6 +2052,7 @@ namespace VE_SD
 
             //儲存新的系統設定.
             SavingProgramSystemReference();
+            //MessageBox.Show("HH");
         }
         private void 軟體偏好設定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2047,5 +2080,9 @@ namespace VE_SD
             //formmt.ShowDialog();
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //MessageBox.Show("H2");
+        }
     }
 }

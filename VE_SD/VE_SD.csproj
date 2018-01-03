@@ -98,6 +98,12 @@
     <Compile Include="Form_ForKavyTest.Designer.cs">
       <DependentUpon>Form_ForKavyTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_InputOrModifyMaterialName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_InputOrModifyMaterialName.Designer.cs">
+      <DependentUpon>Form_InputOrModifyMaterialName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_ForKavyTest.resx">
       <DependentUpon>Form_ForKavyTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_InputOrModifyMaterialName.resx">
+      <DependentUpon>Form_InputOrModifyMaterialName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Login.resx">
       <DependentUpon>Form_Login.cs</DependentUpon>

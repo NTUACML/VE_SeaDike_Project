@@ -24,13 +24,15 @@ namespace VE_SD
         }
         private string _LoginCondiotn;
         private Form1 mainForm = null;
+        //private Form_MTExamProgress OpenMT = null;
         public Form_Login(Form callingForm,string LoginIn)
         {
             _LoginCondiotn = LoginIn;
+
             //"Exit Then End All"
             //"Exit Then Return"
             mainForm = callingForm as Form1;
-            
+            //OpenMT = OpeningForm1 as Form_MTExamProgress;
 
             InitializeComponent();
         }
@@ -87,8 +89,12 @@ namespace VE_SD
             {
                 if (MessageBox.Show("您確定要取消登入? 取消登入後將自動關閉程式!", "登入取消", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
+                    //Application.Exit();
+
+                    //mainForm.關閉Form_MTExamProgress();
+                    mainForm.繼續 = false;
                     this.Close();
-                    mainForm.Close();//關閉所有執行程序.
+                    //mainForm.Close();//關閉所有執行程序.
                 }
                 else
                 {

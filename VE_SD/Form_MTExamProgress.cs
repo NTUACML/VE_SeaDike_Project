@@ -2121,6 +2121,7 @@ namespace VE_SD
                     double fi;
                     Relement = (XmlElement)摩擦係數Node;
                     Array.Resize(ref MaterialsCoefArrayR, MaterialsCoefCountR + 1);
+                    //MessageBox.Show("HH");
                     if (Relement.GetAttribute("Coef").ToString() == "")
                     {
                         MaterialsCoefArrayR[MaterialsCoefCountR].coef = -9999;//A signal to specify this is empty.
@@ -2380,18 +2381,40 @@ namespace VE_SD
                     MessageBox.Show("Block" + (i + 1).ToString() + "(從1開始)的座標矩陣錯誤,此Block非凸邊形且座標沒有依照逆時針方向紀錄!!");
                 }
             }
+
+
+            DGMaterial.Rows.Clear();
             MaterialArray = MaterialR;
             MaterialCount = MaterialCountR;
             MaterialNameToArraySubScript.Clear();
             MaterialSubscriptToName.Clear();
+            //MessageBox.Show(MaterialsCoefArrayR.GetLength(0).ToString());
             for (int i = 0; i < MaterialArray.GetLength(0); i++)
             {
-                //DGMaterial.Rows.Add(new object[] { (i + 1).ToString(), MaterialArray[i].ToString() });
+                DGMaterial.Rows.Add(new object[] { (i + 1).ToString(), MaterialArray[i].ToString() });
                 MaterialNameToArraySubScript.Add(MaterialR[i].ToString(), i);
                 MaterialSubscriptToName.Add(i, MaterialR[i].ToString());
             }
+            //MessageBox.Show(MaterialsCoefArrayR.GetLength(0).ToString());
             MaterialsCoefArray = MaterialsCoefArrayR;
             MaterialRoughnessArrayCount = MaterialsCoefCountR;
+            DGMaterialRough.Rows.Clear();
+            //MessageBox.Show(MaterialsCoefArray.GetLength(0).ToString());
+            for (int i = 0; i < MaterialsCoefArray.GetLength(0); i++)
+            {
+                DGMaterialRough.Rows.Add(new object[] { (i + 1).ToString(), MaterialsCoefArray[i].Id1 == -9999 ? "" : MaterialSubscriptToName[MaterialsCoefArray[i].Id1], MaterialsCoefArray[i].Id2 == -9999 ? "" : MaterialSubscriptToName[MaterialsCoefArray[i].Id2], MaterialsCoefArray[i].coef == -9999 ? "" : MaterialsCoefArray[i].coef.ToString() });
+            }
+            //設定下拉式選單.
+            //設定Combobox內容.
+            foreach (DataGridViewRow row in DGMaterialRough.Rows)
+            {
+                var cell = (DataGridViewComboBoxCell)(row.Cells[1]);
+                cell.DataSource = MaterialArray;
+                var cell2 = (DataGridViewComboBoxCell)(row.Cells[2]);
+                cell2.DataSource = MaterialArray;
+            }
+
+
 
 
             //Block區塊,填入變數.
@@ -3030,6 +3053,11 @@ namespace VE_SD
             propertyGrid_Block.SelectedObject = D;
             //將參考材質填入資訊:前提都是必須要有可用材質.
             ReferencedMaterialCHKL.Items.Clear();
+            if (!BlockMainArray[listBox_SectSetting.SelectedIndex].是否為混凝土塊)
+            {
+                //Array.Resize(ref BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質,0);
+                return;
+            }
             for (int i = 0; i < MaterialArray.GetLength(0); i++)
             {
                 ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
@@ -5589,6 +5617,7 @@ namespace VE_SD
                 //刪除.
                 ELDGV1.Rows.RemoveAt(e.Row.Index);// addedrow)
                 EscapeELDGV1CellChange = true;
+                MessageBox.Show("請先新增型塊!","新增EL",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
         }
@@ -5600,6 +5629,20 @@ namespace VE_SD
                 return;
             }
             繪上EL();
+        }
+        private void ELDGV1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Delete)
+            {
+                if(EscapeELDGV1CellChange)
+                {
+                    EscapeELDGV1CellChange = false;
+                    return;
+                }
+                //Removing.
+                ELDGV1.Rows.RemoveAt(ELDGV1.CurrentCell.RowIndex);
+                繪上EL();
+            }
         }
 
         //Property Grid設定.
@@ -6010,9 +6053,20 @@ namespace VE_SD
         {
 
         }
+        bool CheckThenClose = true;
+        public void 不提示就關閉全部()
+        {
+            CheckThenClose = false;
+            this.Close();
+        }
 
         private void Form_MTExamProgress_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if(!CheckThenClose)
+            {
+                e.Cancel = false;
+                return;
+            }
             e.Cancel = true;
             if (isExporting || isCalc)
             {
@@ -6068,12 +6122,70 @@ namespace VE_SD
         {
             //新增一個新的材質完成.
             //新增一個材質時,不允許新增之後Cell空白.
-            newrowadd = true;
+            return;
+
+
+            //新增新的材質();
+
+            /*newrowadd = true;
             EscapeDGMaterialCellValueChangedFunction = false;
+            */
+            
         }
         private static bool EscapeDGMaterialCellValueChangedFunction = false;
         private void DGMaterial_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            return;
+
+            //處理Material新增與變更(e.RowIndex);
+            //return;
+        }
+        private void btn_modify_Click(object sender, EventArgs e)
+        {
+            Form_InputOrModifyMaterialName fn = new Form_InputOrModifyMaterialName(this, MaterialArray, DGMaterial.CurrentCell.RowIndex, DGMaterial.Rows[DGMaterial.CurrentCell.RowIndex].Cells[1].Value.ToString());
+            fn.ShowDialog();
+        }
+
+        private void btn_AddMaterial_Click(object sender, EventArgs e)
+        {
+            Form_InputOrModifyMaterialName fn = new Form_InputOrModifyMaterialName(this, MaterialArray);
+            fn.ShowDialog();
+        }
+
+        private void btn_RemoveMaterial_Click(object sender, EventArgs e)
+        {
+            if(DGMaterial.CurrentCell.RowIndex==-1)
+            {
+                return;
+            }
+            if(MessageBox.Show("您確定要刪除此材質嗎?所有定義的麻摩擦係數組合同步會被刪除","刪除材質",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)==DialogResult.Cancel)
+            {
+                return;
+            }
+
+            DGMaterialDeleteRow = DGMaterial.CurrentCell.RowIndex;
+            EscapeDGMaterialCellValueChangedFunction = true;
+            刪除Material的材質();
+        }
+        public void 新增新的材質(string newValue)
+        {
+            newrowadd = true;
+            EscapeDGMaterialCellValueChangedFunction = false;
+            DGMaterial.Rows.Add(new object[] { DGMaterial.Rows.Count.ToString(), newValue });
+            處理Material新增與變更(DGMaterial.Rows.Count - 1);
+            DGMaterial.CurrentCell=DGMaterial.Rows[DGMaterial.Rows.Count - 1].Cells[1];
+        }
+        public void 處理材質名稱的修改(string newValue,int getRowIndex)
+        {
+            EscapeDGMaterialCellValueChangedFunction = false;
+            newrowadd = false;
+            DGMaterial.Rows[getRowIndex].Cells[1].Value = newValue;
+
+            處理Material新增與變更(getRowIndex);// DGMaterial.Rows.Count - 1);
+        }
+        public void 處理Material新增與變更(int getRowIndex)
+        { 
+            
             if (!使用者手動更新材質與摩擦)
             {
                 return;
@@ -6081,26 +6193,26 @@ namespace VE_SD
 
             try
             {
-                if (DGMaterial.Rows[e.RowIndex].Cells[1].Value == null)
+                if (DGMaterial.Rows[getRowIndex].Cells[1].Value==null)//e.RowIndex].Cells[1].Value == null)
                 {
                     //此Row被變更為空白,但可能是在載入新的專案檔.
-                    if (MaterialSubscriptToName.ContainsKey(e.RowIndex))
+                    if (MaterialSubscriptToName.ContainsKey(getRowIndex)) //e.RowIndex))
                     {
                         if (MessageBox.Show("您確定刪除此材質嗎?\n刪除後，與此材質相關的摩擦係數設定都會被移除!", "刪除", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
                         {
                             EscapeDGMaterialCellValueChangedFunction = true;
-                            DGMaterial.Rows[e.RowIndex].Cells[1].Value = MaterialArray[e.RowIndex];
+                            DGMaterial.Rows[getRowIndex].Cells[1].Value = MaterialArray[getRowIndex]; //[e.RowIndex].Cells[1].Value = MaterialArray[getRowIndex];// e.RowIndex];
                             return;
                         }
                         else
                         {
-                            DGMaterial.Rows.RemoveAt(e.RowIndex);
+                            DGMaterial.Rows.RemoveAt(getRowIndex);// e.RowIndex);
                             return;
                         }
                     }
                     else// if(EscapeDGMaterialCellValueChangedFunction)
                     {
-                        DGMaterial.Rows.RemoveAt(e.RowIndex);
+                        DGMaterial.Rows.RemoveAt(getRowIndex);// e.RowIndex);
                         return;
                     }
                 }
@@ -6124,7 +6236,7 @@ namespace VE_SD
                 newrowadd = false;
                 EscapeDGMaterialCellValueChangedFunction = true;
                 //不允許材質名稱重覆.
-                int addedrow = e.RowIndex;
+                int addedrow = getRowIndex;// e.RowIndex;
                 //MessageBox.Show(e.Row.Cells[1].Value.ToString());
                 //MessageBox.Show(DGMaterial.Rows[0].Cells[1].Value.ToString());
                 if (DGMaterial.Rows.Count == 1 || addedrow >= DGMaterial.Rows.Count)
@@ -6148,7 +6260,7 @@ namespace VE_SD
                 }
 
                 //MessageBox.Show("P1-0-1");
-                for (int i = 0; i < DGMaterial.Rows.Count - 1; i++)
+                for (int i = 0; i < DGMaterial.Rows.Count; i++)
                 {
                     DGMaterial.Rows[i].Cells[0].Value = (i + 1).ToString();
                 }
@@ -6160,7 +6272,7 @@ namespace VE_SD
                 Array.Resize(ref MaterialArray, 0);
                 MaterialCount = 0;
                 //labelT.Text = "";
-                for (int i = 0; i < DGMaterial.Rows.Count - 1; i++)
+                for (int i = 0; i < DGMaterial.Rows.Count; i++)
                 {
                     Array.Resize(ref MaterialArray, MaterialCount + 1);
                     MaterialArray[i] = DGMaterial.Rows[i].Cells[1].Value.ToString();
@@ -6227,25 +6339,28 @@ namespace VE_SD
                 propertyGrid_Block.SelectedObject = D;
                 //將參考材質填入資訊:前提都是必須要有可用材質.
                 ReferencedMaterialCHKL.Items.Clear();
-                for (int i = 0; i < MaterialArray.GetLength(0); i++)
+                if (BlockMainArray[listBox_SectSetting.SelectedIndex].是否為混凝土塊)
                 {
-                    ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
-                }
-                //根據此Block是否有選取設定資訊.
-                string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
-                string[] AvailableMaterials = new string[] { };
-                for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
-                {
-                    if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                    for (int i = 0; i < MaterialArray.GetLength(0); i++)
                     {
-                        Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
-                        AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                        ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
                     }
-                }
-                BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
-                for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
-                {
-                    ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                    //根據此Block是否有選取設定資訊.
+                    string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+                    string[] AvailableMaterials = new string[] { };
+                    for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
+                    {
+                        if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                        {
+                            Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                            AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                        }
+                    }
+                    BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+                    for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
+                    {
+                        ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                    }
                 }
                 //MessageBox.Show("P1-3");
                 //完成新增.
@@ -6262,7 +6377,7 @@ namespace VE_SD
                 return;
             }
             //變更材質名稱時,同步將右側摩擦係數DG與矩陣變更.
-            int changerow = e.RowIndex;
+            int changerow = getRowIndex;// e.RowIndex;
             //MessageBox.Show(changerow.ToString());
             if (DGMaterial.Rows[changerow].Cells[1].Value == null)
             {
@@ -6300,6 +6415,7 @@ namespace VE_SD
 
             }
             string changeName = DGMaterial.Rows[changerow].Cells[1].Value.ToString();
+            //MessageBox.Show(changeName);
             //不允許重覆.
             bool repeated = false;
             for (int i = 0; i < DGMaterial.Rows.Count - 1; i++)
@@ -6328,7 +6444,7 @@ namespace VE_SD
             Array.Resize(ref MaterialArray, 0);
             MaterialCount = 0;
             //MessageBox.Show(DGMaterial.Rows.Count.ToString());
-            for (int i = 0; i < DGMaterial.Rows.Count - 1; i++)
+            for (int i = 0; i < DGMaterial.Rows.Count; i++)
             {
                 //MessageBox.Show(i.ToString());
                 Array.Resize(ref MaterialArray, MaterialCount + 1);
@@ -6343,6 +6459,15 @@ namespace VE_SD
             //更改對應的摩擦係數.
             Array.Resize(ref MaterialsCoefArray, 0);
             MaterialRoughnessArrayCount = 0;
+            //MessageBox.Show("H2-2");
+            foreach (DataGridViewRow row in DGMaterialRough.Rows)
+            {
+                var cell = (DataGridViewComboBoxCell)(row.Cells[1]);
+                cell.DataSource = MaterialArray;//下拉式選單取代為新的
+                var cell2 = (DataGridViewComboBoxCell)(row.Cells[2]);
+                cell2.DataSource = MaterialArray;
+            }
+
             //MessageBox.Show("H2-3");
             for (int i = 0; i < DGMaterialRough.Rows.Count; i++)
             {
@@ -6376,13 +6501,7 @@ namespace VE_SD
 
             //設定Combobox內容.
             //MessageBox.Show(MaterialArray.ToString());
-            foreach (DataGridViewRow row in DGMaterialRough.Rows)
-            {
-                var cell = (DataGridViewComboBoxCell)(row.Cells[1]);
-                cell.DataSource = MaterialArray;//下拉式選單取代為新的
-                var cell2 = (DataGridViewComboBoxCell)(row.Cells[2]);
-                cell2.DataSource = MaterialArray;
-            }
+
             //MessageBox.Show("H2-4");
             //更改Block內的使用材質
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
@@ -6416,25 +6535,28 @@ namespace VE_SD
                 propertyGrid_Block.SelectedObject = D;
                 //將參考材質填入資訊:前提都是必須要有可用材質.
                 ReferencedMaterialCHKL.Items.Clear();
-                for (int i = 0; i < MaterialArray.GetLength(0); i++)
+                if (BlockMainArray[listBox_SectSetting.SelectedIndex].是否為混凝土塊)
                 {
-                    ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
-                }
-                //根據此Block是否有選取設定資訊.
-                string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
-                string[] AvailableMaterials = new string[] { };
-                for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
-                {
-                    if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                    for (int i = 0; i < MaterialArray.GetLength(0); i++)
                     {
-                        Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
-                        AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                        ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
                     }
-                }
-                BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
-                for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
-                {
-                    ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                    //根據此Block是否有選取設定資訊.
+                    string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+                    string[] AvailableMaterials = new string[] { };
+                    for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
+                    {
+                        if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                        {
+                            Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                            AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                        }
+                    }
+                    BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+                    for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
+                    {
+                        ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                    }
                 }
             }
 
@@ -6443,6 +6565,7 @@ namespace VE_SD
         int DGMaterialDeleteRow = -1;
         private void DGMaterial_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
+            return;
             if (!使用者手動更新材質與摩擦)
             {
                 return;
@@ -6454,6 +6577,7 @@ namespace VE_SD
         }
         private void DGMaterial_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
+            return;
             if (MessageBox.Show("您確定刪除此材質嗎?\n刪除後，與此材質相關的摩擦係數設定都會被移除!", "刪除", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
             {
                 e.Cancel = true;
@@ -6468,6 +6592,7 @@ namespace VE_SD
         }
         private void DGMaterial_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
+            return;
             刪除Material的材質(false);
         }
         private void 刪除Material的材質(bool Removed = true)
@@ -6487,7 +6612,8 @@ namespace VE_SD
                                                                            //MessageBox.Show("D1");
                                                                            // MessageBox.Show(DGMaterial.Rows.Count.ToString());
                                                                            //1. 變更材質DG的序號.
-            for (int i = 0; i < DGMaterial.Rows.Count - 1; i++) //此可直接Edit，所以省略一個
+            DGMaterial.Rows.RemoveAt(deleterow);
+            for (int i = 0; i < DGMaterial.Rows.Count; i++) //此可直接Edit，所以省略一個
             {
                 //if(DGMaterial.Rows[i].Cells[1].Value.ToString()!="")
                 //{
@@ -6502,7 +6628,7 @@ namespace VE_SD
             Array.Resize(ref MaterialArray, 0);
             MaterialCount = 0;
             //MessageBox.Show("Count: " + DGMaterial.Rows.Count.ToString());
-            for (int i = 0; i < DGMaterial.Rows.Count - 1; i++)
+            for (int i = 0; i < DGMaterial.Rows.Count; i++)
             {
                 Array.Resize(ref MaterialArray, i + 1);
                 MaterialArray[i] = DGMaterial.Rows[i].Cells[1].Value.ToString();
@@ -6606,25 +6732,29 @@ namespace VE_SD
                 //將參考材質填入資訊:前提都是必須要有可用材質.
                 //這個功能只限定選取中的呈現.
                 ReferencedMaterialCHKL.Items.Clear();
-                for (int i = 0; i < MaterialArray.GetLength(0); i++)
+                if (BlockMainArray[listBox_SectSetting.SelectedIndex].是否為混凝土塊)
                 {
-                    ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
-                }
-                //根據此Block是否有選取設定資訊.
-                string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
-                string[] AvailableMaterials = new string[] { };
-                for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
-                {
-                    if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+
+                    for (int i = 0; i < MaterialArray.GetLength(0); i++)
                     {
-                        Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
-                        AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                        ReferencedMaterialCHKL.Items.Add(MaterialArray[i]);
                     }
-                }
-                BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
-                for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
-                {
-                    ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                    //根據此Block是否有選取設定資訊.
+                    string[] BlockSelectedReferncedMaterialNames = BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質;
+                    string[] AvailableMaterials = new string[] { };
+                    for (int i = 0; i < BlockSelectedReferncedMaterialNames.GetLength(0); i++)
+                    {
+                        if (MaterialNameToArraySubScript.ContainsKey(BlockSelectedReferncedMaterialNames[i]))
+                        {
+                            Array.Resize(ref AvailableMaterials, AvailableMaterials.GetLength(0) + 1);
+                            AvailableMaterials[AvailableMaterials.GetUpperBound(0)] = BlockSelectedReferncedMaterialNames[i];
+                        }
+                    }
+                    BlockMainArray[listBox_SectSetting.SelectedIndex].周圍參考材質 = AvailableMaterials;//根據目前最新的可用材質清單 傳回可用的選取..
+                    for (int i = 0; i < AvailableMaterials.GetLength(0); i++)
+                    {
+                        ReferencedMaterialCHKL.SetItemCheckState(MaterialNameToArraySubScript[AvailableMaterials[i]], CheckState.Checked);
+                    }
                 }
             }
             //避免又進入DGMaterial CellContentChanged Function內.
@@ -6682,6 +6812,7 @@ namespace VE_SD
         }
         private void DGMaterialRough_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
+            return;
             //DG Roughness設定內移除列.
             if (MessageBox.Show("您確定要刪除這些資料嗎?", "刪除摩擦係數", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
             {
@@ -6695,6 +6826,7 @@ namespace VE_SD
         }
         private void DGMaterialRough_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
+            return;
             //刪除Row完成之事件.
             if (!使用者手動更新材質與摩擦)
             {
@@ -6709,6 +6841,7 @@ namespace VE_SD
         }
         private void DGMaterialRough_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
+            return;
             //完成刪除工作.
             刪除材質間摩擦係數();
             //MessageBox.Show("刪除完成");
@@ -7074,5 +7207,19 @@ namespace VE_SD
         }
 
 
+        #region ELSetting
+
+
+        #endregion
+
+        private void DGMaterialRough_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+
+        private void Form_MTExamProgress_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
     }
 }
