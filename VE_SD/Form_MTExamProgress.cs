@@ -165,7 +165,7 @@ namespace VE_SD
                 MessageBox.Show("您無法使用此功能!!錯誤訊息:" + Environment.NewLine + "您沒有正確的軟體驗證" + Environment.NewLine + "請退出檢核程式(您可先存檔)並進行軟體驗證", "驗證錯誤", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
-            tabControl1.SelectedIndex = 3;
+
             isCalc = true;
 
             string CheckTextBoxString = "";
@@ -187,6 +187,10 @@ namespace VE_SD
                 isCalc = false;
                 return;
             }
+
+
+            
+            tabControl1.SelectedIndex = 3;
 
             //計算Block的平均摩擦係數.
             for (int i = 0; i < BlockMainArray.GetLength(0); i++)
@@ -322,6 +326,7 @@ namespace VE_SD
             btn_OutputWord.Enabled = true;
             輸出LogToolStripMenuItem.Enabled = true;
             輸出Word報表ToolStripMenuItem.Enabled = true;
+            tabControl1.SelectedIndex = 3;
         }
         Boolean CheckTextBoxNoEmpty(ref string ErrorMsg)
         {
@@ -820,12 +825,12 @@ namespace VE_SD
             textBox_CheckMessageShow.Text = "";
             //rb_Meyerhof.Checked = true;
             rb_Tergazhi.Checked = true;
-            開始檢核ToolStripMenuItem.Enabled = false;
-            btn_Test.Enabled = false;
-            btn_LogOutput.Enabled = false;
-            btn_OutputWord.Enabled = false;
-            輸出LogToolStripMenuItem.Enabled = false;
-            輸出Word報表ToolStripMenuItem.Enabled = false;
+            開始檢核ToolStripMenuItem.Enabled = true; // false;
+            btn_Test.Enabled = true;// false;
+            btn_LogOutput.Enabled = true;// false;
+            btn_OutputWord.Enabled = true;// false;
+            輸出LogToolStripMenuItem.Enabled = true;// false;
+            輸出Word報表ToolStripMenuItem.Enabled = true;// false;
             //data_BlockTempShow.Rows.Clear();
 
         }
@@ -1315,8 +1320,9 @@ namespace VE_SD
             {
                 return;
             }
-            if (BlockMainArray.GetLength(0) == 0)
+            /*if (BlockMainArray.GetLength(0) == 0)
             { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            */
             string xmlpath;// = workfoldernow + "\\Test.xml";
             if (object.Equals(打開專案檔的名稱, null))
             {
@@ -1353,8 +1359,9 @@ namespace VE_SD
                 return;
             }
 
-            if (BlockMainArray.GetLength(0) == 0)
+            /*if (BlockMainArray.GetLength(0) == 0)
             { MessageBox.Show("您沒有設定任何形塊!無法儲存", "專案檔管理", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            */
             string xmlpath;// = workfoldernow + "\\Test.xml";
             if (SFD_專案.ShowDialog() == DialogResult.OK && SFD_專案.FileName != "")
             {
@@ -3492,6 +3499,14 @@ namespace VE_SD
                 catch
                 {
                     //Do nothing.
+                }
+                try
+                {
+                    chart_Plot.Annotations.Clear();
+                }
+                catch
+                {
+
                 }
             }
             else
@@ -6824,21 +6839,6 @@ namespace VE_SD
                 DGMaterialRoughUserDeleteRows = DGMaterialRough.SelectedRows;
             }
         }
-        private void DGMaterialRough_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            return;
-            //刪除Row完成之事件.
-            if (!使用者手動更新材質與摩擦)
-            {
-                return;
-            }
-            if (Escape材質間摩擦係數刪除事件)
-            {
-                Escape材質間摩擦係數刪除事件 = false;
-                return;
-            }
-            刪除材質間摩擦係數();
-        }
         private void DGMaterialRough_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
             return;
@@ -7081,7 +7081,6 @@ namespace VE_SD
                 }
             }
         }
-
         #endregion
 
         #region 附屬

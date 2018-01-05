@@ -34,13 +34,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_MTExamProgress));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,6 +139,9 @@
             this.label24 = new System.Windows.Forms.Label();
             this.textBox_地震時地盤承載力安全係數 = new System.Windows.Forms.TextBox();
             this.tabPage_MaterialAndFirction = new System.Windows.Forms.TabPage();
+            this.btn_modify = new System.Windows.Forms.Button();
+            this.btn_RemoveMaterial = new System.Windows.Forms.Button();
+            this.btn_AddMaterial = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btn_RemoveRowMR = new System.Windows.Forms.Button();
             this.btnAddRow = new System.Windows.Forms.Button();
@@ -148,6 +151,8 @@
             this.材質二 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.摩擦係數值 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DGMaterial = new System.Windows.Forms.DataGridView();
+            this.序號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.材質名稱 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label34 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELDGV1 = new System.Windows.Forms.DataGridView();
@@ -182,11 +187,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SFD_WordOutput = new System.Windows.Forms.SaveFileDialog();
             this.bk_OutputWordReport = new System.ComponentModel.BackgroundWorker();
-            this.btn_AddMaterial = new System.Windows.Forms.Button();
-            this.btn_RemoveMaterial = new System.Windows.Forms.Button();
-            this.序號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.材質名稱 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_modify = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1291,6 +1291,39 @@
             this.tabPage_MaterialAndFirction.ToolTipText = "填入使用之材質與材質間之摩擦係數值";
             this.tabPage_MaterialAndFirction.UseVisualStyleBackColor = true;
             // 
+            // btn_modify
+            // 
+            this.btn_modify.Location = new System.Drawing.Point(247, 39);
+            this.btn_modify.Name = "btn_modify";
+            this.btn_modify.Size = new System.Drawing.Size(30, 26);
+            this.btn_modify.TabIndex = 7;
+            this.btn_modify.Text = "≡";
+            this.toolTip1.SetToolTip(this.btn_modify, "修改此材質之名稱");
+            this.btn_modify.UseVisualStyleBackColor = true;
+            this.btn_modify.Click += new System.EventHandler(this.btn_modify_Click);
+            // 
+            // btn_RemoveMaterial
+            // 
+            this.btn_RemoveMaterial.Location = new System.Drawing.Point(272, 39);
+            this.btn_RemoveMaterial.Name = "btn_RemoveMaterial";
+            this.btn_RemoveMaterial.Size = new System.Drawing.Size(30, 26);
+            this.btn_RemoveMaterial.TabIndex = 6;
+            this.btn_RemoveMaterial.Text = "-";
+            this.toolTip1.SetToolTip(this.btn_RemoveMaterial, "刪除此材質");
+            this.btn_RemoveMaterial.UseVisualStyleBackColor = true;
+            this.btn_RemoveMaterial.Click += new System.EventHandler(this.btn_RemoveMaterial_Click);
+            // 
+            // btn_AddMaterial
+            // 
+            this.btn_AddMaterial.Location = new System.Drawing.Point(217, 39);
+            this.btn_AddMaterial.Name = "btn_AddMaterial";
+            this.btn_AddMaterial.Size = new System.Drawing.Size(30, 26);
+            this.btn_AddMaterial.TabIndex = 5;
+            this.btn_AddMaterial.Text = "+";
+            this.toolTip1.SetToolTip(this.btn_AddMaterial, "新增一個新的材質");
+            this.btn_AddMaterial.UseVisualStyleBackColor = true;
+            this.btn_AddMaterial.Click += new System.EventHandler(this.btn_AddMaterial_Click);
+            // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1363,7 +1396,7 @@
             this.DGMaterialRough.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGMaterialRough_CellValueChanged);
             this.DGMaterialRough.CurrentCellDirtyStateChanged += new System.EventHandler(this.DGMaterialRough_CurrentCellDirtyStateChanged);
             this.DGMaterialRough.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DGMaterialRough_DataError);
-            this.DGMaterialRough.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DGMaterialRough_RowsRemoved);
+            this.DGMaterialRough.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.DGMaterial_RowsRemoved);
             this.DGMaterialRough.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterialRough_UserDeletedRow);
             this.DGMaterialRough.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterialRough_UserDeletingRow);
             this.DGMaterialRough.Click += new System.EventHandler(this.DGMaterialRough_Click);
@@ -1437,6 +1470,25 @@
             this.DGMaterial.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGMaterial_UserDeletedRow);
             this.DGMaterial.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGMaterial_UserDeletingRow);
             // 
+            // 序號
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.序號.DefaultCellStyle = dataGridViewCellStyle6;
+            this.序號.FillWeight = 50F;
+            this.序號.HeaderText = "序號";
+            this.序號.Name = "序號";
+            this.序號.ReadOnly = true;
+            this.序號.Width = 50;
+            // 
+            // 材質名稱
+            // 
+            this.材質名稱.FillWeight = 120F;
+            this.材質名稱.HeaderText = "材質名稱";
+            this.材質名稱.Name = "材質名稱";
+            this.材質名稱.ReadOnly = true;
+            this.材質名稱.Width = 120;
+            // 
             // label34
             // 
             this.label34.AutoSize = true;
@@ -1469,6 +1521,7 @@
             // 
             // ELDGV1
             // 
+            this.ELDGV1.AllowUserToDeleteRows = false;
             this.ELDGV1.AllowUserToResizeColumns = false;
             this.ELDGV1.AllowUserToResizeRows = false;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1839,58 +1892,6 @@
             this.bk_OutputWordReport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bk_OutputWordReport_DoWork);
             this.bk_OutputWordReport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bk_OutputWordReport_ProgressChanged);
             this.bk_OutputWordReport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bk_OutputWordReport_RunWorkerCompleted);
-            // 
-            // btn_AddMaterial
-            // 
-            this.btn_AddMaterial.Location = new System.Drawing.Point(217, 39);
-            this.btn_AddMaterial.Name = "btn_AddMaterial";
-            this.btn_AddMaterial.Size = new System.Drawing.Size(30, 26);
-            this.btn_AddMaterial.TabIndex = 5;
-            this.btn_AddMaterial.Text = "+";
-            this.toolTip1.SetToolTip(this.btn_AddMaterial, "新增一個新的材質");
-            this.btn_AddMaterial.UseVisualStyleBackColor = true;
-            this.btn_AddMaterial.Click += new System.EventHandler(this.btn_AddMaterial_Click);
-            // 
-            // btn_RemoveMaterial
-            // 
-            this.btn_RemoveMaterial.Location = new System.Drawing.Point(272, 39);
-            this.btn_RemoveMaterial.Name = "btn_RemoveMaterial";
-            this.btn_RemoveMaterial.Size = new System.Drawing.Size(30, 26);
-            this.btn_RemoveMaterial.TabIndex = 6;
-            this.btn_RemoveMaterial.Text = "-";
-            this.toolTip1.SetToolTip(this.btn_RemoveMaterial, "刪除此材質");
-            this.btn_RemoveMaterial.UseVisualStyleBackColor = true;
-            this.btn_RemoveMaterial.Click += new System.EventHandler(this.btn_RemoveMaterial_Click);
-            // 
-            // 序號
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.序號.DefaultCellStyle = dataGridViewCellStyle6;
-            this.序號.FillWeight = 50F;
-            this.序號.HeaderText = "序號";
-            this.序號.Name = "序號";
-            this.序號.ReadOnly = true;
-            this.序號.Width = 50;
-            // 
-            // 材質名稱
-            // 
-            this.材質名稱.FillWeight = 120F;
-            this.材質名稱.HeaderText = "材質名稱";
-            this.材質名稱.Name = "材質名稱";
-            this.材質名稱.ReadOnly = true;
-            this.材質名稱.Width = 120;
-            // 
-            // btn_modify
-            // 
-            this.btn_modify.Location = new System.Drawing.Point(247, 39);
-            this.btn_modify.Name = "btn_modify";
-            this.btn_modify.Size = new System.Drawing.Size(30, 26);
-            this.btn_modify.TabIndex = 7;
-            this.btn_modify.Text = "≡";
-            this.toolTip1.SetToolTip(this.btn_modify, "修改此材質之名稱");
-            this.btn_modify.UseVisualStyleBackColor = true;
-            this.btn_modify.Click += new System.EventHandler(this.btn_modify_Click);
             // 
             // Form_MTExamProgress
             // 
