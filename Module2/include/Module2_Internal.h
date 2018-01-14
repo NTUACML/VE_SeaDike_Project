@@ -24,6 +24,7 @@ public:
 	bool HorizontalSoilForceCal();
 	bool VertivalSoilForceCal();
 	bool ResidualWaterForceCal();
+	bool ActiveWaterForceCal();
 	bool ShipTractionForceCal();
 	bool VerticalForceSum();
 	bool HorizontalForceSum();

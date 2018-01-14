@@ -31,7 +31,8 @@ namespace VE_SD {
 		double Fw_sum, Fw_y, Fw_Mw_sum; //Residual water force
 		double Level_sum_Fw, Level_total_Fwy, Level_sum_FwMw; //Devide Level summation
 		double pre_sum_Fw, pre_total_Fwy, pre_sum_FwMw;
- 
+		
+		double Fd, Fd_y, Fd_Md;
 		double Ft_y, Ft_Mt;
 
 		double VForcesum, VMomentsum; //Vertical force and moment summation

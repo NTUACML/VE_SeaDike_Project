@@ -577,6 +577,30 @@ bool Module2_Internal::ResidualWaterForceCal() {
 	return true;
 }
 
+bool Module2_Internal::ActiveWaterForceCal() {
+
+	double top_level = Var->Max_level;
+	double k_active = Var->K_plun / 2;
+	double hw;
+
+	for (size_t i = 0; i < Var->LevelSection.size(); i++)
+	{
+		if (Var->LevelSection[i].Level > Var->RWL) {
+			Var->LevelSection[i].Fd = 0;
+			Var->LevelSection[i].Fd_y = 0;
+			Var->LevelSection[i].Fd_Md = Var->LevelSection[i].Fd*Var->LevelSection[i].Fd_y;
+		}
+		else if (Var->LevelSection[i].Level < Var->RWL) {
+			hw = Var->RWL - Var->LevelSection[i].Level;
+			//Var->LevelSection[i].Fd = 7 / 12 * (Var->K_plun / 2) * Var->rw * (std::pow(hw, 2.0));
+			Var->LevelSection[i].Fd = 7 * (Var->K_plun / 2) * Var->rw * (std::pow(hw, 2.0)) / 12;
+			Var->LevelSection[i].Fd_y = 0.4 * hw;
+			Var->LevelSection[i].Fd_Md = Var->LevelSection[i].Fd*Var->LevelSection[i].Fd_y;
+		}
+	}
+	Var->Err_Msg += "地震時之動水壓及傾倒彎矩! \r\n";
+	return true;
+}
 
 bool Module2_Internal::ShipTractionForceCal() {
 

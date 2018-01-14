@@ -34,6 +34,8 @@ public:
 	double Level_sum_Fw, Level_total_Fwy, Level_sum_FwMw; //Devide Level summation
 	double pre_sum_Fw, pre_total_Fwy, pre_sum_FwMw; //Previous Devide Level
 
+	double Fd, Fd_y, Fd_Md; //Active water pressure
+
 	double Ft_y, Ft_Mt; //Ship traction force
 
 	double VForcesum, VMomentsum; //Vertical force and moment summation

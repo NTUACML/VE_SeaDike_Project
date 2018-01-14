@@ -207,6 +207,10 @@ bool VE_SD::Module2::Get_DataBank_Data(){
 		VarBank.EL_Out[i].pre_sum_FwMw = Var->LevelSection[i].pre_sum_FwMw;
 		VarBank.EL_Out[i].pre_total_Fwy = Var->LevelSection[i].pre_total_Fwy;
 
+		VarBank.EL_Out[i].Fd = Var->LevelSection[i].Fd;
+		VarBank.EL_Out[i].Fd_y = Var->LevelSection[i].Fd_y;
+		VarBank.EL_Out[i].Fd_Md = Var->LevelSection[i].Fd_Md;
+
 		VarBank.EL_Out[i].Ft_y = Var->LevelSection[i].Ft_y;
 		VarBank.EL_Out[i].Ft_Mt = Var->LevelSection[i].Ft_Mt;
 
@@ -287,7 +291,9 @@ bool VE_SD::Module2::Run()
 			||
 			!Internal->VertivalSoilForceCal() 
 			||
-			!Internal->ResidualWaterForceCal() 
+			!Internal->ResidualWaterForceCal()
+			||
+			!Internal->ActiveWaterForceCal()
 			||
 			!Internal->ShipTractionForceCal() 
 			||
@@ -393,6 +399,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		{
 			FILE << Var->LevelSection[i].BlockId[j]+1 << " ";
 		}
+		FILE << Var->LevelSection[i].Level - Var->RWL <<std::endl;
 		FILE << std::endl;
 	}
 	FILE << "******Level參數-後總計******" << std::endl;
@@ -494,6 +501,14 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 			FILE << "力矩: " << Var->LevelSection[i].pre_total_Fwy << std::endl;
 			FILE << "傾倒彎矩: " << Var->LevelSection[i].pre_sum_FwMw << std::endl;
 		}
+	}
+	//- 新表格七
+	FILE << std::endl << "地震時之動水壓及傾倒彎矩" << std::endl;
+	for (size_t i = 0; i < Var->LevelSection.size(); i++) {
+		FILE << "EL" << i + 1 << " :" << std::endl;
+		FILE << "動水壓合力: " << Var->LevelSection[i].Fd << std::endl;
+		FILE << "力矩: " << Var->LevelSection[i].Fd_y << std::endl;
+		FILE << "傾倒彎矩: " << Var->LevelSection[i].Fd_Md << std::endl;
 	}
 
 	//- 表格七
