@@ -1546,6 +1546,7 @@
             this.ELDGV1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.ELDGV1_UserAddedRow);
             this.ELDGV1.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.ELDGV1_UserDeletedRow);
             this.ELDGV1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ELDGV1_KeyUp);
+            this.ELDGV1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ELDGV1_MouseDown);
             // 
             // EL
             // 

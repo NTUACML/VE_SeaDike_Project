@@ -127,18 +127,26 @@ namespace VE_SD
             set { _調整Chart比例 = value; }
         }
 
+        private ContextMenu ELDGmenu = new ContextMenu();
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Form_MTExamProgress()
         {
+            MenuItem ELmiDelete = new MenuItem("刪除");
+            ELmiDelete.Click += new System.EventHandler(this.ELmiDelete_Click);
+            ELDGmenu.MenuItems.Add(ELmiDelete);
             InitializeComponent();
         }
 
         public Form_MTExamProgress(Form callingForm)
         {
+            MenuItem ELmiDelete = new MenuItem("刪除");
+            ELmiDelete.Click += new System.EventHandler(this.ELmiDelete_Click);
+            ELDGmenu.MenuItems.Add(ELmiDelete);
             mainForm = callingForm as Form1;//傳入物件參考.
             InitializeComponent();
         }
+
         string PNGStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP.PNG";
         string VESDStoredFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\VSSD\\TEMP_Project.vesdp";
         #region 檢核
@@ -687,6 +695,8 @@ namespace VE_SD
                 Adjust(c);
             }
         }
+        
+
         private void Form_MTExamProgress_Load(object sender, EventArgs e)
         {
             開啟與ReLoad();
@@ -5009,17 +5019,45 @@ namespace VE_SD
                     }
                     */
 
-
-                    //第十四個表格.
-                    //8. 船舶牽引力及傾倒彎矩.
+                    //第十四個表格:
+                    //地震時之動水壓及傾倒彎矩.
+                    //表頭.
                     TableRef = newDocument.Tables[14];
+                    TableRef.Rows[1].Cells[2].Range.Text = RCOL.水中設計震度;
+
+                    //第十五格表格:
+                    //地震時之動水壓及傾倒彎矩.
+                    //表格內容:
+                    TableRef = newDocument.Tables[15];
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0) - 1; i++)
+                    {
+                        TableRef.Rows.Add(TableRef.Rows[2]);
+                    }
+                    //填入數據.
+                    for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
+                    {
+                        
+                        TableRef.Rows[2 + i].Cells[1].Range.Text = 得到英文碼(i + 1);
+                        if(Mod.VarBank.EL_Out[i].EL > double.Parse(RCOL.殘留水位))
+                        {
+                            continue;
+                        }
+                        TableRef.Rows[2 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Fd.ToString("0.00");//動水壓合力
+                        TableRef.Rows[2 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Fd_y.ToString("0.00");//力矩.
+                        TableRef.Rows[2 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Fd_Md.ToString("0.00");//傾倒彎矩.
+                    }
+
+
+                    //第十六個表格.
+                    //8. 船舶牽引力及傾倒彎矩.
+                    TableRef = newDocument.Tables[16];
                     TableRef.Rows[1].Cells[2].Range.Text = RCOL.船舶牽引力;
                     TableRef.Rows[2].Cells[2].Range.Text = RCOL.繫船柱突出高度;
 
 
-                    //第十六個表格.
+                    //第十七個表格.
                     //  整理表.
-                    TableRef = newDocument.Tables[15];
+                    TableRef = newDocument.Tables[17];
                     for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0)-1;i++)
                     {
                         TableRef.Rows.Add(TableRef.Rows[2]);
@@ -5033,10 +5071,10 @@ namespace VE_SD
                         TableRef.Rows[2 + i].Cells[4].Range.Text= Mod.VarBank.EL_Out[i].Ft_Mt.ToString("0.00");//傾倒彎矩.
                     }
 
-                    //第十七個表格.
+                    //第十八個表格.
                     //9. 垂直力及抵抗彎矩 總和表
                     //    9-1. 平時 整理表
-                    TableRef = newDocument.Tables[16];
+                    TableRef = newDocument.Tables[18];
                     for(int i=0;i<Mod.VarBank.EL_Out.GetLength(0)-1;i++)
                     {
                         TableRef.Rows.Add(TableRef.Rows[3]);
@@ -5054,9 +5092,9 @@ namespace VE_SD
                     }
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
-                    //第十七個表格.
+                    //第十九個表格.
                     //    9-2.地震時 整理表.
-                    TableRef = newDocument.Tables[17];
+                    TableRef = newDocument.Tables[19];
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0)-1; i++)
                     {
                         TableRef.Rows.Add(TableRef.Rows[3]);
@@ -5075,10 +5113,10 @@ namespace VE_SD
                     }
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
-                    //第十八個表格.
+                    //第二十個表格.
                     //  10. 水平力及傾倒彎矩 總和表.
                     //   10-1. 平時.
-                    TableRef = newDocument.Tables[18];
+                    TableRef = newDocument.Tables[20];
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0)-1; i++)
                     {
                         TableRef.Rows.Add(TableRef.Rows[3]);
@@ -5100,9 +5138,9 @@ namespace VE_SD
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
 
-                    //第十九個表格.
+                    //第二十一個表格.
                     //   10-2. 地震時.
-                    TableRef = newDocument.Tables[19];
+                    TableRef = newDocument.Tables[21];
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0)-1; i++)
                     {
                         TableRef.Rows.Add(TableRef.Rows[3]);
@@ -5122,15 +5160,15 @@ namespace VE_SD
                     }
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
-                    //第二十個表格.
+                    //第二十二個表格.
                     //11. 壁體安全檢查.
                     //    11-1. 滑動及傾倒安定檢核.
                     //       11-1-1. 安全係數表.
-                    TableRef = newDocument.Tables[20];
+                    TableRef = newDocument.Tables[22];
 
-                    //第二十一個表格.
+                    //第二十三個表格.
                     //       11-1-2. 總表.
-                    TableRef = newDocument.Tables[21];
+                    TableRef = newDocument.Tables[23];
                     for (int i = 0; i < Mod.VarBank.EL_Out.GetLength(0); i++)
                     {
                         int needsize = 1;
@@ -5189,10 +5227,10 @@ namespace VE_SD
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
                     //TableRef.Columns[2].Cells[1].Merge(TableRef.Columns[2].Cells[2]);
 
-                    //第二十二個表格.
+                    //第二十四個表格.
                     //    11-2. 地盤承載力檢核.
                     //       11-2-1. 壁體底部反力計算.
-                    TableRef = newDocument.Tables[22];
+                    TableRef = newDocument.Tables[24];
                     TableRef.Columns[2].Cells[2].Range.Text =Mod.VarBank.X.ToString("0.00");//平時 合力作用點X.
                     TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.X_E.ToString("0.00");//平時 合力作用點X.
                     TableRef.Columns[2].Cells[3].Range.Text = Mod.VarBank.B.ToString("0.00");
@@ -5230,9 +5268,9 @@ namespace VE_SD
                    
                     //
 
-                    //第二十三個表格.
+                    //第二十五個表格.
                     //       11-2-2. 基礎拋石底面容許承載力計算.
-                    TableRef = newDocument.Tables[23];
+                    TableRef = newDocument.Tables[25];
                     //偏心傾斜荷重角度.
                     TableRef.Columns[2].Cells[2].Range.Text = Mod.VarBank.sita.ToString("0.00") + "°";
                     TableRef.Columns[3].Cells[2].Range.Text = Mod.VarBank.sita_E.ToString("0.00") + "°";
@@ -5645,10 +5683,15 @@ namespace VE_SD
             }
             繪上EL();
         }
+        
         private void ELDGV1_KeyUp(object sender, KeyEventArgs e)
         {
             if(e.KeyCode==Keys.Delete)
             {
+                if(MessageBox.Show("確定刪除此EL值","刪除EL",MessageBoxButtons.OKCancel,MessageBoxIcon.Information)==DialogResult.Cancel)
+                {
+                    return;
+                }
                 if(EscapeELDGV1CellChange)
                 {
                     EscapeELDGV1CellChange = false;
@@ -5657,6 +5700,29 @@ namespace VE_SD
                 //Removing.
                 ELDGV1.Rows.RemoveAt(ELDGV1.CurrentCell.RowIndex);
                 繪上EL();
+            }
+        }
+        private void ELmiDelete_Click(object sender,System.EventArgs e)
+        {
+            if (MessageBox.Show("確定刪除此EL值", "刪除EL", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
+            {
+                return;
+            }
+            if (EscapeELDGV1CellChange)
+            {
+                EscapeELDGV1CellChange = false;
+                return;
+            }
+            //Removing.
+            ELDGV1.Rows.RemoveAt(ELDGV1.CurrentCell.RowIndex);
+            繪上EL();
+        }
+        private void ELDGV1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button==MouseButtons.Right)
+            {
+                //Press Right button of mouse.
+                ELDGmenu.Show(ELDGV1, new Point(e.X, e.Y));
             }
         }
 
