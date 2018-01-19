@@ -116,6 +116,18 @@ namespace VE_SD
         private static string 驗證Msg = "";
         private static bool 驗證Bool=false;
 
+        private static int _碼頭Size寬度=0;//"最大";
+        private static int _碼頭Size高度=0;
+        public int 碼頭Size寬度
+        {
+            get { return _碼頭Size寬度; }
+            set { _碼頭Size寬度 = value; }
+        }
+        public int 碼頭Size高度
+        {
+            get { return _碼頭Size高度; }
+            set { _碼頭Size高度 = value; }
+        }
         private static Form_MTExamProgress formmt = null;
         public void 指派Form_MTExamProgress()
         {
@@ -500,9 +512,10 @@ namespace VE_SD
             {
                 //this.Hide();
                 formmt.ShowInTaskbar = true;
-                formmt.開啟與ReLoad();
+                formmt.開啟與ReLoad(false);
                 formmt.Activate();
                 formmt.Opacity = 100;
+                
                 
                 //formmt.WindowState = FormWindowState.Maximized;
                 //formmt.Visible = true;

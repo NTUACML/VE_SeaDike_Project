@@ -1902,6 +1902,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form_MTExamProgress";
@@ -1911,6 +1912,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_MTExamProgress_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_MTExamProgress_FormClosed);
             this.Load += new System.EventHandler(this.Form_MTExamProgress_Load);
+            this.SizeChanged += new System.EventHandler(this.Form_MTExamProgress_SizeChanged);
             this.Resize += new System.EventHandler(this.Form_MTExamProgress_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

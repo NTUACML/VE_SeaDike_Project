@@ -135,6 +135,7 @@ namespace VE_SD
             MenuItem ELmiDelete = new MenuItem("刪除");
             ELmiDelete.Click += new System.EventHandler(this.ELmiDelete_Click);
             ELDGmenu.MenuItems.Add(ELmiDelete);
+            _EscapeResize = true;
             InitializeComponent();
         }
 
@@ -144,6 +145,7 @@ namespace VE_SD
             ELmiDelete.Click += new System.EventHandler(this.ELmiDelete_Click);
             ELDGmenu.MenuItems.Add(ELmiDelete);
             mainForm = callingForm as Form1;//傳入物件參考.
+            _EscapeResize = true;
             InitializeComponent();
         }
 
@@ -701,7 +703,7 @@ namespace VE_SD
         {
             開啟與ReLoad();
         }
-        public void 開啟與ReLoad()
+        public void 開啟與ReLoad(bool first=true)
         {
             //Adjust(this);
             /*
@@ -841,7 +843,37 @@ namespace VE_SD
             btn_OutputWord.Enabled = true;// false;
             輸出LogToolStripMenuItem.Enabled = true;// false;
             輸出Word報表ToolStripMenuItem.Enabled = true;// false;
+            //this.WindowState = FormWindowState.Maximized;
             //data_BlockTempShow.Rows.Clear();
+            
+            /*
+            if (first)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                //MessageBox.Show("Hi");
+            }
+            else if(mainForm.碼頭Size寬度!=0)
+            {
+                this.Size = new Size((int)mainForm.碼頭Size寬度, (int)mainForm.碼頭Size高度);
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+            */
+            
+            //this.StartPosition = FormStartPosition.CenterScreen;
+            /*MessageBox.Show(mainForm.碼頭Size);
+            if(mainForm.碼頭Size=="最大")
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            */
+            //MessageBox.Show("HERE");
 
         }
         private void 讀入摩擦係數初始設定()
@@ -6087,17 +6119,25 @@ namespace VE_SD
                 //繪上EL();
             }
         }
-        
+
         #endregion
         #region 縮放表單
+        private static bool _EscapeResize;
         private void Form_MTExamProgress_Resize(object sender, EventArgs e)
         {
+            return;
+            if(_EscapeResize)
+            {
+                _EscapeResize = false;
+                return;
+            }
+            
             //double x = (this.Width / OldWidth);
             //double y = (this.Height / OldHeight);
             ////MessageBox.Show("HH: " + x.ToString() + ", " + y.ToString());
             //foreach(Control ctl in this.Controls)
             //{
-                
+
             //    if (ctl.Name!= "tabControl1")
             //    {
             //        continue;
@@ -6122,6 +6162,23 @@ namespace VE_SD
             //}
             //OldWidth = this.Width;
             //OldHeight = this.Height;
+            //MessageBox.Show(this.WindowState.ToString());
+            /*if (this.WindowState == FormWindowState.Maximized)
+            {
+                mainForm.碼頭Size = "最大";
+            }
+            else if(this.WindowState== FormWindowState.Normal)
+            {
+                mainForm.碼頭Size = "正常";
+            }
+            else
+            {
+                //不允許最小化.
+                mainForm.碼頭Size = "最大";
+            }
+            */
+            //mainForm.碼頭SizeX = this.Size.Height;
+           // mainForm.碼頭SizeY = this.Size.Width;
         }
 
 
@@ -6160,11 +6217,14 @@ namespace VE_SD
                 //e.Cancel = true;
             }
             //e.Cancel = true;
-            
+
             //this.ShowInTaskbar = false;
-            mainForm.Activate();
-            this.Hide();
+            _EscapeResize = true;
             this.Opacity = 0;
+            mainForm.Activate();
+            this.WindowState = FormWindowState.Maximized;
+            //_EscapeResize = false;
+            this.Hide();
             this.ShowInTaskbar = false;
 
             //this.WindowState = FormWindowState.Minimized;
@@ -7285,6 +7345,18 @@ namespace VE_SD
         private void Form_MTExamProgress_FormClosed(object sender, FormClosedEventArgs e)
         {
 
+        }
+
+        private void Form_MTExamProgress_SizeChanged(object sender, EventArgs e)
+        {
+            return;
+            if (_EscapeResize)
+            {
+                _EscapeResize = false;
+                return;
+            }
+            mainForm.碼頭Size高度 = this.Size.Height;
+            mainForm.碼頭Size寬度 = this.Size.Width;
         }
     }
 }
