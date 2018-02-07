@@ -639,8 +639,8 @@ bool Module2_Internal::HorizontalForceSum() {
 		Var->LevelSection[i].HForcesum = Var->LevelSection[i].Level_sum_Fh + Var->Ta + Var->LevelSection[i].Level_sum_Fw;
 		Var->LevelSection[i].HMomentsum = Var->LevelSection[i].Level_sum_FhMh + Var->LevelSection[i].Ft_Mt + Var->LevelSection[i].Level_sum_FwMw;
 
-		Var->LevelSection[i].HForcesum_E = Var->LevelSection[i].Level_sum_Fh_E + Var->LevelSection[i].Level_sum_WE + Var->LevelSection[i].Level_sum_Fw;
-		Var->LevelSection[i].HMomentsum_E = Var->LevelSection[i].Level_sum_FhMh_E + Var->LevelSection[i].Level_sum_MxE + Var->LevelSection[i].Level_sum_FwMw;
+		Var->LevelSection[i].HForcesum_E = Var->LevelSection[i].Level_sum_Fh_E + Var->LevelSection[i].Level_sum_WE + Var->LevelSection[i].Level_sum_Fw + Var->LevelSection[i].Fd;
+		Var->LevelSection[i].HMomentsum_E = Var->LevelSection[i].Level_sum_FhMh_E + Var->LevelSection[i].Level_sum_MxE + Var->LevelSection[i].Level_sum_FwMw + Var->LevelSection[i].Fd_Md;
 	}
 
 	Var->Err_Msg += "水平力及傾倒彎矩總合表計算處理完畢! \r\n";
