@@ -5189,7 +5189,7 @@ namespace VE_SD
                         TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩-土壓.
                         TableRef.Rows[3 + i].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");//傾倒彎矩-殘留水壓.
                         TableRef.Rows[3 + i].Cells[9].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_MxE.ToString("0.00");//傾倒彎矩-地震力.
-                        TableRef.Rows[3 + i].Cells[10].Range.Text = Mod.VarBank.EL_Out[i].Fd.ToString("0.00");//傾倒彎矩-動水壓.
+                        TableRef.Rows[3 + i].Cells[10].Range.Text = Mod.VarBank.EL_Out[i].Fd_Md.ToString("0.00");//傾倒彎矩-傾倒彎矩.
                         TableRef.Rows[3 + i].Cells[11].Range.Text = Mod.VarBank.EL_Out[i].HMomentsum_E.ToString("0.00");//傾倒彎矩-計.
                     }
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
