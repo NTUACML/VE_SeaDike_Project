@@ -5183,12 +5183,14 @@ namespace VE_SD
                         TableRef.Rows[3 + i].Cells[1].Range.Text = 得到英文碼(i + 1);//(Mod.VarBank.EL_Out[i].EL >= 0 ? "+" : "-") + Math.Abs(Mod.VarBank.EL_Out[i].EL).ToString();
                         TableRef.Rows[3 + i].Cells[2].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fh_E.ToString("0.00");//水平力-土壓
                         TableRef.Rows[3 + i].Cells[3].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_Fw.ToString("0.00");//水平力-殘留水壓.
-                        TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");//水平力-牽引力.
-                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].HForcesum_E.ToString("0.00");//水平力-計.
-                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩-土壓.
-                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");//傾倒彎矩-殘留水壓.
-                        TableRef.Rows[3 + i].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_MxE.ToString("0.00");//傾倒彎矩-地震力.
-                        TableRef.Rows[3 + i].Cells[9].Range.Text = Mod.VarBank.EL_Out[i].HMomentsum_E.ToString("0.00");//傾倒彎矩-計.
+                        TableRef.Rows[3 + i].Cells[4].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_WE.ToString("0.00");//水平力-地震力.
+                        TableRef.Rows[3 + i].Cells[5].Range.Text = Mod.VarBank.EL_Out[i].Fd.ToString("0.00");//水平力-動水壓
+                        TableRef.Rows[3 + i].Cells[6].Range.Text = Mod.VarBank.EL_Out[i].HForcesum_E.ToString("0.00");//水平力-計.
+                        TableRef.Rows[3 + i].Cells[7].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FhMh_E.ToString("0.00");//傾倒彎矩-土壓.
+                        TableRef.Rows[3 + i].Cells[8].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_FwMw.ToString("0.00");//傾倒彎矩-殘留水壓.
+                        TableRef.Rows[3 + i].Cells[9].Range.Text = Mod.VarBank.EL_Out[i].Level_sum_MxE.ToString("0.00");//傾倒彎矩-地震力.
+                        TableRef.Rows[3 + i].Cells[10].Range.Text = Mod.VarBank.EL_Out[i].Fd.ToString("0.00");//傾倒彎矩-動水壓.
+                        TableRef.Rows[3 + i].Cells[11].Range.Text = Mod.VarBank.EL_Out[i].HMomentsum_E.ToString("0.00");//傾倒彎矩-計.
                     }
                     //TableRef.Columns[1].Cells[1].Merge(TableRef.Columns[1].Cells[2]);
 
