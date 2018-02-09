@@ -1660,6 +1660,8 @@ namespace VE_SD
             double 入土深度R;
             double 拋石厚度R;
             //string dirr;
+            double 土壤重陸上R;
+            double 土壤重水中R;
             double 地盤內基礎內摩擦角R;
             double 土壤凝聚力R;
             
@@ -1673,8 +1675,7 @@ namespace VE_SD
             double 地震時滑動安全係數R;
             double 地震時傾倒安全係數R;
             double 地震時地盤承載力安全係數R;
-            double 土壤重陸上R;
-            double 土壤重水中R;
+            
             /*
             double 平時設計震度土壓係數R;
             double 地震時水上土壓係數R;
@@ -2634,8 +2635,8 @@ namespace VE_SD
             XmlElement 最後編輯時間 = doc.CreateElement("最後編輯時間");
             最後編輯時間.SetAttribute("Value", TSP_DATETIME.Text.Replace("最新一次編輯時間: " ,""));
 
-            XmlElement 地盤基礎內摩擦角 = doc.CreateElement("地盤基礎內摩擦角");
-            地盤基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
+            //XmlElement 地盤基礎內摩擦角 = doc.CreateElement("地盤基礎內摩擦角");
+            //地盤基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
 
             XmlElement 設計潮位高 = doc.CreateElement("設計潮位高");
             設計潮位高.SetAttribute("Value", textBox_設計潮位高.Text);
@@ -2687,11 +2688,17 @@ namespace VE_SD
             //海側方向info.SetAttribute("Value", cmb_seawaveDir.SelectedItem.ToString());
 
 
+            XmlElement 土壤重陸上 = doc.CreateElement("土壤重陸上");
+            土壤重陸上.SetAttribute("Value", textBox_SoilR_Earth.Text);
+
+            XmlElement 土壤重水中 = doc.CreateElement("土壤重水中");
+            土壤重水中.SetAttribute("Value", textBox_SoilR_Water.Text);
+
             XmlElement 土壤凝聚力 = doc.CreateElement("土壤凝聚力");
             土壤凝聚力.SetAttribute("Value", textBox_土壤凝聚力.Text);
 
-            XmlElement 地盤內基礎內摩擦角 = doc.CreateElement("地盤內基礎內摩擦角");
-            地盤內基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
+            XmlElement 地盤基礎內摩擦角 = doc.CreateElement("地盤內基礎內摩擦角");
+            地盤基礎內摩擦角.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
 
             
             XmlElement Nc = doc.CreateElement("Nc");
@@ -2718,16 +2725,12 @@ namespace VE_SD
 
 
             XmlElement 地震時傾倒安全係數 = doc.CreateElement("地震時傾倒安全係數");
-            地震時傾倒安全係數.SetAttribute("Value", textBox_地盤基礎內摩擦角.Text);
+            地震時傾倒安全係數.SetAttribute("Value", textBox_地震時傾倒安全係數.Text);
 
             XmlElement 地震時地盤承載力安全係數 = doc.CreateElement("地震時地盤承載力安全係數");
             地震時地盤承載力安全係數.SetAttribute("Value", textBox_地震時地盤承載力安全係數.Text);
 
-            XmlElement 土壤重陸上 = doc.CreateElement("土壤重陸上");
-            土壤重陸上.SetAttribute("Value", textBox_SoilR_Earth.Text);
 
-            XmlElement 土壤重水中 = doc.CreateElement("土壤重水中");
-            土壤重水中.SetAttribute("Value", textBox_SoilR_Water.Text);
 
             /*
             XmlElement 平時設計震度土壓係數 = doc.CreateElement("平時設計震度土壓係數");
@@ -2778,7 +2781,7 @@ namespace VE_SD
             全域參數XML點.AppendChild(入土深度);
             全域參數XML點.AppendChild(拋石厚度);
             //全域參數XML點.AppendChild(海側方向info);
-            全域參數XML點.AppendChild(地盤內基礎內摩擦角);
+            全域參數XML點.AppendChild(地盤基礎內摩擦角);
             全域參數XML點.AppendChild(土壤凝聚力);
             
             全域參數XML點.AppendChild(Nq);
