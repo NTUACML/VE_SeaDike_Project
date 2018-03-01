@@ -40,6 +40,8 @@ namespace VE_SD
 
         private static string[] photo = new string[] { };
         private static Dictionary<int, int> 照片對照表 = new Dictionary<int, int>();
+
+        private bool _Locked = false;
         //UdpClient U;//宣告UDP通訊物件.
         //Thread th;//宣告監聽用執行緒.
 
@@ -127,6 +129,13 @@ namespace VE_SD
         {
             get { return _碼頭Size高度; }
             set { _碼頭Size高度 = value; }
+        }
+        public bool Locked
+        {
+            get
+            {
+                return _Locked;
+            }
         }
         private static Form_MTExamProgress formmt = null;
         public void 指派Form_MTExamProgress()
@@ -510,13 +519,13 @@ namespace VE_SD
             }
             if(!object.Equals(formmt,null))
             {
-                //this.Hide();
+                
                 formmt.ShowInTaskbar = true;
                 formmt.開啟與ReLoad(false);
                 formmt.Activate();
                 formmt.Opacity = 100;
-                
-                
+                this.Hide();
+
                 //formmt.WindowState = FormWindowState.Maximized;
                 //formmt.Visible = true;
                 //formmt.Activate();

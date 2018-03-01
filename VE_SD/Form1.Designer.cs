@@ -66,6 +66,7 @@
             this.bk_Validate = new System.ComponentModel.BackgroundWorker();
             this.timer_MT = new System.Windows.Forms.Timer(this.components);
             this.timer_Check = new System.Windows.Forms.Timer(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -306,6 +307,7 @@
             this.btn_StandardMT.Size = new System.Drawing.Size(369, 115);
             this.btn_StandardMT.TabIndex = 1;
             this.btn_StandardMT.Text = "碼頭檢核";
+            this.toolTip1.SetToolTip(this.btn_StandardMT, "開啟碼頭檢核模組");
             this.btn_StandardMT.UseVisualStyleBackColor = true;
             this.btn_StandardMT.Click += new System.EventHandler(this.button1_Click);
             this.btn_StandardMT.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
@@ -320,6 +322,7 @@
             this.btn_StandardRDC.Size = new System.Drawing.Size(369, 115);
             this.btn_StandardRDC.TabIndex = 0;
             this.btn_StandardRDC.Text = "防波堤檢核";
+            this.toolTip1.SetToolTip(this.btn_StandardRDC, "開啟防波堤檢核模組");
             this.btn_StandardRDC.UseVisualStyleBackColor = true;
             this.btn_StandardRDC.Click += new System.EventHandler(this.btn_StandardRDC_Click);
             this.btn_StandardRDC.MouseEnter += new System.EventHandler(this.btn_StandardRDC_MouseEnter);
@@ -471,6 +474,7 @@
         private System.ComponentModel.BackgroundWorker bk_Validate;
         private System.Windows.Forms.Timer timer_MT;
         private System.Windows.Forms.Timer timer_Check;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

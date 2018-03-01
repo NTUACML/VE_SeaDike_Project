@@ -994,7 +994,7 @@
             // textBox_Nq
             // 
             this.textBox_Nq.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Nq.Location = new System.Drawing.Point(283, 29);
+            this.textBox_Nq.Location = new System.Drawing.Point(283, 28);
             this.textBox_Nq.Name = "textBox_Nq";
             this.textBox_Nq.Size = new System.Drawing.Size(157, 27);
             this.textBox_Nq.TabIndex = 39;
@@ -1902,13 +1902,14 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form_MTExamProgress";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "碼頭檢核";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_MTExamProgress_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_MTExamProgress_FormClosed);
             this.Load += new System.EventHandler(this.Form_MTExamProgress_Load);

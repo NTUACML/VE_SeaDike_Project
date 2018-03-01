@@ -741,7 +741,7 @@ namespace VE_SD
 
             isExporting = false;
             isCalc = false;
-            this.Text = "專案檔:未命名";
+            this.Text = "碼頭檢核模組 ---- 專案檔:未命名";
 
             if (mainForm.碼頭檢核開啟時預設數字)
             {
@@ -843,9 +843,17 @@ namespace VE_SD
             btn_OutputWord.Enabled = true;// false;
             輸出LogToolStripMenuItem.Enabled = true;// false;
             輸出Word報表ToolStripMenuItem.Enabled = true;// false;
+
+            this.WindowState = FormWindowState.Normal;
+            this.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            this.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            this.Location = Screen.PrimaryScreen.WorkingArea.Location;
+
+
+            //this.WindowState=FormWindowState.Maximized;
             //this.WindowState = FormWindowState.Maximized;
             //data_BlockTempShow.Rows.Clear();
-            
+
             /*
             if (first)
             {
@@ -861,7 +869,7 @@ namespace VE_SD
                 this.WindowState = FormWindowState.Maximized;
             }
             */
-            
+
             //this.StartPosition = FormStartPosition.CenterScreen;
             /*MessageBox.Show(mainForm.碼頭Size);
             if(mainForm.碼頭Size=="最大")
@@ -1339,7 +1347,7 @@ namespace VE_SD
                 if(打開檔案之訊息=="")
                 {
                     打開專案檔的名稱 = OFD_專案.FileName;
-                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
@@ -1423,7 +1431,7 @@ namespace VE_SD
             TSP_DATETIME.Text = "最新一次編輯時間:" + DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             儲存XML專案檔(xmlpath);
             填入一個新的檔案(xmlpath);
-            this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(xmlpath);
+            this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(xmlpath);
 
         }
         private void 退出此檢核ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1466,7 +1474,7 @@ namespace VE_SD
                 if (打開檔案之訊息 == "")
                 {
                     打開專案檔的名稱 = 舊檔案1ToolStripMenuItem.Tag.ToString();
-                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
@@ -1503,7 +1511,7 @@ namespace VE_SD
                 if (打開檔案之訊息 == "")
                 {
                     打開專案檔的名稱 = 舊檔案2ToolStripMenuItem.Tag.ToString();
-                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
@@ -1541,7 +1549,7 @@ namespace VE_SD
                 if (打開檔案之訊息 == "")
                 {
                     打開專案檔的名稱 = 舊檔案3ToolStripMenuItem.Tag.ToString();
-                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
@@ -1579,7 +1587,7 @@ namespace VE_SD
                 if (打開檔案之訊息 == "")
                 {
                     打開專案檔的名稱 = 舊檔案4ToolStripMenuItem.Tag.ToString();
-                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
@@ -1616,7 +1624,7 @@ namespace VE_SD
                 if (打開檔案之訊息 == "")
                 {
                     打開專案檔的名稱 = 舊檔案5ToolStripMenuItem.Tag.ToString();
-                    this.Text = "專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
+                    this.Text = "碼頭檢核模組 ---- 專案檔:" + Path.GetFileNameWithoutExtension(打開專案檔的名稱);
                     MessageBox.Show("開啟專案檔成功!", "專案檔載入", MessageBoxButtons.OK, MessageBoxIcon.Information);//開啟成功並不會更動目前檢視的Tab.
 
                     //將最新的資訊填入.
@@ -6227,11 +6235,12 @@ namespace VE_SD
             _EscapeResize = true;
             this.Opacity = 0;
             mainForm.Activate();
+            mainForm.Show();
             this.WindowState = FormWindowState.Maximized;
             //_EscapeResize = false;
             this.Hide();
             this.ShowInTaskbar = false;
-
+            
             //this.WindowState = FormWindowState.Minimized;
             //this.Opacity = 0;
             //this.開啟與ReLoad();
