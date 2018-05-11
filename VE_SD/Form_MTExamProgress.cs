@@ -6199,7 +6199,6 @@ namespace VE_SD
 
 
         #endregion
-
         private void 輸出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -6210,7 +6209,6 @@ namespace VE_SD
             CheckThenClose = false;
             this.Close();
         }
-
         private void Form_MTExamProgress_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(!CheckThenClose)
@@ -7222,7 +7220,6 @@ namespace VE_SD
             }
         }
         #endregion
-
         #region 附屬
         private void 檢視使用者說明書ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -7230,7 +7227,6 @@ namespace VE_SD
             mainForm.檢示使用者說明書ToolStripMenuItem_Click(sender, e);
         }
         #endregion
-
         #region 操作設定
         private void tabControl1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -7296,12 +7292,10 @@ namespace VE_SD
         }
 
         #endregion
-
         private void 測試ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
-
         private void 顯示比例ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -7344,23 +7338,18 @@ namespace VE_SD
             MessageBox.Show("完成");
             */
         }
-
-
         #region ELSetting
 
 
         #endregion
-
         private void DGMaterialRough_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.ThrowException = false;
         }
-
         private void Form_MTExamProgress_FormClosed(object sender, FormClosedEventArgs e)
         {
 
         }
-
         private void Form_MTExamProgress_SizeChanged(object sender, EventArgs e)
         {
             return;

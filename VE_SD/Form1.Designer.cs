@@ -34,7 +34,6 @@
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.軟體偏好設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.軟體機碼設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.軟體驗證ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.關閉此軟體ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,38 +100,29 @@
             // 
             this.設定ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.軟體偏好設定ToolStripMenuItem,
-            this.軟體機碼設定ToolStripMenuItem,
             this.軟體驗證ToolStripMenuItem});
             this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.設定ToolStripMenuItem.Text = "設定";
             // 
             // 軟體偏好設定ToolStripMenuItem
             // 
             this.軟體偏好設定ToolStripMenuItem.Name = "軟體偏好設定ToolStripMenuItem";
-            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體偏好設定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.軟體偏好設定ToolStripMenuItem.Text = "軟體偏好設定";
             this.軟體偏好設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體偏好設定ToolStripMenuItem_Click);
-            // 
-            // 軟體機碼設定ToolStripMenuItem
-            // 
-            this.軟體機碼設定ToolStripMenuItem.Name = "軟體機碼設定ToolStripMenuItem";
-            this.軟體機碼設定ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.軟體機碼設定ToolStripMenuItem.Text = "軟體機碼設定";
-            this.軟體機碼設定ToolStripMenuItem.Visible = false;
-            this.軟體機碼設定ToolStripMenuItem.Click += new System.EventHandler(this.軟體機碼設定ToolStripMenuItem_Click);
             // 
             // 軟體驗證ToolStripMenuItem
             // 
             this.軟體驗證ToolStripMenuItem.Name = "軟體驗證ToolStripMenuItem";
-            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.軟體驗證ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.軟體驗證ToolStripMenuItem.Text = "軟體驗證";
             this.軟體驗證ToolStripMenuItem.Click += new System.EventHandler(this.軟體驗證ToolStripMenuItem_Click);
             // 
             // 關閉此軟體ToolStripMenuItem
             // 
             this.關閉此軟體ToolStripMenuItem.Name = "關閉此軟體ToolStripMenuItem";
-            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.關閉此軟體ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.關閉此軟體ToolStripMenuItem.Text = "關閉此軟體";
             this.關閉此軟體ToolStripMenuItem.Click += new System.EventHandler(this.關閉此軟體ToolStripMenuItem_Click);
             // 
@@ -461,7 +451,6 @@
         private System.Windows.Forms.TextBox textBox_ItemDescp;
         private System.Windows.Forms.ToolStripMenuItem 檢示使用者說明書ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 軟體偏好設定ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 軟體機碼設定ToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton TSP_ChangeUserBtn;
         private System.Windows.Forms.ToolStripMenuItem 軟體驗證ToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker bk_SendFIle;
