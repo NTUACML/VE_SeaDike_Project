@@ -1,0 +1,155 @@
+<Root>
+  <版本 Value="SeaDikeVS_P2" />
+  <GlobalParameters>
+    <選擇Tab Value="2" />
+    <BlockTooltip資訊 Value="單位體積重" />
+    <最後編輯時間 Value="最新一次編輯時間:2018/06/20 10:40" />
+    <設計潮位高 Value="6.3" />
+    <設計潮位低 Value="-0.8" />
+    <殘留水位 Value="2.39" />
+    <平時上載荷重 Value="1" />
+    <地震時上載荷重 Value="0.5" />
+    <船舶牽引力 Value="2.5" />
+    <陸上設計震度 Value="0.16" />
+    <水中設計震度 Value="0.32" />
+    <水單位重 Value="1.03" />
+    <繫船柱突出高度 Value="0.25" />
+    <背填料內摩擦角 Value="35" />
+    <背填料壁面摩擦角 Value="15" />
+    <背填料水平傾斜角 Value="0" />
+    <入土深度 Value="1" />
+    <拋石厚度 Value="0.5" />
+    <地盤內基礎內摩擦角 Value="35" />
+    <土壤凝聚力 Value="0" />
+    <Nq Value="35.1" />
+    <Nc Value="25.5" />
+    <Nr Value="23.2" />
+    <平時滑動安全係數 Value="1.2" />
+    <平時傾倒安全係數 Value="1.2" />
+    <平時地盤承載力安全係數 Value="2.5" />
+    <地震時滑動安全係數 Value="1" />
+    <地震時傾倒安全係數 Value="1.1" />
+    <地震時地盤承載力安全係數 Value="1.5" />
+    <土壤重陸上 Value="1.8" />
+    <土壤重水中 Value="1" />
+    <EL點數>
+      <EL Value="4.8" />
+      <EL Value="3.3" />
+      <EL Value="2.5" />
+      <EL Value="2.39" />
+      <EL Value="1" />
+      <EL Value="-0.7" />
+    </EL點數>
+    <使用材質>
+      <UseMaterial Value="混凝土方塊" />
+      <UseMaterial Value="混凝土拋石" />
+    </使用材質>
+    <摩擦係數>
+      <MaterialsFriction Coef="0.5" Material1="混凝土方塊" Material2="混凝土方塊" />
+      <MaterialsFriction Coef="0.6" Material1="混凝土方塊" Material2="混凝土拋石" />
+    </摩擦係數>
+  </GlobalParameters>
+  <Blocks>
+    <形塊 名稱="1" 點數="4" 序號="0">
+      <單位體積重量 Value="2.3" />
+      <地震時單位體積重量 Value="2.3" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="7" />
+      <BlockCoordinate xValue="1" yValue="6.3" />
+      <BlockCoordinate xValue="6" yValue="6.3" />
+      <BlockCoordinate xValue="6" yValue="7.05" />
+    </形塊>
+    <形塊 名稱="2" 點數="4" 序號="1">
+      <單位體積重量 Value="1.25" />
+      <地震時單位體積重量 Value="1.25" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="6.3" />
+      <BlockCoordinate xValue="1" yValue="4.8" />
+      <BlockCoordinate xValue="6" yValue="4.8" />
+      <BlockCoordinate xValue="6" yValue="6.3" />
+    </形塊>
+    <形塊 名稱="3" 點數="4" 序號="2">
+      <單位體積重量 Value="1.25" />
+      <地震時單位體積重量 Value="1.25" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="4.8" />
+      <BlockCoordinate xValue="1" yValue="3.3" />
+      <BlockCoordinate xValue="6" yValue="3.3" />
+      <BlockCoordinate xValue="6" yValue="4.8" />
+    </形塊>
+    <形塊 名稱="4" 點數="4" 序號="3">
+      <單位體積重量 Value="2.3" />
+      <地震時單位體積重量 Value="2.3" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="3.3" />
+      <BlockCoordinate xValue="1" yValue="2.5" />
+      <BlockCoordinate xValue="6" yValue="2.5" />
+      <BlockCoordinate xValue="6" yValue="3.3" />
+    </形塊>
+    <形塊 名稱="5-2" 點數="4" 序號="4">
+      <單位體積重量 Value="0.7" />
+      <地震時單位體積重量 Value="0.7" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="2.39" />
+      <BlockCoordinate xValue="1" yValue="1" />
+      <BlockCoordinate xValue="6" yValue="1" />
+      <BlockCoordinate xValue="6" yValue="2.39" />
+    </形塊>
+    <形塊 名稱="6" 點數="4" 序號="5">
+      <單位體積重量 Value="1.27" />
+      <地震時單位體積重量 Value="1.27" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="1" />
+      <BlockCoordinate xValue="1" yValue="-0.7" />
+      <BlockCoordinate xValue="5.4" yValue="-0.7" />
+      <BlockCoordinate xValue="6" yValue="1" />
+    </形塊>
+    <形塊 名稱="5-1" 點數="4" 序號="6">
+      <單位體積重量 Value="1.25" />
+      <地震時單位體積重量 Value="1.25" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="2.5" />
+      <BlockCoordinate xValue="1" yValue="2.39" />
+      <BlockCoordinate xValue="6" yValue="2.39" />
+      <BlockCoordinate xValue="6" yValue="2.5" />
+    </形塊>
+    <形塊 名稱="7-1" 點數="4" 序號="7">
+      <單位體積重量 Value="1.27" />
+      <地震時單位體積重量 Value="1.27" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土方塊" />
+      <BlockCoordinate xValue="1" yValue="-0.7" />
+      <BlockCoordinate xValue="1" yValue="-1.5" />
+      <BlockCoordinate xValue="5.15" yValue="-1.5" />
+      <BlockCoordinate xValue="5.4" yValue="-0.7" />
+    </形塊>
+    <形塊 名稱="7-2" 點數="5" 序號="8">
+      <單位體積重量 Value="1.27" />
+      <地震時單位體積重量 Value="1.27" />
+      <使用材質 Value="混凝土方塊" />
+      <計算Moment Value="True" />
+      <周圍參考材質 Value="混凝土拋石" />
+      <BlockCoordinate xValue="1" yValue="-1.5" />
+      <BlockCoordinate xValue="0" yValue="-2" />
+      <BlockCoordinate xValue="0" yValue="-2.5" />
+      <BlockCoordinate xValue="4.8" yValue="-2.5" />
+      <BlockCoordinate xValue="5.15" yValue="-1.5" />
+    </形塊>
+    <選取Block序號 Value="-1" />
+  </Blocks>
+</Root>
