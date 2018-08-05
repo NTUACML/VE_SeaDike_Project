@@ -444,6 +444,8 @@ bool Module2_Internal::VertivalSoilForceCal() {
 	
 	size_t ID;
 	double fv_temp_sum = 0, fv_temp_sum_E = 0;
+	double former_x, later_x;
+	
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
 		double width,max_width = 0.0;
@@ -453,10 +455,23 @@ bool Module2_Internal::VertivalSoilForceCal() {
 		Var->LevelSection[i].Level_sum_Fv_E = fv_temp_sum_E;
 		for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
 			ID = Var->LevelSection[i].BlockId[j];
-			width = Var->BlockData[ID].MaxX - Var->BlockData[ID].MinX;
+			std::vector<double> coordinat_x;
+			for (auto & NodeElement : Var->BlockData[ID].Node) {
+				coordinat_x.push_back(NodeElement.x);
+			}
+			coordinat_x.push_back(coordinat_x[0]);
+			double last_x = coordinat_x[0] , width;
+			for (size_t k = 0; k < coordinat_x.size(); k++) {
+				//last_x = coordinat_x[k];
+				width = abs(last_x - coordinat_x[k]);
+				if (width > max_width && Var->BlockData[ID].CalMoment == true) {
+					max_width = width;
+				}
+			}
+			/*width = Var->BlockData[ID].MaxX - Var->BlockData[ID].MinX;
 			if (Var->BlockData[ID].CalMoment == true && width > max_width) {
 				max_width = width;
-			}
+			}*/
 		}
 		Var->LevelSection[i].Level_total_Fvx = max_width;
 		Var->LevelSection[i].Level_total_Fvx_E = max_width;
