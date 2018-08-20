@@ -348,7 +348,7 @@ namespace VE_SD
         {
             string acName = ((ToolStripMenuItem)sender).Tag.ToString();
 
-            MessageBox.Show(acName);
+            //MessageBox.Show(acName);
         }
         #region 摩擦係數初始設定
         private void 讀入摩擦係數初始設定()
@@ -1115,6 +1115,7 @@ namespace VE_SD
             if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
             { D.使用材質 = ""; }
             propertyGrid_Block.SelectedObject = D;
+            //MessageBox.Show(D.可用材質.ToString());
             //將參考材質填入資訊:前提都是必須要有可用材質.
             ReferencedMaterialCHKL.Items.Clear();
             for(int i=0;i<MaterialArray.GetLength(0);i++)
@@ -1260,6 +1261,7 @@ namespace VE_SD
             {
                 return;
             }
+            //MessageBox.Show("D1");
             Class_Block_Interface D = (Class_Block_Interface)propertyGrid_Block.SelectedObject;
             
             int id = BlockNameToListSubScript[selectname];
@@ -1301,11 +1303,15 @@ namespace VE_SD
             if (listBox_SectSetting.SelectedIndex != -1)
             {
                 //重新載入一次
+                //MessageBox.Show("H1");
                 Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                //MessageBox.Show("H2");
                 D.可用材質 = MaterialArray;
+                //MessageBox.Show("H3");
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
                 propertyGrid_Block.SelectedObject = D;
+                //MessageBox.Show("H4");
             }
         }
         private void propertyGrid_Block_MouseClick(object sender, MouseEventArgs e)
@@ -1314,11 +1320,15 @@ namespace VE_SD
             if (listBox_SectSetting.SelectedIndex != -1)
             {
                 //重新載入一次
+                //MessageBox.Show("C2-1");
                 Class_Block_Interface D = new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
+                //MessageBox.Show("C2-2");
                 D.可用材質 = MaterialArray;
+                //MessageBox.Show("C2-3");
                 if (!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
                 propertyGrid_Block.SelectedObject = D;
+                //MessageBox.Show("C2-4");
             }
         }
         //刪除Block
@@ -4135,7 +4145,7 @@ namespace VE_SD
                 var cell2 = (DataGridViewComboBoxCell)(row.Cells[2]);
                 cell2.DataSource = MaterialArray;
             }
-
+            //MessageBox.Show(MaterialArray.Count().ToString());
 
 
             //Block區塊,填入變數.
@@ -6613,6 +6623,7 @@ namespace VE_SD
                 //重新載入Property Grid與參考材質.
                 Class_Block_Interface D= new Class_Block_Interface(BlockMainArray[listBox_SectSetting.SelectedIndex]);
                 D.可用材質 = MaterialArray;
+
                 if(!MaterialNameToArraySubScript.ContainsKey(D.使用材質))
                 { D.使用材質 = ""; }
                 propertyGrid_Block.SelectedObject = D;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace VE_SD
 {
@@ -23,9 +24,9 @@ namespace VE_SD
         //private double _海水單位體積重量 = 1.03;
         private double _單位體積重量 = 2.3;
         private double _地震時單位體積重量 = 2.3;
-        private string _使用材質;
+        private string _使用材質="";
         private bool _計算Moment與否 = true;//="開啟";
-        private string[] _可用材質;
+        private string[] _可用材質=new string[] { };
 
         //private double _滑倒安全係數 = 1.2;
         //private double _傾倒安全係數 = 1.2;
@@ -66,13 +67,12 @@ namespace VE_SD
             _地震時單位體積重量 = M.地震時單位體積重量;
             _單位體積重量 = M.單位體積重量;
             _使用材質 = M.使用材質;
-            計算Moment與否 = M.計算Moment與否;
+            _計算Moment與否 = M.計算Moment與否;
         }
         public string[] 可用材質
         {
             set { _可用材質 = value; }
         }
-
         //[CategoryAttribute("摩擦係數設定")] //,DefaultValueAttribute(true)]
         //public double 混凝土方塊與方塊
         //{
@@ -151,7 +151,7 @@ namespace VE_SD
             set { _計算Moment與否 = value; }
         }
         //[CategoryAttribute("材質")]
-        [TypeConverter(typeof(List2PropertyConverter))]
+        [TypeConverter(typeof(List2PropertyConverterRDE))]
         public string 使用材質
         {
             get { return _使用材質; }
@@ -164,6 +164,13 @@ namespace VE_SD
         {
             get
             {
+
+                //if (List == null)
+                //{
+                //List = new List<string>();
+                //List.Add("哈囉");    
+                //}
+                //return List;
                 if (List == null)
                 {
                     List = new List<string>();
@@ -173,6 +180,7 @@ namespace VE_SD
                     }
                 }
                 return List;
+                
             }
         }
 
@@ -190,11 +198,11 @@ namespace VE_SD
         // }
 
     }
-    /*
-    internal class List2PropertyConverter:StringConverter
+    
+    internal class List2PropertyConverterRDE : StringConverter
     {
          //https://bytes.com/topic/c-sharp/answers/596701-propertygrid-dynamic-dropdown-list
-        public List2PropertyConverter()
+        public List2PropertyConverterRDE()
         {
 
         }
@@ -217,5 +225,6 @@ namespace VE_SD
                 return cols;// new StandardValuesCollection();
         }
     }
-    */
+    
+    
 }

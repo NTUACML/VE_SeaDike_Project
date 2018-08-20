@@ -140,7 +140,7 @@ namespace VE_SD
             set { _是否為混凝土塊 = value; }
         }
         //[CategoryAttribute("材質")]
-        [TypeConverter(typeof(List2PropertyConverter))]
+        [TypeConverter(typeof(List2PropertyConverterMT))]
         public string 使用材質
         {
             get { return _使用材質; }
@@ -179,10 +179,10 @@ namespace VE_SD
         // }
 
     }
-    internal class List2PropertyConverter : StringConverter
+    internal class List2PropertyConverterMT : StringConverter
     {
         //https://bytes.com/topic/c-sharp/answers/596701-propertygrid-dynamic-dropdown-list
-        public List2PropertyConverter()
+        public List2PropertyConverterMT()
         {
 
         }
