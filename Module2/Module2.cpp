@@ -387,6 +387,7 @@ bool VE_SD::Module2::OutPutLogFile(String ^ Pois)
 		FILE << "X:" << Var->BlockData[i].X << std::endl;
 		FILE << "Mw:" << Var->BlockData[i].Mw << std::endl;
 		FILE << "FrictionC:" << Var->BlockData[i].FrictionC << std::endl;
+		FILE << "MinX: " << Var->BlockData[i].MinX << std::endl;
 		FILE << std::endl;
 	}
 

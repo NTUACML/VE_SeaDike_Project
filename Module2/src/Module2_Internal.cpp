@@ -104,23 +104,47 @@ bool Module2_Internal::WeightCal()
 	double arm_diff;
 	double temp_sum_Mx = 0;
 	double temp_sum_W = 0;
-
+	double last_minX, Ref_x;
 	for (size_t i = 0; i < Var->LevelSection.size(); i++)
 	{
-		ID = Var->LevelSection[i].BlockId[0];
-		double Ref_x = Var->BlockData[ID].MinX;
+		
+		if (i == 0) {
+			ID = Var->LevelSection[i].BlockId[0];
+			Ref_x = Var->BlockData[ID].MinX;
+			for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
+				ID = Var->LevelSection[i].BlockId[j];
+				if (Var->BlockData[ID].MinX <= Ref_x) {
+					Ref_x = Var->BlockData[ID].MinX;
+					last_minX = Var->BlockData[ID].MinX;
+				}
+			}
+		}
+		else {
+			for (size_t j = 0; j < Var->LevelSection[i].BlockId.size(); j++) {
+				ID = Var->LevelSection[i].BlockId[j];
+				if (Var->BlockData[ID].MinX < Ref_x) {
+					Ref_x = Var->BlockData[ID].MinX;
+					arm_diff = last_minX - Ref_x;
+				}
+			}
+			last_minX = Ref_x;
+		}
 
-		for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
+		/*for (size_t j = 1; j < Var->LevelSection[i].BlockId.size(); j++)
 		{
 			ID = Var->LevelSection[i].BlockId[j];
-			arm_diff = Var->BlockData[ID].MinX - Ref_x;
-			if (Var->BlockData[ID].MinX<Ref_x) Ref_x = Var->BlockData[ID].MinX;
-		}
+			
+			if (Var->BlockData[ID].MinX <= Ref_x) { 
+				Ref_x = Var->BlockData[ID].MinX; 
+				arm_diff = last_minX - Ref_x;
+				last_minX = Var->BlockData[ID].MinX;
+			}
+		}*/
 
 		//- 更新下一個elevation的力臂與抵抗彎矩(但仍需考慮新設一變數已儲存兩個不同elevation之總和)
 		if (i >= 1) {
 			Var->LevelSection[i].pre_sum_W = Var->LevelSection[i - 1].Level_sum_W;
-			Var->LevelSection[i].pre_total_arm = Var->LevelSection[i - 1].Level_total_arm-arm_diff;
+			Var->LevelSection[i].pre_total_arm = Var->LevelSection[i - 1].Level_total_arm + arm_diff;
 			Var->LevelSection[i].pre_sum_Mx = Var->LevelSection[i].pre_sum_W*Var->LevelSection[i].pre_total_arm;
 			temp_sum_Mx = Var->LevelSection[i].pre_sum_Mx;
 			temp_sum_W = Var->LevelSection[i].pre_sum_W;
